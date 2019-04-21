@@ -10,7 +10,9 @@ using namespace rpicomponents::pin;
 int main()
 {
 	cout << "GPIO11 number: " << GPIO11 << endl;
-	cout << "Pin is hardware PWM capable? " << Pin::PinIsHardwarePWMCapable(GPIO11) << endl;
+	cout << "Pin is hardware PWM capable? " << PinChecker::PinIsHardwarePWMCapable(GPIO11) << endl;
+	auto pin = DigitalPin(GPIO11);
+	cout << pin.IsOn() << endl;
 	cin.get();
 	return 0;
 }

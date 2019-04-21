@@ -7,12 +7,14 @@ SET(TARGET_H
     component/component.hpp
     pin/pinchecker.hpp
 	pin/pin.hpp
+	pin/digitalpin.hpp
 	component/led.hpp)
 
 # Local source files here
 SET(TARGET_SRC
     pin/pinchecker.cpp
 	pin/pin.cpp
+	pin/digitalpin.cpp
 	component/component.cpp
 	component/led.cpp)
 

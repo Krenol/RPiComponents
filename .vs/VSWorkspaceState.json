@@ -6,6 +6,6 @@
     "\\src\\rpicomponents\\component",
     "\\src\\rpicomponents\\pin"
   ],
-  "SelectedNode": "\\src\\rpicomponents\\pin\\pinchecker.hpp",
+  "SelectedNode": "\\src\\rpicomponents\\pin\\pin.cpp",
   "PreviewInSolutionExplorer": false
 }
