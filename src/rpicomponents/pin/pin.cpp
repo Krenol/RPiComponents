@@ -1,61 +1,62 @@
 #include "pin.hpp"
 
 using namespace std;
+using namespace rpicomponents;
 using namespace rpicomponents::pin;
 
-bool Pin::IsI2CAddress(int address) {
-	vector<char> i2c_col = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
-	vector<char> i2c_row = { '0', '1', '2', '3', '4', '5', '6', '7' };
-	string addr;
-	auto hexAddr = GetHexAddress(address);
+int Pin::GetPin() const {
 
-	for (int i = 0; i < i2c_row.size(); i++)
-	{
-		for (int j = 0; j < i2c_col.size(); j++)
-		{
-			if (i == 0 && j < 3) continue;
-				
-			if (i == sizeof(i2c_row) - 1 && j > 7) break;
-				
-			addr = "";
-			addr += to_string(i2c_row[i]);
-			addr += to_string(i2c_col[j]);
-
-			if (hexAddr.compare(addr) == 0) return true;
-		}
-	}
-
-	return false;
 }
 
-string Pin::GetHexAddress(int address) {
-	vector<char> hex = { '0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F' };
-	string hexdec_num = "";
-	int r = 0;
-	while (address > 0)
-	{
-		r = address % 16;
-		hexdec_num = hex[r] + hexdec_num;
-		address /= 16;
-	}
-	return hexdec_num;
-}
-
-bool Pin::PinIsHardwarePWMCapable(int pin) {
-	//PWM channel 0
-	if (pin == PWM_CHANNEL0_PIN1 || pin == PWM_CHANNEL0_PIN2) { 
-		return true;
-	}
-	//PWM channel 1
-	if (pin == PWM_CHANNEL1_PIN1 || pin == PWM_CHANNEL1_PIN2) {
-		return true;
-	}
-	return false;
-}
-
-bool Pin::ValidOutputMode(int outMode) {
-	if (outMode != PWM_MODE && outMode != DIGITAL_MODE && outMode != SOFTPWM_MODE && outMode != SOFTTONE_MODE) {
-		return false;
-	}
+bool Pin::IsOn() {
+	if (status_ == min_value_) return false;
 	return true;
+}
+
+void Pin::OutputOn() {
+	WriteToPin(max_value_);
+	status_ = max_value_;
+}
+
+void Pin::Output(int value) {
+	if (value < min_value_) {
+		printf("invalid input detected. Given value was below min value. Setting input value to min value!");
+		value = min_value_;
+	}
+	else if (value > max_value_) {
+		printf("invalid input detected. Given value was above max value. Setting input value to max value!");
+		value = max_value_;
+	}
+
+	WriteToPin(value);
+	status_ = value;
+}
+
+void Pin::OutputOff() {
+	WriteToPin(min_value_);
+	status_ = min_value_;
+}
+
+
+Pin::Pin(int pin, int mode, int maxValue) : pin_{ pin }, mode_{ mode }, max_value_{ maxValue } {
+	if (PinChecker::IsValidPinValue(pin)) {
+		invalid_argument("pin integer cannot be below " + to_string(PIN_MIN_VALUE) + " or above " + to_string(PIN_MAX_VALUE));
+	}
+	if (PinChecker::IsValidOutputMode(mode)) {
+		invalid_argument("Output mode must be DIGITAL, PWM, SOFTPWM or SOFTTONE");
+	}
+	if (maxValue < 1) {
+		invalid_argument("Max value must be greater than 0");
+	}
+	if (mode == DIGITAL_MODE && maxValue != DIGITAL_MODE_MAX_VAL) {
+		invalid_argument("DIGITAL_MODE max value cannot be anything else than 1");
+	}
+	if (mode == PWM_MODE && maxValue != PWM_MODE_MAX_VAL) {
+		invalid_argument("PWM_MODE max value cannot be anything else than 1023");
+	}
+	if (mode == PWM_MODE && !PinChecker::PinIsHardwarePWMCapable(pin)) {
+		invalid_argument("PWM_MODE cannot be used with input pin! Valid pins are: " + to_string(PWM_CHANNEL0_PIN1) + ", "
+			+ to_string(PWM_CHANNEL0_PIN2) + "for channel 0 and " + to_string(PWM_CHANNEL1_PIN1) + ", "
+			+ to_string(PWM_CHANNEL1_PIN2) + "for channel 1");
+	}
 }

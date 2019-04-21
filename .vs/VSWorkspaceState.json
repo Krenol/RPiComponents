@@ -6,6 +6,6 @@
     "\\src\\rpicomponents\\component",
     "\\src\\rpicomponents\\pin"
   ],
-  "SelectedNode": "\\CMakeLists.txt",
+  "SelectedNode": "\\src\\rpicomponents\\pin\\pinchecker.hpp",
   "PreviewInSolutionExplorer": false
 }

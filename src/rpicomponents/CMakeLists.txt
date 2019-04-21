@@ -5,12 +5,16 @@ cmake_minimum_required (VERSION 3.8)
 
 SET(TARGET_H
     component/component.hpp
-    pin/pin.hpp)
+    pin/pinchecker.hpp
+	pin/pin.hpp
+	component/led.hpp)
 
 # Local source files here
 SET(TARGET_SRC
-    pin/pin.cpp
-	component/component.cpp)
+    pin/pinchecker.cpp
+	pin/pin.cpp
+	component/component.cpp
+	component/led.cpp)
 
 # Add source to this project's executable.
 add_executable (RPiComponents "rpicomponents.cpp" "rpicomponents.hpp" ${TARGET_H} ${TARGET_SRC})
