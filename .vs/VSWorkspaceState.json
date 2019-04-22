@@ -6,6 +6,6 @@
     "\\src\\rpicomponents\\component",
     "\\src\\rpicomponents\\pin"
   ],
-  "SelectedNode": "\\src\\rpicomponents\\pin\\pin.cpp",
+  "SelectedNode": "\\src\\rpicomponents\\pin\\pinfactory.hpp",
   "PreviewInSolutionExplorer": false
 }

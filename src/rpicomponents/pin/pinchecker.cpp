@@ -58,10 +58,3 @@ bool PinChecker::PinIsHardwarePWMCapable(int pin) {
 	}
 	return false;
 }
-
-bool PinChecker::IsValidOutputMode(int outMode) {
-	if (outMode != PWM_MODE && outMode != DIGITAL_MODE && outMode != SOFTPWM_MODE && outMode != SOFTTONE_MODE) {
-		return false;
-	}
-	return true;
-}

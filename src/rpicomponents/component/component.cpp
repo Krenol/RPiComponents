@@ -18,8 +18,7 @@ vector<int>::iterator Component::GetPinIterator(int pin) {
 }
 
 bool Component::UsesPin(int pin) {
-	mutex mtx;
-	std::lock_guard<std::mutex> lck{ mtx };
+	lock_guard<mutex> lck{ mtx_ };
 	auto check = GetPinIterator(pin);
 	if (check == used_pins_.end()) {
 		return false;
@@ -36,17 +35,12 @@ bool Component::UsesPins(vector<int> pins) {
 	return uses;
 }
 
-bool Component::UsesPin(std::vector<int>::iterator pinIterator) {
-	if (pinIterator == used_pins_.end()) {
-		return false;
-	}
-	return true;
-}
-
 void Component::AddPin(int pin) {
-	mutex mtx;
-	std::lock_guard<std::mutex> lck{ mtx };
-	if (!UsesPin(pin)) used_pins_.push_back(pin);
+	auto uses_pin = UsesPin(pin);
+	if (!uses_pin) {
+		lock_guard<mutex> lck{ mtx_ };
+		used_pins_.push_back(pin);
+	}
 }
 
 void Component::AddPins(vector<int> pins) {
@@ -56,18 +50,16 @@ void Component::AddPins(vector<int> pins) {
 }
 
 bool Component::RemoveAllPins() {
-	mutex mtx;
-	std::lock_guard<std::mutex> lck{ mtx };
+	lock_guard<mutex> lck{ mtx_ };
 	if (used_pins_.empty()) return false;
 	used_pins_.clear();
 	return true;
 }
 
 bool Component::RemovePin(int pin) {
-	mutex mtx;
-	std::lock_guard<std::mutex> lck{ mtx };
+	lock_guard<mutex> lck{ mtx_ };
 	auto it = GetPinIterator(pin);
-	if (!UsesPin(it)) return false;
+	if (it == used_pins_.end()) return false;
 	used_pins_.erase(it);
 	return true;
 }

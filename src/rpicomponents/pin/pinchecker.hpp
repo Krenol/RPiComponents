@@ -8,8 +8,9 @@
 
 namespace rpicomponents {
 	namespace pin {
-		//define the a pin can have
-		constexpr auto DIGITAL_MODE = 0, PWM_MODE = 1, SOFTPWM_MODE = 2, SOFTTONE_MODE = 3;
+		enum OUTPUT_MODE {
+			DIGITAL, PWM, SOFTPWM, SOFTTONE
+		};
 		//define gpio pins for pi 3b and 3b+
 		constexpr auto GPIO17 = 0, GPIO18 = 1, GPIO27 = 2, GPIO22 = 3, GPIO23 = 4, GPIO24 = 5, GPIO25 = 6, GPIO4 = 7, SDA1 = 8,
 			GPIO2 = 8, SCL1 = 9, GPIO3 = 9, CE0 = 10, GPIO8 = 10, CE1 = 11, GPIO7 = 11, MOSI = 12, PIO10 = 12, MISO = 13,
@@ -29,14 +30,6 @@ namespace rpicomponents {
 			 * @return true if pin is hardware pwm capable, else false
 			 */
 			static bool PinIsHardwarePWMCapable(int pin);
-
-			/**
-			 * Static method to check whether an output mode is valid or invalid
-			 *
-			 * @param outMode The to be checked output mode
-			 * @return true if outMode is DIGITAL_MODE, PWM_MODE, SOFTPWM_MODE or SOFTTONE_MODE, else false
-			 */
-			static bool IsValidOutputMode(int outMode);
 
 			/**
 			 * Static method to check whether an address is a valid I2C address or not

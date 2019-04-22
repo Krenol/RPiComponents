@@ -8,6 +8,10 @@ SET(TARGET_H
     pin/pinchecker.hpp
 	pin/pin.hpp
 	pin/digitalpin.hpp
+	pin/softpwmpin.hpp
+	pin/pwmpin.hpp
+	pin/softtonepin.hpp
+	pin/pinfactory.hpp
 	component/led.hpp)
 
 # Local source files here
@@ -15,6 +19,10 @@ SET(TARGET_SRC
     pin/pinchecker.cpp
 	pin/pin.cpp
 	pin/digitalpin.cpp
+	pin/softpwmpin.cpp
+	pin/pwmpin.cpp
+	pin/softtonepin.cpp
+	pin/pinfactory.cpp
 	component/component.cpp
 	component/led.cpp)
 

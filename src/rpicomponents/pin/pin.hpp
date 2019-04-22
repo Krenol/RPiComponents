@@ -4,8 +4,8 @@
 
 #include "pinchecker.hpp"
 #include <wiringPi.h>
+#include <atomic>
 #include <mutex>
-#include <thread>
 
 namespace rpicomponents {
 	namespace pin {
@@ -18,6 +18,13 @@ namespace rpicomponents {
 			 * @return used pin of the object as const int
 			 */
 			int GetPin() const;
+
+			/**
+			 * Get the pin output mode 
+			 *
+			 * @return output mode of this pin as const OUTPUT_MODE
+			 */
+			OUTPUT_MODE OutputMode() const;
 
 			/**
 			 * Check if pin is on or off
@@ -48,6 +55,7 @@ namespace rpicomponents {
 			void OutputOff();
 
 		protected:
+			std::mutex mtx_;
 			/**
 			 * Constructor
 			 *
@@ -55,7 +63,7 @@ namespace rpicomponents {
 			 * @param mode The output mode of the pin (digital, pwm, soft pwm or softtone)
 			 * @param maxValue The maximum output of this pin (digital must be 1, pwm must be 1023 and always above 0)
 			 */
-			Pin(int pin, int mode = DIGITAL_MODE, int maxValue = DIGITAL_MODE_MAX_VAL);
+			Pin(int pin, OUTPUT_MODE mode = OUTPUT_MODE::DIGITAL, int maxOutputValue = DIGITAL_MODE_MAX_VAL);
 
 			/**
 			 * Checks whether given value for the pin output is inside the valid range of this object
@@ -73,8 +81,9 @@ namespace rpicomponents {
 			 */
 			virtual void WriteToPin(int value) = 0;
 
-			const int pin_{ GPIO17 }, mode_ = { DIGITAL_MODE }, max_value_{ DIGITAL_MODE_MAX_VAL }, min_value_{ 0 };
-			mutable int status_{ 0 };
+			const int pin_{ GPIO17 }, max_value_{ DIGITAL_MODE_MAX_VAL }, min_value_{ 0 };
+			const OUTPUT_MODE mode_{ OUTPUT_MODE::DIGITAL };
+			mutable std::atomic<int> status_{ 0 };
 		};
 	}
 }

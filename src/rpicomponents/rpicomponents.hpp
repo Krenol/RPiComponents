@@ -6,8 +6,7 @@
 
 #include <iostream>
 #include "component/component.hpp"
-#include "pin/pin.hpp"
-#include "pin/digitalpin.hpp"
+#include "pin/pinfactory.hpp"
 
 namespace rpicomponents {
 	
