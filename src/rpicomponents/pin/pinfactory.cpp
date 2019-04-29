@@ -10,34 +10,53 @@ std::mutex PinFactory::mtx_;
 
 Pin* PinFactory::CreatePin(int pin, OUTPUT_MODE outputMode, int maxOutputValue) {
 	lock_guard<mutex> lck{ mtx_ };
+	auto newPin = PinCreator(pin, outputMode, maxOutputValue);
+	return newPin;
+}
+/*
+shared_ptr<Pin> PinFactory::CreateSharedPin(int pin, OUTPUT_MODE outputMode = DIGITAL, int maxOutputValue = DIGITAL_MODE_MAX_VAL) {
+	lock_guard<mutex> lck{ mtx_ };
+	auto newPin = PinCreator(pin, outputMode, maxOutputValue);
+	shared_ptr<Pin> ptr(newPin);
+	return ptr;
+} */
+
+Pin* PinFactory::PinCreator(int pin, OUTPUT_MODE outputMode = DIGITAL, int maxOutputValue = DIGITAL_MODE_MAX_VAL) {
 	auto exists = PinExists(pin);
-	if (exists) {
-		throw invalid_argument("Pin already created for pin no. " + to_string(pin) + "! Remove the existing pin first (RemovePin(..)) or reload it (Load(..))");
-	}
 	Pin* newPin;
-	switch (outputMode)
-	{
-	case rpicomponents::pin::DIGITAL:
-		newPin = new DigitalPin(pin);
-		break;
-	case rpicomponents::pin::PWM:
-		newPin = new PWMPin(pin);
-		break;
-	case rpicomponents::pin::SOFTPWM:
-		newPin = new SoftPWMPin(pin, maxOutputValue);
-		break;
-	case rpicomponents::pin::SOFTTONE:
-		newPin = new SofttonePin(pin, maxOutputValue);
-		break;
-	default:
-		throw invalid_argument("Invalid OUTPUT_MODE was passed for pin creation!");
+	if (exists) {
+		newPin = PinLoader(pin);
 	}
-	AddPinToMap(newPin);
+	else {
+		switch (outputMode)
+		{
+		case rpicomponents::pin::DIGITAL:
+			newPin = new DigitalPin(pin);
+			break;
+		case rpicomponents::pin::PWM:
+			newPin = new PWMPin(pin);
+			break;
+		case rpicomponents::pin::SOFTPWM:
+			newPin = new SoftPWMPin(pin, maxOutputValue);
+			break;
+		case rpicomponents::pin::SOFTTONE:
+			newPin = new SofttonePin(pin, maxOutputValue);
+			break;
+		default:
+			throw invalid_argument("Invalid OUTPUT_MODE was passed for pin creation!");
+		}
+		AddPinToMap(newPin);
+	}
 	return newPin;
 }
 
 Pin* PinFactory::LoadPin(int pin) {
 	lock_guard<mutex> lck{ mtx_ };
+	auto pinP = PinLoader(pin);
+	return pinP;
+}
+
+Pin* PinFactory::PinLoader(int pin) {
 	auto exists = PinExists(pin);
 	if (exists) return created_pins_[pin];
 	else throw invalid_argument("Pin does not exists. Create it with the CreatePin(..) method call first");
