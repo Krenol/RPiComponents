@@ -18,7 +18,7 @@ namespace rpicomponents {
 			//virtual private destructor to make class abstract
 			virtual ~Component() = 0; 
 			//necessary compoennt values
-			std::vector<int> used_pins_{ }; // for RAM optimization we do not store Pin objects here
+			std::vector<int> used_pins_{ }; 
 			const std::string component_name_{ "component" };
 
 			/**

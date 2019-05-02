@@ -55,7 +55,7 @@ namespace rpicomponents {
 			void OutputOff();
 
 		protected:
-			std::mutex mtx_;
+			static std::mutex mtx_; //static & const variable, so we cannot write to multiple pins at the same time
 			/**
 			 * Constructor
 			 *

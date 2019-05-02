@@ -21,10 +21,11 @@ shared_ptr<Pin> PinFactory::CreateSharedPin(int pin, OUTPUT_MODE outputMode = DI
 	return ptr;
 } */
 
-Pin* PinFactory::PinCreator(int pin, OUTPUT_MODE outputMode = DIGITAL, int maxOutputValue = DIGITAL_MODE_MAX_VAL) {
+Pin* PinFactory::PinCreator(int pin, OUTPUT_MODE outputMode, int maxOutputValue) {
 	auto exists = PinExists(pin);
 	Pin* newPin;
 	if (exists) {
+		std::cout << "Pin " << to_string(pin) << "already exists; returning created pin";
 		newPin = PinLoader(pin);
 	}
 	else {
@@ -79,6 +80,7 @@ bool PinFactory::RemovePin(int pin) {
 		return true;
 	}
 	catch (exception e) {
+		throw e;
 		return false;
 	}
 }

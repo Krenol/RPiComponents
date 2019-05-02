@@ -9,6 +9,7 @@
 #include <memory>
 #include "pin.hpp"
 #include <map>
+#include <iostream>l
 
 namespace rpicomponents {
 	namespace pin {

@@ -4,6 +4,7 @@ using namespace std;
 using namespace rpicomponents;
 using namespace rpicomponents::pin;
 
+
 DigitalPin::DigitalPin(int pin) : Pin(pin, DIGITAL, DIGITAL_MODE_MAX_VAL) {
 	OutputOff();
 }
