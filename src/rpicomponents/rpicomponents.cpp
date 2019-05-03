@@ -9,7 +9,7 @@ using namespace rpicomponents::component;
 using namespace rpicomponents::pin;
 
 int main() {
-	auto p = new Led(GPIO2, DIGITAL);
+	auto p = new DigitalPin(GPIO2);
 
 	cin.get();
 	return 0;
