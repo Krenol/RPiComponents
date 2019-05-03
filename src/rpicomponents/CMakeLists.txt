@@ -12,7 +12,8 @@ SET(TARGET_H
 	pin/pwmpin.hpp
 	pin/softtonepin.hpp
 	pin/pinfactory.hpp
-	component/led.hpp)
+	component/led.hpp
+	component/button.hpp)
 
 # Local source files here
 SET(TARGET_SRC
@@ -24,7 +25,8 @@ SET(TARGET_SRC
 	pin/softtonepin.cpp
 	pin/pinfactory.cpp
 	component/component.cpp
-	component/led.cpp)
+	component/led.cpp
+	component/button.cpp)
 
 # Add source to this project's executable.
 add_executable (RPiComponents "rpicomponents.cpp" "rpicomponents.hpp" ${TARGET_H} ${TARGET_SRC})

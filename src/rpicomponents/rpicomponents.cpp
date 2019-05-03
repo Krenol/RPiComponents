@@ -7,13 +7,10 @@ using namespace std;
 using namespace rpicomponents;
 using namespace rpicomponents::component;
 using namespace rpicomponents::pin;
-int main()
-{
-	cout << "GPIO11 number: " << GPIO11 << endl;
-	cout << "Pin is hardware PWM capable? " << PinChecker::PinIsHardwarePWMCapable(GPIO11) << endl;
-	//auto pin = DigitalPin(GPIO11);
-	auto pin = PinFactory::CreatePin(GPIO11);
-	cout << pin->IsOn() << endl;
+
+int main() {
+	auto p = new Led(GPIO2, DIGITAL);
+
 	cin.get();
 	return 0;
 }

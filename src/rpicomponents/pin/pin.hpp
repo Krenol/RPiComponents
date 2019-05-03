@@ -11,6 +11,12 @@ namespace rpicomponents {
 	namespace pin {
 		class Pin {
 		public:
+			/**
+			 * Method to read the digital value of the pin
+			 *
+			 * @returns 0 for no read output at pin, 1 if there is an output and -1 if pin is not on INPUT mode
+			 */
+			int DigitalReadPin();
 
 			/**
 			 * Get the used pin
@@ -22,9 +28,9 @@ namespace rpicomponents {
 			/**
 			 * Get the pin output mode 
 			 *
-			 * @return output mode of this pin as const OUTPUT_MODE
+			 * @return output mode of this pin as const PIN_MODE
 			 */
-			OUTPUT_MODE OutputMode() const;
+			PIN_MODE OutputMode() const;
 
 			/**
 			 * Check if pin is on or off
@@ -63,7 +69,7 @@ namespace rpicomponents {
 			 * @param mode The output mode of the pin (digital, pwm, soft pwm or softtone)
 			 * @param maxValue The maximum output of this pin (digital must be 1, pwm must be 1023 and always above 0)
 			 */
-			Pin(int pin, OUTPUT_MODE mode = OUTPUT_MODE::DIGITAL, int maxOutputValue = DIGITAL_MODE_MAX_VAL);
+			Pin(int pin, PIN_MODE mode = PIN_MODE::DIGITAL, int maxOutputValue = DIGITAL_MODE_MAX_VAL);
 
 			/**
 			 * Checks whether given value for the pin output is inside the valid range of this object
@@ -82,7 +88,7 @@ namespace rpicomponents {
 			virtual void WriteToPin(int value) = 0;
 
 			const int pin_{ GPIO17 }, max_value_{ DIGITAL_MODE_MAX_VAL }, min_value_{ 0 };
-			const OUTPUT_MODE mode_{ OUTPUT_MODE::DIGITAL };
+			const PIN_MODE mode_{ PIN_MODE::DIGITAL };
 			mutable std::atomic<int> status_{ 0 };
 		};
 	}

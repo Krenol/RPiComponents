@@ -7,7 +7,7 @@
 #include <math.h>
 #include <iomanip>
 #include <algorithm>
-#include "../pin/pin.hpp"
+#include "../pin/pinfactory.hpp"
 
 
 namespace rpicomponents {
@@ -15,8 +15,6 @@ namespace rpicomponents {
 
 		class Component {
 		private:
-			//virtual private destructor to make class abstract
-			virtual ~Component() = 0; 
 			//necessary compoennt values
 			std::vector<int> used_pins_{ }; 
 			const std::string component_name_{ "component" };
@@ -31,6 +29,9 @@ namespace rpicomponents {
 			std::vector<int>::iterator GetPinIterator(int pin);
 
 		protected:
+			//virtual protected destructor to make class abstract
+			virtual ~Component() = 0;
+
 			std::mutex mtx_;
 			/**
 			 * Method to add a pin to the component

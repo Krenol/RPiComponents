@@ -8,24 +8,24 @@ using namespace rpicomponents::pin;
 std::map<int, Pin*> PinFactory::created_pins_;
 std::mutex PinFactory::mtx_;
 
-Pin* PinFactory::CreatePin(int pin, OUTPUT_MODE outputMode, int maxOutputValue) {
+Pin* PinFactory::CreatePin(int pin, PIN_MODE outputMode, int maxOutputValue) {
 	lock_guard<mutex> lck{ mtx_ };
 	auto newPin = PinCreator(pin, outputMode, maxOutputValue);
 	return newPin;
 }
 /*
-shared_ptr<Pin> PinFactory::CreateSharedPin(int pin, OUTPUT_MODE outputMode = DIGITAL, int maxOutputValue = DIGITAL_MODE_MAX_VAL) {
+shared_ptr<Pin> PinFactory::CreateSharedPin(int pin, PIN_MODE outputMode = DIGITAL, int maxOutputValue = DIGITAL_MODE_MAX_VAL) {
 	lock_guard<mutex> lck{ mtx_ };
 	auto newPin = PinCreator(pin, outputMode, maxOutputValue);
 	shared_ptr<Pin> ptr(newPin);
 	return ptr;
 } */
 
-Pin* PinFactory::PinCreator(int pin, OUTPUT_MODE outputMode, int maxOutputValue) {
+Pin* PinFactory::PinCreator(int pin, PIN_MODE outputMode, int maxOutputValue) {
 	auto exists = PinExists(pin);
 	Pin* newPin;
 	if (exists) {
-		std::cout << "Pin " << to_string(pin) << "already exists; returning created pin";
+		std::cout << "Pin " << to_string(pin) << " already exists; returning created pin...\n";
 		newPin = PinLoader(pin);
 	}
 	else {
@@ -44,7 +44,7 @@ Pin* PinFactory::PinCreator(int pin, OUTPUT_MODE outputMode, int maxOutputValue)
 			newPin = new SofttonePin(pin, maxOutputValue);
 			break;
 		default:
-			throw invalid_argument("Invalid OUTPUT_MODE was passed for pin creation!");
+			throw invalid_argument("Invalid PIN_MODE was passed for pin creation!");
 		}
 		AddPinToMap(newPin);
 	}
@@ -59,7 +59,10 @@ Pin* PinFactory::LoadPin(int pin) {
 
 Pin* PinFactory::PinLoader(int pin) {
 	auto exists = PinExists(pin);
-	if (exists) return created_pins_[pin];
+	if (exists) {
+		auto ptr = created_pins_[pin];
+		return ptr;
+	}
 	else throw invalid_argument("Pin does not exists. Create it with the CreatePin(..) method call first");
 }
 
@@ -95,7 +98,8 @@ PinFactory::~PinFactory() {
 
 bool PinFactory::PinExists(int pin) {
 	auto count = created_pins_.count(pin);
-	if (count == 1) return true;
+	auto ptr = created_pins_[pin];
+	if (count == 1 && ptr != nullptr) return true;
 	return false;
 }
 void PinFactory::AddPinToMap(Pin* pin) {

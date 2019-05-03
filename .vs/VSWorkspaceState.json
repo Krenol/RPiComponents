@@ -6,6 +6,6 @@
     "\\src\\rpicomponents\\component",
     "\\src\\rpicomponents\\pin"
   ],
-  "SelectedNode": "\\src\\rpicomponents\\component\\component.cpp",
+  "SelectedNode": "\\src\\rpicomponents\\component\\led.hpp",
   "PreviewInSolutionExplorer": false
 }

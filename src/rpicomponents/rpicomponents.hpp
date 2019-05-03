@@ -6,7 +6,8 @@
 
 #include <iostream>
 #include "component/component.hpp"
-#include "pin/pinfactory.hpp"
+#include "component/led.hpp"
+#include "component/button.hpp"
 
 namespace rpicomponents {
 	
