@@ -2,12 +2,10 @@
 #define RPICOMPONENTS_COMPONENT_H
 #pragma once
 
-#include <softPwm.h>
-#include <softTone.h>
 #include <math.h>
 #include <iomanip>
 #include <algorithm>
-#include "../pin/pinfactory.hpp"
+#include "../../pin/src/pinfactory.hpp"
 
 
 namespace rpicomponents {
