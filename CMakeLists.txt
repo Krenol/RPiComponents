@@ -7,5 +7,4 @@ set(CMAKE_CXX_STANDARD 11)  # enable C++11 standard
 project (RPiComponents VERSION 1.0.0)
 
 # Include sub-projects.
-add_subdirectory ("src")
-#todo: structure according to https://medium.com/heuristics/c-application-development-part-1-project-structure-454b00f9eddc and http://techminded.net/blog/modular-c-projects-with-cmake.html
+add_subdirectory ("src/rpicomponents")
