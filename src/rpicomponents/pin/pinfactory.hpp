@@ -97,7 +97,7 @@ namespace rpicomponents {
 			/**
 			 * Constructor; static class by private Constructor
 			 */
-			PinFactory() {} 
+            PinFactory();
 
 			static std::map<int, Pin*> created_pins_; //map for the storage of the pins
 			static std::mutex mtx_; //mutex for lock_guard

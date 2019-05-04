@@ -111,3 +111,7 @@ void PinFactory::AddPinToMap(Pin* pin) {
 	if (exists) throw invalid_argument("Pin already exists and cannot be added to factory pointer storage!");
 	created_pins_[pinNo] = pin;
 }
+
+PinFactory::PinFactory() {
+    //add code here
+}

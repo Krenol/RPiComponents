@@ -48,6 +48,12 @@ PIN_MODE Pin::OutputMode() const {
 }
 
 Pin::Pin(int pin, PIN_MODE mode, int maxOutputValue) : pin_{ pin }, mode_{ mode }, max_value_{ maxOutputValue } {
+    try {
+        wiringPiSetup();
+    }
+    catch (exception e) {
+        throw e;
+    }
 	if (!PinChecker::IsValidPinValue(pin)) {
 		throw invalid_argument("pin integer cannot be below " + to_string(PIN_MIN_VALUE) + " or above " + to_string(PIN_MAX_VALUE));
 	}
@@ -70,11 +76,5 @@ Pin::Pin(int pin, PIN_MODE mode, int maxOutputValue) : pin_{ pin }, mode_{ mode 
 	}
 	else {
 		pinMode(pin, OUTPUT);
-	}
-	try {
-		wiringPiSetup();
-	}
-	catch (exception e) {
-		throw e;
 	}
 }

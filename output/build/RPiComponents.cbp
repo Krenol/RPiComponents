@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+   <FileVersion major="1" minor="6" />
+   <Project>
+      <Option title="RPiComponents" />
+      <Option makefile_is_custom="1" />
+      <Option compiler="gcc" />
+      <Option virtualFolders="CMake Files\;CMake Files\src\;CMake Files\src\rpicomponents\;CMake Files\src\rpicomponents\component\;CMake Files\src\rpicomponents\pin\;" />
+      <Build>
+      <Target title="all">
+         <Option working_dir="/home/pi/RPiComponents/output/build" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/pi/RPiComponents/output/build/Makefile&quot;  VERBOSE=1 all" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/pi/RPiComponents/output/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/pi/RPiComponents/output/build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/pi/RPiComponents/output/build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="edit_cache">
+         <Option working_dir="/home/pi/RPiComponents/output/build" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/pi/RPiComponents/output/build/Makefile&quot;  VERBOSE=1 edit_cache" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/pi/RPiComponents/output/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/pi/RPiComponents/output/build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/pi/RPiComponents/output/build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="rebuild_cache">
+         <Option working_dir="/home/pi/RPiComponents/output/build" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/pi/RPiComponents/output/build/Makefile&quot;  VERBOSE=1 rebuild_cache" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/pi/RPiComponents/output/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/pi/RPiComponents/output/build/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/pi/RPiComponents/output/build/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="RPiComponents">
+         <Option output="/home/pi/RPiComponents/output/build/src/rpicomponents/RPiComponents" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/pi/RPiComponents/output/build/src/rpicomponents" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/arm-linux-gnueabihf" />
+            <Add directory="/usr/local/gcc-7.2.0/include" />
+            <Add directory="/usr/local/gcc-7.2.0/lib/gcc/arm-linux-gnueabihf/7.2.0/../../../../include/c++/7.2.0" />
+            <Add directory="/usr/local/gcc-7.2.0/lib/gcc/arm-linux-gnueabihf/7.2.0/../../../../include/c++/7.2.0/arm-linux-gnueabihf/." />
+            <Add directory="/usr/local/gcc-7.2.0/lib/gcc/arm-linux-gnueabihf/7.2.0/../../../../include/c++/7.2.0/backward" />
+            <Add directory="/usr/local/gcc-7.2.0/lib/gcc/arm-linux-gnueabihf/7.2.0/include" />
+            <Add directory="/usr/local/gcc-7.2.0/lib/gcc/arm-linux-gnueabihf/7.2.0/include-fixed" />
+            <Add directory="/usr/local/include" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/pi/RPiComponents/output/build/src/rpicomponents/Makefile&quot;  VERBOSE=1 RPiComponents" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/pi/RPiComponents/output/build/src/rpicomponents/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/pi/RPiComponents/output/build/src/rpicomponents/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/pi/RPiComponents/output/build/src/rpicomponents/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="RPiComponents/fast">
+         <Option output="/home/pi/RPiComponents/output/build/src/rpicomponents/RPiComponents" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/pi/RPiComponents/output/build/src/rpicomponents" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/usr/include" />
+            <Add directory="/usr/include/arm-linux-gnueabihf" />
+            <Add directory="/usr/local/gcc-7.2.0/include" />
+            <Add directory="/usr/local/gcc-7.2.0/lib/gcc/arm-linux-gnueabihf/7.2.0/../../../../include/c++/7.2.0" />
+            <Add directory="/usr/local/gcc-7.2.0/lib/gcc/arm-linux-gnueabihf/7.2.0/../../../../include/c++/7.2.0/arm-linux-gnueabihf/." />
+            <Add directory="/usr/local/gcc-7.2.0/lib/gcc/arm-linux-gnueabihf/7.2.0/../../../../include/c++/7.2.0/backward" />
+            <Add directory="/usr/local/gcc-7.2.0/lib/gcc/arm-linux-gnueabihf/7.2.0/include" />
+            <Add directory="/usr/local/gcc-7.2.0/lib/gcc/arm-linux-gnueabihf/7.2.0/include-fixed" />
+            <Add directory="/usr/local/include" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/pi/RPiComponents/output/build/src/rpicomponents/Makefile&quot;  VERBOSE=1 RPiComponents/fast" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/pi/RPiComponents/output/build/src/rpicomponents/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/pi/RPiComponents/output/build/src/rpicomponents/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/pi/RPiComponents/output/build/src/rpicomponents/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      </Build>
+      <Unit filename="/home/pi/RPiComponents/src/rpicomponents/component/button.cpp">
+         <Option target="RPiComponents"/>
+      </Unit>
+      <Unit filename="/home/pi/RPiComponents/src/rpicomponents/component/button.hpp">
+         <Option target="RPiComponents"/>
+      </Unit>
+      <Unit filename="/home/pi/RPiComponents/src/rpicomponents/component/component.cpp">
+         <Option target="RPiComponents"/>
+      </Unit>
+      <Unit filename="/home/pi/RPiComponents/src/rpicomponents/component/component.hpp">
+         <Option target="RPiComponents"/>
+      </Unit>
+      <Unit filename="/home/pi/RPiComponents/src/rpicomponents/component/led.cpp">
+         <Option target="RPiComponents"/>
+      </Unit>
+      <Unit filename="/home/pi/RPiComponents/src/rpicomponents/component/led.hpp">
+         <Option target="RPiComponents"/>
+      </Unit>
+      <Unit filename="/home/pi/RPiComponents/src/rpicomponents/pin/digitalpin.cpp">
+         <Option target="RPiComponents"/>
+      </Unit>
+      <Unit filename="/home/pi/RPiComponents/src/rpicomponents/pin/digitalpin.hpp">
+         <Option target="RPiComponents"/>
+      </Unit>
+      <Unit filename="/home/pi/RPiComponents/src/rpicomponents/pin/inputpin.cpp">
+         <Option target="RPiComponents"/>
+      </Unit>
+      <Unit filename="/home/pi/RPiComponents/src/rpicomponents/pin/inputpin.hpp">
+         <Option target="RPiComponents"/>
+      </Unit>
+      <Unit filename="/home/pi/RPiComponents/src/rpicomponents/pin/pin.cpp">
+         <Option target="RPiComponents"/>
+      </Unit>
+      <Unit filename="/home/pi/RPiComponents/src/rpicomponents/pin/pin.hpp">
+         <Option target="RPiComponents"/>
+      </Unit>
+      <Unit filename="/home/pi/RPiComponents/src/rpicomponents/pin/pinchecker.cpp">
+         <Option target="RPiComponents"/>
+      </Unit>
+      <Unit filename="/home/pi/RPiComponents/src/rpicomponents/pin/pinchecker.hpp">
+         <Option target="RPiComponents"/>
+      </Unit>
+      <Unit filename="/home/pi/RPiComponents/src/rpicomponents/pin/pinfactory.cpp">
+         <Option target="RPiComponents"/>
+      </Unit>
+      <Unit filename="/home/pi/RPiComponents/src/rpicomponents/pin/pinfactory.hpp">
+         <Option target="RPiComponents"/>
+      </Unit>
+      <Unit filename="/home/pi/RPiComponents/src/rpicomponents/pin/pwmpin.cpp">
+         <Option target="RPiComponents"/>
+      </Unit>
+      <Unit filename="/home/pi/RPiComponents/src/rpicomponents/pin/pwmpin.hpp">
+         <Option target="RPiComponents"/>
+      </Unit>
+      <Unit filename="/home/pi/RPiComponents/src/rpicomponents/pin/softpwmpin.cpp">
+         <Option target="RPiComponents"/>
+      </Unit>
+      <Unit filename="/home/pi/RPiComponents/src/rpicomponents/pin/softpwmpin.hpp">
+         <Option target="RPiComponents"/>
+      </Unit>
+      <Unit filename="/home/pi/RPiComponents/src/rpicomponents/pin/softtonepin.cpp">
+         <Option target="RPiComponents"/>
+      </Unit>
+      <Unit filename="/home/pi/RPiComponents/src/rpicomponents/pin/softtonepin.hpp">
+         <Option target="RPiComponents"/>
+      </Unit>
+      <Unit filename="/home/pi/RPiComponents/src/rpicomponents/rpicomponents.hpp">
+         <Option target="RPiComponents"/>
+      </Unit>
+      <Unit filename="/home/pi/RPiComponents/src/rpicomponents/test.cpp">
+         <Option target="RPiComponents"/>
+      </Unit>
+      <Unit filename="/home/pi/RPiComponents/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\" />
+      </Unit>
+      <Unit filename="/home/pi/RPiComponents/src/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\src\" />
+      </Unit>
+      <Unit filename="/home/pi/RPiComponents/src/rpicomponents/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\src\rpicomponents\" />
+      </Unit>
+      <Unit filename="/home/pi/RPiComponents/src/rpicomponents/component/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\src\rpicomponents\component\" />
+      </Unit>
+      <Unit filename="/home/pi/RPiComponents/src/rpicomponents/pin/CMakeLists.txt">
+          <Option virtualFolder="CMake Files\src\rpicomponents\pin\" />
+      </Unit>
+   </Project>
+</CodeBlocks_project_file>
