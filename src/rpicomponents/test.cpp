@@ -1,4 +1,3 @@
-
 #include "rpicomponents.hpp"
 
 using namespace std;
