@@ -14,3 +14,7 @@ void PWMPin::WriteToPin(int value) {
 	pwmWrite(pin_, value);
 	status_ = value; //wouldn't need a lock, as it is atomic
 }
+
+int PWMPin::ReadFromPin() {
+	return status_;
+}

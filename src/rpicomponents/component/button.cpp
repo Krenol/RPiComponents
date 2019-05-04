@@ -29,7 +29,7 @@ bool Button::IsPUD(int pud) {
 }
 
 bool Button::IsPressed() {
-	auto val = pin_->DigitalReadPin();
+	auto val = pin_->ReadPinValue();
 	if (val == LOW && pud_ == PUD_UP) return true;
 	if (val == HIGH && pud_ == PUD_DOWN) return true;
 	return false;

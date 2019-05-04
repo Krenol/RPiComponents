@@ -43,6 +43,9 @@ Pin* PinFactory::PinCreator(int pin, PIN_MODE outputMode, int maxOutputValue) {
 		case rpicomponents::pin::SOFTTONE:
 			newPin = new SofttonePin(pin, maxOutputValue);
 			break;
+		case rpicomponents::pin::INPUT_MODE:
+			newPin = new InputPin(pin);
+			break;
 		default:
 			throw invalid_argument("Invalid PIN_MODE was passed for pin creation!");
 		}

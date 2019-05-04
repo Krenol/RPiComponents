@@ -23,6 +23,14 @@ namespace rpicomponents {
 			 * @param value Output value that is to be written to the pin
 			 */
 			void WriteToPin(int value);
+
+			/**
+			 * Virtual method to read the value of the pin.
+			 * Must be implemented by child classes
+			 *
+			 * @returns the status_ variable
+			 */
+			int ReadFromPin();
 		};
 	}
 }

@@ -12,6 +12,7 @@ SET(TARGET_H
 	pin/pwmpin.hpp
 	pin/softtonepin.hpp
 	pin/pinfactory.hpp
+	pin/inputpin.hpp
 	component/led.hpp
 	component/button.hpp)
 
@@ -24,6 +25,7 @@ SET(TARGET_SRC
 	pin/pwmpin.cpp
 	pin/softtonepin.cpp
 	pin/pinfactory.cpp
+	pin/inputpin.cpp
 	component/component.cpp
 	component/led.cpp
 	component/button.cpp)

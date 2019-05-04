@@ -12,7 +12,8 @@ int Pin::GetPin() const {
 }
 
 bool Pin::IsOn() {
-	if (status_ == min_value_) return false;
+	auto status = ReadFromPin();
+	if (status == min_value_) return false;
 	return true;
 }
 
@@ -31,11 +32,8 @@ void Pin::OutputOff() {
 	WriteToPin(min_value_);
 }
 
-int Pin::DigitalReadPin() {
-	if (mode_ != INPUT_MODE) return -1;
-	lock_guard<mutex> lockGuard(mtx_);
-	auto val = digitalRead(pin_);
-	return val;
+int Pin::ReadPinValue() {
+	return ReadFromPin();
 }
 
 bool Pin::CheckInputValue(int value) {

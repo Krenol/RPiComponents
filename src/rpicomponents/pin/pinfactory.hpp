@@ -6,6 +6,7 @@
 #include "pwmpin.hpp"
 #include "softpwmpin.hpp"
 #include "softtonepin.hpp"
+#include "inputpin.hpp"
 #include <memory>
 #include <map>
 #include <iostream>

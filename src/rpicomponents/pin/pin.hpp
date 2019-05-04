@@ -16,7 +16,7 @@ namespace rpicomponents {
 			 *
 			 * @returns 0 for no read output at pin, 1 if there is an output and -1 if pin is not on INPUT mode
 			 */
-			int DigitalReadPin();
+			int ReadPinValue();
 
 			/**
 			 * Get the used pin
@@ -86,6 +86,14 @@ namespace rpicomponents {
 			 * @param value Output value that is to be written to the pin
 			 */
 			virtual void WriteToPin(int value) = 0;
+
+			/**
+			 * Virtual method to read the value of the pin.
+			 * Must be implemented by child classes
+			 *
+			 * @returns the read value of the pin, or the status_ variable if not in INPUT mode
+			 */
+			virtual int ReadFromPin() = 0;
 
 			const int pin_{ GPIO17 }, max_value_{ DIGITAL_MODE_MAX_VAL }, min_value_{ 0 };
 			const PIN_MODE mode_{ PIN_MODE::DIGITAL };

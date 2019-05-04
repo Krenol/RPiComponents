@@ -16,3 +16,7 @@ void DigitalPin::WriteToPin(int value) {
 	digitalWrite(pin_, value);
 	status_ = value; //wouldn't need a lock, as it is atomic
 }
+
+int DigitalPin::ReadFromPin() {
+	return status_;
+}

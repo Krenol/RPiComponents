@@ -15,3 +15,7 @@ void SofttonePin::WriteToPin(int value) {
 	softToneWrite(pin_, value);
 	status_ = value; //wouldn't need a lock, as it is atomic
 }
+
+int SofttonePin::ReadFromPin() {
+	return status_;
+}

@@ -1,21 +1,19 @@
-#ifndef RPICOMPONENTS_PIN_SOFTTONE_PIN_H
-#define RPICOMPONENTS_PIN_SOFTTONE_PIN_H
+#ifndef RPICOMPONENTS_PIN_INPUT_PIN_H
+#define RPICOMPONENTS_PIN_INPUT_PIN_H
 #pragma once
 
 #include "pin.hpp"
-#include <softTone.h>
 
 namespace rpicomponents {
 	namespace pin {
-		class SofttonePin : public Pin {
+		class InputPin : public Pin {
 		public:
 			/**
 			 * Constructor of this class
 			 *
 			 * @param pin The used pin of this object
-			 * @param maxOutputValue The max output value of this pin
 			 */
-			SofttonePin(int pin, int maxOutputValue = 100);
+			InputPin(int pin);
 
 		protected:
 			/**
@@ -30,10 +28,12 @@ namespace rpicomponents {
 			 * Virtual method to read the value of the pin.
 			 * Must be implemented by child classes
 			 *
-			 * @returns the status_ variable
+			 * @returns the read value of the pin
 			 */
 			int ReadFromPin();
 		};
 	}
 }
+
+
 #endif

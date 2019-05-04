@@ -14,3 +14,7 @@ void SoftPWMPin::WriteToPin(int value) {
 	softPwmWrite(pin_, value);
 	status_ = value; //wouldn't need a lock, as it is atomic
 }
+
+int SoftPWMPin::ReadFromPin() {
+	return status_;
+}

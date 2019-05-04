@@ -8,5 +8,6 @@ using namespace rpicomponents::pin;
 
 int main() {
 	cout << "bla\n";
+	//auto btn = new Button(GPIO2, PUD_UP);
 	cin.get();
 }
