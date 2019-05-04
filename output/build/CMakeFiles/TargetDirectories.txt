@@ -1,1 +1,0 @@
-/home/pi/RPiComponents/output/build/src/rpicomponents/CMakeFiles/RPiComponents.dir
