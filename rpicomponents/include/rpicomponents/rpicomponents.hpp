@@ -5,9 +5,9 @@
 #pragma once
 
 #include <iostream>
-#include "component/component.hpp"
-#include "component/led.hpp"
-#include "component/button.hpp"
+#include "../../component/component.hpp"
+#include "../../component/led.hpp"
+#include "../../component/button.hpp"
 
 namespace rpicomponents {
 	

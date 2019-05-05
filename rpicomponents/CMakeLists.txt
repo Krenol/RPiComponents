@@ -2,19 +2,9 @@
 # project specific logic here.
 #
 cmake_minimum_required (VERSION 3.4)
+set(CMAKE_CXX_STANDARD 11)  # enable C++11 standard
 
-SET(TARGET_H
-    component/component.hpp
-    pin/pinchecker.hpp
-	pin/pin.hpp
-	pin/digitalpin.hpp
-	pin/softpwmpin.hpp
-	pin/pwmpin.hpp
-	pin/softtonepin.hpp
-	pin/pinfactory.hpp
-	pin/inputpin.hpp
-	component/led.hpp
-	component/button.hpp)
+project (RPiComponents VERSION 1.0.0)
 
 # Local source files here
 SET(TARGET_SRC
@@ -31,7 +21,7 @@ SET(TARGET_SRC
 	component/button.cpp)
 
 # Add source to this project's executable.
-add_executable (RPiComponents "test.cpp" "rpicomponents.hpp" ${TARGET_H} ${TARGET_SRC})
+add_executable (RPiComponents "test.cpp" ${TARGET_SRC})
 
 target_link_libraries(${PROJECT_NAME} wiringPi)
 target_link_libraries(${PROJECT_NAME} wiringPiDev)
