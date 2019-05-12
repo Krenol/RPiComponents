@@ -3,7 +3,7 @@
 #
 cmake_minimum_required (VERSION 3.4)
 
-project (pin_project)
+project (pins)
  
 set (PROJECT_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 set (PROJECT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
@@ -24,3 +24,6 @@ include_directories("${PROJECT_BINARY_DIR}")
 include_directories("${PROJECT_INCLUDE_DIR}")
  
 add_library(${PROJECT_NAME} SHARED ${PIN_PROJECT_SRCS})
+
+# Locate libraries and headers
+find_package(Threads REQUIRED)

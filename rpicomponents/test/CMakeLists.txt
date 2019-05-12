@@ -14,4 +14,10 @@ include_directories("${PROJECT_BINARY_DIR}")
 include_directories("${PROJECT_INCLUDE_DIR}")
 
 # Add source to this project's executable.
-add_executable (${PROJECT_NAME} ${TEST_PROJECT_SRCS})
+add_executable (test_project ${TEST_PROJECT_SRCS})
+
+target_link_libraries(test_project RPiComponents)
+target_link_libraries(test_project pins)
+target_link_libraries(${PROJECT_NAME} wiringPi)
+target_link_libraries(${PROJECT_NAME} wiringPiDev)
+target_link_libraries(${PROJECT_NAME} pthread)
