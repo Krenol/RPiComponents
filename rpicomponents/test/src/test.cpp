@@ -1,4 +1,4 @@
-#include "../include/rpicomponents/rpicomponents.hpp"
+#include "../../include/rpicomponents/rpicomponents.hpp"
 
 using namespace std;
 using namespace rpicomponents;

@@ -13,17 +13,18 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
  
 set(PROJECT_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 set(PROJECT_SOURCE_DIR ${PROJECT_SOURCE_DIR}/src)
+
+set(RPICOMPONENT_PROJECT_SRCS 
+${PROJECT_SOURCE_DIR}/button.cpp
+${PROJECT_SOURCE_DIR}/component.cpp
+${PROJECT_SOURCE_DIR}/led.cpp
+)
  
 include_directories("${PROJECT_INCLUDE_DIR}")
 include_directories("${PROJECT_SOURCE_DIR}")
 
-set(PROJ_MAIN_SRCS 
-${PROJECT_SOURCE_DIR}/test.cpp
-)
+add_library(${PROJECT_NAME} SHARED ${RPICOMPONENT_PROJECT_SRCS})
 
-# Add source to this project's executable.
-add_executable (${PROJECT_NAME} ${PROJ_MAIN_SRCS})
 
-# TODO: Add tests and install targets if needed.
-add_subdirectory (component)
 add_subdirectory (pin)
+add_subdirectory (test)

@@ -5,7 +5,7 @@
 #include <math.h>
 #include <iomanip>
 #include <algorithm>
-#include "../../pin/src/pinfactory.hpp"
+#include "../pin/src/pinfactory.hpp"
 
 
 namespace rpicomponents {
