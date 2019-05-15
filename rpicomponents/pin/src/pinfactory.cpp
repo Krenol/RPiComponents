@@ -6,7 +6,7 @@ using namespace rpicomponents::pin;
 
 //variable definition
 map<int,const Pin*> PinFactory::created_pins_;
-mutex mtx_;
+mutex PinFactory::mtx_;
 
 const Pin* PinFactory::CreatePin(int pin, PIN_MODE outputMode, int maxOutputValue) {
 	lock_guard<mutex> lck{ mtx_ };

@@ -5,10 +5,10 @@ using namespace std;
 using namespace rpicomponents;
 using namespace rpicomponents::pin;
 
-static mutex mtx;
+mutex mtx;
 
 void On(Led* led, int no){
-    //lock_guard<mutex> lck(mtx);
+    lock_guard<mutex> lck(mtx);
 
     for(auto i= 0; i <  no; i++) {
         auto on = led->IsOn();
