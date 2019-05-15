@@ -16,7 +16,7 @@ namespace rpicomponents {
 			 *
 			 * @returns 0 for no read output at pin, 1 if there is an output and -1 if pin is not on INPUT mode
 			 */
-			int ReadPinValue();
+			int ReadPinValue() const;
 
 			/**
 			 * Get the used pin
@@ -37,13 +37,13 @@ namespace rpicomponents {
 			 * Note: this method call is thread safe
 			 * @return true if pin output is on, else false
 			 */
-			bool IsOn();
+			bool IsOn() const;
 
 			/**
 			 * Turn the pin output on
 			 * Note: this method call is thread safe
 			 */
-			void OutputOn();
+			void OutputOn() const;
 
 			/**
 			 * Set the output value of a pin to a certain value.
@@ -52,13 +52,13 @@ namespace rpicomponents {
 			 *
 			 * @param value: set output value of pin
 			 */
-			void Output(int value);
+			void Output(int value) const;
 
 			/**
 			 * Turn the pin output off
 			 *  Note: this method call is thread safe
 			 */
-			void OutputOff();
+			void OutputOff() const;
 
 		protected:
 			static std::mutex mtx_; //static & const variable, so we cannot write to multiple pins at the same time
@@ -77,7 +77,7 @@ namespace rpicomponents {
 			 *  Note: this method call is thread safe without using mutex and locks
 			 * @return true if value is inside the 0 and given max_value_, else false
 			 */
-			bool CheckInputValue(int value);
+			bool CheckInputValue(int value) const;
 
 			/**
 			 * Virtual method to write a value to the pin. 
@@ -85,7 +85,7 @@ namespace rpicomponents {
 			 *
 			 * @param value Output value that is to be written to the pin
 			 */
-			virtual void WriteToPin(int value) = 0;
+			virtual void WriteToPin(int value) const  = 0;
 
 			/**
 			 * Virtual method to read the value of the pin.
@@ -93,7 +93,7 @@ namespace rpicomponents {
 			 *
 			 * @returns the read value of the pin, or the status_ variable if not in INPUT mode
 			 */
-			virtual int ReadFromPin() = 0;
+			virtual int ReadFromPin() const = 0;
 
 			const int pin_{ GPIO17 }, max_value_{ DIGITAL_MODE_MAX_VAL }, min_value_{ 0 };
 			const PIN_MODE mode_{ PIN_MODE::DIGITAL };

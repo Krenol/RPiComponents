@@ -8,11 +8,11 @@ InputPin::InputPin(int pin) : Pin(pin, INPUT_MODE, DIGITAL_MODE_MAX_VAL) {
 
 }
 
-void InputPin::WriteToPin(int value) {
+void InputPin::WriteToPin(int value) const {
 	return;
 }
 
-int InputPin::ReadFromPin() {
+int InputPin::ReadFromPin() const {
 	lock_guard<mutex> lockGuard(mtx_);
 	auto val = digitalRead(pin_);
 	return val;

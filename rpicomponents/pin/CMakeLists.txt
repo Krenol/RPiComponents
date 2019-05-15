@@ -25,5 +25,13 @@ include_directories("${PROJECT_INCLUDE_DIR}")
  
 add_library(${PROJECT_NAME} SHARED ${PIN_PROJECT_SRCS})
 
+target_include_directories(${PROJECT_NAME}
+    PUBLIC 
+        $<INSTALL_INTERFACE:include>    
+        $<BUILD_INTERFACE:${PROJECT_INCLUDE_DIR}>
+    PRIVATE
+        ${PROJECT_SOURCE_DIR}
+)
+
 # Locate libraries and headers
 find_package(Threads REQUIRED)

@@ -18,6 +18,7 @@ set(RPICOMPONENT_PROJECT_SRCS
 ${PROJECT_SOURCE_DIR}/button.cpp
 ${PROJECT_SOURCE_DIR}/component.cpp
 ${PROJECT_SOURCE_DIR}/led.cpp
+${PROJECT_SOURCE_DIR}/transistor.cpp
 )
  
 include_directories("${PROJECT_INCLUDE_DIR}")
@@ -25,6 +26,13 @@ include_directories("${PROJECT_SOURCE_DIR}")
 
 add_library(${PROJECT_NAME} SHARED ${RPICOMPONENT_PROJECT_SRCS})
 
+target_include_directories(${PROJECT_NAME}
+    PUBLIC 
+        $<INSTALL_INTERFACE:include>    
+        $<BUILD_INTERFACE:${PROJECT_INCLUDE_DIR}>
+    PRIVATE
+        ${PROJECT_SOURCE_DIR}
+)
 
 add_subdirectory (pin)
 add_subdirectory (test)

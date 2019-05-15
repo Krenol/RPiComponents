@@ -20,7 +20,7 @@ namespace rpicomponents {
 			 *
 			 * @return the pointer to the pin; if pin already created, pointer to existing pin is returned
 			 */
-			static Pin* CreatePin(int pin, PIN_MODE outputMode = DIGITAL, int maxOutputValue = DIGITAL_MODE_MAX_VAL);
+			static const Pin* CreatePin(int pin, PIN_MODE outputMode = DIGITAL, int maxOutputValue = DIGITAL_MODE_MAX_VAL);
 			//static std::shared_ptr<Pin> CreateSharedPin(int pin, PIN_MODE outputMode = DIGITAL, int maxOutputValue = DIGITAL_MODE_MAX_VAL);
 			
 			/**
@@ -30,7 +30,7 @@ namespace rpicomponents {
 			 * @param pin: Pointer to the pin to be removed
 			 * @return true if removal was successful, else false
 			 */
-			static bool RemovePin(Pin* pin); //thread safe
+			static bool RemovePin(const Pin* pin); //thread safe
 
 			/**
 			 * Method to remove a pin pointer from the factory and the memory
@@ -48,7 +48,7 @@ namespace rpicomponents {
 			 * @param pin: GPIO pin number of the pin to be loaded
 			 * @return the pin pointer
 			 */
-			static Pin* LoadPin(int pin); //thread safe
+			static const Pin* LoadPin(int pin); //thread safe
 
 			/**
 			 * Destructor; can be used for deleting all the pin pointers
@@ -64,7 +64,7 @@ namespace rpicomponents {
 			 * @param pin: GPIO pin number of the pin to be loaded
 			 * @return Pin pointer to the created pin
 			 */
-			static Pin* PinLoader(int pin);
+			static const Pin* PinLoader(int pin);
 
 			/**
 			 * Method to create a pin pointer 
@@ -75,7 +75,7 @@ namespace rpicomponents {
 			 * @param maxOutputValue: The maximum pin output value; only needed for SOFTPWM and SOFTTONE
 			 * @return pin pointer to created pin
 			 */
-			static Pin* PinCreator(int pin, PIN_MODE outputMode = DIGITAL, int maxOutputValue = DIGITAL_MODE_MAX_VAL);
+			static const Pin* PinCreator(int pin, PIN_MODE outputMode = DIGITAL, int maxOutputValue = DIGITAL_MODE_MAX_VAL);
 
 			/**
 			 * Method to check if a pin pointer exists in the factory
@@ -92,14 +92,14 @@ namespace rpicomponents {
 			 *
 			 * @param pin: pin pointer of the pin to be added
 			 */
-			static void AddPinToMap(Pin* pin); 
+			static void AddPinToMap(const Pin* pin); 
 
 			/**
 			 * Constructor; static class by private Constructor
 			 */
             PinFactory();
 
-			static std::map<int, Pin*> created_pins_; //map for the storage of the pins
+			static std::map<int,const Pin*> created_pins_; //map for the storage of the pins
 			static std::mutex mtx_; //mutex for lock_guard
 		};
 	}

@@ -5,38 +5,38 @@ using namespace rpicomponents;
 using namespace rpicomponents::pin;
 
 //variable definition
-std::mutex Pin::mtx_;
+mutex Pin::mtx_;
 
 int Pin::GetPin() const {
 	return pin_;
 }
 
-bool Pin::IsOn() {
+bool Pin::IsOn() const {
 	auto status = ReadFromPin();
 	if (status == min_value_) return false;
 	return true;
 }
 
-void Pin::OutputOn() {
+void Pin::OutputOn() const {
 	if (mode_ == INPUT_MODE) return;
 	WriteToPin(max_value_);
 }
 
-void Pin::Output(int value) {
+void Pin::Output(int value) const {
 	if (mode_ == INPUT_MODE) return;
 	WriteToPin(value);
 }
 
-void Pin::OutputOff() {
+void Pin::OutputOff() const {
 	if (mode_ == INPUT_MODE) return;
 	WriteToPin(min_value_);
 }
 
-int Pin::ReadPinValue() {
+int Pin::ReadPinValue() const {
 	return ReadFromPin();
 }
 
-bool Pin::CheckInputValue(int value) {
+bool Pin::CheckInputValue(int value) const {
 	if (value < min_value_ || value > max_value_) {
 		return false;
 	}

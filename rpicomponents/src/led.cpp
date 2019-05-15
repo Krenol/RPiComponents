@@ -2,10 +2,9 @@
 
 using namespace std;
 using namespace rpicomponents;
-using namespace rpicomponents::component;
 using namespace rpicomponents::pin;
 
-Led::Led(Pin* pin, bool onIfPinOn) : Component("led"), pin_{ pin }, on_mode_{ onIfPinOn }
+Led::Led(const Pin* pin, bool onIfPinOn) : Component("led"), pin_{ pin }, on_mode_{ onIfPinOn }
 {
 	Initialize();
 }
@@ -22,23 +21,22 @@ void Led::Initialize() {
 	AddPin(pin_->GetPin());
 }
 
-void Led::TurnOn() {
+void Led::TurnOn() const {
 	if (pin_ == nullptr) return;
 	on_mode_ ? pin_->OutputOn() : pin_->OutputOff();
 }
 
-void Led::TurnOn(int value) {
+void Led::TurnOn(int value) const {
 	if (pin_ == nullptr) return;
 	pin_->Output(value);
 }
 
-void Led::TurnOff() {
+void Led::TurnOff() const {
 	if (pin_ == nullptr) return;
 	on_mode_ ? pin_->OutputOff() : pin_->OutputOn();
 }
 
-bool Led::IsOn() {
+bool Led::IsOn() const {
 	if (pin_ == nullptr) return false;
-	if (on_mode_) return on_mode_ && pin_->IsOn(); //if pin has power the led is on
-	return on_mode_ && !pin_->IsOn(); //if pin has no power the led is on
+	return on_mode_ ? pin_->IsOn() : !pin_->IsOn();
 }

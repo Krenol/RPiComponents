@@ -5,25 +5,18 @@ using namespace rpicomponents;
 using namespace rpicomponents::pin;
 
 //variable definition
-std::map<int, Pin*> PinFactory::created_pins_;
-std::mutex PinFactory::mtx_;
+map<int,const Pin*> PinFactory::created_pins_;
+mutex mtx_;
 
-Pin* PinFactory::CreatePin(int pin, PIN_MODE outputMode, int maxOutputValue) {
+const Pin* PinFactory::CreatePin(int pin, PIN_MODE outputMode, int maxOutputValue) {
 	lock_guard<mutex> lck{ mtx_ };
 	auto newPin = PinCreator(pin, outputMode, maxOutputValue);
 	return newPin;
 }
-/*
-shared_ptr<Pin> PinFactory::CreateSharedPin(int pin, PIN_MODE outputMode = DIGITAL, int maxOutputValue = DIGITAL_MODE_MAX_VAL) {
-	lock_guard<mutex> lck{ mtx_ };
-	auto newPin = PinCreator(pin, outputMode, maxOutputValue);
-	shared_ptr<Pin> ptr(newPin);
-	return ptr;
-} */
 
-Pin* PinFactory::PinCreator(int pin, PIN_MODE outputMode, int maxOutputValue) {
+const Pin* PinFactory::PinCreator(int pin, PIN_MODE outputMode, int maxOutputValue) {
 	auto exists = PinExists(pin);
-	Pin* newPin;
+	const Pin* newPin;
 	if (exists) {
 		std::cout << "Pin " << to_string(pin) << " already exists; returning created pin...\n";
 		newPin = PinLoader(pin);
@@ -54,13 +47,13 @@ Pin* PinFactory::PinCreator(int pin, PIN_MODE outputMode, int maxOutputValue) {
 	return newPin;
 }
 
-Pin* PinFactory::LoadPin(int pin) {
+const Pin* PinFactory::LoadPin(int pin) {
 	lock_guard<mutex> lck{ mtx_ };
 	auto pinP = PinLoader(pin);
 	return pinP;
 }
 
-Pin* PinFactory::PinLoader(int pin) {
+const Pin* PinFactory::PinLoader(int pin) {
 	auto exists = PinExists(pin);
 	if (exists) {
 		auto ptr = created_pins_[pin];
@@ -69,7 +62,7 @@ Pin* PinFactory::PinLoader(int pin) {
 	else throw invalid_argument("Pin does not exists. Create it with the CreatePin(..) method call first");
 }
 
-bool PinFactory::RemovePin(Pin* pin) {
+bool PinFactory::RemovePin(const Pin* pin) {
 	auto pinNo = pin->GetPin();
 	auto removed = RemovePin(pinNo);
 	return removed;
@@ -105,7 +98,8 @@ bool PinFactory::PinExists(int pin) {
 	if (count == 1 && ptr != nullptr) return true;
 	return false;
 }
-void PinFactory::AddPinToMap(Pin* pin) {
+
+void PinFactory::AddPinToMap(const Pin* pin) {
 	auto pinNo = pin->GetPin();
 	auto exists = PinExists(pinNo);
 	if (exists) throw invalid_argument("Pin already exists and cannot be added to factory pointer storage!");

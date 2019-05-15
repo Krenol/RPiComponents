@@ -3,7 +3,6 @@
 
 using namespace std;
 using namespace rpicomponents;
-using namespace rpicomponents::component;
 using namespace rpicomponents::pin;
 
 static mutex mtx;
@@ -32,5 +31,6 @@ int main() {
         p.join();
         p1.join();
     }
+	cin.get();
     delete led;
 }
