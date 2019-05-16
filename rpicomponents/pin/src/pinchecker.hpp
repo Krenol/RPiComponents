@@ -9,7 +9,7 @@
 namespace rpicomponents {
 	namespace pin {
 		enum PIN_MODE {
-			DIGITAL, PWM, SOFTPWM, SOFTTONE, INPUT_MODE
+			DIGITAL_MODE, PWM_MODE, SOFTPWM_MODE, SOFTTONE_MODE, INPUT_MODE
 		};
 		//define gpio pins for pi 3b and 3b+
 		constexpr auto GPIO17 = 0, GPIO18 = 1, GPIO27 = 2, GPIO22 = 3, GPIO23 = 4, GPIO24 = 5, GPIO25 = 6, GPIO4 = 7, SDA1 = 8,

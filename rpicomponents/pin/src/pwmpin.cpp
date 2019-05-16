@@ -4,7 +4,7 @@ using namespace std;
 using namespace rpicomponents;
 using namespace rpicomponents::pin;
 
-PWMPin::PWMPin(int pin) : Pin(pin, PWM, PWM_MODE_MAX_VAL) {
+PWMPin::PWMPin(int pin) : Pin(pin, PWM_MODE, PWM_MODE_MAX_VAL) {
 	OutputOff();
 }
 

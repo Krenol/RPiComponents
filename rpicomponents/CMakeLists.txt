@@ -19,6 +19,7 @@ ${PROJECT_SOURCE_DIR}/button.cpp
 ${PROJECT_SOURCE_DIR}/component.cpp
 ${PROJECT_SOURCE_DIR}/led.cpp
 ${PROJECT_SOURCE_DIR}/transistor.cpp
+${PROJECT_SOURCE_DIR}/ultrasonicsensor.cpp
 )
  
 include_directories("${PROJECT_INCLUDE_DIR}")

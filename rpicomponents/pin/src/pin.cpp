@@ -60,13 +60,13 @@ Pin::Pin(int pin, PIN_MODE mode, int maxOutputValue) : pin_{ pin }, mode_{ mode 
 	if (maxOutputValue < 1) {
 		throw invalid_argument("Max value must be greater than 0");
 	}
-	if (mode == DIGITAL && maxOutputValue != DIGITAL_MODE_MAX_VAL) {
+	if (mode == DIGITAL_MODE && maxOutputValue != DIGITAL_MODE_MAX_VAL) {
 		throw invalid_argument("DIGITAL_MODE max value cannot be anything else than 1");
 	}
-	if (mode == PWM && maxOutputValue != PWM_MODE_MAX_VAL) {
+	if (mode == PWM_MODE && maxOutputValue != PWM_MODE_MAX_VAL) {
 		throw invalid_argument("PWM_MODE max value cannot be anything else than 1023");
 	}
-	if (mode == PWM && !PinChecker::PinIsHardwarePWMCapable(pin)) {
+	if (mode == PWM_MODE && !PinChecker::PinIsHardwarePWMCapable(pin)) {
 		throw invalid_argument("PWM_MODE cannot be used with input pin! Valid pins are: " + to_string(PWM_CHANNEL0_PIN1) + ", "
 			+ to_string(PWM_CHANNEL0_PIN2) + "for channel 0 and " + to_string(PWM_CHANNEL1_PIN1) + ", "
 			+ to_string(PWM_CHANNEL1_PIN2) + "for channel 1");

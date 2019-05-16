@@ -4,9 +4,10 @@
 #define RPICOMPONENTS_H
 #pragma once
 
-#include <iostream>
 #include "../../src/button.hpp"
 #include "../../src/led.hpp"
+#include "../../src/transistor.hpp"
+#include "../../src/ultrasonicsensor.hpp"
 #include "../../pin/include/rpicomponents/pin/pins.hpp"
 
 namespace rpicomponents {

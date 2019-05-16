@@ -69,7 +69,7 @@ namespace rpicomponents {
 			 * @param mode The output mode of the pin (digital, pwm, soft pwm or softtone)
 			 * @param maxValue The maximum output of this pin (digital must be 1, pwm must be 1023 and always above 0)
 			 */
-			Pin(int pin, PIN_MODE mode = PIN_MODE::DIGITAL, int maxOutputValue = DIGITAL_MODE_MAX_VAL);
+			Pin(int pin, PIN_MODE mode = PIN_MODE::DIGITAL_MODE, int maxOutputValue = DIGITAL_MODE_MAX_VAL);
 
 			/**
 			 * Checks whether given value for the pin output is inside the valid range of this object
@@ -96,7 +96,7 @@ namespace rpicomponents {
 			virtual int ReadFromPin() const = 0;
 
 			const int pin_{ GPIO17 }, max_value_{ DIGITAL_MODE_MAX_VAL }, min_value_{ 0 };
-			const PIN_MODE mode_{ PIN_MODE::DIGITAL };
+			const PIN_MODE mode_{ PIN_MODE::DIGITAL_MODE };
 			mutable std::atomic<int> status_{ 0 };
 		};
 	}

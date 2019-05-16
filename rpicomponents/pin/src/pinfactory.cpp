@@ -8,9 +8,9 @@ using namespace rpicomponents::pin;
 map<int,const Pin*> PinFactory::created_pins_;
 mutex PinFactory::mtx_;
 
-const Pin* PinFactory::CreatePin(int pin, PIN_MODE outputMode, int maxOutputValue) {
+const Pin* PinFactory::CreatePin(int pin, PIN_MODE mode, int maxOutputValue) {
 	lock_guard<mutex> lck{ mtx_ };
-	auto newPin = PinCreator(pin, outputMode, maxOutputValue);
+	auto newPin = PinCreator(pin, mode, maxOutputValue);
 	return newPin;
 }
 
@@ -24,16 +24,16 @@ const Pin* PinFactory::PinCreator(int pin, PIN_MODE outputMode, int maxOutputVal
 	else {
 		switch (outputMode)
 		{
-		case rpicomponents::pin::DIGITAL:
+		case rpicomponents::pin::DIGITAL_MODE:
 			newPin = new DigitalPin(pin);
 			break;
-		case rpicomponents::pin::PWM:
+		case rpicomponents::pin::PWM_MODE:
 			newPin = new PWMPin(pin);
 			break;
-		case rpicomponents::pin::SOFTPWM:
+		case rpicomponents::pin::SOFTPWM_MODE:
 			newPin = new SoftPWMPin(pin, maxOutputValue);
 			break;
-		case rpicomponents::pin::SOFTTONE:
+		case rpicomponents::pin::SOFTTONE_MODE:
 			newPin = new SofttonePin(pin, maxOutputValue);
 			break;
 		case rpicomponents::pin::INPUT_MODE:

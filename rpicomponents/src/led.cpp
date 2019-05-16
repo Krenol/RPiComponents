@@ -9,7 +9,7 @@ Led::Led(const Pin* pin, bool onIfPinOn) : Component("led"), pin_{ pin }, on_mod
 	Initialize();
 }
 
-Led::Led(int pin, PIN_MODE outputMode, bool onIfPinOn) : Component("led"), on_mode_{ onIfPinOn }, pin_{ PinFactory::CreatePin(pin, outputMode) }
+Led::Led(int pin, PIN_MODE mode, bool onIfPinOn) : Component("led"), on_mode_{ onIfPinOn }, pin_{ PinFactory::CreatePin(pin, mode) }
 {
 	Initialize();
 }

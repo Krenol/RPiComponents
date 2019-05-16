@@ -4,7 +4,7 @@ using namespace std;
 using namespace rpicomponents;
 using namespace rpicomponents::pin;
 
-SoftPWMPin::SoftPWMPin(int pin, int maxOutputValue) : Pin(pin, SOFTPWM, maxOutputValue) {
+SoftPWMPin::SoftPWMPin(int pin, int maxOutputValue) : Pin(pin, SOFTPWM_MODE, maxOutputValue) {
 	OutputOff();
 }
 

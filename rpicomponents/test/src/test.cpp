@@ -22,9 +22,9 @@ void On(Led* led, int no){
 
 int main() {
 	cout << "bla\n";
-    auto led = new Led(GPIO2, DIGITAL);
+    auto led = new Led(GPIO2, DIGITAL_MODE);
     //cout << btn->IsPressed()<<endl;
-
+	auto uss = new UltrasonicSensor(GPIO0, GPIO1);
     for(int i = 0; i < 10; i++) {
         thread p(On, led, i);
         thread p1(On, led, i);
