@@ -3,6 +3,7 @@
 using namespace std;
 using namespace rpicomponents;
 using namespace rpicomponents::pin;
+using namespace rpicomponents::pin::utils;
 
 //variable definition
 map<int,const Pin*> PinFactory::created_pins_;
@@ -24,19 +25,19 @@ const Pin* PinFactory::PinCreator(int pin, PIN_MODE outputMode, int maxOutputVal
 	else {
 		switch (outputMode)
 		{
-		case rpicomponents::pin::DIGITAL_MODE:
+		case rpicomponents::pin::utils::DIGITAL_MODE:
 			newPin = new DigitalPin(pin);
 			break;
-		case rpicomponents::pin::PWM_MODE:
+		case rpicomponents::pin::utils::PWM_MODE:
 			newPin = new PWMPin(pin);
 			break;
-		case rpicomponents::pin::SOFTPWM_MODE:
+		case rpicomponents::pin::utils::SOFTPWM_MODE:
 			newPin = new SoftPWMPin(pin, maxOutputValue);
 			break;
-		case rpicomponents::pin::SOFTTONE_MODE:
+		case rpicomponents::pin::utils::SOFTTONE_MODE:
 			newPin = new SofttonePin(pin, maxOutputValue);
 			break;
-		case rpicomponents::pin::INPUT_MODE:
+		case rpicomponents::pin::utils::INPUT_MODE:
 			newPin = new InputPin(pin);
 			break;
 		default:

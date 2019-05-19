@@ -3,6 +3,7 @@
 using namespace std;
 using namespace rpicomponents;
 using namespace rpicomponents::pin;
+using namespace rpicomponents::pin::utils;
 
 Button::Button(const Pin* pin, int pud) : Component("button"), pin_{pin}, pud_{pud}
 {

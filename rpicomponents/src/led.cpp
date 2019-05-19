@@ -3,6 +3,7 @@
 using namespace std;
 using namespace rpicomponents;
 using namespace rpicomponents::pin;
+using namespace rpicomponents::pin::utils;
 
 Led::Led(const Pin* pin, bool onIfPinOn) : Component("led"), pin_{ pin }, on_mode_{ onIfPinOn }
 {

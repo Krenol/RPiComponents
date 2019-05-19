@@ -3,6 +3,7 @@
 using namespace std;
 using namespace rpicomponents;
 using namespace rpicomponents::pin;
+using namespace rpicomponents::pin::utils;
 
 
 SofttonePin::SofttonePin(int pin, int maxOutputValue) : Pin(pin, SOFTTONE_MODE, maxOutputValue) {

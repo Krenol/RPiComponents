@@ -30,7 +30,7 @@ namespace rpicomponents {
 		* @param outputMode: The output mode of the LED pin
 		* @param onIfPinOn: bool if LED light is on if pin output is on
 		*/
-		Led(int pin, pin::PIN_MODE mode, bool onIfPinOn = true);
+		Led(int pin, pin::utils::PIN_MODE mode, bool onIfPinOn = true);
 
 		/**
 		* Turn the LED on to the maximum output value of the pin's output mode

@@ -3,9 +3,7 @@
 using namespace std;
 using namespace rpicomponents;
 using namespace rpicomponents::pin;
-
-//variable definition
-mutex Pin::mtx_;
+using namespace rpicomponents::pin::utils;
 
 int Pin::GetPin() const {
 	return pin_;

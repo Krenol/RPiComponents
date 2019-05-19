@@ -3,6 +3,7 @@
 using namespace std;
 using namespace rpicomponents;
 using namespace rpicomponents::pin;
+using namespace rpicomponents::pin::utils;
 
 Transistor::Transistor(const Pin* pin, TRANSISTOR_TYPE type) : Component("transistor"), pin_{pin}, type_{type}
 {

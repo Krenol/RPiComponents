@@ -3,6 +3,7 @@
 using namespace std;
 using namespace rpicomponents;
 using namespace rpicomponents::pin;
+using namespace rpicomponents::pin::utils;
 
 PWMPin::PWMPin(int pin) : Pin(pin, PWM_MODE, PWM_MODE_MAX_VAL) {
 	OutputOff();

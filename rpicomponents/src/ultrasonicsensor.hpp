@@ -1,5 +1,6 @@
 #include "component.hpp"
 #include <ctime>
+#include <thread>
 
 #ifndef RPICOMPONENTS_COMPONENT_ULTRASONIC_SENSOR_H
 #define RPICOMPONENTS_COMPONENT_ULTRASONIC_SENSOR_H
@@ -16,13 +17,22 @@ namespace rpicomponents {
 	private:
 		const pin::Pin* trigger_pin_; //the used trigger pin of the sensor
 		const pin::Pin* echo_pin_; //the used echo pin of the sensor
-		const clock_t maxDelay = 10 * 1e-3 * CLOCKS_PER_SEC; //ms
-		const float room_temperature_ = 20;
+		const clock_t max_delay_time_ = 10 * 1e-3 * CLOCKS_PER_SEC; //ms
+		const float std_temperature_ = 20.0f;
+		const DISTANCE_UNIT std_unit_ = UNIT_MM;
+		static const std::map<DISTANCE_UNIT, float> convert_values_;
 
 		/**
 		* Initializer for Constructors; reduce redundancy
 		*/
 		void Initialize() const;
+
+		/**
+		* Method to measure the ping time to an object
+		* BLOCKING METHOD
+		* @returns HALF the ping time to an object in seconds or INFINITY if above the max_delay_time_
+		*/
+		float GetEchoTime() const;
 
 	public:
 		/**
@@ -79,7 +89,7 @@ namespace rpicomponents {
 		* @param temperature: the temperature of air (influences the speed of sound)
 		* @returns the speed of sound to a object in mm/s
 		*/
-		float CalculateSpeedOfSound();
+		float CalculateSpeedOfSound() const;
 
 		/**
 		* Method to measure the distance to an object
@@ -87,7 +97,7 @@ namespace rpicomponents {
 		* @param temperature: the temperature of air (influences the speed of sound)
 		* @returns the speed of sound to a object in mm/s for a given temperature
 		*/
-		float CalculateSpeedOfSound(float temperature);
+		float CalculateSpeedOfSound(float temperature) const;
 
 		/**
 		* Method to measure the distance to an object
@@ -105,6 +115,16 @@ namespace rpicomponents {
 		* @returns the speed of sound to a object in DISTANCE_UNIT/s
 		*/
 		float CalculateSpeedOfSound(float temperature, DISTANCE_UNIT unit) const;
+
+		/**
+		* Method to convert one unit to the other
+		*
+		* @param value: float of the to be converted value
+		* @param inUnit: the unit of the passed value
+		* @param outUnit: the unit of the return value
+		* @returns the converted value in outUnit
+		*/
+		float UnitConverter(float value, DISTANCE_UNIT inUnit, DISTANCE_UNIT outUnit) const;
 	};
 }
 

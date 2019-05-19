@@ -3,26 +3,20 @@
 #
 cmake_minimum_required (VERSION 3.4)
 
-project (pins)
+project (pin_utils)
  
 set (PROJECT_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 set (PROJECT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
  
-set(PIN_PROJECT_SRCS 
-${PROJECT_SOURCE_DIR}/pin.cpp
-${PROJECT_SOURCE_DIR}/digitalpin.cpp
-${PROJECT_SOURCE_DIR}/softpwmpin.cpp
-${PROJECT_SOURCE_DIR}/pwmpin.cpp
-${PROJECT_SOURCE_DIR}/softtonepin.cpp
-${PROJECT_SOURCE_DIR}/pinfactory.cpp
-${PROJECT_SOURCE_DIR}/inputpin.cpp
+set(PIN_UTILS_PROJECT_SRCS 
+${PROJECT_SOURCE_DIR}/pinchecker.cpp
 )
 
  
 include_directories("${PROJECT_BINARY_DIR}")
 include_directories("${PROJECT_INCLUDE_DIR}")
  
-add_library(${PROJECT_NAME} SHARED ${PIN_PROJECT_SRCS})
+add_library(${PROJECT_NAME} SHARED ${PIN_UTILS_PROJECT_SRCS})
 
 target_include_directories(${PROJECT_NAME}
     PUBLIC 
@@ -31,9 +25,3 @@ target_include_directories(${PROJECT_NAME}
     PRIVATE
         ${PROJECT_SOURCE_DIR}
 )
-
-# Locate libraries and headers
-find_package(Threads REQUIRED)
-
-add_subdirectory (utils)
-target_link_libraries(${PROJECT_NAME} pin_utils)

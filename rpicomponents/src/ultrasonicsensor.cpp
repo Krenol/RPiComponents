@@ -3,6 +3,9 @@
 using namespace std;
 using namespace rpicomponents;
 using namespace rpicomponents::pin;
+using namespace rpicomponents::pin::utils;
+
+const map<DISTANCE_UNIT, float> UltrasonicSensor::convert_values_ = { {UNIT_M, 1.0f},  {UNIT_CM, 1e-2f}, {UNIT_MM, 1e-3f}, {UNIT_M, 1e-6f} };
 
 void UltrasonicSensor::Initialize() const
 {
@@ -12,6 +15,30 @@ void UltrasonicSensor::Initialize() const
 	if (mode != INPUT_MODE) throw new invalid_argument("given echo pin is not in input mode; it must be on input mode for a ultrasonsic sensor!");
 	AddPin(trigger_pin_->GetPin());
 	AddPin(echo_pin_->GetPin());
+}
+
+float UltrasonicSensor::GetEchoTime() const
+{
+	lock_guard<mutex> lck(mtx_);
+	trigger_pin_->OutputOn();
+	auto waiter = [](chrono::duration<float> time)
+	{
+		this_thread::sleep_for(time);
+	};
+	thread p (waiter, chrono::nanoseconds(10));
+	p.join();
+	trigger_pin_->OutputOff();
+	clock_t start = clock();
+	while (clock() - start < max_delay_time_)
+	{
+		if (echo_pin_->ReadPinValue() == HIGH)
+		{
+			start = clock();
+			while (echo_pin_->ReadPinValue() && clock() - start < max_delay_time_) {}
+			return (float)(clock() - start) / (2 * CLOCKS_PER_SEC);
+		}
+	}
+	return INFINITY;
 }
 
 UltrasonicSensor::UltrasonicSensor(const pin::Pin* trigger_pin, const pin::Pin* echo_pin) : Component("ultrasonic_sensor"), trigger_pin_{ trigger_pin }, echo_pin_{ echo_pin }
@@ -27,17 +54,17 @@ UltrasonicSensor::UltrasonicSensor(int trigger_pin, int echo_pin) :
 
 float UltrasonicSensor::MeasureDistance() const
 {
-	return 0.0f;
+	return MeasureDistance(std_temperature_, std_unit_);
 }
 
 float UltrasonicSensor::MeasureDistance(float temperature) const
 {
-	return 0.0f;
+	return MeasureDistance(temperature, std_unit_);
 }
 
 float UltrasonicSensor::MeasureDistance(DISTANCE_UNIT unit) const
 {
-	return 0.0f;
+	return MeasureDistance(std_temperature_, unit);
 }
 
 float UltrasonicSensor::MeasureDistance(float temperature, DISTANCE_UNIT unit) const
@@ -45,22 +72,30 @@ float UltrasonicSensor::MeasureDistance(float temperature, DISTANCE_UNIT unit) c
 	return 0.0f;
 }
 
-float UltrasonicSensor::CalculateSpeedOfSound()
-{
-	return 0.0f;
+float UltrasonicSensor::CalculateSpeedOfSound() const
+{	
+	return CalculateSpeedOfSound(std_temperature_, std_unit_);
 }
 
-float UltrasonicSensor::CalculateSpeedOfSound(float temperature)
+float UltrasonicSensor::CalculateSpeedOfSound(float temperature) const
 {
-	return 0.0f;
+	return CalculateSpeedOfSound(temperature, std_unit_);
 }
 
 float UltrasonicSensor::CalculateSpeedOfSound(DISTANCE_UNIT unit) const
 {
-	return 0.0f;
+	return CalculateSpeedOfSound(std_temperature_, unit);
 }
 
 float UltrasonicSensor::CalculateSpeedOfSound(float temperature, DISTANCE_UNIT unit) const
 {
-	return 0.0f;
+	auto val = 331.5f + 0.6f * temperature;
+	val = UnitConverter(val, UNIT_M, unit);
+	return val;
+}
+
+float UltrasonicSensor::UnitConverter(float value, DISTANCE_UNIT inUnit, DISTANCE_UNIT outUnit) const
+{
+	value *= convert_values_.at(inUnit) / convert_values_.at(outUnit);
+	return value;
 }

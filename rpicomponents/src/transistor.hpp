@@ -36,7 +36,7 @@ namespace rpicomponents {
 		* @param pin: GPIO pin number of the button
 		* @param pud: the to be checked PUD value
 		*/
-		Transistor(int pin, TRANSISTOR_TYPE type, pin::PIN_MODE mode);
+		Transistor(int pin, TRANSISTOR_TYPE type, pin::utils::PIN_MODE mode);
 
 		/**
 		* Method to get the transistor type
