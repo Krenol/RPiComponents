@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <stdexcept>
+#include "pindefinitions.hpp"
 
 namespace rpicomponents {
 	namespace pin {

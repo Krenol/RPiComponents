@@ -37,3 +37,4 @@ target_include_directories(${PROJECT_NAME}
 
 add_subdirectory (pin)
 add_subdirectory (test)
+target_link_libraries(${PROJECT_NAME} pin)

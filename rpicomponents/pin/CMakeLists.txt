@@ -3,7 +3,7 @@
 #
 cmake_minimum_required (VERSION 3.4)
 
-project (pins)
+project (pin)
  
 set (PROJECT_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 set (PROJECT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)

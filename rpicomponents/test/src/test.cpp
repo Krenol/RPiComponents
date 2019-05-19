@@ -1,4 +1,4 @@
-#include "../../include/rpicomponents/rpicomponents.hpp"
+#include "rpicomponents/rpicomponents.hpp"
 #include <thread>
 
 using namespace std;
@@ -6,7 +6,7 @@ using namespace rpicomponents;
 using namespace rpicomponents::pin;
 using namespace rpicomponents::pin::utils;
 
-mutex mtx;
+mutable mutex mtx;
 
 void On(Led* led, int no){
     lock_guard<mutex> lck(mtx);

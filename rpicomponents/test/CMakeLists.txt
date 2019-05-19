@@ -17,7 +17,6 @@ include_directories("${PROJECT_INCLUDE_DIR}")
 add_executable (test_project ${TEST_PROJECT_SRCS})
 
 target_link_libraries(test_project RPiComponents)
-target_link_libraries(test_project pin)
 
 target_link_libraries(${PROJECT_NAME} wiringPi)
 target_link_libraries(${PROJECT_NAME} wiringPiDev)

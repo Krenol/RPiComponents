@@ -2,7 +2,7 @@
 
 using namespace std;
 using namespace rpicomponents::pin;
-
+using namespace rpicomponents::pin::utils;
 
 bool PinChecker::IsValidPinValue(int pin) {
 	if (pin < PIN_MIN_VALUE || pin > PIN_MAX_VALUE) return false;
