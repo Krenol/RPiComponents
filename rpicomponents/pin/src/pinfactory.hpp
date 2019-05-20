@@ -27,7 +27,7 @@ namespace rpicomponents {
 			
 			/**
 			 * Method to remove a pin pointer from the factory and the memory
-			 * This method is thread safe!
+			 * BLOCKING
 			 *
 			 * @param pin: Pointer to the pin to be removed
 			 * @return true if removal was successful, else false
@@ -36,7 +36,7 @@ namespace rpicomponents {
 
 			/**
 			 * Method to remove a pin pointer from the factory and the memory
-			 * This method is thread safe!
+			 * BLOCKING
 			 *
 			 * @param pin: GPIO pin number of the pin to be removed
 			 * @return true if removal was successful, else false
@@ -45,7 +45,7 @@ namespace rpicomponents {
 
 			/**
 			 * Method to load a pin pointer from the factory
-			 * This method is thread safe!
+			 * BLOCKING
 			 *
 			 * @param pin: GPIO pin number of the pin to be loaded
 			 * @return the pin pointer
@@ -54,14 +54,14 @@ namespace rpicomponents {
 
 			/**
 			 * Destructor; can be used for deleting all the pin pointers
-			 * This method is thread safe!
+			 * BLOCKING
 			 */
 			~PinFactory();
 
 		private: //no private method is thread safe!
 			/**
 			 * Method to load a pin pointer from the factory
-			 * This method is NOT thread safe!
+			 * NON BLOCKING
 			 *
 			 * @param pin: GPIO pin number of the pin to be loaded
 			 * @return Pin pointer to the created pin
@@ -70,7 +70,7 @@ namespace rpicomponents {
 
 			/**
 			 * Method to create a pin pointer 
-			 * This method is NOT thread safe!
+			 * NON BLOCKING
 			 *
 			 * @param pin: GPIO pin number of the pin to be created
 			 * @param outputMode: output mode of the pin, according to the defined enum
@@ -81,7 +81,7 @@ namespace rpicomponents {
 
 			/**
 			 * Method to check if a pin pointer exists in the factory
-			 * This method is NOT thread safe!
+			 * NON BLOCKING
 			 *
 			 * @param pin: GPIO pin number of the pin that existence should be checked
 			 * @return true if pin exists, else false
@@ -90,7 +90,7 @@ namespace rpicomponents {
 
 			/**
 			 * Method to add a pin pointer to the factory map
-			 * This method is NOT thread safe!
+			 * NON BLOCKING
 			 *
 			 * @param pin: pin pointer of the pin to be added
 			 */

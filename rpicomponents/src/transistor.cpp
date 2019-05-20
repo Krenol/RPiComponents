@@ -18,7 +18,7 @@ Transistor::Transistor(int pin, TRANSISTOR_TYPE type, PIN_MODE mode) : Component
 void Transistor::Initialize() {
 	if (pin_ == nullptr) throw new invalid_argument("pin is a nullptr! some internal error occured..");
 	const auto mode = pin_->OutputMode();
-	if (mode == INPUT_MODE) throw new invalid_argument("pin for led cannot be on input mode");
+	if (mode != INPUT_MODE) throw new invalid_argument("pin for transistor cannot be on input mode");
 	AddPin(pin_->GetPin());
 }
 

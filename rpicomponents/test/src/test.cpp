@@ -6,7 +6,7 @@ using namespace rpicomponents;
 using namespace rpicomponents::pin;
 using namespace rpicomponents::pin::utils;
 
-mutable mutex mtx;
+mutex mtx;
 
 void On(Led* led, int no){
     lock_guard<mutex> lck(mtx);

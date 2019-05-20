@@ -69,6 +69,10 @@ Pin::Pin(int pin, PIN_MODE mode, int maxOutputValue) : pin_{ pin }, mode_{ mode 
 			+ to_string(PWM_CHANNEL0_PIN2) + "for channel 0 and " + to_string(PWM_CHANNEL1_PIN1) + ", "
 			+ to_string(PWM_CHANNEL1_PIN2) + "for channel 1");
 	}
+	if (mode == IN_OUT_MODE && maxOutputValue != DIGITAL_MODE_MAX_VAL) {
+		throw invalid_argument("IN_OUT_MODE max value cannot be anything else than 1");
+		return; //no need to set the pin as in or output
+	}
 	if (mode == INPUT_MODE) {
 		pinMode(pin, INPUT);
 	}
