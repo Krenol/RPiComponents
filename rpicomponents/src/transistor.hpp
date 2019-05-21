@@ -1,7 +1,7 @@
 #include "component.hpp"
 
-#ifndef RPICOMPONENTS_COMPONENT_TRANSISTOR_H
-#define RPICOMPONENTS_COMPONENT_TRANSISTOR_H
+#ifndef RPICOMPONENTS_TRANSISTOR_H
+#define RPICOMPONENTS_TRANSISTOR_H
 
 namespace rpicomponents {
 	/**

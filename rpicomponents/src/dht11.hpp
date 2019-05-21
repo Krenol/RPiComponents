@@ -1,7 +1,8 @@
 #include "component.hpp"
+#include "../utils/include/rpicomponents/utils/rpicomponents_utils.hpp"
 
-#ifndef RPICOMPONENTS_COMPONENT_DHT11_H
-#define RPICOMPONENTS_COMPONENT_DHT11_H
+#ifndef RPICOMPONENTS_DHT11_H
+#define RPICOMPONENTS_DHT11_H
 
 namespace rpicomponents {
 
@@ -13,7 +14,8 @@ namespace rpicomponents {
 	class Dht11 : public Component {
 	private:
 		const pin::Pin* pin_; //the used pin of the button
-		const float wake_delay_ = 18.0f * 1e-3f, time_delay_ = 1.0f * 1e-6f;
+		const float wake_delay_{ 18.0f * 1e-3f }, time_delay_{ 1.0f * 1e-6f };
+		const int max_timings_ = 85;
 
 		/**
 		* Initializer for Constructors; reduce redundancy

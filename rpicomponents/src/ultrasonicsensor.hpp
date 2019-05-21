@@ -1,9 +1,10 @@
 #include "component.hpp"
 #include <ctime>
 #include <thread>
+#include "../utils/include/rpicomponents/utils/rpicomponents_utils.hpp"
 
-#ifndef RPICOMPONENTS_COMPONENT_ULTRASONIC_SENSOR_H
-#define RPICOMPONENTS_COMPONENT_ULTRASONIC_SENSOR_H
+#ifndef RPICOMPONENTS_ULTRASONIC_SENSOR_H
+#define RPICOMPONENTS_ULTRASONIC_SENSOR_H
 
 namespace rpicomponents {
 	/**

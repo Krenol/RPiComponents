@@ -2,7 +2,7 @@
 #define RPICOMPONENTS_PIN_H
 #pragma once
 
-#include "../utils/include/rpicomponents/pin/utils/utils.hpp"
+#include "../utils/include/rpicomponents/pin/utils/pinutils.hpp"
 #include <wiringPi.h>
 #include <atomic>
 #include <mutex>

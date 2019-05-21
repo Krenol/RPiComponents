@@ -1,7 +1,7 @@
 #include "component.hpp"
 
-#ifndef RPICOMPONENTS_COMPONENT_LED_H
-#define RPICOMPONENTS_COMPONENT_LED_H
+#ifndef RPICOMPONENTS_LED_H
+#define RPICOMPONENTS_LED_H
 
 namespace rpicomponents {
 	class Led : public Component {

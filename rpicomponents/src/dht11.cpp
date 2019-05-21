@@ -22,37 +22,29 @@ std::vector<uint8_t> Dht11::ReadSensor() const
 {
 	lock_guard<mutex> grd(mtx_);
 	std::vector<uint8_t> bits (5,0);
-	uint8_t laststate = HIGH;
-	uint8_t counter = 0;
-	uint8_t j = 0, i;
-	int MAXTIMINGS = 85;
+	uint8_t counter = 0, j = 0;
 
-	/*pinMode(pin, OUTPUT);
-	digitalWrite(pin, LOW);
+	pin_->Output(LOW);
+	
 	wait->waitFor(wakeDelay);
 
-	digitalWrite(pin, HIGH);
+	pin_->Output(HIGH);
 	wait->waitFor(40 * delayTime);
 
-	pinMode(pin, INPUT);
-
-	for (i = 0; i < MAXTIMINGS; i++)
+	auto laststate = HIGH;
+	for (auto i = 0; i < max_timings_; i++)
 	{
 		counter = 0;
-		while (digitalRead(pin) == laststate)
+		while (pin_->ReadPinValue() == laststate)
 		{
 			counter++;
 			wait->waitFor(delayTime);
 			if (counter == 255)
 			{
-				break;
+				return bits;
 			}
 		}
-
 		laststate = digitalRead(pin);
-
-		if (counter == 255)
-			break;
 
 		if ((i >= 4) && (i % 2 == 0))
 		{
@@ -61,7 +53,7 @@ std::vector<uint8_t> Dht11::ReadSensor() const
 				bits[j / 8] |= 1;
 			j++;
 		}
-	} */
+	} 
 	return bits;
 }
 

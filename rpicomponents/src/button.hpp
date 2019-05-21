@@ -1,7 +1,7 @@
 #include "component.hpp"
 
-#ifndef RPICOMPONENTS_COMPONENT_BUTTON_H
-#define RPICOMPONENTS_COMPONENT_BUTTON_H
+#ifndef RPICOMPONENTS_BUTTON_H
+#define RPICOMPONENTS_BUTTON_H
 
 namespace rpicomponents {
 	class Button : public Component {
