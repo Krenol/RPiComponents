@@ -3,43 +3,38 @@
 using namespace std;
 using namespace rpicomponents::utils;
 
-void Waiter::Sleep(chrono::duration<float> time)
+void Waiter::SleepNanos(std::chrono::nanoseconds nanos) const
 {
-	this_thread::sleep_for(time);
-}
-
-void Waiter::SleepNanos(std::chrono::nanoseconds nanos)
-{
-	thread p(Sleep, nanos);
+	thread p([&, nanos] {this_thread::sleep_for(nanos); });
 	p.join();
 }
 
-void Waiter::SleepNanos(float nanos)
+void Waiter::SleepNanos(long nanos) const
 {
-	thread p(Sleep, chrono::nanoseconds(nanos));
+	thread p([&, nanos] {this_thread::sleep_for(std::chrono::nanoseconds(nanos)); });
 	p.join();
 }
 
-void Waiter::SleepMillis(std::chrono::milliseconds millis)
+void Waiter::SleepMillis(std::chrono::milliseconds millis) const
 {
-	thread p(Sleep, millis);
+	thread p([&, millis] {this_thread::sleep_for(millis); });
 	p.join();
 }
 
-void Waiter::SleepMillis(float millis)
+void Waiter::SleepMillis(long millis) const
 {
-	thread p(Sleep, chrono::nanoseconds(millis));
+	thread p([&, millis] {this_thread::sleep_for(chrono::nanoseconds(millis)); });
 	p.join();
 }
 
-void Waiter::SleepSecs(std::chrono::seconds secs)
+void Waiter::SleepSecs(std::chrono::seconds secs) const
 {
-	thread p(Sleep, secs);
+	thread p([&, secs] {this_thread::sleep_for(secs); });
 	p.join();
 }
 
-void Waiter::SleepSecs(float secs)
+void Waiter::SleepSecs(long secs) const
 {
-	thread p(Sleep, chrono::nanoseconds(secs));
+	thread p([&, secs] {this_thread::sleep_for(chrono::nanoseconds(secs)); });
 	p.join();
 }
