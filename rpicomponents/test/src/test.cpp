@@ -1,5 +1,8 @@
 #include "rpicomponents/rpicomponents.hpp"
 #include <thread>
+#include <cassert>
+
+ 
 
 using namespace std;
 using namespace rpicomponents;

@@ -1,5 +1,5 @@
 #include "component.hpp"
-#include "../utils/include/rpicomponents/utils/rpicomponents_utils.hpp"
+
 
 #ifndef RPICOMPONENTS_DHT11_H
 #define RPICOMPONENTS_DHT11_H
@@ -14,7 +14,7 @@ namespace rpicomponents {
 	class Dht11 : public Component {
 	private:
 		const pin::Pin* pin_; //the used pin of the button
-		const float wake_delay_{ 18.0f * 1e-3f }, time_delay_{ 1.0f * 1e-6f };
+		const float wake_delay_{ 18.0f * 1e-3f }, time_delay_{ 1.0f * 1e-6f }; //ms
 		const int max_timings_ = 85;
 
 		/**
@@ -28,7 +28,7 @@ namespace rpicomponents {
 		* @param bits: the bits to be checked (must be of size 5)
 		* @returns true if checksum is valid, else false
 		*/
-		bool CheckSum(const std::vector<uint8_t> *bits) const;
+		bool CheckSum(const std::vector<uint8_t> &bits) const;
 
 		/**
 		* Method to read the sensor values to a vector
@@ -42,14 +42,14 @@ namespace rpicomponents {
 		* BLOCKING
 		* @returns the temperature as float or INFINITY on error
 		*/
-		float CalculateTemperature(const std::vector<uint8_t> *bits) const;
+		float CalculateTemperature(const std::vector<uint8_t> &bits) const;
 
 		/**
 		* Method to calculate the humidty out of a bit vector
 		* BLOCKING
 		* @returns the humidty as float or INFINITY on error
 		*/
-		float CalculateHumidty(const std::vector<uint8_t> *bits) const;
+		float CalculateHumidty(const std::vector<uint8_t> &bits) const;
 	public:
 		/**
 		* Constructor for creating a DHT11

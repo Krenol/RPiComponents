@@ -13,8 +13,11 @@ void Dht11::Initialize() const
 	AddPin(pin_->GetPin());
 }
 
-bool Dht11::CheckSum(const std::vector<uint8_t>* bits) const
+bool Dht11::CheckSum(const std::vector<uint8_t> &bits) const
 {
+	auto sum = bits[0] + bits[1] + bits[2] + bits[3];
+	if (sum == bits[4] && sum > 0)
+		return true;
 	return false;
 }
 
@@ -26,10 +29,9 @@ std::vector<uint8_t> Dht11::ReadSensor() const
 
 	pin_->Output(LOW);
 	
-	wait->waitFor(wakeDelay);
-
+	utils::Waiter::SleepMillis(wake_delay_);
 	pin_->Output(HIGH);
-	wait->waitFor(40 * delayTime);
+	utils::Waiter::SleepMillis(40 * time_delay_);
 
 	auto laststate = HIGH;
 	for (auto i = 0; i < max_timings_; i++)
@@ -38,13 +40,13 @@ std::vector<uint8_t> Dht11::ReadSensor() const
 		while (pin_->ReadPinValue() == laststate)
 		{
 			counter++;
-			wait->waitFor(delayTime);
+			utils::Waiter::SleepMillis(time_delay_);
 			if (counter == 255)
 			{
 				return bits;
 			}
 		}
-		laststate = digitalRead(pin);
+		laststate = pin_->ReadPinValue();
 
 		if ((i >= 4) && (i % 2 == 0))
 		{
@@ -57,13 +59,13 @@ std::vector<uint8_t> Dht11::ReadSensor() const
 	return bits;
 }
 
-float Dht11::CalculateTemperature(const std::vector<uint8_t>* bits) const
+float Dht11::CalculateTemperature(const std::vector<uint8_t> &bits) const
 {
 	lock_guard<mutex> grd(mtx_);
 	return bits[2] + bits[3] * 0.1;
 }
 
-float Dht11::CalculateHumidty(const std::vector<uint8_t>* bits) const
+float Dht11::CalculateHumidty(const std::vector<uint8_t> &bits) const
 {
 	lock_guard<mutex> grd(mtx_);
 	return bits[0] + bits[1] * 0.1;
@@ -74,25 +76,33 @@ Dht11::Dht11(int pin) : Component("dht11"), pin_{ PinFactory::CreatePin(pin, DIG
 	Initialize();
 }
 
+Dht11::Dht11(const Pin* pin) : Component("dht11"), pin_{ pin }
+{
+	Initialize();
+}
+
 float Dht11::GetTemperature() const
 {
 	auto bits = ReadSensor();
-	auto temperature = CalculateTemperature(*bits);
+	while(!CheckSum(bits)) bits = ReadSensor();
+	auto temperature = CalculateTemperature(bits);
 	return temperature;
 }
 
 float Dht11::GetHumidity() const
 {
 	auto bits = ReadSensor();
-	auto humidity = CalculateHumidty(*bits);
+	while (!CheckSum(bits)) bits = ReadSensor();
+	auto humidity = CalculateHumidty(bits);
 	return humidity;
 }
 
 DHT_VALUES Dht11::GetDhtValues() const
 {
 	auto bits = ReadSensor();
+	while (!CheckSum(bits)) bits = ReadSensor();
 	DHT_VALUES vals;
-	vals.humidity = CalculateHumidty(*bits);;
-	vals.temperature = CalculateTemperature(*bits);
+	vals.humidity = CalculateHumidty(bits);
+	vals.temperature = CalculateTemperature(bits);
 	return vals;
 }

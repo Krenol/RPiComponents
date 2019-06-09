@@ -20,6 +20,8 @@ ${PROJECT_SOURCE_DIR}/component.cpp
 ${PROJECT_SOURCE_DIR}/led.cpp
 ${PROJECT_SOURCE_DIR}/transistor.cpp
 ${PROJECT_SOURCE_DIR}/ultrasonicsensor.cpp
+${PROJECT_SOURCE_DIR}/dht11.cpp
+${PROJECT_SOURCE_DIR}/pcf8574.cpp
 )
  
 include_directories("${PROJECT_INCLUDE_DIR}")

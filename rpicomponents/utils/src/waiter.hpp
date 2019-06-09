@@ -14,37 +14,43 @@ namespace rpicomponents {
 			* Method that lets a new thread sleep for a certain amount of nanoseconds
 			* @param nanos: the amount of nanoseconds for the thread sleep
 			*/
-			void SleepNanos(std::chrono::nanoseconds nanos) const;
+			static void SleepNanos(std::chrono::nanoseconds nanos);
 
 			/**
 			* Method that lets a new thread sleep for a certain amount of nanoseconds
 			* @param nanos: the amount of nanoseconds for the thread sleep
 			*/
-			void SleepNanos(long nanos) const;
+			static void SleepNanos(long nanos);
 
 			/**
 			* Method that lets a new thread sleep for a certain amount of milliseconds
 			* @param millis: the amount of milliseconds for the thread sleep
 			*/
-			void SleepMillis(std::chrono::milliseconds millis) const;
+			static void SleepMillis(std::chrono::milliseconds millis);
 
 			/**
 			* Method that lets a new thread sleep for a certain amount of milliseconds
 			* @param millis: the amount of milliseconds for the thread sleep
 			*/
-			void SleepMillis(long millis) const;
+			static void SleepMillis(long millis);
 
 			/**
 			* Method that lets a new thread sleep for a certain amount of seconds
 			* @param secs: the amount of seconds for the thread sleep
 			*/
-			void SleepSecs(std::chrono::seconds secs) const;
+			static void SleepSecs(std::chrono::seconds secs);
 
 			/**
 			* Method that lets a new thread sleep for a certain amount of seconds
 			* @param secs: the amount of seconds for the thread sleep
 			*/
-			void SleepSecs(long secs) const;
+			static void SleepSecs(long secs);
+
+		private:
+			/**
+			 * Constructor; static class by private Constructor
+			 */
+			Waiter();
 		};
 	}
 }

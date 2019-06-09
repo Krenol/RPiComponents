@@ -8,7 +8,10 @@
 #include "../../src/led.hpp"
 #include "../../src/transistor.hpp"
 #include "../../src/ultrasonicsensor.hpp"
+#include "../../src/dht11.hpp"
+#include "../../src/pcf8574.hpp"
 #include "../../pin/include/rpicomponents/pin/pins.hpp"
+#include "..//utils/include/rpicomponents/utils/rpicomponents_utils.hpp"
 
 namespace rpicomponents {
 	

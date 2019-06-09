@@ -6,7 +6,8 @@
 #include <iomanip>
 #include <algorithm>
 #include "../pin/include/rpicomponents/pin/pins.hpp"
-
+#include "../pin/utils/include/rpicomponents/pin/utils/pinutils.hpp"
+#include "../utils/include/rpicomponents/utils/rpicomponents_utils.hpp"
 
 namespace rpicomponents {
 	class Component {
