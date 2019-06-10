@@ -25,8 +25,9 @@ void On(Led* led, int no){
 
 
 int main() {
-	cout << "bla\n";
     auto led = new Led(GPIO2, DIGITAL_MODE);
+	PCF8574 pcf;
+	
     //cout << btn->IsPressed()<<endl;
 	UltrasonicSensor uss (GPIO0, GPIO1);
     for(int i = 0; i < 10; i++) {
@@ -37,6 +38,7 @@ int main() {
     }
 	
 	cout << "500 mm are " << uss.UnitConverter(500, UNIT_MM, UNIT_M) << " m\n";
+	cout << pcf.ToString() << endl;
 	cin.get();
     delete led;
 }

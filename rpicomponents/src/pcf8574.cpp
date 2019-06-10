@@ -16,8 +16,11 @@ bool PCF8574::CheckPcfPin(int pcf_pin_no) const {
 void PCF8574::Initialize() const{
 	if (pin_base_ < 64) throw std::invalid_argument("pin base must be greater than 63!");
 	wiringPiSetup();
-	if (!pin::utils::PinChecker::IsI2CAddress(address_) || wiringPiI2CSetup(address_) == -1) {
-		throw std::invalid_argument("given address is not an i2c address or i2c is not set properly!\n");
+	if (!pin::utils::PinChecker::IsI2CAddress(address_)) {
+		throw std::invalid_argument("given address for PCF8574 is not an i2c address!");
+	}
+	if (wiringPiI2CSetup(address_) == -1) {
+		throw std::invalid_argument("i2c is not set properly!");
 	}
 	AddPins({ 8,9 }); //pins for i2c
 	pcf8574Setup(pin_base_, address_);
@@ -43,4 +46,8 @@ int PCF8574::ReadFromPcfPin(int pcf_pin_no) const {
 	SetPinMode(pcf_pin_no, INPUT);
 	auto val = digitalRead(pin_base_ + pcf_pin_no);
 	return val;
+}
+
+int PCF8574::GetResolution() const {
+	return resolution_;
 }

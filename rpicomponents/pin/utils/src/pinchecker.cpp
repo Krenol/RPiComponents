@@ -1,4 +1,5 @@
 #include "pinchecker.hpp"
+#include <iostream>
 
 using namespace std;
 using namespace rpicomponents::pin;
@@ -10,9 +11,8 @@ bool PinChecker::IsValidPinValue(int pin) {
 }
 
 bool PinChecker::IsI2CAddress(int address) {
-	const vector<char> i2c_col = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+	const vector<char> i2c_col = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 	const vector<char> i2c_row = { '0', '1', '2', '3', '4', '5', '6', '7' };
-	string addr;
 	auto hexAddr = GetHexAddress(address);
 
 	for (int i = 0; i < i2c_row.size(); i++)
@@ -23,9 +23,9 @@ bool PinChecker::IsI2CAddress(int address) {
 				
 			if (i == sizeof(i2c_row) - 1 && j > 7) break;
 				
-			addr = "";
-			addr += to_string(i2c_row[i]);
-			addr += to_string(i2c_col[j]);
+			string addr;
+			addr += i2c_row[i];
+			addr += i2c_col[j];
 
 			if (hexAddr.compare(addr) == 0) return true;
 		}

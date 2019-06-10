@@ -8,7 +8,7 @@
 namespace rpicomponents {
 	class PCF8574 : public Component {
 	private:
-		const int pin_base_{ 64 }, address_{ 0x48 }, min_pin_offset_{ 0 }, max_pin_offset_{ 7 };
+		const int pin_base_{ 64 }, address_{ 0x48 }, min_pin_offset_{ 0 }, max_pin_offset_{ 7 }, resolution_{ 1 };
 		/* 
 		 * Method to initilaize the pcf8574
 		*/
@@ -33,7 +33,7 @@ namespace rpicomponents {
 		* @param address: The i2c address of the pcf8574 (must be greater than 63)
 		* @param pin_base: The pin base of the i2c component
 		*/
-		PCF8574(int address = 64, int pin_base = 0x48);
+		PCF8574(int address, int pin_base = 64);
 
 		/*
 		* Method that writes output to a pcf pin
@@ -48,6 +48,12 @@ namespace rpicomponents {
 		* @returns: the read digital pin value (0 or 1)
 		*/
 		int ReadFromPcfPin(int pcf_pin_no) const;
+
+		/*
+		* Method that returns the resolution of the pcf8574
+		* @returns: the resolution (1)
+		*/
+		int GetResolution() const;
 	};
 }
 
