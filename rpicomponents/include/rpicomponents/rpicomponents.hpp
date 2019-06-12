@@ -10,6 +10,8 @@
 #include "../../src/ultrasonicsensor.hpp"
 #include "../../src/dht11.hpp"
 #include "../../src/pcf8574.hpp"
+#include "../../src/pcf8591.hpp"
+#include "../../src/pcf.hpp"
 #include "../../pin/include/rpicomponents/pin/pins.hpp"
 #include "..//utils/include/rpicomponents/utils/rpicomponents_utils.hpp"
 

@@ -22,6 +22,8 @@ ${PROJECT_SOURCE_DIR}/transistor.cpp
 ${PROJECT_SOURCE_DIR}/ultrasonicsensor.cpp
 ${PROJECT_SOURCE_DIR}/dht11.cpp
 ${PROJECT_SOURCE_DIR}/pcf8574.cpp
+${PROJECT_SOURCE_DIR}/pcf8591.cpp
+${PROJECT_SOURCE_DIR}/pcf.cpp
 )
  
 include_directories("${PROJECT_INCLUDE_DIR}")
