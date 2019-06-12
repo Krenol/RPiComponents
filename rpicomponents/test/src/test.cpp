@@ -37,7 +37,7 @@ int main() {
         p.join();
         p1.join();
     }
-	
+	pcf1.WriteToPcfPin(5);
 	cout << "500 mm are " << uss.UnitConverter(500, UNIT_MM, UNIT_M) << " m\n";
 	cout << pcf.ToString() << endl;
 	cin.get();

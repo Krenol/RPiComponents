@@ -9,7 +9,8 @@ PCF8591::PCF8591(int address, int pin_base) : PCF(address, pin_base, 0, 3, "pcf8
 }
 
 void PCF8591::WriteToPcfPin(int pcf_pin_no, int value) const {
-	return; //dummy
+	if (pcf_pin_no != 0) return;
+	WriteToPcfPin(value);
 }
 
 void PCF8591::WriteToPcfPin(int value) const {

@@ -46,7 +46,7 @@ namespace rpicomponents {
 		/*
 		* Method that reads the input to a pcf pin
 		* BLOCKING
-		* @param pcf_pin_no: The pcf pin to be readen from
+		* @param pcf_pin_no: The pcf pin to be read
 		* @returns: the read digital pin value (0 to resolution_)
 		*/
 		virtual int ReadFromPcfPin(int pcf_pin_no) const = 0;

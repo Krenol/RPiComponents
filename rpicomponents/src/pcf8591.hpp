@@ -8,12 +8,6 @@ namespace rpicomponents {
 
 	class PCF8591 : public PCF
 	{
-	private:
-		/*
-		* DUMMY do avoid being abstract
-		*/
-		void WriteToPcfPin(int pcf_pin_no, int value) const;
-
 	public:
 		/*
 		* Constructor
@@ -30,9 +24,17 @@ namespace rpicomponents {
 		void WriteToPcfPin(int value) const;
 
 		/*
-		* Method that reads the input to a pcf pin
+		* Method that writes output to a pcf pin
 		* BLOCKING
 		* @param pcf_pin_no: The pcf pin to be written to
+		* @param value: The value to be written (0-255)
+		*/
+		void WriteToPcfPin(int pcf_pin_no, int value) const;
+
+		/*
+		* Method that reads the input to a pcf pin
+		* BLOCKING
+		* @param pcf_pin_no: The pcf pin to be read
 		* @returns: the read digital pin value (0 to 255)
 		*/
 		int ReadFromPcfPin(int pcf_pin_no) const;
