@@ -1,0 +1,6 @@
+[submodule "rpicomponents/external/i2cdevlib"]
+	path = rpicomponents/external/i2cdevlib
+	url = https://github.com/jrowberg/i2cdevlib.git
+[submodule "rpicomponents/external/i2c/i2cdevlib"]
+	path = rpicomponents/external/i2c/i2cdevlib
+	url = https://github.com/jrowberg/i2cdevlib.git
