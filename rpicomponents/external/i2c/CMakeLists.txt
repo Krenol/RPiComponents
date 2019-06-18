@@ -23,9 +23,9 @@ include_directories( "i2cdevlib/RaspberryPi_bcm2835/I2Cdev" )
  
 add_library(${PROJECT_NAME} SHARED ${I2C_PROJECT_SRCS})
 
-find_library( bcm2835_lib bcm2835)
+find_library(bcm2835 REQUIRED)
 
-target_link_libraries(${PROJECT_NAME} bcm2835_lib)
+target_link_libraries(${PROJECT_NAME} bcm2835)
 
 
 target_include_directories(${PROJECT_NAME}
