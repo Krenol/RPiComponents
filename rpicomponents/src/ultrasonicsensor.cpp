@@ -94,6 +94,11 @@ float UltrasonicSensor::CalculateSpeedOfSound(float temperature, DISTANCE_UNIT u
 
 float UltrasonicSensor::UnitConverter(float value, DISTANCE_UNIT inUnit, DISTANCE_UNIT outUnit) const
 {
-	value *= convert_values_.at(inUnit) / convert_values_.at(outUnit);
-	return value;
+	try {
+		value *= convert_values_.at(inUnit) / convert_values_.at(outUnit);
+	}
+	catch (exception e) {
+		string err("passed inUnit or outUnit are not valid ", e.what());
+		throw invalid_argument(err.c_str());
+	}
 }
