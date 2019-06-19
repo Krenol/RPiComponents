@@ -48,9 +48,10 @@ namespace rpicomponents {
 
 		private:
 			/**
-			 * Constructor; static class by private Constructor
+			 * Constructor; static class by private Constructor & Deconstructor
 			 */
 			Waiter();
+			~Waiter();
 		};
 	}
 }

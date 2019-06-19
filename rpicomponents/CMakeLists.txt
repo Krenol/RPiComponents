@@ -24,6 +24,7 @@ ${PROJECT_SOURCE_DIR}/dht11.cpp
 ${PROJECT_SOURCE_DIR}/pcf8574.cpp
 ${PROJECT_SOURCE_DIR}/pcf8591.cpp
 ${PROJECT_SOURCE_DIR}/pcf.cpp
+${PROJECT_SOURCE_DIR}/mpu6050.cpp
 )
  
 include_directories("${PROJECT_INCLUDE_DIR}")
@@ -42,7 +43,5 @@ target_include_directories(${PROJECT_NAME}
 add_subdirectory (pin)
 add_subdirectory (test)
 add_subdirectory (utils)
-add_subdirectory (external/i2c)
 target_link_libraries(${PROJECT_NAME} pin)
 target_link_libraries(${PROJECT_NAME} rpicomponents_utils)
-target_link_libraries(${PROJECT_NAME} i2cdevlib)

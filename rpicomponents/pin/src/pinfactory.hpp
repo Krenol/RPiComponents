@@ -32,7 +32,7 @@ namespace rpicomponents {
 			 * @param pin: Pointer to the pin to be removed
 			 * @return true if removal was successful, else false
 			 */
-			static bool RemovePin(const Pin* pin); //thread safe
+			static bool RemovePin(const Pin* pin);
 
 			/**
 			 * Method to remove a pin pointer from the factory and the memory
@@ -41,7 +41,7 @@ namespace rpicomponents {
 			 * @param pin: GPIO pin number of the pin to be removed
 			 * @return true if removal was successful, else false
 			 */
-			static bool RemovePin(int pin); //thread safe
+			static bool RemovePin(int pin); 
 
 			/**
 			 * Method to load a pin pointer from the factory
@@ -50,13 +50,7 @@ namespace rpicomponents {
 			 * @param pin: GPIO pin number of the pin to be loaded
 			 * @return the pin pointer
 			 */
-			static const Pin* LoadPin(int pin); //thread safe
-
-			/**
-			 * Destructor; can be used for deleting all the pin pointers
-			 * BLOCKING
-			 */
-			~PinFactory();
+			static const Pin* LoadPin(int pin); 
 
 		private: //no private method is thread safe!
 			/**
@@ -100,6 +94,12 @@ namespace rpicomponents {
 			 * Constructor; static class by private Constructor
 			 */
             PinFactory();
+
+			/**
+			 * Destructor; can be used for deleting all the pin pointers
+			 * BLOCKING
+			 */
+			~PinFactory();
 
 			static std::map<int,const Pin*> created_pins_; //map for the storage of the pins
 			static std::mutex mtx_; //mutex for lock_guard

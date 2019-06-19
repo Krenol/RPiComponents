@@ -31,7 +31,7 @@ namespace rpicomponents {
 		/**
 		* Method to measure the ping time to an object
 		* BLOCKING METHOD
-		* @returns HALF the ping time to an object in seconds or INFINITY if above the max_delay_time_
+		* @returns The ping time to an object in seconds or INFINITY if above the max_delay_time_
 		*/
 		float GetEchoTime() const;
 

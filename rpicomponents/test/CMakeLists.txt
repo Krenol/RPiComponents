@@ -18,6 +18,10 @@ add_executable (test_project ${TEST_PROJECT_SRCS})
 
 target_link_libraries(test_project RPiComponents)
 
+find_library(wiringPi REQUIRED)
+find_library(wiringPiDev REQUIRED)
+find_library(pthread REQUIRED)
+
 target_link_libraries(${PROJECT_NAME} wiringPi)
 target_link_libraries(${PROJECT_NAME} wiringPiDev)
 target_link_libraries(${PROJECT_NAME} pthread)

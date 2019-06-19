@@ -3,6 +3,10 @@
 using namespace std;
 using namespace rpicomponents::utils;
 
+Waiter::Waiter() {}
+
+Waiter::~Waiter() {}
+
 void Waiter::SleepNanos(std::chrono::nanoseconds nanos) 
 {
 	thread p([&, nanos] {this_thread::sleep_for(nanos); });

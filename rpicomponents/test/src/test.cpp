@@ -28,7 +28,7 @@ int main() {
     auto led = new Led(GPIO2, DIGITAL_MODE);
 	PCF8574 pcf(0x48);
     PCF8591 pcf1(0x49, 124);
-	
+	MPU6050 mpu(0x51);
     //cout << btn->IsPressed()<<endl;
 	UltrasonicSensor uss (GPIO0, GPIO1);
     for(int i = 0; i < 10; i++) {

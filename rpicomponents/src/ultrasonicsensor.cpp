@@ -21,12 +21,7 @@ float UltrasonicSensor::GetEchoTime() const
 {
 	lock_guard<mutex> lck(mtx_);
 	trigger_pin_->OutputOn();
-	auto waiter = [](chrono::duration<float> time)
-	{
-		this_thread::sleep_for(time);
-	};
-	thread p (waiter, chrono::nanoseconds(10));
-	p.join();
+	rpicomponents::utils::Waiter::SleepNanos(10);
 	trigger_pin_->OutputOff();
 	clock_t start = clock();
 	while (clock() - start < max_delay_time_)
@@ -35,7 +30,7 @@ float UltrasonicSensor::GetEchoTime() const
 		{
 			start = clock();
 			while (echo_pin_->ReadPinValue() && clock() - start < max_delay_time_) {}
-			return (float)(clock() - start) / (2 * CLOCKS_PER_SEC);
+			return (float)(clock() - start) / CLOCKS_PER_SEC;
 		}
 	}
 	return INFINITY;
@@ -69,7 +64,10 @@ float UltrasonicSensor::MeasureDistance(DISTANCE_UNIT unit) const
 
 float UltrasonicSensor::MeasureDistance(float temperature, DISTANCE_UNIT unit) const
 {
-	return 0.0f;
+	auto vs = CalculateSpeedOfSound(temperature, unit); //[unit/s]
+	auto ping = GetEchoTime() / 2; //[s]
+
+	return ping * vs;
 }
 
 float UltrasonicSensor::CalculateSpeedOfSound() const
