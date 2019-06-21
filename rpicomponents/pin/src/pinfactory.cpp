@@ -6,16 +6,16 @@ using namespace rpicomponents::pin;
 using namespace rpicomponents::pin::utils;
 
 //variable definition
-map<int,const Pin*> PinFactory::created_pins_;
+map<int8_t,const Pin*> PinFactory::created_pins_;
 mutex PinFactory::mtx_;
 
-const Pin* PinFactory::CreatePin(int pin, PIN_MODE mode, int maxOutputValue) {
+const Pin* PinFactory::CreatePin(int8_t pin, PIN_MODE mode, int16_t maxOutputValue) {
 	lock_guard<mutex> lck{ mtx_ };
 	auto newPin = PinCreator(pin, mode, maxOutputValue);
 	return newPin;
 }
 
-const Pin* PinFactory::PinCreator(int pin, PIN_MODE outputMode, int maxOutputValue) {
+const Pin* PinFactory::PinCreator(int8_t pin, PIN_MODE outputMode, int16_t maxOutputValue) {
 	auto exists = PinExists(pin);
 	const Pin* newPin;
 	if (exists) {
@@ -48,13 +48,13 @@ const Pin* PinFactory::PinCreator(int pin, PIN_MODE outputMode, int maxOutputVal
 	return newPin;
 }
 
-const Pin* PinFactory::LoadPin(int pin) {
+const Pin* PinFactory::LoadPin(int8_t pin) {
 	lock_guard<mutex> lck{ mtx_ };
 	auto pinP = PinLoader(pin);
 	return pinP;
 }
 
-const Pin* PinFactory::PinLoader(int pin) {
+const Pin* PinFactory::PinLoader(int8_t pin) {
 	auto exists = PinExists(pin);
 	if (exists) {
 		auto ptr = created_pins_[pin];
@@ -69,7 +69,7 @@ bool PinFactory::RemovePin(const Pin* pin) {
 	return removed;
 }
 
-bool PinFactory::RemovePin(int pin) {
+bool PinFactory::RemovePin(int8_t pin) {
 	lock_guard<mutex> lck{ mtx_ };
 	auto exists = PinExists(pin);
 	if (!exists) return false;
@@ -93,7 +93,7 @@ PinFactory::~PinFactory() {
 	created_pins_.clear();
 }
 
-bool PinFactory::PinExists(int pin) {
+bool PinFactory::PinExists(int8_t pin) {
 	auto count = created_pins_.count(pin);
 	auto ptr = created_pins_[pin];
 	if (count == 1 && ptr != nullptr) return true;

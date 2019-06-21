@@ -15,7 +15,7 @@ namespace rpicomponents {
 			 * @param pin The used pin of this object
 			 * @param maxOutputValue The max output value of this pin
 			 */
-			SoftPWMPin(int pin, int maxOutputValue = 100);
+			SoftPWMPin(int8_t pin, int16_t maxOutputValue = 100);
 
 		protected:
 			/**
@@ -24,7 +24,7 @@ namespace rpicomponents {
 			 *
 			 * @param value Output value that is to be written to the pin
 			 */
-			void WriteToPin(int value) const;
+			void WriteToPin(int16_t value) const;
 
 			/**
 			 * Virtual method to read the value of the pin.
@@ -32,7 +32,7 @@ namespace rpicomponents {
 			 *
 			 * @returns the status_ variable
 			 */
-			int ReadFromPin() const;
+			int16_t ReadFromPin() const;
 		};
 	}
 }

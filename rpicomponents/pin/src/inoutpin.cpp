@@ -5,12 +5,12 @@ using namespace rpicomponents;
 using namespace rpicomponents::pin;
 using namespace rpicomponents::pin::utils;
 
-InOutPin::InOutPin(int pin) : Pin(pin, IN_OUT_MODE, DIGITAL_MODE_MAX_VAL)
+InOutPin::InOutPin(int8_t pin) : Pin(pin, IN_OUT_MODE, DIGITAL_MODE_MAX_VAL)
 {
 	OutputOff();
 }
 
-void InOutPin::WriteToPin(int value) const
+void InOutPin::WriteToPin(int16_t value) const
 {
 	if (!CheckInputValue(value)) return;
 	//lock function to not cause any overhead on pin writings
@@ -20,7 +20,7 @@ void InOutPin::WriteToPin(int value) const
 	status_ = value; //wouldn't need a lock, as it is atomic
 }
 
-int InOutPin::ReadFromPin() const
+int16_t InOutPin::ReadFromPin() const
 {
 	lock_guard<std::mutex> lockGuard(mtx_);
 	pinMode(pin_, INPUT);

@@ -15,7 +15,7 @@ namespace rpicomponents {
 	private:
 		const pin::Pin* pin_; //the used pin of the button
 		const float wake_delay_{ 18.0f * 1e-3f }, time_delay_{ 1.0f * 1e-6f }; //ms
-		const int max_timings_ = 85;
+		const int8_t max_timings_ = 85;
 
 		/**
 		* Initializer for Constructors; reduce redundancy
@@ -63,7 +63,7 @@ namespace rpicomponents {
 		*
 		* @param pin: GPIO pin number of the DHT11
 		*/
-		Dht11(int pin);
+		Dht11(int8_t pin);
 
 		/**
 		* Method to get the temperature measured by the dht11

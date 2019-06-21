@@ -68,7 +68,7 @@ namespace rpicomponents {
 			 * @param mode The output mode of the pin (digital, pwm, soft pwm or softtone)
 			 * @param maxValue The maximum output of this pin (digital must be 1, pwm must be 1023 and always above 0)
 			 */
-			Pin(int pin, utils::PIN_MODE mode = utils::PIN_MODE::DIGITAL_MODE, int maxOutputValue = utils::DIGITAL_MODE_MAX_VAL);
+			Pin(int8_t pin, utils::PIN_MODE mode = utils::PIN_MODE::DIGITAL_MODE, int16_t maxOutputValue = utils::DIGITAL_MODE_MAX_VAL);
 
 			/**
 			 * Checks whether given value for the pin output is inside the valid range of this object
@@ -76,7 +76,7 @@ namespace rpicomponents {
 			 *  Note: this method call is thread safe without using mutex and locks
 			 * @return true if value is inside the 0 and given max_value_, else false
 			 */
-			bool CheckInputValue(int value) const;
+			bool CheckInputValue(int16_t value) const;
 
 			/**
 			 * Virtual method to write a value to the pin. 
@@ -84,7 +84,7 @@ namespace rpicomponents {
 			 *
 			 * @param value Output value that is to be written to the pin
 			 */
-			virtual void WriteToPin(int value) const  = 0;
+			virtual void WriteToPin(int16_t value) const  = 0;
 
 			/**
 			 * Virtual method to read the value of the pin.
@@ -92,11 +92,12 @@ namespace rpicomponents {
 			 *
 			 * @returns the read value of the pin, or the status_ variable if not in INPUT mode
 			 */
-			virtual int ReadFromPin() const = 0;
+			virtual int16_t ReadFromPin() const = 0;
 
-			const int pin_{ utils::GPIO17 }, max_value_{ utils::DIGITAL_MODE_MAX_VAL }, min_value_{ 0 };
+			const int8_t pin_{ utils::GPIO17 };
+			const int16_t max_value_{ utils::DIGITAL_MODE_MAX_VAL }, min_value_{ 0 };
 			const utils::PIN_MODE mode_{ utils::PIN_MODE::DIGITAL_MODE };
-			mutable std::atomic<int> status_{ 0 };
+			mutable std::atomic<int16_t> status_{ 0 };
 			mutable std::mutex mtx_;
 		};
 	}

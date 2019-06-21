@@ -6,11 +6,11 @@ using namespace rpicomponents::pin;
 using namespace rpicomponents::pin::utils;
 
 
-DigitalPin::DigitalPin(int pin) : Pin(pin, DIGITAL_MODE, DIGITAL_MODE_MAX_VAL) {
+DigitalPin::DigitalPin(int8_t pin) : Pin(pin, DIGITAL_MODE, DIGITAL_MODE_MAX_VAL) {
 	OutputOff();
 }
 
-void DigitalPin::WriteToPin(int value) const {
+void DigitalPin::WriteToPin(int16_t value) const {
 	if (!CheckInputValue(value)) return;
 	//lock function to not cause any overhead on pin writings
 	lock_guard<std::mutex> lockGuard(mtx_);
@@ -18,6 +18,6 @@ void DigitalPin::WriteToPin(int value) const {
 	status_ = value; //wouldn't need a lock, as it is atomic
 }
 
-int DigitalPin::ReadFromPin() const {
+int16_t DigitalPin::ReadFromPin() const {
 	return status_;
 }

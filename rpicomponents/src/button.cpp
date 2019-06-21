@@ -5,12 +5,12 @@ using namespace rpicomponents;
 using namespace rpicomponents::pin;
 using namespace rpicomponents::pin::utils;
 
-Button::Button(const Pin* pin, int pud) : Component("button"), pin_{pin}, pud_{pud}
+Button::Button(const Pin* pin, int8_t pud) : Component("button"), pin_{pin}, pud_{pud}
 {
 	Initialize();
 }
 
-Button::Button(int pin, int pud) : Component("button"), pin_(PinFactory::CreatePin(pin, INPUT_MODE)), pud_{ pud }
+Button::Button(int8_t pin, int8_t pud) : Component("button"), pin_(PinFactory::CreatePin(pin, INPUT_MODE)), pud_{ pud }
 {
 	Initialize();
 }
@@ -23,7 +23,7 @@ void Button::Initialize() const {
 	AddPin(pin_->GetPin());
 }
 
-bool Button::IsPUD(int pud) const {
+bool Button::IsPUD(int8_t pud) const {
 	if (pud == PUD_UP || pud == PUD_DOWN || pud == PUD_OFF) return true;
 	return false;
 }
@@ -35,6 +35,6 @@ bool Button::IsPressed() const {
 	return false;
 }
 
-int Button::GetPUD() const {
+int8_t Button::GetPUD() const {
 	return pud_;
 }

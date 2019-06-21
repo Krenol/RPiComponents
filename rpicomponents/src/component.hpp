@@ -13,7 +13,7 @@ namespace rpicomponents {
 	class Component {
 	private:
 		//necessary compoennt values
-		mutable std::vector<int> used_pins_{ }; 
+		mutable std::vector<int8_t> used_pins_{ };
 		const std::string component_name_{ "component" };
 
 		/**
@@ -23,7 +23,7 @@ namespace rpicomponents {
 		* @param pin the Pin object to be found
 		* @return std::vector<int>::iterator pointing to the location the pin is stored inside the vector
 		*/
-		std::vector<int>::iterator GetPinIterator(int pin) const;
+		std::vector<int8_t>::iterator GetPinIterator(int8_t pin) const;
 
 	protected:
 		virtual ~Component() = 0; //virtual protected destructor to make class abstract
@@ -34,7 +34,7 @@ namespace rpicomponents {
 		*
 		* @param pin The pin to be added
 		*/
-		void AddPin(int pin) const;
+		void AddPin(int8_t pin) const;
 
 		/**
 		* Method to check multiple pins to the component
@@ -42,7 +42,7 @@ namespace rpicomponents {
 		*
 		* @param pins The vector containing all pins to be added
 		*/
-		void AddPins(std::vector<int> pins) const;
+		void AddPins(std::vector<int8_t> pins) const;
 
 		/**
 		* Method to remove all pins from the pin vector
@@ -59,7 +59,7 @@ namespace rpicomponents {
 		* @param pin The pin to be removed from the vector
 		* @return true if operation was successfull (pin was stored in the vector), else false
 		*/
-		bool RemovePin(int pin) const;
+		bool RemovePin(int8_t pin) const;
 
 		/**
 		* Method to check if the current component uses a certain Pin
@@ -76,7 +76,7 @@ namespace rpicomponents {
 		* @param pin The pin to be checked for usage
 		* @return true if pin is used, else false
 		*/
-		bool UsesPin(int pin) const;
+		bool UsesPin(int8_t pin) const;
 
 		/**
 		* Method to check if the current component uses certain pins
@@ -84,7 +84,7 @@ namespace rpicomponents {
 		* @param pins The vector containing all the pins to be checked for usage
 		* @return true if all pins are used by the component, else false
 		*/
-		bool UsesPins(std::vector<int> pins) const;
+		bool UsesPins(std::vector<int8_t> pins) const;
 
 		/**
 		* Method to get the name of the component

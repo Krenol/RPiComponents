@@ -23,7 +23,7 @@ namespace rpicomponents {
 			 * @param maxOutputValue: the maximum output of a pin, is depending on the pin mode
 			 * @return the pointer to the pin; if pin already created, pointer to existing pin is returned
 			 */
-			static const Pin* CreatePin(int pin, utils::PIN_MODE mode = utils::DIGITAL_MODE, int maxOutputValue = utils::DIGITAL_MODE_MAX_VAL);
+			static const Pin* CreatePin(int8_t pin, utils::PIN_MODE mode = utils::DIGITAL_MODE, int16_t maxOutputValue = utils::DIGITAL_MODE_MAX_VAL);
 			
 			/**
 			 * Method to remove a pin pointer from the factory and the memory
@@ -41,7 +41,7 @@ namespace rpicomponents {
 			 * @param pin: GPIO pin number of the pin to be removed
 			 * @return true if removal was successful, else false
 			 */
-			static bool RemovePin(int pin); 
+			static bool RemovePin(int8_t pin); 
 
 			/**
 			 * Method to load a pin pointer from the factory
@@ -50,7 +50,7 @@ namespace rpicomponents {
 			 * @param pin: GPIO pin number of the pin to be loaded
 			 * @return the pin pointer
 			 */
-			static const Pin* LoadPin(int pin); 
+			static const Pin* LoadPin(int8_t pin); 
 
 		private: //no private method is thread safe!
 			/**
@@ -60,7 +60,7 @@ namespace rpicomponents {
 			 * @param pin: GPIO pin number of the pin to be loaded
 			 * @return Pin pointer to the created pin
 			 */
-			static const Pin* PinLoader(int pin);
+			static const Pin* PinLoader(int8_t pin);
 
 			/**
 			 * Method to create a pin pointer 
@@ -71,7 +71,7 @@ namespace rpicomponents {
 			 * @param maxOutputValue: The maximum pin output value; only needed for SOFTPWM and SOFTTONE
 			 * @return pin pointer to created pin
 			 */
-			static const Pin* PinCreator(int pin, utils::PIN_MODE outputMode = utils::DIGITAL_MODE, int maxOutputValue = utils::DIGITAL_MODE_MAX_VAL);
+			static const Pin* PinCreator(int8_t pin, utils::PIN_MODE outputMode = utils::DIGITAL_MODE, int16_t maxOutputValue = utils::DIGITAL_MODE_MAX_VAL);
 
 			/**
 			 * Method to check if a pin pointer exists in the factory
@@ -80,7 +80,7 @@ namespace rpicomponents {
 			 * @param pin: GPIO pin number of the pin that existence should be checked
 			 * @return true if pin exists, else false
 			 */
-			static bool PinExists(int pin); 
+			static bool PinExists(int8_t pin); 
 
 			/**
 			 * Method to add a pin pointer to the factory map
@@ -101,7 +101,7 @@ namespace rpicomponents {
 			 */
 			~PinFactory();
 
-			static std::map<int,const Pin*> created_pins_; //map for the storage of the pins
+			static std::map<int8_t,const Pin*> created_pins_; //map for the storage of the pins
 			static std::mutex mtx_; //mutex for lock_guard
 		};
 	}

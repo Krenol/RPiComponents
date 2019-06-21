@@ -50,7 +50,7 @@ namespace rpicomponents {
 		* @param trigger_pin: pin of the ultrasonic sensor to trigger a measurement
 		* @param echo_pin: pin of the ultrasonic sensor to measure the inbound wave
 		*/
-		UltrasonicSensor(int trigger_pin, int echo_pin);
+		UltrasonicSensor(int8_t trigger_pin, int8_t echo_pin);
 
 		/**
 		* Method to measure the distance to an object

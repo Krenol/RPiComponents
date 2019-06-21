@@ -23,26 +23,25 @@ namespace rpicomponents {
 
 	public:	
 		/**
-		* Constructor for creating a button
+		* Constructor for creating a transistor
 		*
-		* @param pin: Pointer to the pin of the button
+		* @param pin: Pointer to the pin of the transistor
 		* @param pud: the to be checked PUD value
 		*/
 		Transistor(const pin::Pin* pin, TRANSISTOR_TYPE type);
 
 		/**
-		* Constructor for creating a button
+		* Constructor for creating a transistor
 		*
-		* @param pin: GPIO pin number of the button
+		* @param pin: GPIO pin number of the transistor
 		* @param pud: the to be checked PUD value
 		*/
-		Transistor(int pin, TRANSISTOR_TYPE type, pin::utils::PIN_MODE mode);
+		Transistor(int8_t pin, TRANSISTOR_TYPE type, pin::utils::PIN_MODE mode);
 
 		/**
 		* Method to get the transistor type
 		*
-		* @param pud: the to be checked PUD value
-		* @returns true if PUD is valid, else false
+		* @returns The transistor type of this object
 		*/
 		TRANSISTOR_TYPE GetType() const;
 
@@ -56,7 +55,7 @@ namespace rpicomponents {
 		*
 		* @param value: Output value of the pin
 		*/
-		void TurnOn(int value) const;
+		void TurnOn(int16_t value) const;
 
 		/**
 		* Turn the transistor off

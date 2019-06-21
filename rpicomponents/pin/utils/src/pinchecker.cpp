@@ -5,12 +5,12 @@ using namespace std;
 using namespace rpicomponents::pin;
 using namespace rpicomponents::pin::utils;
 
-bool PinChecker::IsValidPinValue(int pin) {
+bool PinChecker::IsValidPinValue(int8_t pin) {
 	if (pin < PIN_MIN_VALUE || pin > PIN_MAX_VALUE) return false;
 	return true;
 }
 
-bool PinChecker::IsI2CAddress(int address) {
+bool PinChecker::IsI2CAddress(int16_t address) {
 	const vector<char> i2c_col = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 	const vector<char> i2c_row = { '0', '1', '2', '3', '4', '5', '6', '7' };
 	auto hexAddr = GetHexAddress(address);
@@ -34,7 +34,7 @@ bool PinChecker::IsI2CAddress(int address) {
 	return false;
 }
 
-string PinChecker::GetHexAddress(int address) {
+string PinChecker::GetHexAddress(int16_t address) {
 	vector<char> hex = { '0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F' };
 	string hexdec_num = "";
 	int r = 0;
@@ -47,7 +47,7 @@ string PinChecker::GetHexAddress(int address) {
 	return hexdec_num;
 }
 
-bool PinChecker::PinIsHardwarePWMCapable(int pin) {
+bool PinChecker::PinIsHardwarePWMCapable(int8_t pin) {
 	//PWM channel 0
 	if (pin == PWM_CHANNEL0_PIN1 || pin == PWM_CHANNEL0_PIN2) { 
 		return true;

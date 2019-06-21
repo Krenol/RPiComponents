@@ -13,11 +13,11 @@ Component::~Component() {
 
 }
 
-vector<int>::iterator Component::GetPinIterator(int pin) const {
+vector<int8_t>::iterator Component::GetPinIterator(int8_t pin) const {
 	return find(used_pins_.begin(), used_pins_.end(), pin);
 }
 
-bool Component::UsesPin(int pin) const {
+bool Component::UsesPin(int8_t pin) const {
 	lock_guard<mutex> lck{ mtx_ };
 	auto check = GetPinIterator(pin);
 	if (check == used_pins_.end()) {
@@ -26,7 +26,7 @@ bool Component::UsesPin(int pin) const {
 	return true;
 }
 
-bool Component::UsesPins(vector<int> pins) const {
+bool Component::UsesPins(vector<int8_t> pins) const {
 	bool uses = true;
 	for (auto pin : pins) {
 		uses = uses && UsesPin(pin);
@@ -35,7 +35,7 @@ bool Component::UsesPins(vector<int> pins) const {
 	return uses;
 }
 
-void Component::AddPin(int pin) const {
+void Component::AddPin(int8_t pin) const {
 	auto uses_pin = UsesPin(pin);
 	if (!uses_pin) {
 		lock_guard<mutex> lck{ mtx_ };
@@ -43,7 +43,7 @@ void Component::AddPin(int pin) const {
 	}
 }
 
-void Component::AddPins(vector<int> pins) const {
+void Component::AddPins(vector<int8_t> pins) const {
 	for (auto pin : pins) {
 		AddPin(pin);
 	}
@@ -56,7 +56,7 @@ bool Component::RemoveAllPins() const {
 	return true;
 }
 
-bool Component::RemovePin(int pin) const {
+bool Component::RemovePin(int8_t pin) const {
 	lock_guard<mutex> lck{ mtx_ };
 	auto it = GetPinIterator(pin);
 	if (it == used_pins_.end()) return false;

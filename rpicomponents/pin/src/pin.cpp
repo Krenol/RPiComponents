@@ -34,7 +34,7 @@ int Pin::ReadPinValue() const {
 	return ReadFromPin();
 }
 
-bool Pin::CheckInputValue(int value) const {
+bool Pin::CheckInputValue(int16_t value) const {
 	if (value < min_value_ || value > max_value_) {
 		return false;
 	}
@@ -45,7 +45,7 @@ PIN_MODE Pin::OutputMode() const {
 	return mode_;
 }
 
-Pin::Pin(int pin, PIN_MODE mode, int maxOutputValue) : pin_{ pin }, mode_{ mode }, max_value_{ maxOutputValue } {
+Pin::Pin(int8_t pin, PIN_MODE mode, int16_t maxOutputValue) : pin_{ pin }, mode_{ mode }, max_value_{ maxOutputValue } {
     try {
         wiringPiSetup();
     }

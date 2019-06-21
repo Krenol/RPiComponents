@@ -7,7 +7,7 @@ namespace rpicomponents {
 	class Button : public Component {
 	private:
 		const pin::Pin* pin_; //the used pin of the button
-		const int pud_{ PUD_UP }; //the pud mode of the button
+		const int8_t pud_{ PUD_UP }; //the pud mode of the button
 
 		/**
 		* Initializer for Constructors; reduce redundancy
@@ -20,7 +20,7 @@ namespace rpicomponents {
 		* @param pud: the to be checked PUD value
 		* @returns true if PUD is valid, else false
 		*/
-		bool IsPUD(int pud) const;
+		bool IsPUD(int8_t pud) const;
 
 	public:
 		/**
@@ -29,7 +29,7 @@ namespace rpicomponents {
 		* @param pin: Pointer to the pin of the button
 		* @param pud: the to be checked PUD value
 		*/
-		Button(const pin::Pin* pin, int pud = PUD_UP);
+		Button(const pin::Pin* pin, int8_t pud = PUD_UP);
 
 		/**
 		* Constructor for creating a button
@@ -37,7 +37,7 @@ namespace rpicomponents {
 		* @param pin: GPIO pin number of the button
 		* @param pud: the to be checked PUD value
 		*/
-		Button(int pin, int pud = PUD_UP);
+		Button(int8_t pin, int8_t pud = PUD_UP);
 
 		/**
 		* Method to check if the button is currently pressed
@@ -51,7 +51,7 @@ namespace rpicomponents {
 		*
 		* @returns the int of the defined PUD by the wiringPi library
 		*/
-		int GetPUD() const;
+		int8_t GetPUD() const;
 	};
 }
 

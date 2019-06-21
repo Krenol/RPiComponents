@@ -10,7 +10,7 @@ Led::Led(const Pin* pin, bool onIfPinOn) : Component("led"), pin_{ pin }, on_mod
 	Initialize();
 }
 
-Led::Led(int pin, PIN_MODE mode, bool onIfPinOn) : Component("led"), on_mode_{ onIfPinOn }, pin_{ PinFactory::CreatePin(pin, mode) }
+Led::Led(int8_t pin, PIN_MODE mode, bool onIfPinOn) : Component("led"), on_mode_{ onIfPinOn }, pin_{ PinFactory::CreatePin(pin, mode) }
 {
 	Initialize();
 }
@@ -27,7 +27,7 @@ void Led::TurnOn() const {
 	on_mode_ ? pin_->OutputOn() : pin_->OutputOff();
 }
 
-void Led::TurnOn(int value) const {
+void Led::TurnOn(int16_t value) const {
 	if (pin_ == nullptr) return;
 	pin_->Output(value);
 }

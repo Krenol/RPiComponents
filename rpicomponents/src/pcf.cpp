@@ -3,7 +3,7 @@
 using namespace std;
 using namespace rpicomponents;
 
-PCF::PCF(int address, int pin_base, int min_pin_offset, int max_pin_offset, string comp_name) : Component(comp_name), address_{ address }, pin_base_{ pin_base },
+PCF::PCF(int16_t address, int16_t pin_base, int8_t min_pin_offset, int8_t max_pin_offset, string comp_name) : Component(comp_name), address_{ address }, pin_base_{ pin_base },
 	min_pin_offset_{min_pin_offset}, max_pin_offset_{ max_pin_offset }
 {
 	Initialize();
@@ -25,11 +25,11 @@ void PCF::Initialize() const {
 	AddPins({ 8,9 }); //pins for i2c
 }
 
-bool PCF::CheckPcfPin(int pcf_pin_no) const {
+bool PCF::CheckPcfPin(int8_t pcf_pin_no) const {
 	if (pcf_pin_no < min_pin_offset_ || pcf_pin_no > max_pin_offset_) return false;
 	return true;
 }
 
-int PCF::GetResolution() const {
+int16_t PCF::GetResolution() const {
 	return resolution_;
 }

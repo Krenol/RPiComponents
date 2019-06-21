@@ -41,7 +41,7 @@ UltrasonicSensor::UltrasonicSensor(const pin::Pin* trigger_pin, const pin::Pin* 
 	Initialize();
 }
 
-UltrasonicSensor::UltrasonicSensor(int trigger_pin, int echo_pin) : 
+UltrasonicSensor::UltrasonicSensor(int8_t trigger_pin, int8_t echo_pin) :
 	Component("ultrasonic_sensor"), trigger_pin_{ PinFactory::CreatePin(trigger_pin, DIGITAL_MODE) }, echo_pin_{ PinFactory::CreatePin(echo_pin, INPUT_MODE) }
 {
 	Initialize();

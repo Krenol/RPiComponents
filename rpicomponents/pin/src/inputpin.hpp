@@ -13,7 +13,7 @@ namespace rpicomponents {
 			 *
 			 * @param pin The used pin of this object
 			 */
-			InputPin(int pin);
+			InputPin(int8_t pin);
 
 		protected:
 			/**
@@ -22,7 +22,7 @@ namespace rpicomponents {
 			 *
 			 * @param value Output value that is to be written to the pin
 			 */
-			void WriteToPin(int value) const;
+			void WriteToPin(int16_t value) const;
 
 			/**
 			 * Virtual method to read the value of the pin.
@@ -30,7 +30,7 @@ namespace rpicomponents {
 			 *
 			 * @returns the read value of the pin
 			 */
-			int ReadFromPin() const;
+			int16_t ReadFromPin() const;
 		};
 	}
 }

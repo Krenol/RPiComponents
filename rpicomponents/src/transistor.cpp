@@ -10,7 +10,7 @@ Transistor::Transistor(const Pin* pin, TRANSISTOR_TYPE type) : Component("transi
 	Initialize();
 }
 
-Transistor::Transistor(int pin, TRANSISTOR_TYPE type, PIN_MODE mode) : Component("transistor"), pin_{ PinFactory::CreatePin(pin, mode) }, type_{ type }
+Transistor::Transistor(int8_t pin, TRANSISTOR_TYPE type, PIN_MODE mode) : Component("transistor"), pin_{ PinFactory::CreatePin(pin, mode) }, type_{ type }
 {
 	Initialize();
 }
@@ -31,7 +31,7 @@ void Transistor::TurnOn() const {
 	type_ == NPN ? pin_->OutputOn() : pin_->OutputOff();
 }
 
-void Transistor::TurnOn(int value) const {
+void Transistor::TurnOn(int16_t value) const {
 	if (pin_ == nullptr) return;
 	pin_->Output(value);
 }

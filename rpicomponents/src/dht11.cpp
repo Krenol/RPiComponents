@@ -71,7 +71,7 @@ float Dht11::CalculateHumidty(const std::vector<uint8_t> &bits) const
 	return bits[0] + bits[1] * 0.1;
 }
 
-Dht11::Dht11(int pin) : Component("dht11"), pin_{ PinFactory::CreatePin(pin, DIGITAL_MODE) }
+Dht11::Dht11(int8_t pin) : Component("dht11"), pin_{ PinFactory::CreatePin(pin, DIGITAL_MODE) }
 {
 	Initialize();
 }
