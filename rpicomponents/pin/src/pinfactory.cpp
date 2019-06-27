@@ -9,6 +9,12 @@ using namespace rpicomponents::pin::utils;
 map<int8_t,const Pin*> PinFactory::created_pins_;
 mutex PinFactory::mtx_;
 
+bool PinFactory::CheckPinMode(const pin::Pin* pin, pin::utils::PIN_MODE mode)
+{
+	if (pin == nullptr || pin->OutputMode() != mode) return false;
+	return true;
+}
+
 const Pin* PinFactory::CreatePin(int8_t pin, PIN_MODE mode, int16_t maxOutputValue) {
 	lock_guard<mutex> lck{ mtx_ };
 	auto newPin = PinCreator(pin, mode, maxOutputValue);

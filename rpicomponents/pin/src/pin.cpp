@@ -5,7 +5,7 @@ using namespace rpicomponents;
 using namespace rpicomponents::pin;
 using namespace rpicomponents::pin::utils;
 
-int Pin::GetPin() const {
+int8_t Pin::GetPin() const {
 	return pin_;
 }
 
@@ -30,7 +30,7 @@ void Pin::OutputOff() const {
 	WriteToPin(min_value_);
 }
 
-int Pin::ReadPinValue() const {
+int16_t Pin::ReadPinValue() const {
 	return ReadFromPin();
 }
 

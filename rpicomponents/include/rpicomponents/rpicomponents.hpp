@@ -13,6 +13,8 @@
 #include "../../src/pcf8591.hpp"
 #include "../../src/pcf.hpp"
 #include "../../src/mpu6050.hpp"
+#include "../../src/q74hc595.hpp"
+#include "../../src/motionsensor.hpp"
 #include "../../pin/include/rpicomponents/pin/pins.hpp"
 #include "..//utils/include/rpicomponents/utils/rpicomponents_utils.hpp"
 

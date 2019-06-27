@@ -16,6 +16,15 @@ namespace rpicomponents {
 		class PinFactory {
 		public:
 			/**
+			* Static method to check whether a pin has the passed PIN_MODE
+			*
+			* @param pin The pin to be checked
+			* @param mode The expected PIN_MODE
+			* @return true if pin has passed PIN_MODE else false
+			*/
+			static bool CheckPinMode(const pin::Pin* pin, pin::utils::PIN_MODE mode);
+
+			/**
 			 * Method to create a new pin pointer
 			 *
 			 * @param pin: the GPIO pin number

@@ -16,14 +16,14 @@ namespace rpicomponents {
 			 *
 			 * @returns 0 for no read output at pin, 1 if there is an output and -1 if pin is not on INPUT mode
 			 */
-			int ReadPinValue() const;
+			int16_t ReadPinValue() const;
 
 			/**
 			 * Get the used pin
 			 *
 			 * @return used pin of the object as const int
 			 */
-			int GetPin() const;
+			int8_t GetPin() const;
 
 			/**
 			 * Get the pin output mode 

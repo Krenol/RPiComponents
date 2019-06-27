@@ -9,6 +9,25 @@ Component::Component(std::string componentName) : component_name_{ componentName
 {
 }
 
+void Component::CheckPinStatus(const Pin* pin, PIN_MODE mode) const
+{
+	CheckPinStatus(pin, std::vector<PIN_MODE>{ mode });
+}
+
+void Component::CheckPinStatus(const pin::Pin* pin, std::vector<pin::utils::PIN_MODE> mode) const
+{
+	lock_guard<mutex> grd(mtx_);
+	if (pin == nullptr) throw new invalid_argument("pin of component is null");
+	bool valid = false;
+	string modes = "";
+	for (int i = 0; i < mode.size(); i++) {
+		valid = PinFactory::CheckPinMode(pin, mode[i]);
+		if (valid) return;
+		modes += (i == 0 ? "" : ", ") + mode[i];
+	}
+	throw new invalid_argument("pin is not of PIN_MODES " + modes);
+}
+
 Component::~Component() {
 
 }

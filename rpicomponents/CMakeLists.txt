@@ -25,6 +25,8 @@ ${PROJECT_SOURCE_DIR}/pcf8574.cpp
 ${PROJECT_SOURCE_DIR}/pcf8591.cpp
 ${PROJECT_SOURCE_DIR}/pcf.cpp
 ${PROJECT_SOURCE_DIR}/mpu6050.cpp
+${PROJECT_SOURCE_DIR}/q74hc595.cpp
+${PROJECT_SOURCE_DIR}/motionsensor.cpp
 )
  
 include_directories("${PROJECT_INCLUDE_DIR}")

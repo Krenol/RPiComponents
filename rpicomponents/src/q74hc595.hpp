@@ -7,13 +7,15 @@ namespace rpicomponents {
 
 	struct Q_Pin {
 		const int8_t pin_no{ 0 };
-		bool turn_on{false}
+		bool turn_on{ false };
 	};
 
 	class Q74HC595 : public Component
 	{
 	private:
-		const pin::Pin* ds_ , stcp_, shcp_;
+		const pin::Pin* ds_;
+		const pin::Pin* stcp_;
+		const pin::Pin* shcp_;
 		const int8_t max_q_pin_no_{ 8 };
 		mutable std::map<int8_t, Q_Pin> q_pin_map_;
 

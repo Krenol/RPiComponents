@@ -45,7 +45,6 @@ namespace rpicomponents {
 				 */
 				static bool IsValidPinValue(int8_t pin);
 
-
 			private:
 				/**
 				 * Private constructor to make class static

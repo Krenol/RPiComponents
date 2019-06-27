@@ -67,6 +67,26 @@ namespace rpicomponents {
 		* @param componentName The name of the component as string. Is returned by the ToString method
 		*/
 		Component(std::string componentName);
+
+		/**
+		* Method to check if the passed pin is not null of the passed PIN_MODE
+		* Throws errors on detected error
+		* BLOCKING
+		*
+		* @param pin The to be checked pin
+		* @param mode The expected pin mode
+		*/
+		void CheckPinStatus(const pin::Pin* pin, pin::utils::PIN_MODE mode) const;
+
+		/**
+		* Method to check if the passed pin is not null of the passed PIN_MODE
+		* Throws errors on detected error
+		* BLOCKING
+		*
+		* @param pin The to be checked pin
+		* @param mode The expected pin modes as a vector
+		*/
+		void CheckPinStatus(const pin::Pin* pin, std::vector<pin::utils::PIN_MODE> mode) const;
 			
 	public:
 		/**
