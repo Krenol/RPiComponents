@@ -35,6 +35,11 @@ THE SOFTWARE.
 */
 
 #include "mpu6050.hpp"
+#include <string.h>
+#include <stdint.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 using namespace rpicomponents;
 using namespace rpicomponents::utils;
@@ -48,7 +53,7 @@ using namespace rpicomponents::utils;
  */
 MPU6050::MPU6050(uint8_t address) : Component("mpu6050"), address_{address}
 {
-
+	initialize();
 }
 
 /** Power on and prepare for general usage.
@@ -3053,7 +3058,7 @@ bool MPU6050::writeDMPConfigurationSet(const uint8_t* data, uint16_t dataSize, b
 		progBuffer = (uint8_t*)malloc(8); // assume 8-byte blocks, realloc later if necessary
 	}
 
-	// config set data is a long string of blocks with the following structure:
+	// config set data is a long std::string of blocks with the following structure:
 	// [bank] [offset] [length] [byte[0], byte[1], ..., byte[length]]
 	uint8_t bank, offset, length;
 	for (i = 0; i < dataSize;) {

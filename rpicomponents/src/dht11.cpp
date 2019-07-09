@@ -1,15 +1,15 @@
 #include "dht11.hpp"
 
-using namespace std;
+
 using namespace rpicomponents;
 using namespace rpicomponents::pin;
 using namespace rpicomponents::pin::utils;
 
 void Dht11::Initialize() const
 {
-	if (pin_ == nullptr) throw new invalid_argument("pin is a nullptr! some internal error occured..");
+	if (pin_ == nullptr) throw new std::invalid_argument("pin is a nullptr! some internal error occured..");
 	auto mode = pin_->OutputMode();
-	if (mode != IN_OUT_MODE) throw new invalid_argument("pin for dht11 must be in in_out_mode");
+	if (mode != IN_OUT_MODE) throw new std::invalid_argument("pin for dht11 must be in in_out_mode");
 	AddPin(pin_->GetPin());
 }
 
@@ -23,7 +23,7 @@ bool Dht11::CheckSum(const std::vector<uint8_t> &bits) const
 
 std::vector<uint8_t> Dht11::ReadSensor() const
 {
-	lock_guard<mutex> grd(mtx_);
+	std::lock_guard<std::mutex> grd(mtx_);
 	std::vector<uint8_t> bits (5,0);
 	uint8_t counter = 0, j = 0;
 
@@ -61,13 +61,13 @@ std::vector<uint8_t> Dht11::ReadSensor() const
 
 float Dht11::CalculateTemperature(const std::vector<uint8_t> &bits) const
 {
-	lock_guard<mutex> grd(mtx_);
+	std::lock_guard<std::mutex> grd(mtx_);
 	return bits[2] + bits[3] * 0.1;
 }
 
 float Dht11::CalculateHumidty(const std::vector<uint8_t> &bits) const
 {
-	lock_guard<mutex> grd(mtx_);
+	std::lock_guard<std::mutex> grd(mtx_);
 	return bits[0] + bits[1] * 0.1;
 }
 

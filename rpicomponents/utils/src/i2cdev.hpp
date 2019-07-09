@@ -41,6 +41,8 @@ THE SOFTWARE.
 ===============================================
 */
 
+#include <stdint.h>
+
 #ifndef RPICOMPONENTS_UTILS_I2CDEV_H
 #define RPICOMPONENTS_UTILS_I2CDEV_H
 
@@ -49,17 +51,7 @@ THE SOFTWARE.
 #define FALSE	(0==1)
 #endif
 
-#include <stdio.h>
-#include <stdint.h>
-#include <stdlib.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <string.h>
-#include <errno.h>
-#include <sys/ioctl.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <linux/i2c-dev.h>
+
 
 namespace rpicomponents {
 	namespace utils {

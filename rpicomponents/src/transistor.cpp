@@ -1,6 +1,6 @@
 #include "transistor.hpp"
 
-using namespace std;
+
 using namespace rpicomponents;
 using namespace rpicomponents::pin;
 using namespace rpicomponents::pin::utils;
@@ -16,9 +16,9 @@ Transistor::Transistor(int8_t pin, TRANSISTOR_TYPE type, PIN_MODE mode) : Compon
 }
 
 void Transistor::Initialize() {
-	if (pin_ == nullptr) throw new invalid_argument("pin is a nullptr! some internal error occured..");
+	if (pin_ == nullptr) throw new std::invalid_argument("pin is a nullptr! some internal error occured..");
 	const auto mode = pin_->OutputMode();
-	if (mode != INPUT_MODE) throw new invalid_argument("pin for transistor cannot be on input mode");
+	if (mode != INPUT_MODE) throw new std::invalid_argument("pin for transistor cannot be on input mode");
 	AddPin(pin_->GetPin());
 }
 

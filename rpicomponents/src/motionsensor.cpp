@@ -1,12 +1,12 @@
 #include "motionsensor.hpp"
 
-using namespace std;
+
 using namespace rpicomponents;
 using namespace rpicomponents::pin;
 
 void Motionsensor::Initialize() const {
-	if (pin_ == nullptr) throw new invalid_argument("pin cannot be null");
-	if(pin_->OutputMode() != pin::utils::INPUT_MODE) throw new invalid_argument("pin must be of type INPUT_MODE");
+	if (pin_ == nullptr) throw new std::invalid_argument("pin cannot be null");
+	if(pin_->OutputMode() != pin::utils::INPUT_MODE) throw new std::invalid_argument("pin must be of type INPUT_MODE");
 	AddPin(pin_->GetPin());
 }
 

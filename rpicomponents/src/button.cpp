@@ -1,6 +1,6 @@
 #include "button.hpp"
 
-using namespace std;
+
 using namespace rpicomponents;
 using namespace rpicomponents::pin;
 using namespace rpicomponents::pin::utils;
@@ -16,9 +16,9 @@ Button::Button(int8_t pin, int8_t pud) : Component("button"), pin_(PinFactory::C
 }
 
 void Button::Initialize() const {
-	if (!IsPUD(pud_)) throw new invalid_argument("given PUD is invalid!");
+	if (!IsPUD(pud_)) throw new std::invalid_argument("given PUD is invalid!");
 	const auto mode = pin_->OutputMode();
-	if (mode != INPUT_MODE) throw new invalid_argument("given pin is on output mode; it must be on input mode for a button!");
+	if (mode != INPUT_MODE) throw new std::invalid_argument("given pin is on output mode; it must be on input mode for a button!");
 	pullUpDnControl(pin_->GetPin(), pud_);
 	AddPin(pin_->GetPin());
 }

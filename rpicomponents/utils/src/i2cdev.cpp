@@ -42,6 +42,16 @@ THE SOFTWARE.
 */
 
 #include "i2cdev.hpp"
+#include <string.h>
+#include <errno.h>
+#include <sys/ioctl.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <linux/i2c-dev.h>
+#include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <stdio.h>
 
 using namespace rpicomponents::utils;
 

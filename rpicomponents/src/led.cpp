@@ -1,6 +1,6 @@
 #include "led.hpp"
 
-using namespace std;
+
 using namespace rpicomponents;
 using namespace rpicomponents::pin;
 using namespace rpicomponents::pin::utils;
@@ -16,9 +16,9 @@ Led::Led(int8_t pin, PIN_MODE mode, bool onIfPinOn) : Component("led"), on_mode_
 }
 
 void Led::Initialize() {
-	if (pin_ == nullptr) throw new invalid_argument("pin is a nullptr! some internal error occured..");
+	if (pin_ == nullptr) throw new std::invalid_argument("pin is a nullptr! some internal error occured..");
 	const auto mode = pin_->OutputMode();
-	if (mode == INPUT_MODE) throw new invalid_argument("pin for led cannot be on input mode");
+	if (mode == INPUT_MODE) throw new std::invalid_argument("pin for led cannot be on input mode");
 	AddPin(pin_->GetPin());
 }
 

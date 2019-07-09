@@ -38,11 +38,7 @@ THE SOFTWARE.
 #define RPICOMPONENTS_MPU6050_H
 
 #include "component.hpp"
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <stdint.h>
+
 //#include <avr/pgmspace.h>
 
 #define pgm_read_byte(p) (*(uint8_t *)(p))

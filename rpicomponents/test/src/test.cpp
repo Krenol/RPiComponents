@@ -4,19 +4,19 @@
 
  
 
-using namespace std;
+
 using namespace rpicomponents;
 using namespace rpicomponents::pin;
 using namespace rpicomponents::pin::utils;
 
-mutex mtx;
+std::mutex mtx;
 
 void On(Led* led, int no){
-    lock_guard<mutex> lck(mtx);
+	std::lock_guard<std::mutex> lck(mtx);
 
     for(auto i= 0; i <  no; i++) {
         auto on = led->IsOn();
-        cout << "thread " << no << " led is " << on<<endl;
+		std::cout << "thread " << no << " led is " << on<< std::endl;
         on ? led->TurnOff() : led->TurnOn();
     }
 
@@ -32,14 +32,14 @@ int main() {
     //cout << btn->IsPressed()<<endl;
 	UltrasonicSensor uss (GPIO0, GPIO1);
     for(int i = 0; i < 10; i++) {
-        thread p(On, led, i);
-        thread p1(On, led, i);
+		std::thread p(On, led, i);
+		std::thread p1(On, led, i);
         p.join();
         p1.join();
     }
 
-	cout << "500 mm are " << uss.UnitConverter(500, UNIT_MM, UNIT_M) << " m\n";
-	cout << pcf.ToString() << endl;
-	cin.get();
+	std::cout << "500 mm are " << uss.UnitConverter(500, UNIT_MM, UNIT_M) << " m\n";
+	std::cout << pcf.ToString() << std::endl;
+	std::cin.get();
     delete led;
 }

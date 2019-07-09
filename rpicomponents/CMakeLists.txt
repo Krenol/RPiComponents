@@ -27,6 +27,7 @@ ${PROJECT_SOURCE_DIR}/pcf.cpp
 ${PROJECT_SOURCE_DIR}/mpu6050.cpp
 ${PROJECT_SOURCE_DIR}/q74hc595.cpp
 ${PROJECT_SOURCE_DIR}/motionsensor.cpp
+${PROJECT_SOURCE_DIR}/photoresistor.cpp
 )
  
 include_directories("${PROJECT_INCLUDE_DIR}")

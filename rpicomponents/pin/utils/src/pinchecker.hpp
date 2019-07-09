@@ -3,8 +3,6 @@
 #pragma once
 
 #include <string>
-#include <vector>
-#include <stdexcept>
 #include "pindefinitions.hpp"
 
 namespace rpicomponents {
@@ -30,7 +28,7 @@ namespace rpicomponents {
 				static bool IsI2CAddress(int16_t address);
 
 				/**
-				 * Static method to transform an integer & decimal I2C addres into a string hex value
+				 * Static method to transform an integer & decimal I2C addres into a std::string hex value
 				 *
 				 * @param address The decimal i2c address to be transformed
 				 * @return String with the transformed hex i2c address

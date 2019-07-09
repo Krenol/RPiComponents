@@ -1,7 +1,8 @@
 #include "pinchecker.hpp"
 #include <iostream>
+#include <stdexcept>
+#include <vector>
 
-using namespace std;
 using namespace rpicomponents::pin;
 using namespace rpicomponents::pin::utils;
 
@@ -11,8 +12,8 @@ bool PinChecker::IsValidPinValue(int8_t pin) {
 }
 
 bool PinChecker::IsI2CAddress(int16_t address) {
-	const vector<char> i2c_col = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
-	const vector<char> i2c_row = { '0', '1', '2', '3', '4', '5', '6', '7' };
+	const std::vector<char> i2c_col = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+	const std::vector<char> i2c_row = { '0', '1', '2', '3', '4', '5', '6', '7' };
 	auto hexAddr = GetHexAddress(address);
 
 	for (int i = 0; i < i2c_row.size(); i++)
@@ -23,7 +24,7 @@ bool PinChecker::IsI2CAddress(int16_t address) {
 				
 			if (i == sizeof(i2c_row) - 1 && j > 7) break;
 				
-			string addr;
+			std::string addr;
 			addr += i2c_row[i];
 			addr += i2c_col[j];
 
@@ -34,9 +35,9 @@ bool PinChecker::IsI2CAddress(int16_t address) {
 	return false;
 }
 
-string PinChecker::GetHexAddress(int16_t address) {
-	vector<char> hex = { '0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F' };
-	string hexdec_num = "";
+std::string PinChecker::GetHexAddress(int16_t address) {
+	std::vector<char> hex = { '0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F' };
+	std::string hexdec_num = "";
 	int r = 0;
 	while (address > 0)
 	{

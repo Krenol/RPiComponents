@@ -1,6 +1,6 @@
 #include "inoutpin.hpp"
 
-using namespace std;
+
 using namespace rpicomponents;
 using namespace rpicomponents::pin;
 using namespace rpicomponents::pin::utils;
@@ -14,7 +14,7 @@ void InOutPin::WriteToPin(int16_t value) const
 {
 	if (!CheckInputValue(value)) return;
 	//lock function to not cause any overhead on pin writings
-	lock_guard<std::mutex> lockGuard(mtx_);
+	std::lock_guard<std::mutex> lockGuard(mtx_);
 	pinMode(pin_, OUTPUT);
 	digitalWrite(pin_, value);
 	status_ = value; //wouldn't need a lock, as it is atomic
@@ -22,7 +22,7 @@ void InOutPin::WriteToPin(int16_t value) const
 
 int16_t InOutPin::ReadFromPin() const
 {
-	lock_guard<std::mutex> lockGuard(mtx_);
+	std::lock_guard<std::mutex> lockGuard(mtx_);
 	pinMode(pin_, INPUT);
 	auto value = digitalRead(pin_);
 	return value;

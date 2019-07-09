@@ -1,6 +1,6 @@
 #include "inputpin.hpp"
 
-using namespace std;
+
 using namespace rpicomponents;
 using namespace rpicomponents::pin;
 using namespace rpicomponents::pin::utils;
@@ -14,7 +14,7 @@ void InputPin::WriteToPin(int16_t value) const {
 }
 
 int16_t InputPin::ReadFromPin() const {
-	lock_guard<mutex> lockGuard(mtx_);
+	std::lock_guard<std::mutex> lockGuard(mtx_);
 	auto val = digitalRead(pin_);
 	return val;
 }

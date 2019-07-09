@@ -5,6 +5,7 @@
 #include <math.h>
 #include <iomanip>
 #include <algorithm>
+#include <vector>
 #include "../pin/include/rpicomponents/pin/pins.hpp"
 #include "../pin/utils/include/rpicomponents/pin/utils/pinutils.hpp"
 #include "../utils/include/rpicomponents/utils/rpicomponents_utils.hpp"
@@ -64,7 +65,7 @@ namespace rpicomponents {
 		/**
 		* Method to check if the current component uses a certain Pin
 		*
-		* @param componentName The name of the component as string. Is returned by the ToString method
+		* @param componentName The name of the component as std::string. Is returned by the ToString method
 		*/
 		Component(std::string componentName);
 
@@ -109,7 +110,7 @@ namespace rpicomponents {
 		/**
 		* Method to get the name of the component
 		*
-		* @return The component name as a string as given during initialization
+		* @return The component name as a std::string as given during initialization
 		*/
 		std::string ToString() const;
 	};

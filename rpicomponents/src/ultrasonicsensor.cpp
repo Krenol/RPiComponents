@@ -1,25 +1,25 @@
 #include "ultrasonicsensor.hpp"
 
-using namespace std;
+
 using namespace rpicomponents;
 using namespace rpicomponents::pin;
 using namespace rpicomponents::pin::utils;
 
-const map<DISTANCE_UNIT, float> UltrasonicSensor::convert_values_ = { {UNIT_M, 1.0f},  {UNIT_CM, 1e-2f}, {UNIT_MM, 1e-3f}, {UNIT_M, 1e-6f} };
+const std::map<DISTANCE_UNIT, float> UltrasonicSensor::convert_values_ = { {UNIT_M, 1.0f},  {UNIT_CM, 1e-2f}, {UNIT_MM, 1e-3f}, {UNIT_M, 1e-6f} };
 
 void UltrasonicSensor::Initialize() const
 {
 	auto mode = trigger_pin_->OutputMode();
-	if (mode != DIGITAL_MODE) throw new invalid_argument("given trigger pin is not in digital mode; it must be on digital mode for a ultrasonsic sensor!");
+	if (mode != DIGITAL_MODE) throw new std::invalid_argument("given trigger pin is not in digital mode; it must be on digital mode for a ultrasonsic sensor!");
 	mode = echo_pin_->OutputMode();
-	if (mode != INPUT_MODE) throw new invalid_argument("given echo pin is not in input mode; it must be on input mode for a ultrasonsic sensor!");
+	if (mode != INPUT_MODE) throw new std::invalid_argument("given echo pin is not in input mode; it must be on input mode for a ultrasonsic sensor!");
 	AddPin(trigger_pin_->GetPin());
 	AddPin(echo_pin_->GetPin());
 }
 
 float UltrasonicSensor::GetEchoTime() const
 {
-	lock_guard<mutex> lck(mtx_);
+	std::lock_guard<std::mutex> lck(mtx_);
 	trigger_pin_->OutputOn();
 	rpicomponents::utils::Waiter::SleepNanos(10);
 	trigger_pin_->OutputOff();
@@ -97,8 +97,8 @@ float UltrasonicSensor::UnitConverter(float value, DISTANCE_UNIT inUnit, DISTANC
 	try {
 		value *= convert_values_.at(inUnit) / convert_values_.at(outUnit);
 	}
-	catch (exception e) {
-		string err("passed inUnit or outUnit are not valid ", e.what());
-		throw invalid_argument(err.c_str());
+	catch (std::exception e) {
+		std::string err("passed inUnit or outUnit are not valid ", e.what());
+		throw std::invalid_argument(err.c_str());
 	}
 }

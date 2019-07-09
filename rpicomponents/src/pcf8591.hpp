@@ -35,7 +35,7 @@ namespace rpicomponents {
 		* Method that reads the input to a pcf pin
 		* BLOCKING
 		* @param pcf_pin_no: The pcf pin to be read
-		* @returns: the read digital pin value (0 to 255)
+		* @returns: the read pin value (0 to 255)
 		*/
 		int16_t ReadFromPcfPin(int8_t pcf_pin_no) const;
 
