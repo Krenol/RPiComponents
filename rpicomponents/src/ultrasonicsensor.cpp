@@ -1,13 +1,14 @@
 #include "ultrasonicsensor.hpp"
+#include <cmath>
 
 
-using namespace rpicomponents;
+
 using namespace rpicomponents::pin;
 using namespace rpicomponents::pin::utils;
 
-const std::map<DISTANCE_UNIT, float> UltrasonicSensor::convert_values_ = { {UNIT_M, 1.0f},  {UNIT_CM, 1e-2f}, {UNIT_MM, 1e-3f}, {UNIT_M, 1e-6f} };
+const std::map<rpicomponents::DISTANCE_UNIT, float> rpicomponents::UltrasonicSensor::convert_values_ = { {UNIT_M, 1.0f},  {UNIT_CM, 1e-2f}, {UNIT_MM, 1e-3f}, {UNIT_M, 1e-6f} };
 
-void UltrasonicSensor::Initialize() const
+void rpicomponents::UltrasonicSensor::Initialize() const
 {
 	auto mode = trigger_pin_->OutputMode();
 	if (mode != DIGITAL_MODE) throw new std::invalid_argument("given trigger pin is not in digital mode; it must be on digital mode for a ultrasonsic sensor!");
@@ -17,7 +18,7 @@ void UltrasonicSensor::Initialize() const
 	AddPin(echo_pin_->GetPin());
 }
 
-float UltrasonicSensor::GetEchoTime() const
+float rpicomponents::UltrasonicSensor::GetEchoTime() const
 {
 	std::lock_guard<std::mutex> lck(mtx_);
 	trigger_pin_->OutputOn();
@@ -36,33 +37,33 @@ float UltrasonicSensor::GetEchoTime() const
 	return INFINITY;
 }
 
-UltrasonicSensor::UltrasonicSensor(const pin::Pin* trigger_pin, const pin::Pin* echo_pin) : Component("ultrasonic_sensor"), trigger_pin_{ trigger_pin }, echo_pin_{ echo_pin }
+rpicomponents::UltrasonicSensor::UltrasonicSensor(const pin::Pin* trigger_pin, const pin::Pin* echo_pin) : Component("ultrasonic_sensor"), trigger_pin_{ trigger_pin }, echo_pin_{ echo_pin }
 {
 	Initialize();
 }
 
-UltrasonicSensor::UltrasonicSensor(int8_t trigger_pin, int8_t echo_pin) :
+rpicomponents::UltrasonicSensor::UltrasonicSensor(int8_t trigger_pin, int8_t echo_pin) :
 	Component("ultrasonic_sensor"), trigger_pin_{ PinFactory::CreatePin(trigger_pin, DIGITAL_MODE) }, echo_pin_{ PinFactory::CreatePin(echo_pin, INPUT_MODE) }
 {
 	Initialize();
 }
 
-float UltrasonicSensor::MeasureDistance() const
+float rpicomponents::UltrasonicSensor::MeasureDistance() const
 {
 	return MeasureDistance(std_temperature_, std_unit_);
 }
 
-float UltrasonicSensor::MeasureDistance(float temperature) const
+float rpicomponents::UltrasonicSensor::MeasureDistance(float temperature) const
 {
 	return MeasureDistance(temperature, std_unit_);
 }
 
-float UltrasonicSensor::MeasureDistance(DISTANCE_UNIT unit) const
+float rpicomponents::UltrasonicSensor::MeasureDistance(DISTANCE_UNIT unit) const
 {
 	return MeasureDistance(std_temperature_, unit);
 }
 
-float UltrasonicSensor::MeasureDistance(float temperature, DISTANCE_UNIT unit) const
+float rpicomponents::UltrasonicSensor::MeasureDistance(float temperature, DISTANCE_UNIT unit) const
 {
 	auto vs = CalculateSpeedOfSound(temperature, unit); //[unit/s]
 	auto ping = GetEchoTime() / 2; //[s]
@@ -70,29 +71,29 @@ float UltrasonicSensor::MeasureDistance(float temperature, DISTANCE_UNIT unit) c
 	return ping * vs;
 }
 
-float UltrasonicSensor::CalculateSpeedOfSound() const
+float rpicomponents::UltrasonicSensor::CalculateSpeedOfSound() const
 {	
 	return CalculateSpeedOfSound(std_temperature_, std_unit_);
 }
 
-float UltrasonicSensor::CalculateSpeedOfSound(float temperature) const
+float rpicomponents::UltrasonicSensor::CalculateSpeedOfSound(float temperature) const
 {
 	return CalculateSpeedOfSound(temperature, std_unit_);
 }
 
-float UltrasonicSensor::CalculateSpeedOfSound(DISTANCE_UNIT unit) const
+float rpicomponents::UltrasonicSensor::CalculateSpeedOfSound(DISTANCE_UNIT unit) const
 {
 	return CalculateSpeedOfSound(std_temperature_, unit);
 }
 
-float UltrasonicSensor::CalculateSpeedOfSound(float temperature, DISTANCE_UNIT unit) const
+float rpicomponents::UltrasonicSensor::CalculateSpeedOfSound(float temperature, DISTANCE_UNIT unit) const
 {
 	auto val = 331.5f + 0.6f * temperature;
 	val = UnitConverter(val, UNIT_M, unit);
 	return val;
 }
 
-float UltrasonicSensor::UnitConverter(float value, DISTANCE_UNIT inUnit, DISTANCE_UNIT outUnit) const
+float rpicomponents::UltrasonicSensor::UnitConverter(float value, DISTANCE_UNIT inUnit, DISTANCE_UNIT outUnit) const
 {
 	try {
 		value *= convert_values_.at(inUnit) / convert_values_.at(outUnit);

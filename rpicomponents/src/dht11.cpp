@@ -1,11 +1,11 @@
 #include "dht11.hpp"
 
 
-using namespace rpicomponents;
+
 using namespace rpicomponents::pin;
 using namespace rpicomponents::pin::utils;
 
-void Dht11::Initialize() const
+void rpicomponents::Dht11::Initialize() const
 {
 	if (pin_ == nullptr) throw new std::invalid_argument("pin is a nullptr! some internal error occured..");
 	auto mode = pin_->OutputMode();
@@ -13,7 +13,7 @@ void Dht11::Initialize() const
 	AddPin(pin_->GetPin());
 }
 
-bool Dht11::CheckSum(const std::vector<uint8_t> &bits) const
+bool rpicomponents::Dht11::CheckSum(const std::vector<uint8_t> &bits) const
 {
 	auto sum = bits[0] + bits[1] + bits[2] + bits[3];
 	if (sum == bits[4] && sum > 0)
@@ -21,7 +21,7 @@ bool Dht11::CheckSum(const std::vector<uint8_t> &bits) const
 	return false;
 }
 
-std::vector<uint8_t> Dht11::ReadSensor() const
+std::vector<uint8_t> rpicomponents::Dht11::ReadSensor() const
 {
 	std::lock_guard<std::mutex> grd(mtx_);
 	std::vector<uint8_t> bits (5,0);
@@ -59,29 +59,29 @@ std::vector<uint8_t> Dht11::ReadSensor() const
 	return bits;
 }
 
-float Dht11::CalculateTemperature(const std::vector<uint8_t> &bits) const
+float rpicomponents::Dht11::CalculateTemperature(const std::vector<uint8_t> &bits) const
 {
 	std::lock_guard<std::mutex> grd(mtx_);
 	return bits[2] + bits[3] * 0.1;
 }
 
-float Dht11::CalculateHumidty(const std::vector<uint8_t> &bits) const
+float rpicomponents::Dht11::CalculateHumidty(const std::vector<uint8_t> &bits) const
 {
 	std::lock_guard<std::mutex> grd(mtx_);
 	return bits[0] + bits[1] * 0.1;
 }
 
-Dht11::Dht11(int8_t pin) : Component("dht11"), pin_{ PinFactory::CreatePin(pin, DIGITAL_MODE) }
+rpicomponents::Dht11::Dht11(int8_t pin) : Component("dht11"), pin_{ PinFactory::CreatePin(pin, DIGITAL_MODE) }
 {
 	Initialize();
 }
 
-Dht11::Dht11(const Pin* pin) : Component("dht11"), pin_{ pin }
+rpicomponents::Dht11::Dht11(const Pin* pin) : Component("dht11"), pin_{ pin }
 {
 	Initialize();
 }
 
-float Dht11::GetTemperature() const
+float rpicomponents::Dht11::GetTemperature() const
 {
 	auto bits = ReadSensor();
 	while(!CheckSum(bits)) bits = ReadSensor();
@@ -89,7 +89,7 @@ float Dht11::GetTemperature() const
 	return temperature;
 }
 
-float Dht11::GetHumidity() const
+float rpicomponents::Dht11::GetHumidity() const
 {
 	auto bits = ReadSensor();
 	while (!CheckSum(bits)) bits = ReadSensor();
@@ -97,7 +97,7 @@ float Dht11::GetHumidity() const
 	return humidity;
 }
 
-DHT_VALUES Dht11::GetDhtValues() const
+rpicomponents::DHT_VALUES rpicomponents::Dht11::GetDhtValues() const
 {
 	auto bits = ReadSensor();
 	while (!CheckSum(bits)) bits = ReadSensor();

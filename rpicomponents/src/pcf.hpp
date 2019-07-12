@@ -1,12 +1,11 @@
 #include "component.hpp"
-#include <wiringPiI2C.h>
 
 #ifndef RPICOMPONENTS_PCF_H
 #define RPICOMPONENTS_PCF_H
 
 namespace rpicomponents {
 
-	class PCF : public Component
+	class Pcf : public Component
 	{
 	private:
 		/*
@@ -17,7 +16,7 @@ namespace rpicomponents {
 	protected:
 		const int16_t pin_base_{ 64 }, address_{ 0x48 }, resolution_{ 0 };
 		const int8_t min_pin_offset_{ 0 }, max_pin_offset_{ 1 };
-		virtual ~PCF() = 0; //virtual protected destructor to make class abstract
+		virtual ~Pcf() = 0; //virtual protected destructor to make class abstract
 
 	public:
 		/*
@@ -28,7 +27,7 @@ namespace rpicomponents {
 		* @param max_pin_offset: The max pin offset to the pin base
 		* @param comp_name: The name of the child component; e.g. pcf8574
 		*/
-		PCF(int16_t address, int16_t pin_base = 64, int8_t min_pin_offset = 0, int8_t max_pin_offset = 1, std::string comp_name = "pcf");
+		Pcf(int16_t address, int16_t pin_base = 64, int8_t min_pin_offset = 0, int8_t max_pin_offset = 1, std::string comp_name = "pcf");
 
 		/*
 		* Method that checks if a pcf pin is inside the valid pin range (between min_pin_offset_ and max_pin_offset_)

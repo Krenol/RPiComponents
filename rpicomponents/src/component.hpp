@@ -2,8 +2,6 @@
 #define RPICOMPONENTS_COMPONENT_H
 #pragma once
 
-#include <math.h>
-#include <iomanip>
 #include <algorithm>
 #include <vector>
 #include "../pin/include/rpicomponents/pin/pins.hpp"

@@ -1,4 +1,4 @@
-// I2Cdev library collection - MPU6050 I2C device class
+// I2Cdev library collection - Mpu6050 I2C device class
 // Based on InvenSense MPU-6050 register map document rev. 2.0, 5/19/2011 (RM-MPU-6000A-00)
 // 10/3/2011 by Jeff Rowberg <jeff@rowberg.net>
 // Updates should (hopefully) always be available at https://github.com/jrowberg/i2cdevlib
@@ -400,9 +400,9 @@ THE SOFTWARE.
 
 // note: DMP code memory blocks defined at end of header file
 namespace rpicomponents {
-	class MPU6050 : public Component {
+	class Mpu6050 : public Component {
 	public:
-		MPU6050(uint8_t address = MPU6050_DEFAULT_ADDRESS);
+		Mpu6050(uint8_t address = MPU6050_DEFAULT_ADDRESS);
 
 		void initialize();
 		bool testConnection();

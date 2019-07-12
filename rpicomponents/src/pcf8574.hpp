@@ -1,12 +1,11 @@
 #include "component.hpp"
 #include <pcf.hpp>
-#include <pcf8574.h>
 
 #ifndef RPICOMPONENTS_PCF8574_H
 #define RPICOMPONENTS_PCF8574_H
 
 namespace rpicomponents {
-	class PCF8574 : public PCF {
+	class Pcf8574 : public Pcf {
 	private:
 		/*
 		* Method that sets the pin mode of a pcf pin to in- or output
@@ -20,7 +19,7 @@ namespace rpicomponents {
 		* @param address: The i2c address of the pcf8574 (must be greater than 63)
 		* @param pin_base: The pin base of the i2c component
 		*/
-		PCF8574(int16_t address, int16_t pin_base = 64);
+		Pcf8574(int16_t address, int16_t pin_base = 64);
 
 		/*
 		* Method that writes output to a pcf pin

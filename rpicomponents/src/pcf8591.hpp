@@ -1,12 +1,11 @@
 #include "pcf.hpp"
-#include <pcf8591.h>
 
 #ifndef RPICOMPONENTS_PCF8591_H
 #define RPICOMPONENTS_PCF8591_H
 
 namespace rpicomponents {
 
-	class PCF8591 : public PCF
+	class Pcf8591 : public Pcf
 	{
 	public:
 		/*
@@ -14,7 +13,7 @@ namespace rpicomponents {
 		* @param address: The i2c address of the pcf8591 (must be greater than 63)
 		* @param pin_base: The pin base of the i2c component
 		*/
-		PCF8591(int16_t address, int16_t pin_base = 64);
+		Pcf8591(int16_t address, int16_t pin_base = 64);
 
 		/*
 		* Method that writes output to a pcf pin

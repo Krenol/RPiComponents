@@ -1,19 +1,18 @@
 #include "pcf.hpp"
+#include <wiringPiI2C.h>
 
 
-using namespace rpicomponents;
-
-PCF::PCF(int16_t address, int16_t pin_base, int8_t min_pin_offset, int8_t max_pin_offset, std::string comp_name) : Component(comp_name), address_{ address }, pin_base_{ pin_base },
+rpicomponents::Pcf::Pcf(int16_t address, int16_t pin_base, int8_t min_pin_offset, int8_t max_pin_offset, std::string comp_name) : Component(comp_name), address_{ address }, pin_base_{ pin_base },
 	min_pin_offset_{min_pin_offset}, max_pin_offset_{ max_pin_offset }
 {
 	Initialize();
 }
 
-PCF::~PCF() {
+rpicomponents::Pcf::~Pcf() {
 
 }
 
-void PCF::Initialize() const {
+void rpicomponents::Pcf::Initialize() const {
 	if (pin_base_ < 64) throw std::invalid_argument("pin base must be greater than 63!");
 	wiringPiSetup();
 	if (!pin::utils::PinChecker::IsI2CAddress(address_)) {
@@ -25,11 +24,11 @@ void PCF::Initialize() const {
 	AddPins({ 8,9 }); //pins for i2c
 }
 
-bool PCF::CheckIfPcfPin(int8_t pcf_pin_no) const {
+bool rpicomponents::Pcf::CheckIfPcfPin(int8_t pcf_pin_no) const {
 	if (pcf_pin_no < min_pin_offset_ || pcf_pin_no > max_pin_offset_) return false;
 	return true;
 }
 
-int16_t PCF::GetResolution() const {
+int16_t rpicomponents::Pcf::GetResolution() const {
 	return resolution_;
 }

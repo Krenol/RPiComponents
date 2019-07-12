@@ -1,7 +1,7 @@
 #include "pin.hpp"
 
 
-using namespace rpicomponents;
+
 using namespace rpicomponents::pin;
 using namespace rpicomponents::pin::utils;
 
