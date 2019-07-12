@@ -1,4 +1,5 @@
 #include "waiter.hpp"
+#include <thread>
 
 using namespace rpicomponents::utils;
 

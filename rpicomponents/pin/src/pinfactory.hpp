@@ -2,14 +2,10 @@
 #define RPICOMPONENTS_PIN_PIN_FACTORY_H
 #pragma once
 
-#include "digitalpin.hpp"
-#include "pwmpin.hpp"
-#include "softpwmpin.hpp"
-#include "softtonepin.hpp"
-#include "inputpin.hpp"
-#include <memory>
+#include "pin.hpp"
+//#include <memory>
 #include <map>
-#include <iostream>
+
 
 namespace rpicomponents {
 	namespace pin {

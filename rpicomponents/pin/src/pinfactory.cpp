@@ -1,5 +1,10 @@
 #include "pinfactory.hpp"
-
+#include "digitalpin.hpp"
+#include "pwmpin.hpp"
+#include "softpwmpin.hpp"
+#include "softtonepin.hpp"
+#include "inputpin.hpp"
+#include <iostream>
 
 
 using namespace rpicomponents::pin;

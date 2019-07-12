@@ -1,7 +1,7 @@
 #include "rpicomponents/rpicomponents.hpp"
 #include <thread>
 #include <cassert>
-
+#include <iostream>
  
 
 
