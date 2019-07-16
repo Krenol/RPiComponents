@@ -2,12 +2,7 @@
 #include <thread>
 #include <cassert>
 #include <iostream>
- 
 
-
-
-using namespace rpicomponents::pin;
-using namespace rpicomponents::pin::utils;
 
 std::mutex mtx;
 
@@ -25,12 +20,13 @@ void On(rpicomponents::Led* led, int no){
 
 
 int main() {
-    auto led = new rpicomponents::Led(GPIO2, DIGITAL_MODE);
+    auto led = new rpicomponents::Led(rpicomponents::pin::utils::GPIO2, rpicomponents::pin::utils::DIGITAL_MODE);
 	rpicomponents::Pcf8574 pcf(0x48);
 	rpicomponents::Pcf8591 pcf1(0x49, 124);
 	rpicomponents::Mpu6050 mpu(0x51);
     //cout << btn->IsPressed()<<endl;
-	rpicomponents::UltrasonicSensor uss (GPIO0, GPIO1);
+	auto pin = rpicomponents::pin::PinFactory::CreatePin(12);
+	rpicomponents::UltrasonicSensor uss (rpicomponents::pin::utils::GPIO0, rpicomponents::pin::utils::GPIO1);
     for(int i = 0; i < 10; i++) {
 		std::thread p(On, led, i);
 		std::thread p1(On, led, i);
@@ -40,6 +36,8 @@ int main() {
 
 	std::cout << "500 mm are " << uss.UnitConverter(500, rpicomponents::UNIT_MM, rpicomponents::UNIT_M) << " m\n";
 	std::cout << pcf.ToString() << std::endl;
+	//rpicomponents::Q74Hc595 q74(1, 2, 3);
+	std::cout << rpicomponents::pin::PinFactory::CheckPin(pin)<< std::endl;
 	std::cin.get();
     delete led;
 }

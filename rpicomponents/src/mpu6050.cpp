@@ -68,7 +68,7 @@ void rpicomponents::Mpu6050::initialize() {
 	setFullScaleGyroRange(MPU6050_GYRO_FS_250);
 	setFullScaleAccelRange(MPU6050_ACCEL_FS_2);
 	setSleepEnabled(false); // thanks to Jack Elston for pointing this one out!
-	if (!pin::utils::PinChecker::IsI2CAddress(address_)) {
+	if (!rpicomponents::pin::utils::PinChecker::IsI2CAddress(address_)) {
 		throw std::invalid_argument("given address for Mpu6050 is not an i2c address!");
 	}
 	AddPins({ 8,9 });

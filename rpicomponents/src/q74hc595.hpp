@@ -10,7 +10,7 @@ namespace rpicomponents {
 		bool turn_on{ false };
 	};
 
-	class Q74HC595 : public Component
+	class Q74Hc595 : public Component
 	{
 	private:
 		const pin::Pin* ds_;
@@ -72,22 +72,22 @@ namespace rpicomponents {
 
 	public:
 		/**
-		* Constructor for creating a Q74HC595
+		* Constructor for creating a Q74Hc595
 		*
 		* @param ds: Digital pin of the ds
 		* @param stcp: Digital pin of the stcp
 		* @param shcp: Digital pin of the shcp
 		*/
-		Q74HC595(const pin::Pin* ds, const pin::Pin* stcp, const pin::Pin* shcp);
+		Q74Hc595(const pin::Pin* ds, const pin::Pin* stcp, const pin::Pin* shcp);
 
 		/**
-		* Constructor for creating a Q74HC595
+		* Constructor for creating a Q74Hc595
 		*
 		* @param ds: Pin number of the ds
 		* @param stcp: Pin number of the stcp
 		* @param shcp: Pin number of the shcp
 		*/
-		Q74HC595(int8_t ds, int8_t stcp, int8_t shcp);
+		Q74Hc595(int8_t ds, int8_t stcp, int8_t shcp);
 
 		/**
 		* Method to create a valid Q_Pin

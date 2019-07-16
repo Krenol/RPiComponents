@@ -1,15 +1,11 @@
 #include "dht11.hpp"
 
 
-
-using namespace rpicomponents::pin;
-using namespace rpicomponents::pin::utils;
-
 void rpicomponents::Dht11::Initialize() const
 {
-	if (pin_ == nullptr) throw new std::invalid_argument("pin is a nullptr! some internal error occured..");
+	CheckPin(pin_);
 	auto mode = pin_->OutputMode();
-	if (mode != IN_OUT_MODE) throw new std::invalid_argument("pin for dht11 must be in in_out_mode");
+	if (mode != rpicomponents::pin::utils::IN_OUT_MODE) throw new std::invalid_argument("pin for dht11 must be in in_out_mode");
 	AddPin(pin_->GetPin());
 }
 
@@ -23,6 +19,7 @@ bool rpicomponents::Dht11::CheckSum(const std::vector<uint8_t> &bits) const
 
 std::vector<uint8_t> rpicomponents::Dht11::ReadSensor() const
 {
+	CheckPin(pin_);
 	std::lock_guard<std::mutex> grd(mtx_);
 	std::vector<uint8_t> bits (5,0);
 	uint8_t counter = 0, j = 0;
@@ -71,12 +68,12 @@ float rpicomponents::Dht11::CalculateHumidty(const std::vector<uint8_t> &bits) c
 	return bits[0] + bits[1] * 0.1;
 }
 
-rpicomponents::Dht11::Dht11(int8_t pin) : Component("dht11"), pin_{ PinFactory::CreatePin(pin, DIGITAL_MODE) }
+rpicomponents::Dht11::Dht11(int8_t pin) : Component("dht11"), pin_{ rpicomponents::pin::PinFactory::CreatePin(pin, rpicomponents::pin::utils::DIGITAL_MODE) }
 {
 	Initialize();
 }
 
-rpicomponents::Dht11::Dht11(const Pin* pin) : Component("dht11"), pin_{ pin }
+rpicomponents::Dht11::Dht11(const rpicomponents::pin::Pin* pin) : Component("dht11"), pin_{ pin }
 {
 	Initialize();
 }

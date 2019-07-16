@@ -18,7 +18,7 @@ namespace rpicomponents {
 			* @param mode The expected PIN_MODE
 			* @return true if pin has passed PIN_MODE else false
 			*/
-			static bool CheckPinMode(const pin::Pin* pin, pin::utils::PIN_MODE mode);
+			static bool CheckPinMode(const pin::Pin* pin, rpicomponents::pin::utils::PIN_MODE mode);
 
 			/**
 			 * Method to create a new pin pointer
@@ -56,6 +56,14 @@ namespace rpicomponents {
 			 * @return the pin pointer
 			 */
 			static const Pin* LoadPin(int8_t pin); 
+
+			/**
+			 * Method to check if passed pin pointer is valid
+			 *
+			 * @param pin: The pin pointer to be checked
+			 * @return true if pin is valid; else false
+			 */
+			static bool CheckPin(const Pin* pin);
 
 		private: //no private method is thread safe!
 			/**

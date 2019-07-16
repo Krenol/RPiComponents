@@ -1,25 +1,24 @@
 #include "ultrasonicsensor.hpp"
 #include <cmath>
 
-
-
-using namespace rpicomponents::pin;
-using namespace rpicomponents::pin::utils;
-
 const std::map<rpicomponents::DISTANCE_UNIT, float> rpicomponents::UltrasonicSensor::convert_values_ = { {UNIT_M, 1.0f},  {UNIT_CM, 1e-2f}, {UNIT_MM, 1e-3f}, {UNIT_M, 1e-6f} };
 
 void rpicomponents::UltrasonicSensor::Initialize() const
 {
+	CheckPin(trigger_pin_);
+	CheckPin(echo_pin_);
 	auto mode = trigger_pin_->OutputMode();
-	if (mode != DIGITAL_MODE) throw new std::invalid_argument("given trigger pin is not in digital mode; it must be on digital mode for a ultrasonsic sensor!");
+	if (mode != rpicomponents::pin::utils::DIGITAL_MODE) throw new std::invalid_argument("given trigger pin is not in digital mode; it must be on digital mode for a ultrasonsic sensor!");
 	mode = echo_pin_->OutputMode();
-	if (mode != INPUT_MODE) throw new std::invalid_argument("given echo pin is not in input mode; it must be on input mode for a ultrasonsic sensor!");
+	if (mode != rpicomponents::pin::utils::INPUT_MODE) throw new std::invalid_argument("given echo pin is not in input mode; it must be on input mode for a ultrasonsic sensor!");
 	AddPin(trigger_pin_->GetPin());
 	AddPin(echo_pin_->GetPin());
 }
 
 float rpicomponents::UltrasonicSensor::GetEchoTime() const
 {
+	CheckPin(trigger_pin_);
+	CheckPin(echo_pin_);
 	std::lock_guard<std::mutex> lck(mtx_);
 	trigger_pin_->OutputOn();
 	rpicomponents::utils::Waiter::SleepNanos(10);
@@ -43,7 +42,8 @@ rpicomponents::UltrasonicSensor::UltrasonicSensor(const pin::Pin* trigger_pin, c
 }
 
 rpicomponents::UltrasonicSensor::UltrasonicSensor(int8_t trigger_pin, int8_t echo_pin) :
-	Component("ultrasonic_sensor"), trigger_pin_{ PinFactory::CreatePin(trigger_pin, DIGITAL_MODE) }, echo_pin_{ PinFactory::CreatePin(echo_pin, INPUT_MODE) }
+	Component("ultrasonic_sensor"), trigger_pin_{ rpicomponents::pin::PinFactory::CreatePin(trigger_pin, rpicomponents::pin::utils::DIGITAL_MODE) }, 
+	echo_pin_{ rpicomponents::pin::PinFactory::CreatePin(echo_pin, rpicomponents::pin::utils::INPUT_MODE) }
 {
 	Initialize();
 }

@@ -6,27 +6,32 @@
 #include "inputpin.hpp"
 #include <iostream>
 
+/*
+* Template classes to check if pin pointer is really a pin
+*/
+template <class T>
+bool IsPin(T* t) { return false; } // normal case returns false 
 
-using namespace rpicomponents::pin;
-using namespace rpicomponents::pin::utils;
+template <>
+bool IsPin(const rpicomponents::pin::Pin* t) { return true; }  // but for Pin returns true
 
 //variable definition
-std::map<int8_t,const Pin*> PinFactory::created_pins_;
-std::mutex PinFactory::mtx_;
+std::map<int8_t,const rpicomponents::pin::Pin*> rpicomponents::pin::PinFactory::created_pins_;
+std::mutex rpicomponents::pin::PinFactory::mtx_;
 
-bool PinFactory::CheckPinMode(const pin::Pin* pin, pin::utils::PIN_MODE mode)
+bool rpicomponents::pin::PinFactory::CheckPinMode(const pin::Pin* pin, rpicomponents::pin::utils::PIN_MODE mode)
 {
 	if (pin == nullptr || pin->OutputMode() != mode) return false;
 	return true;
 }
 
-const Pin* PinFactory::CreatePin(int8_t pin, PIN_MODE mode, int16_t maxOutputValue) {
+const rpicomponents::pin::Pin* rpicomponents::pin::PinFactory::CreatePin(int8_t pin, rpicomponents::pin::utils::PIN_MODE mode, int16_t maxOutputValue) {
 	std::lock_guard<std::mutex> lck{ mtx_ };
 	auto newPin = PinCreator(pin, mode, maxOutputValue);
 	return newPin;
 }
 
-const Pin* PinFactory::PinCreator(int8_t pin, PIN_MODE outputMode, int16_t maxOutputValue) {
+const rpicomponents::pin::Pin* rpicomponents::pin::PinFactory::PinCreator(int8_t pin, rpicomponents::pin::utils::PIN_MODE outputMode, int16_t maxOutputValue) {
 	auto exists = PinExists(pin);
 	const Pin* newPin;
 	if (exists) {
@@ -59,28 +64,38 @@ const Pin* PinFactory::PinCreator(int8_t pin, PIN_MODE outputMode, int16_t maxOu
 	return newPin;
 }
 
-const Pin* PinFactory::LoadPin(int8_t pin) {
+const rpicomponents::pin::Pin* rpicomponents::pin::PinFactory::LoadPin(int8_t pin) {
 	std::lock_guard<std::mutex> lck{ mtx_ };
 	auto pinP = PinLoader(pin);
 	return pinP;
 }
 
-const Pin* PinFactory::PinLoader(int8_t pin) {
+bool rpicomponents::pin::PinFactory::CheckPin(const Pin* pin)
+{
+	if (pin == nullptr) {
+		return false;
+	}
+	return IsPin(pin);
+}
+
+const rpicomponents::pin::Pin* rpicomponents::pin::PinFactory::PinLoader(int8_t pin) {
 	auto exists = PinExists(pin);
 	if (exists) {
 		auto ptr = created_pins_[pin];
-		return ptr;
+		if (CheckPin(ptr)) {
+			return ptr;
+		}
 	}
-	else throw std::invalid_argument("Pin does not exists. Create it with the CreatePin(..) method call first");
+	throw std::invalid_argument("Pin does not exists or pin pointer has been deleted. Create pin with the CreatePin(..) method!");
 }
 
-bool PinFactory::RemovePin(const Pin* pin) {
+bool rpicomponents::pin::PinFactory::RemovePin(const Pin* pin) {
 	auto pinNo = pin->GetPin();
 	auto removed = RemovePin(pinNo);
 	return removed;
 }
 
-bool PinFactory::RemovePin(int8_t pin) {
+bool rpicomponents::pin::PinFactory::RemovePin(int8_t pin) {
 	std::lock_guard<std::mutex> lck{ mtx_ };
 	auto exists = PinExists(pin);
 	if (!exists) return false;
@@ -96,7 +111,7 @@ bool PinFactory::RemovePin(int8_t pin) {
 	}
 }
 
-PinFactory::~PinFactory() {
+rpicomponents::pin::PinFactory::~PinFactory() {
 	std::lock_guard<std::mutex> lck{ mtx_ };
 	for (auto it : created_pins_) {
 		delete it.second;
@@ -104,20 +119,20 @@ PinFactory::~PinFactory() {
 	created_pins_.clear();
 }
 
-bool PinFactory::PinExists(int8_t pin) {
+bool rpicomponents::pin::PinFactory::PinExists(int8_t pin) {
 	auto count = created_pins_.count(pin);
 	auto ptr = created_pins_[pin];
 	if (count == 1 && ptr != nullptr) return true;
 	return false;
 }
 
-void PinFactory::AddPinToMap(const Pin* pin) {
+void rpicomponents::pin::PinFactory::AddPinToMap(const Pin* pin) {
 	auto pinNo = pin->GetPin();
 	auto exists = PinExists(pinNo);
 	if (exists) throw std::invalid_argument("Pin already exists and cannot be added to factory pointer storage!");
 	created_pins_[pinNo] = pin;
 }
 
-PinFactory::PinFactory() {
-    //add code here
+rpicomponents::pin::PinFactory::PinFactory() {
+
 }

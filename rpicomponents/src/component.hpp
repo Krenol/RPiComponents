@@ -75,7 +75,7 @@ namespace rpicomponents {
 		* @param pin The to be checked pin
 		* @param mode The expected pin mode
 		*/
-		void CheckPinStatus(const pin::Pin* pin, pin::utils::PIN_MODE mode) const;
+		void CheckPinStatus(const pin::Pin* pin, rpicomponents::pin::utils::PIN_MODE mode) const;
 
 		/**
 		* Method to check if the passed pin is not null of the passed PIN_MODE
@@ -85,7 +85,15 @@ namespace rpicomponents {
 		* @param pin The to be checked pin
 		* @param mode The expected pin modes as a vector
 		*/
-		void CheckPinStatus(const pin::Pin* pin, std::vector<pin::utils::PIN_MODE> mode) const;
+		void CheckPinStatus(const pin::Pin* pin, std::vector<rpicomponents::pin::utils::PIN_MODE> mode) const;
+
+		/**
+		* Method to check if passed pin pointer is valid
+		* Throws invalid_argument exception if pin::PinFactory::CheckPin is true
+		*
+		* @param pin: The pin pointer to be checked
+		*/
+		void CheckPin(const pin::Pin* pin) const;
 			
 	public:
 		/**

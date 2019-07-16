@@ -3,30 +3,37 @@
 //#include <iomanip>
 
 
-using namespace rpicomponents::pin;
-using namespace rpicomponents::pin::utils;
+
+
 
 rpicomponents::Component::Component(std::string componentName) : component_name_{ componentName }
 {
 }
 
-void rpicomponents::Component::CheckPinStatus(const Pin* pin, PIN_MODE mode) const
+void rpicomponents::Component::CheckPinStatus(const rpicomponents::pin::Pin* pin, rpicomponents::pin::utils::PIN_MODE mode) const
 {
-	CheckPinStatus(pin, std::vector<PIN_MODE>{ mode });
+	CheckPinStatus(pin, std::vector<rpicomponents::pin::utils::PIN_MODE>{ mode });
 }
 
-void rpicomponents::Component::CheckPinStatus(const pin::Pin* pin, std::vector<pin::utils::PIN_MODE> mode) const
+void rpicomponents::Component::CheckPinStatus(const pin::Pin* pin, std::vector<rpicomponents::pin::utils::PIN_MODE> mode) const
 {
 	std::lock_guard<std::mutex> grd(mtx_);
 	if (pin == nullptr) throw new std::invalid_argument("pin of component is null");
 	bool valid = false;
 	std::string modes = "";
 	for (int i = 0; i < mode.size(); i++) {
-		valid = PinFactory::CheckPinMode(pin, mode[i]);
+		valid = rpicomponents::pin::PinFactory::CheckPinMode(pin, mode[i]);
 		if (valid) return;
 		modes += (i == 0 ? "" : ", ") + mode[i];
 	}
 	throw new std::invalid_argument("pin is not of PIN_MODES " + modes);
+}
+
+void rpicomponents::Component::CheckPin(const pin::Pin* pin) const
+{
+	if (!pin::PinFactory::CheckPin(pin)) {
+		throw new std::invalid_argument("pin pointer of component is either nullptr or points to an object other than a pin::Pin");
+	}
 }
 
 rpicomponents::Component::~Component() {
