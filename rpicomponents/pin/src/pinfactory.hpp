@@ -9,6 +9,7 @@
 
 namespace rpicomponents {
 	namespace pin {
+
 		class PinFactory {
 		public:
 			/**
@@ -18,7 +19,7 @@ namespace rpicomponents {
 			* @param mode The expected PIN_MODE
 			* @return true if pin has passed PIN_MODE else false
 			*/
-			static bool CheckPinMode(const pin::Pin* pin, rpicomponents::pin::utils::PIN_MODE mode);
+			static bool CheckPinMode(const pin::Pin* pin, rpicomponents::pin::PIN_MODE mode);
 
 			/**
 			 * Method to create a new pin pointer
@@ -28,7 +29,7 @@ namespace rpicomponents {
 			 * @param maxOutputValue: the maximum output of a pin, is depending on the pin mode
 			 * @return the pointer to the pin; if pin already created, pointer to existing pin is returned
 			 */
-			static const Pin* CreatePin(int8_t pin, utils::PIN_MODE mode = utils::DIGITAL_MODE, int16_t maxOutputValue = utils::DIGITAL_MODE_MAX_VAL);
+			static const Pin* CreatePin(int8_t pin, PIN_MODE mode = DIGITAL_MODE, int16_t maxOutputValue = DIGITAL_MODE_MAX_VAL);
 			
 			/**
 			 * Method to remove a pin pointer from the factory and the memory
@@ -84,7 +85,7 @@ namespace rpicomponents {
 			 * @param maxOutputValue: The maximum pin output value; only needed for SOFTPWM and SOFTTONE
 			 * @return pin pointer to created pin
 			 */
-			static const Pin* PinCreator(int8_t pin, utils::PIN_MODE outputMode = utils::DIGITAL_MODE, int16_t maxOutputValue = utils::DIGITAL_MODE_MAX_VAL);
+			static const Pin* PinCreator(int8_t pin, PIN_MODE outputMode = DIGITAL_MODE, int16_t maxOutputValue = DIGITAL_MODE_MAX_VAL);
 
 			/**
 			 * Method to check if a pin pointer exists in the factory

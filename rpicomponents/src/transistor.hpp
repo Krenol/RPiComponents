@@ -36,7 +36,7 @@ namespace rpicomponents {
 		* @param pin: GPIO pin number of the transistor
 		* @param pud: the to be checked PUD value
 		*/
-		Transistor(int8_t pin, TRANSISTOR_TYPE type, rpicomponents::pin::utils::PIN_MODE mode);
+		Transistor(int8_t pin, TRANSISTOR_TYPE type, rpicomponents::pin::PIN_MODE mode);
 
 		/**
 		* Method to get the transistor type

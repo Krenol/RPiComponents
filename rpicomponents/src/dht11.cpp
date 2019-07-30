@@ -5,7 +5,7 @@ void rpicomponents::Dht11::Initialize() const
 {
 	CheckPin(pin_);
 	auto mode = pin_->OutputMode();
-	if (mode != rpicomponents::pin::utils::IN_OUT_MODE) throw new std::invalid_argument("pin for dht11 must be in in_out_mode");
+	if (mode != rpicomponents::pin::IN_OUT_MODE) throw new std::invalid_argument("pin for dht11 must be in in_out_mode");
 	AddPin(pin_->GetPin());
 }
 
@@ -68,7 +68,7 @@ float rpicomponents::Dht11::CalculateHumidty(const std::vector<uint8_t> &bits) c
 	return bits[0] + bits[1] * 0.1;
 }
 
-rpicomponents::Dht11::Dht11(int8_t pin) : Component("dht11"), pin_{ rpicomponents::pin::PinFactory::CreatePin(pin, rpicomponents::pin::utils::DIGITAL_MODE) }
+rpicomponents::Dht11::Dht11(int8_t pin) : Component("dht11"), pin_{ rpicomponents::pin::PinFactory::CreatePin(pin, rpicomponents::pin::DIGITAL_MODE) }
 {
 	Initialize();
 }

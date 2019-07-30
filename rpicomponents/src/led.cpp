@@ -10,7 +10,7 @@ rpicomponents::Led::Led(const rpicomponents::pin::Pin* pin, bool onIfPinOn) : Co
 	Initialize();
 }
 
-rpicomponents::Led::Led(int8_t pin, rpicomponents::pin::utils::PIN_MODE mode, bool onIfPinOn) : Component("led"), on_mode_{ onIfPinOn }, pin_{ rpicomponents::pin::PinFactory::CreatePin(pin, mode) }
+rpicomponents::Led::Led(int8_t pin, rpicomponents::pin::PIN_MODE mode, bool onIfPinOn) : Component("led"), on_mode_{ onIfPinOn }, pin_{ rpicomponents::pin::PinFactory::CreatePin(pin, mode) }
 {
 	Initialize();
 }
@@ -18,7 +18,7 @@ rpicomponents::Led::Led(int8_t pin, rpicomponents::pin::utils::PIN_MODE mode, bo
 void rpicomponents::Led::Initialize() {
 	CheckPin(pin_);
 	const auto mode = pin_->OutputMode();
-	if (mode == rpicomponents::pin::utils::INPUT_MODE) throw new std::invalid_argument("pin for led cannot be on input mode");
+	if (mode == rpicomponents::pin::INPUT_MODE) throw new std::invalid_argument("pin for led cannot be on input mode");
 	AddPin(pin_->GetPin());
 }
 

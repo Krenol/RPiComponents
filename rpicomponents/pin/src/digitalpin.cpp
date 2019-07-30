@@ -1,7 +1,7 @@
 #include "digitalpin.hpp"
 
 
-rpicomponents::pin::DigitalPin::DigitalPin(int8_t pin) : Pin(pin, rpicomponents::pin::utils::DIGITAL_MODE, rpicomponents::pin::utils::DIGITAL_MODE_MAX_VAL) {
+rpicomponents::pin::DigitalPin::DigitalPin(int8_t pin) : Pin(pin, rpicomponents::pin::DIGITAL_MODE, rpicomponents::pin::DIGITAL_MODE_MAX_VAL) {
 	OutputOff();
 }
 

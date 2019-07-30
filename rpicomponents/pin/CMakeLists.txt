@@ -16,13 +16,15 @@ ${PROJECT_SOURCE_DIR}/pwmpin.cpp
 ${PROJECT_SOURCE_DIR}/softtonepin.cpp
 ${PROJECT_SOURCE_DIR}/pinfactory.cpp
 ${PROJECT_SOURCE_DIR}/inputpin.cpp
+${PROJECT_SOURCE_DIR}/pinchecker.cpp
+${PROJECT_SOURCE_DIR}/addresschecker.cpp
 )
 
  
 include_directories("${PROJECT_BINARY_DIR}")
 include_directories("${PROJECT_INCLUDE_DIR}")
- 
-add_library(${PROJECT_NAME} SHARED ${PIN_PROJECT_SRCS})
+
+add_library(${PROJECT_NAME} SHARED ${RPICOMPONENT_PROJECT_SRCS})
 
 target_include_directories(${PROJECT_NAME}
     PUBLIC 
@@ -34,6 +36,3 @@ target_include_directories(${PROJECT_NAME}
 
 # Locate libraries and headers
 find_package(Threads REQUIRED)
-
-add_subdirectory (utils)
-target_link_libraries(${PROJECT_NAME} pin_utils)

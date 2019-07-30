@@ -2,7 +2,7 @@
 
 
 
-rpicomponents::pin::SofttonePin::SofttonePin(int8_t pin, int16_t maxOutputValue) : Pin(pin, rpicomponents::pin::utils::SOFTTONE_MODE, maxOutputValue) {
+rpicomponents::pin::SofttonePin::SofttonePin(int8_t pin, int16_t maxOutputValue) : Pin(pin, rpicomponents::pin::SOFTTONE_MODE, maxOutputValue) {
 	OutputOff();
 }
 

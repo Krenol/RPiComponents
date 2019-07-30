@@ -5,7 +5,6 @@
 #include <algorithm>
 #include <vector>
 #include "../pin/include/rpicomponents/pin/pins.hpp"
-#include "../pin/utils/include/rpicomponents/pin/utils/pinutils.hpp"
 #include "../utils/include/rpicomponents/utils/rpicomponents_utils.hpp"
 
 namespace rpicomponents {
@@ -75,7 +74,7 @@ namespace rpicomponents {
 		* @param pin The to be checked pin
 		* @param mode The expected pin mode
 		*/
-		void CheckPinStatus(const pin::Pin* pin, rpicomponents::pin::utils::PIN_MODE mode) const;
+		void CheckPinStatus(const pin::Pin* pin, rpicomponents::pin::PIN_MODE mode) const;
 
 		/**
 		* Method to check if the passed pin is not null of the passed PIN_MODE
@@ -85,7 +84,7 @@ namespace rpicomponents {
 		* @param pin The to be checked pin
 		* @param mode The expected pin modes as a vector
 		*/
-		void CheckPinStatus(const pin::Pin* pin, std::vector<rpicomponents::pin::utils::PIN_MODE> mode) const;
+		void CheckPinStatus(const pin::Pin* pin, std::vector<rpicomponents::pin::PIN_MODE> mode) const;
 
 		/**
 		* Method to check if passed pin pointer is valid

@@ -10,12 +10,12 @@ rpicomponents::Component::Component(std::string componentName) : component_name_
 {
 }
 
-void rpicomponents::Component::CheckPinStatus(const rpicomponents::pin::Pin* pin, rpicomponents::pin::utils::PIN_MODE mode) const
+void rpicomponents::Component::CheckPinStatus(const rpicomponents::pin::Pin* pin, rpicomponents::pin::PIN_MODE mode) const
 {
-	CheckPinStatus(pin, std::vector<rpicomponents::pin::utils::PIN_MODE>{ mode });
+	CheckPinStatus(pin, std::vector<rpicomponents::pin::PIN_MODE>{ mode });
 }
 
-void rpicomponents::Component::CheckPinStatus(const pin::Pin* pin, std::vector<rpicomponents::pin::utils::PIN_MODE> mode) const
+void rpicomponents::Component::CheckPinStatus(const pin::Pin* pin, std::vector<rpicomponents::pin::PIN_MODE> mode) const
 {
 	std::lock_guard<std::mutex> grd(mtx_);
 	if (pin == nullptr) throw new std::invalid_argument("pin of component is null");

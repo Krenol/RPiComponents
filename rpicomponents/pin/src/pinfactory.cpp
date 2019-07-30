@@ -7,31 +7,40 @@
 #include <iostream>
 
 /*
-* Template classes to check if pin pointer is really a pin
+* Template class to check if pin pointer is really a rpicomponents::pin::Pin
+*
+* @param pin Pointer to a class other than pin
+* @returns false qs overload guarantees pointer to be not a rpicomponents::pin::Pin
 */
 template <class T>
-bool IsPin(T* t) { return false; } // normal case returns false 
+bool IsPin(T* pin) { return false; } // normal case returns false 
 
+/*
+* Template class to check if pin pointer is really a rpicomponents::pin::Pin
+*
+* @param pin Pointer to a pin class
+* @returns true as overload guarantees pointer to be a rpicomponents::pin::Pin
+*/
 template <>
-bool IsPin(const rpicomponents::pin::Pin* t) { return true; }  // but for Pin returns true
+bool IsPin(const rpicomponents::pin::Pin* pin) { return true; }  // but for Pin returns true
 
 //variable definition
 std::map<int8_t,const rpicomponents::pin::Pin*> rpicomponents::pin::PinFactory::created_pins_;
 std::mutex rpicomponents::pin::PinFactory::mtx_;
 
-bool rpicomponents::pin::PinFactory::CheckPinMode(const pin::Pin* pin, rpicomponents::pin::utils::PIN_MODE mode)
+bool rpicomponents::pin::PinFactory::CheckPinMode(const pin::Pin* pin, rpicomponents::pin::PIN_MODE mode)
 {
 	if (pin == nullptr || pin->OutputMode() != mode) return false;
 	return true;
 }
 
-const rpicomponents::pin::Pin* rpicomponents::pin::PinFactory::CreatePin(int8_t pin, rpicomponents::pin::utils::PIN_MODE mode, int16_t maxOutputValue) {
+const rpicomponents::pin::Pin* rpicomponents::pin::PinFactory::CreatePin(int8_t pin, rpicomponents::pin::PIN_MODE mode, int16_t maxOutputValue) {
 	std::lock_guard<std::mutex> lck{ mtx_ };
 	auto newPin = PinCreator(pin, mode, maxOutputValue);
 	return newPin;
 }
 
-const rpicomponents::pin::Pin* rpicomponents::pin::PinFactory::PinCreator(int8_t pin, rpicomponents::pin::utils::PIN_MODE outputMode, int16_t maxOutputValue) {
+const rpicomponents::pin::Pin* rpicomponents::pin::PinFactory::PinCreator(int8_t pin, rpicomponents::pin::PIN_MODE outputMode, int16_t maxOutputValue) {
 	auto exists = PinExists(pin);
 	const Pin* newPin;
 	if (exists) {
@@ -41,19 +50,19 @@ const rpicomponents::pin::Pin* rpicomponents::pin::PinFactory::PinCreator(int8_t
 	else {
 		switch (outputMode)
 		{
-		case rpicomponents::pin::utils::DIGITAL_MODE:
+		case rpicomponents::pin::DIGITAL_MODE:
 			newPin = new DigitalPin(pin);
 			break;
-		case rpicomponents::pin::utils::PWM_MODE:
+		case rpicomponents::pin::PWM_MODE:
 			newPin = new PWMPin(pin);
 			break;
-		case rpicomponents::pin::utils::SOFTPWM_MODE:
+		case rpicomponents::pin::SOFTPWM_MODE:
 			newPin = new SoftPWMPin(pin, maxOutputValue);
 			break;
-		case rpicomponents::pin::utils::SOFTTONE_MODE:
+		case rpicomponents::pin::SOFTTONE_MODE:
 			newPin = new SofttonePin(pin, maxOutputValue);
 			break;
-		case rpicomponents::pin::utils::INPUT_MODE:
+		case rpicomponents::pin::INPUT_MODE:
 			newPin = new InputPin(pin);
 			break;
 		default:

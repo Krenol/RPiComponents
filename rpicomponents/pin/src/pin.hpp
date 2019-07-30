@@ -2,7 +2,7 @@
 #define RPICOMPONENTS_PIN_H
 #pragma once
 
-#include "../utils/include/rpicomponents/pin/utils/pinutils.hpp"
+#include "pindefinitions.hpp"
 #include <wiringPi.h>
 #include <atomic>
 #include <mutex>
@@ -30,7 +30,7 @@ namespace rpicomponents {
 			 *
 			 * @return output mode of this pin as const PIN_MODE
 			 */
-			utils::PIN_MODE OutputMode() const;
+			PIN_MODE OutputMode() const;
 
 			/**
 			 * Check if pin is on or off
@@ -68,7 +68,7 @@ namespace rpicomponents {
 			 * @param mode The output mode of the pin (digital, pwm, soft pwm or softtone)
 			 * @param maxValue The maximum output of this pin (digital must be 1, pwm must be 1023 and always above 0)
 			 */
-			Pin(int8_t pin, utils::PIN_MODE mode = utils::PIN_MODE::DIGITAL_MODE, int16_t maxOutputValue = utils::DIGITAL_MODE_MAX_VAL);
+			Pin(int8_t pin, PIN_MODE mode = PIN_MODE::DIGITAL_MODE, int16_t maxOutputValue = DIGITAL_MODE_MAX_VAL);
 
 			/**
 			 * Checks whether given value for the pin output is inside the valid range of this object
@@ -94,9 +94,9 @@ namespace rpicomponents {
 			 */
 			virtual int16_t ReadFromPin() const = 0;
 
-			const int8_t pin_{ utils::GPIO17 };
-			const int16_t max_value_{ utils::DIGITAL_MODE_MAX_VAL }, min_value_{ 0 };
-			const utils::PIN_MODE mode_{ utils::PIN_MODE::DIGITAL_MODE };
+			const int8_t pin_{ GPIO17 };
+			const int16_t max_value_{ DIGITAL_MODE_MAX_VAL }, min_value_{ 0 };
+			const PIN_MODE mode_{ PIN_MODE::DIGITAL_MODE };
 			mutable std::atomic<int16_t> status_{ 0 };
 			mutable std::mutex mtx_;
 		};

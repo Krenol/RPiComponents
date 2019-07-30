@@ -10,7 +10,7 @@ rpicomponents::Transistor::Transistor(const rpicomponents::pin::Pin* pin, TRANSI
 	Initialize();
 }
 
-rpicomponents::Transistor::Transistor(int8_t pin, TRANSISTOR_TYPE type, rpicomponents::pin::utils::PIN_MODE mode) : Component("transistor"), 
+rpicomponents::Transistor::Transistor(int8_t pin, TRANSISTOR_TYPE type, rpicomponents::pin::PIN_MODE mode) : Component("transistor"), 
 	pin_{ rpicomponents::pin::PinFactory::CreatePin(pin, mode) }, type_{ type }
 {
 	Initialize();
@@ -19,7 +19,7 @@ rpicomponents::Transistor::Transistor(int8_t pin, TRANSISTOR_TYPE type, rpicompo
 void rpicomponents::Transistor::Initialize() {
 	CheckPin(pin_);
 	const auto mode = pin_->OutputMode();
-	if (mode != rpicomponents::pin::utils::INPUT_MODE) throw new std::invalid_argument("pin for transistor cannot be on input mode");
+	if (mode != rpicomponents::pin::INPUT_MODE) throw new std::invalid_argument("pin for transistor cannot be on input mode");
 	AddPin(pin_->GetPin());
 }
 

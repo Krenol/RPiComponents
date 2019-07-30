@@ -6,7 +6,7 @@ rpicomponents::Button::Button(const rpicomponents::pin::Pin* pin, int8_t pud) : 
 	Initialize();
 }
 
-rpicomponents::Button::Button(int8_t pin, int8_t pud) : Component("button"), pin_(rpicomponents::pin::PinFactory::CreatePin(pin, rpicomponents::pin::utils::INPUT_MODE)), pud_{ pud }
+rpicomponents::Button::Button(int8_t pin, int8_t pud) : Component("button"), pin_(rpicomponents::pin::PinFactory::CreatePin(pin, rpicomponents::pin::INPUT_MODE)), pud_{ pud }
 {
 	Initialize();
 }
@@ -15,7 +15,7 @@ void rpicomponents::Button::Initialize() const {
 	CheckPin(pin_);
 	if (!IsPUD(pud_)) throw new std::invalid_argument("given PUD is invalid!");
 	const auto mode = pin_->OutputMode();
-	if (mode != rpicomponents::pin::utils::INPUT_MODE) throw new std::invalid_argument("given pin is on output mode; it must be on input mode for a button!");
+	if (mode != rpicomponents::pin::INPUT_MODE) throw new std::invalid_argument("given pin is on output mode; it must be on input mode for a button!");
 	pullUpDnControl(pin_->GetPin(), pud_);
 	AddPin(pin_->GetPin());
 }

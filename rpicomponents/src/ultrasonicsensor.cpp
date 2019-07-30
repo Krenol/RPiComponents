@@ -8,9 +8,9 @@ void rpicomponents::UltrasonicSensor::Initialize() const
 	CheckPin(trigger_pin_);
 	CheckPin(echo_pin_);
 	auto mode = trigger_pin_->OutputMode();
-	if (mode != rpicomponents::pin::utils::DIGITAL_MODE) throw new std::invalid_argument("given trigger pin is not in digital mode; it must be on digital mode for a ultrasonsic sensor!");
+	if (mode != rpicomponents::pin::DIGITAL_MODE) throw new std::invalid_argument("given trigger pin is not in digital mode; it must be on digital mode for a ultrasonsic sensor!");
 	mode = echo_pin_->OutputMode();
-	if (mode != rpicomponents::pin::utils::INPUT_MODE) throw new std::invalid_argument("given echo pin is not in input mode; it must be on input mode for a ultrasonsic sensor!");
+	if (mode != rpicomponents::pin::INPUT_MODE) throw new std::invalid_argument("given echo pin is not in input mode; it must be on input mode for a ultrasonsic sensor!");
 	AddPin(trigger_pin_->GetPin());
 	AddPin(echo_pin_->GetPin());
 }
@@ -42,8 +42,8 @@ rpicomponents::UltrasonicSensor::UltrasonicSensor(const pin::Pin* trigger_pin, c
 }
 
 rpicomponents::UltrasonicSensor::UltrasonicSensor(int8_t trigger_pin, int8_t echo_pin) :
-	Component("ultrasonic_sensor"), trigger_pin_{ rpicomponents::pin::PinFactory::CreatePin(trigger_pin, rpicomponents::pin::utils::DIGITAL_MODE) }, 
-	echo_pin_{ rpicomponents::pin::PinFactory::CreatePin(echo_pin, rpicomponents::pin::utils::INPUT_MODE) }
+	Component("ultrasonic_sensor"), trigger_pin_{ rpicomponents::pin::PinFactory::CreatePin(trigger_pin, rpicomponents::pin::DIGITAL_MODE) }, 
+	echo_pin_{ rpicomponents::pin::PinFactory::CreatePin(echo_pin, rpicomponents::pin::INPUT_MODE) }
 {
 	Initialize();
 }
