@@ -3,12 +3,6 @@
 #include <stdexcept>
 #include <vector>
 
-
-bool rpicomponents::pin::AddressChecker::IsValidPinValue(int8_t pin) {
-	if (pin < PIN_MIN_VALUE || pin > PIN_MAX_VALUE) return false;
-	return true;
-}
-
 bool rpicomponents::pin::AddressChecker::IsI2CAddress(int16_t address) {
 	const std::vector<char> i2c_col = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 	const std::vector<char> i2c_row = { '0', '1', '2', '3', '4', '5', '6', '7' };
@@ -46,14 +40,3 @@ std::string rpicomponents::pin::AddressChecker::GetHexAddress(int16_t address) {
 	return hexdec_num;
 }
 
-bool rpicomponents::pin::AddressChecker::PinIsHardwarePWMCapable(int8_t pin) {
-	//PWM channel 0
-	if (pin == PWM_CHANNEL0_PIN1 || pin == PWM_CHANNEL0_PIN2) { 
-		return true;
-	}
-	//PWM channel 1
-	if (pin == PWM_CHANNEL1_PIN1 || pin == PWM_CHANNEL1_PIN2) {
-		return true;
-	}
-	return false;
-}

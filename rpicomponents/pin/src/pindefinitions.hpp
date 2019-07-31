@@ -2,6 +2,8 @@
 #define RPICOMPONENTS_PIN_PINDEFINITIONS_H
 #pragma once
 
+#include  <cstdint>
+
 namespace rpicomponents {
 	namespace pin {
 

@@ -1,5 +1,5 @@
 #include "pin.hpp"
-
+#include "pinchecker.hpp"
 
 
 int8_t rpicomponents::pin::Pin::GetPin() const {

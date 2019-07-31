@@ -8,7 +8,7 @@ project (rpicomponents_utils)
 set (PROJECT_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 set (PROJECT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
  
-set(PIN_UTILS_PROJECT_SRCS 
+set(RPICOMPONENTS_UTILS_PROJECT_SRCS
 ${PROJECT_SOURCE_DIR}/waiter.cpp
 ${PROJECT_SOURCE_DIR}/i2cdev.cpp
 )
@@ -17,7 +17,7 @@ ${PROJECT_SOURCE_DIR}/i2cdev.cpp
 include_directories("${PROJECT_BINARY_DIR}")
 include_directories("${PROJECT_INCLUDE_DIR}")
  
-add_library(${PROJECT_NAME} SHARED ${PIN_UTILS_PROJECT_SRCS})
+add_library(${PROJECT_NAME} SHARED ${RPICOMPONENTS_UTILS_PROJECT_SRCS})
 
 target_include_directories(${PROJECT_NAME}
     PUBLIC 
