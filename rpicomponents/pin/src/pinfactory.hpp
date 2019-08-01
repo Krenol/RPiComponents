@@ -22,15 +22,6 @@ namespace rpicomponents {
 			static bool CheckPinMode(const pin::Pin* pin, rpicomponents::pin::PIN_MODE mode);
 
 			/**
-			* Static method to check whether a pin has the passed PIN_MODE
-			*
-			* @param pin The pin to be checked
-			* @param mode The expected PIN_MODE
-			* @return true if pin has passed PIN_MODE else false
-			*/
-			static bool CheckPinMode(const pin::Pin& pin, rpicomponents::pin::PIN_MODE mode);
-
-			/**
 			 * Method to create a new pin pointer
 			 *
 			 * @param pin: the GPIO pin number
@@ -38,17 +29,7 @@ namespace rpicomponents {
 			 * @param maxOutputValue: the maximum output of a pin, is depending on the pin mode
 			 * @return the pointer to the pin; if pin already created, pointer to existing pin is returned
 			 */
-			static const Pin* CreatePinPointer(int8_t pin, PIN_MODE mode = DIGITAL_MODE, int16_t maxOutputValue = DIGITAL_MODE_MAX_VAL);
-
-			/**
-			 * Method to create a new pin reference
-			 *
-			 * @param pin: the GPIO pin number
-			 * @param mode: the pin mode
-			 * @param maxOutputValue: the maximum output of a pin, is depending on the pin mode
-			 * @return the reference to the pin; if pin already created, pointer to existing pin is returned
-			 */
-			static const Pin& CreatePin(int8_t pin, PIN_MODE mode = DIGITAL_MODE, int16_t maxOutputValue = DIGITAL_MODE_MAX_VAL);
+			static const Pin* CreatePin(int8_t pin, PIN_MODE mode = DIGITAL_MODE, int16_t maxOutputValue = DIGITAL_MODE_MAX_VAL);
 			
 			/**
 			 * Method to remove a pin pointer from the factory and the memory
@@ -58,15 +39,6 @@ namespace rpicomponents {
 			 * @return true if removal was successful, else false
 			 */
 			static bool RemovePin(const Pin* pin);
-
-			/**
-			 * Method to remove a pin reference from the factory and the memory
-			 * BLOCKING
-			 *
-			 * @param pin: Reference to the pin to be removed
-			 * @return true if removal was successful, else false
-			 */
-			static bool RemovePin(const Pin& pin);
 
 			/**
 			 * Method to remove a pin pointer from the factory and the memory
@@ -84,16 +56,7 @@ namespace rpicomponents {
 			 * @param pin: GPIO pin number of the pin to be loaded
 			 * @return the pin pointer
 			 */
-			static const Pin* LoadPinPointer(int8_t pin); 
-
-			/**
-			 * Method to load a pin reference from the factory
-			 * BLOCKING
-			 *
-			 * @param pin: GPIO pin number of the pin to be loaded
-			 * @return the pin reference
-			 */
-			static const Pin& LoadPin(int8_t pin);
+			static const Pin* LoadPin(int8_t pin); 
 
 			/**
 			 * Method to check if passed pin pointer is valid
@@ -103,14 +66,6 @@ namespace rpicomponents {
 			 */
 			static bool CheckPin(const Pin* pin);
 
-			/**
-			 * Method to check if passed pin reference is valid
-			 *
-			 * @param pin: The pin reference to be checked
-			 * @return true if pin is valid; else false
-			 */
-			static bool CheckPin(const Pin& pin);
-
 		private: //no private method is thread safe!
 			/**
 			 * Method to load a pin pointer from the factory
@@ -119,7 +74,7 @@ namespace rpicomponents {
 			 * @param pin: GPIO pin number of the pin to be loaded
 			 * @return Pin pointer to the created pin
 			 */
-			static const Pin PinLoader(int8_t pin);
+			static const Pin* PinLoader(int8_t pin);
 
 			/**
 			 * Method to create a pin pointer 
@@ -130,7 +85,7 @@ namespace rpicomponents {
 			 * @param maxOutputValue: The maximum pin output value; only needed for SOFTPWM and SOFTTONE
 			 * @return pin pointer to created pin
 			 */
-			static const Pin PinCreator(int8_t pin, PIN_MODE outputMode = DIGITAL_MODE, int16_t maxOutputValue = DIGITAL_MODE_MAX_VAL);
+			static const Pin* PinCreator(int8_t pin, PIN_MODE outputMode = DIGITAL_MODE, int16_t maxOutputValue = DIGITAL_MODE_MAX_VAL);
 
 			/**
 			 * Method to check if a pin pointer exists in the factory
@@ -147,7 +102,7 @@ namespace rpicomponents {
 			 *
 			 * @param pin: pin pointer of the pin to be added
 			 */
-			static void AddPinToMap(const Pin pin); 
+			static void AddPinToMap(const Pin* pin); 
 
 			/**
 			 * Constructor; static class by private Constructor
@@ -160,7 +115,7 @@ namespace rpicomponents {
 			 */
 			~PinFactory();
 
-			static std::map<int8_t,const Pin> created_pins_; //map for the storage of the pins
+			static std::map<int8_t,const Pin*> created_pins_; //map for the storage of the pins
 			static std::mutex mtx_; //mutex for lock_guard
 		};
 	}
