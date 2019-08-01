@@ -34,7 +34,7 @@ bool rpicomponents::pin::PinFactory::CheckPinMode(const pin::Pin* pin, rpicompon
 	return true;
 }
 
-const rpicomponents::pin::Pin* rpicomponents::pin::PinFactory::CreatePin(int8_t pin, rpicomponents::pin::PIN_MODE mode, int16_t maxOutputValue) {
+const rpicomponents::pin::Pin* rpicomponents::pin::PinFactory::CreatePinPointer(int8_t pin, rpicomponents::pin::PIN_MODE mode, int16_t maxOutputValue) {
 	std::lock_guard<std::mutex> lck{ mtx_ };
 	auto newPin = PinCreator(pin, mode, maxOutputValue);
 	return newPin;
@@ -73,7 +73,7 @@ const rpicomponents::pin::Pin* rpicomponents::pin::PinFactory::PinCreator(int8_t
 	return newPin;
 }
 
-const rpicomponents::pin::Pin* rpicomponents::pin::PinFactory::LoadPin(int8_t pin) {
+const rpicomponents::pin::Pin* rpicomponents::pin::PinFactory::LoadPinPointer(int8_t pin) {
 	std::lock_guard<std::mutex> lck{ mtx_ };
 	auto pinP = PinLoader(pin);
 	return pinP;
