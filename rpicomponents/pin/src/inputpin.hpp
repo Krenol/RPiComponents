@@ -15,6 +15,27 @@ namespace rpicomponents {
 			 */
 			InputPin(int8_t pin);
 
+			/**
+			 * Constructor of this class
+			 *
+			 * @param pin Pointer to the used pin of this object
+			 */
+			InputPin(int8_t&& pin);
+
+			/**
+			 * Copy constructor
+			 *
+			 * @param pin Reference to pin to be copied
+			 */
+			InputPin(InputPin& pin);
+
+			/**
+			 * Copy constructor
+			 *
+			 * @param pin RValue to pin to be copied
+			 */
+			InputPin(InputPin&& pin);
+
 		protected:
 			/**
 			 * Virtual method implementation of Pin class to write a value to the pin.

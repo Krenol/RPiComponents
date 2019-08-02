@@ -1,7 +1,23 @@
 #include "pwmpin.hpp"
 
 
-rpicomponents::pin::PWMPin::PWMPin(int8_t pin) : Pin(pin, rpicomponents::pin::PWM_MODE, rpicomponents::pin::PWM_MODE_MAX_VAL) {
+rpicomponents::pin::PWMPin::PWMPin(int8_t pin) : Pin(pin, rpicomponents::pin::PWM_MODE, rpicomponents::pin::PWM_MODE_MAX_VAL) 
+{
+	OutputOff();
+}
+
+rpicomponents::pin::PWMPin::PWMPin(int8_t&& pin) : Pin(pin, rpicomponents::pin::PWM_MODE, rpicomponents::pin::PWM_MODE_MAX_VAL)
+{
+	OutputOff();
+}
+
+rpicomponents::pin::PWMPin::PWMPin(PWMPin& pin) : Pin(pin.GetPin(), rpicomponents::pin::PWM_MODE,pin.max_value_)
+{
+	OutputOff();
+}
+
+rpicomponents::pin::PWMPin::PWMPin(PWMPin&& pin) : Pin(pin.GetPin(), rpicomponents::pin::PWM_MODE, pin.max_value_)
+{
 	OutputOff();
 }
 

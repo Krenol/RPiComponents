@@ -71,6 +71,15 @@ namespace rpicomponents {
 			Pin(int8_t pin, PIN_MODE mode = PIN_MODE::DIGITAL_MODE, int16_t maxOutputValue = DIGITAL_MODE_MAX_VAL);
 
 			/**
+			 * Constructor
+			 *
+			 * @param pin The pin integer value according to wiringPi pin layout
+			 * @param mode The output mode of the pin (digital, pwm, soft pwm or softtone)
+			 * @param maxValue The maximum output of this pin (digital must be 1, pwm must be 1023 and always above 0)
+			 */
+			Pin(int8_t&& pin, PIN_MODE&& mode = PIN_MODE::DIGITAL_MODE, int16_t&& maxOutputValue = 1);
+
+			/**
 			 * Checks whether given value for the pin output is inside the valid range of this object
 			 *
 			 *  Note: this method call is thread safe without using mutex and locks
@@ -99,6 +108,12 @@ namespace rpicomponents {
 			const PIN_MODE mode_{ PIN_MODE::DIGITAL_MODE };
 			mutable std::atomic<int16_t> status_{ 0 };
 			mutable std::mutex mtx_;
+
+		private:
+			/**
+			* Initializer for Constructors; reduce redundancy
+			*/
+			void Initialize() const;
 		};
 	}
 }

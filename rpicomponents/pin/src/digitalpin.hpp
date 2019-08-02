@@ -15,6 +15,27 @@ namespace rpicomponents {
 			 */
 			DigitalPin(int8_t pin);
 
+			/**
+			 * Constructor of this class
+			 *
+			 * @param pin RValue of the used pin of this object
+			 */
+			DigitalPin(int8_t&& pin);
+
+			/**
+			 * Copy constructor
+			 *
+			 * @param pin The to be copied pin
+			 */
+			DigitalPin(DigitalPin& pin);
+
+			/**
+			 * RValue copy constructor
+			 *
+			 * @param pin The rvalue of the pin to be copied pin
+			 */
+			DigitalPin(DigitalPin&& pin);
+
 		protected:
 			/**
 			 * Virtual method implementation of Pin class to write a value to the pin.

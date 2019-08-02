@@ -2,7 +2,23 @@
 
 
 
-rpicomponents::pin::SofttonePin::SofttonePin(int8_t pin, int16_t maxOutputValue) : Pin(pin, rpicomponents::pin::SOFTTONE_MODE, maxOutputValue) {
+rpicomponents::pin::SofttonePin::SofttonePin(int8_t pin, int16_t maxOutputValue) : Pin(pin, rpicomponents::pin::SOFTTONE_MODE, maxOutputValue) 
+{
+	OutputOff();
+}
+
+rpicomponents::pin::SofttonePin::SofttonePin(int8_t&& pin, int16_t&& maxOutputValue) : Pin(pin, rpicomponents::pin::SOFTTONE_MODE, maxOutputValue)
+{
+	OutputOff();
+}
+
+rpicomponents::pin::SofttonePin::SofttonePin(SofttonePin& pin) : Pin(pin.GetPin(), rpicomponents::pin::SOFTTONE_MODE, pin.max_value_)
+{
+	OutputOff();
+}
+
+rpicomponents::pin::SofttonePin::SofttonePin(SofttonePin&& pin) : Pin(pin.GetPin(), rpicomponents::pin::SOFTTONE_MODE, pin.max_value_)
+{
 	OutputOff();
 }
 
