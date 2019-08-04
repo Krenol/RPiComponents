@@ -65,19 +65,37 @@ namespace rpicomponents {
 			 * Constructor
 			 *
 			 * @param pin The pin integer value according to wiringPi pin layout
-			 * @param mode The output mode of the pin (digital, pwm, soft pwm or softtone)
+			 * @param mode The output mode of the pin (digital, pwm, soft pwm, input, inputoutput or softtone)
 			 * @param maxValue The maximum output of this pin (digital must be 1, pwm must be 1023 and always above 0)
 			 */
-			Pin(int8_t pin, PIN_MODE mode = PIN_MODE::DIGITAL_MODE, int16_t maxOutputValue = DIGITAL_MODE_MAX_VAL);
+			//Pin(int8_t pin, PIN_MODE mode = PIN_MODE::DIGITAL_MODE, int16_t maxOutputValue = DIGITAL_MODE_MAX_VAL);
 
 			/**
 			 * Constructor
 			 *
 			 * @param pin The pin integer value according to wiringPi pin layout
-			 * @param mode The output mode of the pin (digital, pwm, soft pwm or softtone)
+			 * @param mode The output mode of the pin (digital, pwm, soft pwm, input, inputoutput or softtone)
 			 * @param maxValue The maximum output of this pin (digital must be 1, pwm must be 1023 and always above 0)
 			 */
-			Pin(int8_t&& pin, PIN_MODE&& mode = PIN_MODE::DIGITAL_MODE, int16_t&& maxOutputValue = 1);
+			Pin(const int8_t &pin, const PIN_MODE &mode = PIN_MODE::DIGITAL_MODE, const int16_t &maxOutputValue = DIGITAL_MODE_MAX_VAL);
+
+			/**
+			 * Constructor
+			 *
+			 * @param pin The pin integer value according to wiringPi pin layout
+			 * @param mode The output mode of the pin (digital, pwm, soft pwm, input, inputoutput or softtone)
+			 * @param maxValue The maximum output of this pin (digital must be 1, pwm must be 1023 and always above 0)
+			 */
+			Pin(int8_t&& pin, const PIN_MODE&& mode = PIN_MODE::DIGITAL_MODE, const int16_t&& maxOutputValue = 1);
+
+			/**
+			 * Constructor
+			 *
+			 * @param pin The pin integer value according to wiringPi pin layout
+			 * @param mode The output mode of the pin (digital, pwm, soft pwm, input, inputoutput or softtone)
+			 * @param maxValue The maximum output of this pin (digital must be 1, pwm must be 1023 and always above 0)
+			 */
+			Pin(const Pin &pin);
 
 			/**
 			 * Checks whether given value for the pin output is inside the valid range of this object

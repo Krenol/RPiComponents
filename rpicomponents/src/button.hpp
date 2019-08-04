@@ -26,10 +26,10 @@ namespace rpicomponents {
 		/**
 		* Constructor for creating a button
 		*
-		* @param pin: Pointer to the pin of the button
+		* @param pin: GPIO pin number of the button
 		* @param pud: the to be checked PUD value
 		*/
-		Button(const pin::Pin* pin, int8_t pud = PUD_UP);
+		Button(const int8_t &pin, const int8_t &pud = PUD_UP);
 
 		/**
 		* Constructor for creating a button
@@ -37,7 +37,7 @@ namespace rpicomponents {
 		* @param pin: GPIO pin number of the button
 		* @param pud: the to be checked PUD value
 		*/
-		Button(int8_t pin, int8_t pud = PUD_UP);
+		Button(int8_t&& pin, int8_t&& pud = PUD_UP);
 
 		/**
 		* Method to check if the button is currently pressed

@@ -13,7 +13,7 @@ namespace rpicomponents {
 			 *
 			 * @param pin The used pin of this object
 			 */
-			DigitalPin(int8_t pin);
+			DigitalPin(const int8_t &pin);
 
 			/**
 			 * Constructor of this class
@@ -27,14 +27,7 @@ namespace rpicomponents {
 			 *
 			 * @param pin The to be copied pin
 			 */
-			DigitalPin(DigitalPin& pin);
-
-			/**
-			 * RValue copy constructor
-			 *
-			 * @param pin The rvalue of the pin to be copied pin
-			 */
-			DigitalPin(DigitalPin&& pin);
+			DigitalPin(const DigitalPin& pin);
 
 		protected:
 			/**

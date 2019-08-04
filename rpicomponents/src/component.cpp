@@ -6,7 +6,11 @@
 
 
 
-rpicomponents::Component::Component(std::string componentName) : component_name_{ componentName }
+rpicomponents::Component::Component(std::string &componentName) : component_name_{ componentName }
+{
+}
+
+rpicomponents::Component::Component(std::string&& componentName) : component_name_{ componentName }
 {
 }
 
@@ -91,6 +95,6 @@ bool rpicomponents::Component::RemovePin(int8_t pin) const {
 	return true;
 }
 
-std::string rpicomponents::Component::ToString() const {
-	return std::string(component_name_);
+const std::string& rpicomponents::Component::ToString() const {
+	return component_name_;
 }

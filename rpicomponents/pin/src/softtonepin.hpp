@@ -15,7 +15,7 @@ namespace rpicomponents {
 			 * @param pin The used pin of this object
 			 * @param maxOutputValue The max output value of this pin
 			 */
-			SofttonePin(int8_t pin, int16_t maxOutputValue = 100);
+			SofttonePin(const int8_t &pin, const int16_t &maxOutputValue = 100);
 
 			/**
 			 * Constructor of this class
@@ -30,14 +30,7 @@ namespace rpicomponents {
 			 *
 			 * @param pin Reference to pin to be copied
 			 */
-			SofttonePin(SofttonePin& pin);
-
-			/**
-			 * Copy constructor
-			 *
-			 * @param pin RValue to pin to be copied
-			 */
-			SofttonePin(SofttonePin&& pin);
+			SofttonePin(const SofttonePin& pin);
 
 		protected:
 			/**

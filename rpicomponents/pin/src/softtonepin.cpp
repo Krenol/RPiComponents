@@ -2,7 +2,7 @@
 
 
 
-rpicomponents::pin::SofttonePin::SofttonePin(int8_t pin, int16_t maxOutputValue) : Pin(pin, rpicomponents::pin::SOFTTONE_MODE, maxOutputValue) 
+rpicomponents::pin::SofttonePin::SofttonePin(const int8_t &pin, const int16_t &maxOutputValue) : Pin(pin, rpicomponents::pin::SOFTTONE_MODE, maxOutputValue) 
 {
 	OutputOff();
 }
@@ -12,15 +12,11 @@ rpicomponents::pin::SofttonePin::SofttonePin(int8_t&& pin, int16_t&& maxOutputVa
 	OutputOff();
 }
 
-rpicomponents::pin::SofttonePin::SofttonePin(SofttonePin& pin) : Pin(pin.GetPin(), rpicomponents::pin::SOFTTONE_MODE, pin.max_value_)
+rpicomponents::pin::SofttonePin::SofttonePin(const SofttonePin& pin) : Pin(pin.GetPin())
 {
 	OutputOff();
 }
 
-rpicomponents::pin::SofttonePin::SofttonePin(SofttonePin&& pin) : Pin(pin.GetPin(), rpicomponents::pin::SOFTTONE_MODE, pin.max_value_)
-{
-	OutputOff();
-}
 
 void rpicomponents::pin::SofttonePin::WriteToPin(int16_t value) const {
 	if (!CheckInputValue(value)) return;

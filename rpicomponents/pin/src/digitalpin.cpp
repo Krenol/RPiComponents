@@ -1,7 +1,7 @@
 #include "digitalpin.hpp"
 
 
-rpicomponents::pin::DigitalPin::DigitalPin(int8_t pin) : Pin(pin, pin::DIGITAL_MODE, pin::DIGITAL_MODE_MAX_VAL) 
+rpicomponents::pin::DigitalPin::DigitalPin(const int8_t &pin) : Pin(pin, pin::DIGITAL_MODE, pin::DIGITAL_MODE_MAX_VAL) 
 {
 	OutputOff();
 }
@@ -11,15 +11,11 @@ rpicomponents::pin::DigitalPin::DigitalPin(int8_t&& pin) : Pin(pin, pin::DIGITAL
 	OutputOff();
 }
 
-rpicomponents::pin::DigitalPin::DigitalPin(DigitalPin& pin) : Pin(pin.GetPin(), pin::DIGITAL_MODE, pin::DIGITAL_MODE_MAX_VAL)
+rpicomponents::pin::DigitalPin::DigitalPin(const DigitalPin& pin) : Pin(pin)
 {
 	OutputOff();
 }
 
-rpicomponents::pin::DigitalPin::DigitalPin(DigitalPin&& pin) : Pin(pin.GetPin(), pin::DIGITAL_MODE, pin::DIGITAL_MODE_MAX_VAL)
-{
-	OutputOff();
-}
 
 void rpicomponents::pin::DigitalPin::WriteToPin(int16_t value) const {
 	if (!CheckInputValue(value)) return;

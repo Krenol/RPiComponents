@@ -13,7 +13,7 @@ namespace rpicomponents {
 			 *
 			 * @param pin The used pin of this object
 			 */
-			PWMPin(int8_t pin);
+			PWMPin(const int8_t &pin);
 
 			/**
 			 * Constructor of this class
@@ -27,14 +27,7 @@ namespace rpicomponents {
 			 *
 			 * @param pin Reference to pin to be copied
 			 */
-			PWMPin(PWMPin& pin);
-
-			/**
-			 * Copy constructor
-			 *
-			 * @param pin RValue to pin to be copied
-			 */
-			PWMPin(PWMPin&& pin);
+			PWMPin(const PWMPin& pin);
 
 		protected:
 			/**

@@ -1,6 +1,6 @@
 #include "inputpin.hpp"
 
-rpicomponents::pin::InputPin::InputPin(int8_t pin) : Pin(pin, rpicomponents::pin::INPUT_MODE, rpicomponents::pin::DIGITAL_MODE_MAX_VAL) 
+rpicomponents::pin::InputPin::InputPin(const int8_t &pin) : Pin(pin, rpicomponents::pin::INPUT_MODE, rpicomponents::pin::DIGITAL_MODE_MAX_VAL) 
 {
 	OutputOff();
 }
@@ -10,12 +10,7 @@ rpicomponents::pin::InputPin::InputPin(int8_t&& pin) : Pin(pin, rpicomponents::p
 	OutputOff();
 }
 
-rpicomponents::pin::InputPin::InputPin(InputPin& pin) : Pin(pin.GetPin(), rpicomponents::pin::INPUT_MODE, rpicomponents::pin::DIGITAL_MODE_MAX_VAL)
-{
-	OutputOff();
-}
-
-rpicomponents::pin::InputPin::InputPin(InputPin&& pin) : Pin(pin.GetPin(), rpicomponents::pin::INPUT_MODE, rpicomponents::pin::DIGITAL_MODE_MAX_VAL)
+rpicomponents::pin::InputPin::InputPin(const InputPin& pin) : Pin(pin.GetPin(), rpicomponents::pin::INPUT_MODE, rpicomponents::pin::DIGITAL_MODE_MAX_VAL)
 {
 	OutputOff();
 }

@@ -1,12 +1,12 @@
 #include "button.hpp"
 
 
-rpicomponents::Button::Button(const rpicomponents::pin::Pin* pin, int8_t pud) : Component("button"), pin_{pin}, pud_{pud}
+rpicomponents::Button::Button(const int8_t &pin, const int8_t &pud) : Component("button"), pin_{ rpicomponents::pin::PinFactory::CreatePin(pin, rpicomponents::pin::INPUT_MODE) }, pud_{pud}
 {
 	Initialize();
 }
 
-rpicomponents::Button::Button(int8_t pin, int8_t pud) : Component("button"), pin_(rpicomponents::pin::PinFactory::CreatePin(pin, rpicomponents::pin::INPUT_MODE)), pud_{ pud }
+rpicomponents::Button::Button(int8_t &&pin, int8_t &&pud) : Component("button"), pin_(rpicomponents::pin::PinFactory::CreatePin(pin, rpicomponents::pin::INPUT_MODE)), pud_{ pud }
 {
 	Initialize();
 }

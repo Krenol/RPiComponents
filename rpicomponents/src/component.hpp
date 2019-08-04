@@ -60,11 +60,18 @@ namespace rpicomponents {
 		bool RemovePin(int8_t pin) const;
 
 		/**
-		* Method to check if the current component uses a certain Pin
+		* Constructor
 		*
 		* @param componentName The name of the component as std::string. Is returned by the ToString method
 		*/
-		Component(std::string componentName);
+		Component(std::string &componentName);
+
+		/**
+		* Constructor
+		*
+		* @param componentName The name of the component as std::string. Is returned by the ToString method
+		*/
+		Component(std::string&& componentName);
 
 		/**
 		* Method to check if the passed pin is not null of the passed PIN_MODE
@@ -117,7 +124,7 @@ namespace rpicomponents {
 		*
 		* @return The component name as a std::string as given during initialization
 		*/
-		std::string ToString() const;
+		const std::string& ToString() const;
 	};
 }
 

@@ -31,7 +31,14 @@ int16_t rpicomponents::pin::Pin::ReadPinValue() const {
 	return ReadFromPin();
 }
 
-rpicomponents::pin::Pin::Pin(int8_t&& pin, PIN_MODE&& mode, int16_t&& maxOutputValue) : pin_{ pin }, mode_{ mode }, max_value_{ maxOutputValue }
+rpicomponents::pin::Pin::Pin(int8_t&& pin, const PIN_MODE&& mode, const int16_t&& maxOutputValue) : pin_{ pin }, mode_{ mode }, max_value_{ maxOutputValue }
+{
+	Initialize();
+}
+
+
+
+rpicomponents::pin::Pin::Pin(const Pin& pin) : pin_{ pin.GetPin() }, mode_{ pin.mode_ }, max_value_{ pin.max_value_ }
 {
 	Initialize();
 }
@@ -85,7 +92,12 @@ rpicomponents::pin::PIN_MODE rpicomponents::pin::Pin::OutputMode() const {
 	return mode_;
 }
 
-rpicomponents::pin::Pin::Pin(int8_t pin, rpicomponents::pin::PIN_MODE mode, int16_t maxOutputValue) : pin_{ pin }, mode_{ mode }, max_value_{ maxOutputValue } 
+/*rpicomponents::pin::Pin::Pin(int8_t pin, rpicomponents::pin::PIN_MODE mode, int16_t maxOutputValue) : pin_{ pin }, mode_{ mode }, max_value_{ maxOutputValue } 
+{
+	Initialize();
+}*/
+
+rpicomponents::pin::Pin::Pin(const int8_t& pin, const PIN_MODE& mode, const int16_t& maxOutputValue) : pin_{ pin }, mode_{ mode }, max_value_{ maxOutputValue }
 {
 	Initialize();
 }

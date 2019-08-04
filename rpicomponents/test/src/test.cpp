@@ -23,7 +23,8 @@ int main() {
     auto led = new rpicomponents::Led(rpicomponents::pin::GPIO2, rpicomponents::pin::DIGITAL_MODE);
 	rpicomponents::Pcf8574 pcf(0x48);
 	rpicomponents::Pcf8591 pcf1(0x49, 124);
-	rpicomponents::Mpu6050 mpu(0x51);
+	rpicomponents::Mpu6050 mpu(0x51); 
+
     //cout << btn->IsPressed()<<endl;
 	auto pin = rpicomponents::pin::PinFactory::CreatePin(12);
 	rpicomponents::UltrasonicSensor uss (rpicomponents::pin::GPIO0, rpicomponents::pin::GPIO1);

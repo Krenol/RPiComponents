@@ -1,7 +1,7 @@
 #include "inoutpin.hpp"
 
 
-rpicomponents::pin::InOutPin::InOutPin(int8_t pin) : Pin(pin, rpicomponents::pin::IN_OUT_MODE, rpicomponents::pin::DIGITAL_MODE_MAX_VAL)
+rpicomponents::pin::InOutPin::InOutPin(const int8_t &pin) : Pin(pin, rpicomponents::pin::IN_OUT_MODE, rpicomponents::pin::DIGITAL_MODE_MAX_VAL)
 {
 	OutputOff();
 }
@@ -12,11 +12,6 @@ rpicomponents::pin::InOutPin::InOutPin(int8_t&& pin) : Pin(pin, rpicomponents::p
 }
 
 rpicomponents::pin::InOutPin::InOutPin(InOutPin& pin) : Pin(pin.GetPin(), rpicomponents::pin::IN_OUT_MODE, rpicomponents::pin::DIGITAL_MODE_MAX_VAL)
-{
-	OutputOff();
-}
-
-rpicomponents::pin::InOutPin::InOutPin(InOutPin&& pin) : Pin(pin.GetPin(), rpicomponents::pin::IN_OUT_MODE, rpicomponents::pin::DIGITAL_MODE_MAX_VAL)
 {
 	OutputOff();
 }
