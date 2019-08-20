@@ -14,15 +14,18 @@ rpicomponents::Component::Component(std::string&& componentName) : component_nam
 {
 }
 
-void rpicomponents::Component::CheckPinStatus(const rpicomponents::pin::Pin* pin, rpicomponents::pin::PIN_MODE mode) const
+rpicomponents::Component::Component(const Component& component) : component_name_{component.ToString()}
+{
+}
+
+void rpicomponents::Component::CheckPinStatus(const rpicomponents::pin::Pin& pin, rpicomponents::pin::PIN_MODE mode) const
 {
 	CheckPinStatus(pin, std::vector<rpicomponents::pin::PIN_MODE>{ mode });
 }
 
-void rpicomponents::Component::CheckPinStatus(const pin::Pin* pin, std::vector<rpicomponents::pin::PIN_MODE> mode) const
+void rpicomponents::Component::CheckPinStatus(const pin::Pin& pin, std::vector<rpicomponents::pin::PIN_MODE> mode) const
 {
 	std::lock_guard<std::mutex> grd(mtx_);
-	if (pin == nullptr) throw new std::invalid_argument("pin of component is null");
 	bool valid = false;
 	std::string modes = "";
 	for (int i = 0; i < mode.size(); i++) {
@@ -33,22 +36,15 @@ void rpicomponents::Component::CheckPinStatus(const pin::Pin* pin, std::vector<r
 	throw new std::invalid_argument("pin is not of PIN_MODES " + modes);
 }
 
-void rpicomponents::Component::CheckPin(const pin::Pin* pin) const
-{
-	if (!pin::PinFactory::CheckPin(pin)) {
-		throw new std::invalid_argument("pin pointer of component is either nullptr or points to an object other than a pin::Pin");
-	}
-}
-
 rpicomponents::Component::~Component() {
 
 }
 
-std::vector<int8_t>::iterator rpicomponents::Component::GetPinIterator(int8_t pin) const {
+std::vector<int8_t>::iterator rpicomponents::Component::GetPinIterator(const int8_t& pin) const {
 	return find(used_pins_.begin(), used_pins_.end(), pin);
 }
 
-bool rpicomponents::Component::UsesPin(int8_t pin) const {
+bool rpicomponents::Component::UsesPin(const int8_t& pin) const {
 	std::lock_guard<std::mutex> lck{ mtx_ };
 	auto check = GetPinIterator(pin);
 	if (check == used_pins_.end()) {
@@ -57,7 +53,7 @@ bool rpicomponents::Component::UsesPin(int8_t pin) const {
 	return true;
 }
 
-bool rpicomponents::Component::UsesPins(std::vector<int8_t> pins) const {
+bool rpicomponents::Component::UsesPins(std::vector<int8_t>& pins) const {
 	bool uses = true;
 	for (auto pin : pins) {
 		uses = uses && UsesPin(pin);
@@ -66,7 +62,7 @@ bool rpicomponents::Component::UsesPins(std::vector<int8_t> pins) const {
 	return uses;
 }
 
-void rpicomponents::Component::AddPin(int8_t pin) const {
+void rpicomponents::Component::AddPin(const int8_t& pin) const {
 	auto uses_pin = UsesPin(pin);
 	if (!uses_pin) {
 		std::lock_guard<std::mutex> lck{ mtx_ };
@@ -74,7 +70,7 @@ void rpicomponents::Component::AddPin(int8_t pin) const {
 	}
 }
 
-void rpicomponents::Component::AddPins(std::vector<int8_t> pins) const {
+void rpicomponents::Component::AddPins(const std::vector<int8_t>& pins) const {
 	for (auto pin : pins) {
 		AddPin(pin);
 	}
@@ -87,7 +83,7 @@ bool rpicomponents::Component::RemoveAllPins() const {
 	return true;
 }
 
-bool rpicomponents::Component::RemovePin(int8_t pin) const {
+bool rpicomponents::Component::RemovePin(const int8_t& pin) const {
 	std::lock_guard<std::mutex> lck{ mtx_ };
 	auto it = GetPinIterator(pin);
 	if (it == used_pins_.end()) return false;

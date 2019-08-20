@@ -13,7 +13,7 @@ namespace rpicomponents {
 
 	class Dht11 : public Component {
 	private:
-		const pin::Pin* pin_; //the used pin of the button
+		const pin::Pin& pin_; //the used pin of the button
 		const float wake_delay_{ 18.0f * 1e-3f }, time_delay_{ 1.0f * 1e-6f }; //ms
 		const int8_t max_timings_ = 85;
 
@@ -51,19 +51,27 @@ namespace rpicomponents {
 		*/
 		float CalculateHumidty(const std::vector<uint8_t> &bits) const;
 	public:
-		/**
-		* Constructor for creating a DHT11
-		*
-		* @param pin: Pointer to the pin of the DHT11
-		*/
-		Dht11(const pin::Pin* pin);
 
 		/**
 		* Constructor for creating a DHT11
 		*
 		* @param pin: GPIO pin number of the DHT11
 		*/
-		Dht11(int8_t pin);
+		Dht11(const int8_t &pin);
+
+		/**
+		* Constructor for creating a DHT11
+		*
+		* @param pin: GPIO pin number of the DHT11
+		*/
+		Dht11(int8_t&& pin);
+
+		/**
+		* Copy Constructor 
+		*
+		* @param dht11 The DHT11 to be copied
+		*/
+		Dht11(const Dht11& dht11);
 
 		/**
 		* Method to get the temperature measured by the dht11
@@ -88,6 +96,13 @@ namespace rpicomponents {
 		* @returns the humidty and temperature measured by the DHT11 as a struct; if measured values are INFINITY an error occured
 		*/
 		DHT_VALUES GetDhtValues() const;
+
+		/*
+		* Method to get the used pin
+		*
+		* @returns the used pin of the component
+		*/
+		const int8_t& GetPin() const;
 	};
 }
 

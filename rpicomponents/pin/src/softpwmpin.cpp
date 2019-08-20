@@ -1,7 +1,7 @@
 #include "softpwmpin.hpp"
 
 
-rpicomponents::pin::SoftPWMPin::SoftPWMPin(int8_t &pin, const int16_t &maxOutputValue) : Pin(pin, rpicomponents::pin::SOFTPWM_MODE, maxOutputValue) 
+rpicomponents::pin::SoftPWMPin::SoftPWMPin(const int8_t &pin, const int16_t &maxOutputValue) : Pin(pin, rpicomponents::pin::SOFTPWM_MODE, maxOutputValue) 
 {
 	OutputOff();
 }

@@ -6,7 +6,7 @@
 namespace rpicomponents {
 	class Led : public Component {
 	private:
-		const pin::Pin* pin_; //the used pin of the LED
+		const pin::Pin& pin_; //the used pin of the LED
 		const bool on_mode_{ true }; //the on_mode_ of the pin
 
 		/**
@@ -15,13 +15,6 @@ namespace rpicomponents {
 		void Initialize();
 
 	public:
-		/**
-		* Constructor for creating a LED
-		*
-		* @param pin: pin pointer to the LED's pin
-		* @param onIfPinOn: bool if LED light is on if pin output is on
-		*/
-		Led(const pin::Pin* pin, bool onIfPinOn = true);
 
 		/**
 		* Constructor for creating a LED
@@ -30,7 +23,23 @@ namespace rpicomponents {
 		* @param outputMode: The output mode of the LED pin
 		* @param onIfPinOn: bool if LED light is on if pin output is on
 		*/
-		Led(int8_t pin, rpicomponents::pin::PIN_MODE mode, bool onIfPinOn = true);
+		Led(const int8_t& pin, const rpicomponents::pin::PIN_MODE& mode, bool onIfPinOn = true);
+
+		/**
+		* Constructor for creating a LED
+		*
+		* @param pin: GPIO pin number to the LED's pin
+		* @param outputMode: The output mode of the LED pin
+		* @param onIfPinOn: bool if LED light is on if pin output is on
+		*/
+		Led(int8_t&& pin, rpicomponents::pin::PIN_MODE&& mode, bool onIfPinOn = true);
+
+		/**
+		* Copy Constructor
+		*
+		* @param led Led to be copied
+		*/
+		Led(const Led& led);
 
 		/**
 		* Turn the LED on to the maximum output value of the pin's output mode
@@ -55,6 +64,27 @@ namespace rpicomponents {
 		* @return true if LED is on else false
 		*/
 		bool IsOn() const;
+
+		/*
+		* Method to get the used pin
+		*
+		* @returns the used pin of the component
+		*/
+		const int8_t& GetPin() const;
+
+		/*
+		* Method to check if led is on if gpio pin has power
+		*
+		* @returns true if led is on if pin has power else false
+		*/
+		bool IsOnIfPinHasPower() const;
+
+		/*
+		* Method to get the pin mode of the led pin
+		*
+		* @returns the pin mode
+		*/
+		const rpicomponents::pin::PIN_MODE& GetPinMode() const;
 	};
 }
 

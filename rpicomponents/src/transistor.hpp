@@ -13,7 +13,7 @@ namespace rpicomponents {
 
 	class Transistor : public Component {
 	private:
-		const pin::Pin* pin_; //the used pin of the transistor
+		const pin::Pin& pin_; //the used pin of the transistor
 		const TRANSISTOR_TYPE type_{ NPN }; //the transistor type
 
 		/**
@@ -25,10 +25,10 @@ namespace rpicomponents {
 		/**
 		* Constructor for creating a transistor
 		*
-		* @param pin: Pointer to the pin of the transistor
+		* @param pin: GPIO pin number of the transistor
 		* @param pud: the to be checked PUD value
 		*/
-		Transistor(const pin::Pin* pin, TRANSISTOR_TYPE type);
+		Transistor(const int8_t& pin, const TRANSISTOR_TYPE& type, const rpicomponents::pin::PIN_MODE& mode);
 
 		/**
 		* Constructor for creating a transistor
@@ -36,14 +36,21 @@ namespace rpicomponents {
 		* @param pin: GPIO pin number of the transistor
 		* @param pud: the to be checked PUD value
 		*/
-		Transistor(int8_t pin, TRANSISTOR_TYPE type, rpicomponents::pin::PIN_MODE mode);
+		Transistor(int8_t&& pin, TRANSISTOR_TYPE&& type, rpicomponents::pin::PIN_MODE&& mode);
+
+		/**
+		* Copy Constructor 
+		*
+		* @param transistor: The transistor to be copied
+		*/
+		Transistor(const Transistor& transistor);
 
 		/**
 		* Method to get the transistor type
 		*
 		* @returns The transistor type of this object
 		*/
-		TRANSISTOR_TYPE GetType() const;
+		const TRANSISTOR_TYPE& GetType() const;
 
 		/**
 		* Turn the transistor on to the maximum output value of the pin's output mode
@@ -68,6 +75,20 @@ namespace rpicomponents {
 		* @return true if transistor is on else false
 		*/
 		bool IsOn() const;
+
+		/*
+		* Method to get the used pin
+		*
+		* @returns the used pin of the component
+		*/
+		const int8_t& GetPin() const;
+
+		/*
+		* Method to get the pin mode of the led pin
+		*
+		* @returns the pin mode
+		*/
+		const rpicomponents::pin::PIN_MODE& GetPinMode() const;
 	};
 }
 

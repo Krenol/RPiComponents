@@ -23,14 +23,14 @@ namespace rpicomponents {
 			 *
 			 * @return used pin of the object as const int
 			 */
-			int8_t GetPin() const;
+			const int8_t& GetPin() const;
 
 			/**
 			 * Get the pin output mode 
 			 *
 			 * @return output mode of this pin as const PIN_MODE
 			 */
-			PIN_MODE OutputMode() const;
+			const PIN_MODE& OutputMode() const;
 
 			/**
 			 * Check if pin is on or off

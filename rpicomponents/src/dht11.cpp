@@ -3,10 +3,9 @@
 
 void rpicomponents::Dht11::Initialize() const
 {
-	CheckPin(pin_);
-	auto mode = pin_->OutputMode();
+	auto mode = pin_.OutputMode();
 	if (mode != rpicomponents::pin::IN_OUT_MODE) throw new std::invalid_argument("pin for dht11 must be in in_out_mode");
-	AddPin(pin_->GetPin());
+	AddPin(pin_.GetPin());
 }
 
 bool rpicomponents::Dht11::CheckSum(const std::vector<uint8_t> &bits) const
@@ -19,22 +18,21 @@ bool rpicomponents::Dht11::CheckSum(const std::vector<uint8_t> &bits) const
 
 std::vector<uint8_t> rpicomponents::Dht11::ReadSensor() const
 {
-	CheckPin(pin_);
 	std::lock_guard<std::mutex> grd(mtx_);
 	std::vector<uint8_t> bits (5,0);
 	uint8_t counter = 0, j = 0;
 
-	pin_->Output(LOW);
+	pin_.Output(LOW);
 	
 	utils::Waiter::SleepMillis(wake_delay_);
-	pin_->Output(HIGH);
+	pin_.Output(HIGH);
 	utils::Waiter::SleepMillis(40 * time_delay_);
 
 	auto laststate = HIGH;
 	for (auto i = 0; i < max_timings_; i++)
 	{
 		counter = 0;
-		while (pin_->ReadPinValue() == laststate)
+		while (pin_.ReadPinValue() == laststate)
 		{
 			counter++;
 			utils::Waiter::SleepMillis(time_delay_);
@@ -43,7 +41,7 @@ std::vector<uint8_t> rpicomponents::Dht11::ReadSensor() const
 				return bits;
 			}
 		}
-		laststate = pin_->ReadPinValue();
+		laststate = pin_.ReadPinValue();
 
 		if ((i >= 4) && (i % 2 == 0))
 		{
@@ -68,12 +66,17 @@ float rpicomponents::Dht11::CalculateHumidty(const std::vector<uint8_t> &bits) c
 	return bits[0] + bits[1] * 0.1;
 }
 
-rpicomponents::Dht11::Dht11(int8_t pin) : Component("dht11"), pin_{ rpicomponents::pin::PinFactory::CreatePin(pin, rpicomponents::pin::DIGITAL_MODE) }
+rpicomponents::Dht11::Dht11(const int8_t& pin) : Component("dht11"), pin_{ rpicomponents::pin::PinFactory::CreatePin(pin, rpicomponents::pin::DIGITAL_MODE) }
 {
 	Initialize();
 }
 
-rpicomponents::Dht11::Dht11(const rpicomponents::pin::Pin* pin) : Component("dht11"), pin_{ pin }
+rpicomponents::Dht11::Dht11(int8_t&& pin) : Component("dht11"), pin_{ rpicomponents::pin::PinFactory::CreatePin(pin, rpicomponents::pin::DIGITAL_MODE) }
+{
+	Initialize();
+}
+
+rpicomponents::Dht11::Dht11(const Dht11& dht11) : Component(dht11.ToString()), pin_{ rpicomponents::pin::PinFactory::CreatePin(dht11.GetPin(), rpicomponents::pin::DIGITAL_MODE) }
 {
 	Initialize();
 }
@@ -102,4 +105,9 @@ rpicomponents::DHT_VALUES rpicomponents::Dht11::GetDhtValues() const
 	vals.humidity = CalculateHumidty(bits);
 	vals.temperature = CalculateTemperature(bits);
 	return vals;
+}
+
+const int8_t& rpicomponents::Dht11::GetPin() const
+{
+	return pin_.GetPin();
 }

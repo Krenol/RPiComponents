@@ -2,7 +2,7 @@
 
 
 void rpicomponents::Motionsensor::Initialize() const {
-	CheckPin(pin_);
+	
 	if(pin_->OutputMode() != rpicomponents::pin::INPUT_MODE) throw new std::invalid_argument("pin must be of type INPUT_MODE");
 	AddPin(pin_->GetPin());
 }
@@ -18,7 +18,7 @@ pin_{ rpicomponents::pin::PinFactory::CreatePin(pin, rpicomponents::pin::INPUT_M
 }
 
 bool rpicomponents::Motionsensor::MotionDetected() const {
-	CheckPin(pin_);
+	
 	auto val = pin_->ReadPinValue();
 	if (val > 0) return true;
 	return false;

@@ -19,7 +19,7 @@ namespace rpicomponents {
 			* @param mode The expected PIN_MODE
 			* @return true if pin has passed PIN_MODE else false
 			*/
-			static bool CheckPinMode(const pin::Pin* pin, rpicomponents::pin::PIN_MODE mode);
+			static bool CheckPinMode(const pin::Pin& pin, rpicomponents::pin::PIN_MODE mode);
 
 			/**
 			 * Method to create a new pin pointer
@@ -29,7 +29,7 @@ namespace rpicomponents {
 			 * @param maxOutputValue: the maximum output of a pin, is depending on the pin mode
 			 * @return the pointer to the pin; if pin already created, pointer to existing pin is returned
 			 */
-			static const Pin* CreatePin(int8_t pin, PIN_MODE mode = DIGITAL_MODE, int16_t maxOutputValue = DIGITAL_MODE_MAX_VAL);
+			static const Pin& CreatePin(const int8_t& pin, PIN_MODE mode = DIGITAL_MODE, const int16_t &maxOutputValue = DIGITAL_MODE_MAX_VAL);
 			
 			/**
 			 * Method to remove a pin pointer from the factory and the memory
@@ -38,7 +38,7 @@ namespace rpicomponents {
 			 * @param pin: Pointer to the pin to be removed
 			 * @return true if removal was successful, else false
 			 */
-			static bool RemovePin(const Pin* pin);
+			static bool RemovePin(const Pin& pin);
 
 			/**
 			 * Method to remove a pin pointer from the factory and the memory
@@ -47,7 +47,7 @@ namespace rpicomponents {
 			 * @param pin: GPIO pin number of the pin to be removed
 			 * @return true if removal was successful, else false
 			 */
-			static bool RemovePin(int8_t pin); 
+			static bool RemovePin(const int8_t &pin); 
 
 			/**
 			 * Method to load a pin pointer from the factory
@@ -56,15 +56,8 @@ namespace rpicomponents {
 			 * @param pin: GPIO pin number of the pin to be loaded
 			 * @return the pin pointer
 			 */
-			static const Pin* LoadPin(int8_t pin); 
+			static const Pin& LoadPin(const int8_t &pin); 
 
-			/**
-			 * Method to check if passed pin pointer is valid
-			 *
-			 * @param pin: The pin pointer to be checked
-			 * @return true if pin is valid; else false
-			 */
-			static bool CheckPin(const Pin* pin);
 
 		private: //no private method is thread safe!
 			/**
@@ -74,7 +67,7 @@ namespace rpicomponents {
 			 * @param pin: GPIO pin number of the pin to be loaded
 			 * @return Pin pointer to the created pin
 			 */
-			static const Pin* PinLoader(int8_t pin);
+			static const Pin* PinLoader(const int8_t &pin);
 
 			/**
 			 * Method to create a pin pointer 
@@ -85,7 +78,7 @@ namespace rpicomponents {
 			 * @param maxOutputValue: The maximum pin output value; only needed for SOFTPWM and SOFTTONE
 			 * @return pin pointer to created pin
 			 */
-			static const Pin* PinCreator(int8_t pin, PIN_MODE outputMode = DIGITAL_MODE, int16_t maxOutputValue = DIGITAL_MODE_MAX_VAL);
+			static const Pin* PinCreator(const int8_t &pin, PIN_MODE outputMode = DIGITAL_MODE, const int16_t &maxOutputValue = DIGITAL_MODE_MAX_VAL);
 
 			/**
 			 * Method to check if a pin pointer exists in the factory
@@ -94,7 +87,7 @@ namespace rpicomponents {
 			 * @param pin: GPIO pin number of the pin that existence should be checked
 			 * @return true if pin exists, else false
 			 */
-			static bool PinExists(int8_t pin); 
+			static bool PinExists(const int8_t &pin); 
 
 			/**
 			 * Method to add a pin pointer to the factory map

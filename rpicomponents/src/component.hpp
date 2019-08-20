@@ -21,7 +21,7 @@ namespace rpicomponents {
 		* @param pin the Pin object to be found
 		* @return std::vector<int>::iterator pointing to the location the pin is stored inside the vector
 		*/
-		std::vector<int8_t>::iterator GetPinIterator(int8_t pin) const;
+		std::vector<int8_t>::iterator GetPinIterator( const int8_t& pin) const;
 
 	protected:
 		virtual ~Component() = 0; //virtual protected destructor to make class abstract
@@ -32,7 +32,7 @@ namespace rpicomponents {
 		*
 		* @param pin The pin to be added
 		*/
-		void AddPin(int8_t pin) const;
+		void AddPin(const int8_t& pin) const;
 
 		/**
 		* Method to check multiple pins to the component
@@ -40,7 +40,7 @@ namespace rpicomponents {
 		*
 		* @param pins The vector containing all pins to be added
 		*/
-		void AddPins(std::vector<int8_t> pins) const;
+		void AddPins(const std::vector<int8_t>& pins) const;
 
 		/**
 		* Method to remove all pins from the pin vector
@@ -57,7 +57,7 @@ namespace rpicomponents {
 		* @param pin The pin to be removed from the vector
 		* @return true if operation was successfull (pin was stored in the vector), else false
 		*/
-		bool RemovePin(int8_t pin) const;
+		bool RemovePin(const int8_t& pin) const;
 
 		/**
 		* Constructor
@@ -71,7 +71,21 @@ namespace rpicomponents {
 		*
 		* @param componentName The name of the component as std::string. Is returned by the ToString method
 		*/
+		Component(const std::string& componentName);
+
+		/**
+		* Constructor
+		*
+		* @param componentName The name of the component as std::string. Is returned by the ToString method
+		*/
 		Component(std::string&& componentName);
+
+		/**
+		* Constructor
+		*
+		* @param component The component to be copied
+		*/
+		Component(const Component &component);
 
 		/**
 		* Method to check if the passed pin is not null of the passed PIN_MODE
@@ -81,25 +95,17 @@ namespace rpicomponents {
 		* @param pin The to be checked pin
 		* @param mode The expected pin mode
 		*/
-		void CheckPinStatus(const pin::Pin* pin, rpicomponents::pin::PIN_MODE mode) const;
+		void CheckPinStatus(const pin::Pin& pin, rpicomponents::pin::PIN_MODE mode) const;
 
 		/**
-		* Method to check if the passed pin is not null of the passed PIN_MODE
+		* Method to check if the passed pin is of the passed PIN_MODE
 		* Throws errors on detected error
 		* BLOCKING
 		*
 		* @param pin The to be checked pin
 		* @param mode The expected pin modes as a vector
 		*/
-		void CheckPinStatus(const pin::Pin* pin, std::vector<rpicomponents::pin::PIN_MODE> mode) const;
-
-		/**
-		* Method to check if passed pin pointer is valid
-		* Throws invalid_argument exception if pin::PinFactory::CheckPin is true
-		*
-		* @param pin: The pin pointer to be checked
-		*/
-		void CheckPin(const pin::Pin* pin) const;
+		void CheckPinStatus(const pin::Pin& pin, std::vector<rpicomponents::pin::PIN_MODE> mode) const;
 			
 	public:
 		/**
@@ -109,7 +115,7 @@ namespace rpicomponents {
 		* @param pin The pin to be checked for usage
 		* @return true if pin is used, else false
 		*/
-		bool UsesPin(int8_t pin) const;
+		bool UsesPin(const int8_t& pin) const;
 
 		/**
 		* Method to check if the current component uses certain pins
@@ -117,7 +123,7 @@ namespace rpicomponents {
 		* @param pins The vector containing all the pins to be checked for usage
 		* @return true if all pins are used by the component, else false
 		*/
-		bool UsesPins(std::vector<int8_t> pins) const;
+		bool UsesPins(std::vector<int8_t>& pins) const;
 
 		/**
 		* Method to get the name of the component

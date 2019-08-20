@@ -7,7 +7,7 @@
 namespace rpicomponents {
 	class Motionsensor : Component {
 	private:
-		const pin::Pin* pin_;
+		const pin::Pin& pin_;
 
 		/*
 		 * generic motion sensor initializer to avoid code duplication

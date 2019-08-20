@@ -6,7 +6,7 @@
 namespace rpicomponents {
 	class Button : public Component {
 	private:
-		const pin::Pin* pin_; //the used pin of the button
+		const pin::Pin& pin_; //the used pin of the button
 		const int8_t pud_{ PUD_UP }; //the pud mode of the button
 
 		/**
@@ -29,7 +29,7 @@ namespace rpicomponents {
 		* @param pin: GPIO pin number of the button
 		* @param pud: the to be checked PUD value
 		*/
-		Button(const int8_t &pin, const int8_t &pud = PUD_UP);
+		Button(int8_t &pin, const int8_t &pud = PUD_UP);
 
 		/**
 		* Constructor for creating a button
@@ -38,6 +38,13 @@ namespace rpicomponents {
 		* @param pud: the to be checked PUD value
 		*/
 		Button(int8_t&& pin, int8_t&& pud = PUD_UP);
+
+		/**
+		* Copy Constructor
+		*
+		* @param button: The button to be copied
+		*/
+		Button(const Button &button);
 
 		/**
 		* Method to check if the button is currently pressed
@@ -51,7 +58,14 @@ namespace rpicomponents {
 		*
 		* @returns the int of the defined PUD by the wiringPi library
 		*/
-		int8_t GetPUD() const;
+		const int8_t& GetPUD() const;
+
+		/*
+		* Method to get the used pin
+		*
+		* @returns the used pin of the component
+		*/
+		const int8_t& GetPin() const;
 	};
 }
 

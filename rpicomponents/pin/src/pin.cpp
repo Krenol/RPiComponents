@@ -2,7 +2,7 @@
 #include "pinchecker.hpp"
 
 
-int8_t rpicomponents::pin::Pin::GetPin() const {
+const int8_t& rpicomponents::pin::Pin::GetPin() const {
 	return pin_;
 }
 
@@ -88,7 +88,7 @@ void rpicomponents::pin::Pin::Initialize() const
 	}
 }
 
-rpicomponents::pin::PIN_MODE rpicomponents::pin::Pin::OutputMode() const {
+const rpicomponents::pin::PIN_MODE& rpicomponents::pin::Pin::OutputMode() const {
 	return mode_;
 }
 
