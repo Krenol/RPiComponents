@@ -64,14 +64,7 @@ namespace rpicomponents {
 		*
 		* @param componentName The name of the component as std::string. Is returned by the ToString method
 		*/
-		Component(std::string &componentName);
-
-		/**
-		* Constructor
-		*
-		* @param componentName The name of the component as std::string. Is returned by the ToString method
-		*/
-		Component(const std::string& componentName);
+		Component(const std::string &componentName);
 
 		/**
 		* Constructor

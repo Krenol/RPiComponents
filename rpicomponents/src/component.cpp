@@ -6,7 +6,7 @@
 
 
 
-rpicomponents::Component::Component(std::string &componentName) : component_name_{ componentName }
+rpicomponents::Component::Component(const std::string &componentName) : component_name_{ componentName }
 {
 }
 
