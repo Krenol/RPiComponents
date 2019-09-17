@@ -20,13 +20,13 @@ namespace rpicomponents {
 		 * Constructor for the motion sensor
 		 * @param pin constant pointer to the input pin of the motion sensor
 		*/
-		Motionsensor(const pin::Pin* pin);
+		Motionsensor(const pin::Pin& pin);
 
 		/*
 		 * Constructor for the motion sensor
 		 * @param pin GPIO pin of the motion sensor pin (must be a input pin if already in use)
 		*/
-		Motionsensor(int8_t pin);
+		Motionsensor(int8_t&& pin);
 
 		/*
 		 * Method to check if the motion sensor has detected a motion or not

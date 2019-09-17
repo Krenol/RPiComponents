@@ -26,8 +26,11 @@ int main() {
 	rpicomponents::Mpu6050 mpu(0x51); 
 
     //cout << btn->IsPressed()<<endl;
-	auto pin = rpicomponents::pin::PinFactory::CreatePin(12);
-	rpicomponents::UltrasonicSensor uss (rpicomponents::pin::GPIO0, rpicomponents::pin::GPIO1);
+	//auto pin = rpicomponents::pin::PinFactory::CreatePin(12);
+	rpicomponents::UltrasonicSensor uss (2, 3);
+
+	rpicomponents::Button btn(1);
+
     for(int i = 0; i < 10; i++) {
 		std::thread p(On, led, i);
 		std::thread p1(On, led, i);
@@ -37,8 +40,7 @@ int main() {
 
 	std::cout << "500 mm are " << uss.UnitConverter(500, rpicomponents::UNIT_MM, rpicomponents::UNIT_M) << " m\n";
 	std::cout << pcf.ToString() << std::endl;
-	//rpicomponents::Q74Hc595 q74(1, 2, 3);
-	std::cout << rpicomponents::pin::PinFactory::CheckPin(pin)<< std::endl;
+
 
 	std::cin.get();
     delete led;
