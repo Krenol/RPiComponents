@@ -6,7 +6,7 @@
 namespace rpicomponents {
 	class Led : public Component {
 	private:
-		const pin::Pin& pin_; //the used pin of the LED
+		const std::unique_ptr<pin::Pin> pin_; //the used pin of the LED
 		const bool on_mode_{ true }; //the on_mode_ of the pin
 
 		/**
@@ -23,7 +23,7 @@ namespace rpicomponents {
 		* @param outputMode: The output mode of the LED pin
 		* @param onIfPinOn: bool if LED light is on if pin output is on
 		*/
-		Led(const int8_t& pin, const rpicomponents::pin::PIN_MODE& mode, bool onIfPinOn = true);
+		Led(const int8_t& pin, const rpicomponents::pin::PIN_MODE& mode, const bool& onIfPinOn = true);
 
 		/**
 		* Constructor for creating a LED
@@ -32,7 +32,7 @@ namespace rpicomponents {
 		* @param outputMode: The output mode of the LED pin
 		* @param onIfPinOn: bool if LED light is on if pin output is on
 		*/
-		Led(int8_t&& pin, rpicomponents::pin::PIN_MODE&& mode, bool onIfPinOn = true);
+		Led(int8_t&& pin, rpicomponents::pin::PIN_MODE&& mode, bool&& onIfPinOn = true);
 
 		/**
 		* Copy Constructor

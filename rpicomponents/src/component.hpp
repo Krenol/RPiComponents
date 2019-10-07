@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <vector>
+#include <memory>
 #include "../pin/include/rpicomponents/pin/pins.hpp"
 #include "../utils/include/rpicomponents/utils/rpicomponents_utils.hpp"
 

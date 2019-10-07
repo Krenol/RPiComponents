@@ -46,5 +46,6 @@ target_include_directories(${PROJECT_NAME}
 add_subdirectory (pin)
 add_subdirectory (test)
 add_subdirectory (utils)
+
 target_link_libraries(${PROJECT_NAME} pin)
 target_link_libraries(${PROJECT_NAME} rpicomponents_utils)

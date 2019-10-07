@@ -15,7 +15,7 @@ set(PIN_PROJECT_SRCS
     ${PROJECT_SOURCE_DIR}/softpwmpin.cpp
     ${PROJECT_SOURCE_DIR}/pwmpin.cpp
     ${PROJECT_SOURCE_DIR}/softtonepin.cpp
-    ${PROJECT_SOURCE_DIR}/pinfactory.cpp
+    ${PROJECT_SOURCE_DIR}/pincreator.cpp
     ${PROJECT_SOURCE_DIR}/inputpin.cpp
     ${PROJECT_SOURCE_DIR}/pinchecker.cpp
     ${PROJECT_SOURCE_DIR}/addresschecker.cpp
