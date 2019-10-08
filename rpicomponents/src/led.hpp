@@ -4,6 +4,7 @@
 #define RPICOMPONENTS_LED_H
 
 namespace rpicomponents {
+	constexpr const char* COMPONENT_LED = "led";
 	class Led : public Component {
 	private:
 		const std::unique_ptr<pin::Pin> pin_; //the used pin of the LED

@@ -9,11 +9,12 @@
 #include "../utils/include/rpicomponents/utils/rpicomponents_utils.hpp"
 
 namespace rpicomponents {
+	constexpr const char* COMPONENT = "component";
 	class Component {
 	private:
 		//necessary compoennt values
 		mutable std::vector<int8_t> used_pins_{ };
-		const std::string component_name_{ "component" };
+		const std::string component_name_{ COMPONENT };
 
 		/**
 		* Method to get the vector iterator to find a certain pin
@@ -80,26 +81,6 @@ namespace rpicomponents {
 		* @param component The component to be copied
 		*/
 		Component(const Component &component);
-
-		/**
-		* Method to check if the passed pin is not null of the passed PIN_MODE
-		* Throws errors on detected error
-		* BLOCKING
-		*
-		* @param pin The to be checked pin
-		* @param mode The expected pin mode
-		*/
-		void CheckPinStatus(const pin::Pin& pin, rpicomponents::pin::PIN_MODE mode) const;
-
-		/**
-		* Method to check if the passed pin is of the passed PIN_MODE
-		* Throws errors on detected error
-		* BLOCKING
-		*
-		* @param pin The to be checked pin
-		* @param mode The expected pin modes as a vector
-		*/
-		void CheckPinStatus(const pin::Pin& pin, std::vector<rpicomponents::pin::PIN_MODE> mode) const;
 			
 	public:
 		/**

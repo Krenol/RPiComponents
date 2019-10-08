@@ -18,24 +18,6 @@ rpicomponents::Component::Component(const Component& component) : component_name
 {
 }
 
-void rpicomponents::Component::CheckPinStatus(const rpicomponents::pin::Pin& pin, rpicomponents::pin::PIN_MODE mode) const
-{
-	CheckPinStatus(pin, std::vector<rpicomponents::pin::PIN_MODE>{ mode });
-}
-
-void rpicomponents::Component::CheckPinStatus(const pin::Pin& pin, std::vector<rpicomponents::pin::PIN_MODE> mode) const
-{
-	std::lock_guard<std::mutex> grd(mtx_);
-	bool valid = false;
-	std::string modes = "";
-	for (int i = 0; i < mode.size(); i++) {
-		valid = rpicomponents::pin::PinFactory::CheckPinMode(pin, mode[i]);
-		if (valid) return;
-		modes += (i == 0 ? "" : ", ") + mode[i];
-	}
-	throw new std::invalid_argument("pin is not of PIN_MODES " + modes);
-}
-
 rpicomponents::Component::~Component() {
 
 }
