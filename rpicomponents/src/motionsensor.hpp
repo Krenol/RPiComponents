@@ -5,9 +5,10 @@
 
 
 namespace rpicomponents {
+constexpr const char* COMPONENT_MOTIONSENSOR = "motionsensor";
 	class Motionsensor : Component {
 	private:
-		const pin::Pin& pin_;
+        const std::unique_ptr<pin::Pin> pin_;
 
 		/*
 		 * generic motion sensor initializer to avoid code duplication
@@ -20,7 +21,7 @@ namespace rpicomponents {
 		 * Constructor for the motion sensor
 		 * @param pin constant pointer to the input pin of the motion sensor
 		*/
-		Motionsensor(const pin::Pin& pin);
+        Motionsensor(const int8_t& pin);
 
 		/*
 		 * Constructor for the motion sensor
@@ -28,6 +29,7 @@ namespace rpicomponents {
 		*/
 		Motionsensor(int8_t&& pin);
 
+        //@TODO COPY CONSTRUCTOR
 		/*
 		 * Method to check if the motion sensor has detected a motion or not
 		 * NON BLOCKING

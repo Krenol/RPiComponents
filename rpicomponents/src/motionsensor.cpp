@@ -3,23 +3,24 @@
 
 void rpicomponents::Motionsensor::Initialize() const {
 	
-	if(pin_.OutputMode() != rpicomponents::pin::INPUT_MODE) throw new std::invalid_argument("pin must be of type INPUT_MODE");
-	AddPin(pin_.GetPin());
+    if(pin_->OutputMode() != rpicomponents::pin::INPUT_MODE) throw new std::invalid_argument("pin must be of type INPUT_MODE");
+    AddPin(pin_->GetPin());
 }
 
 
-rpicomponents::Motionsensor::Motionsensor(const rpicomponents::pin::Pin& pin) : Component("motionsensor"), pin_{ pin }{
+rpicomponents::Motionsensor::Motionsensor(int8_t&& pin) : Component(COMPONENT_MOTIONSENSOR),
+pin_{ rpicomponents::pin::PinCreator::CreatePin(pin, rpicomponents::pin::INPUT_MODE) }{
 	Initialize();
 }
 
-rpicomponents::Motionsensor::Motionsensor(int8_t&& pin) : Component("motionsensor"), 
-pin_{ rpicomponents::pin::PinFactory::CreatePin(pin, rpicomponents::pin::INPUT_MODE) }{
-	Initialize();
+rpicomponents::Motionsensor::Motionsensor(const int8_t& pin) : Component(COMPONENT_MOTIONSENSOR),
+pin_{ rpicomponents::pin::PinCreator::CreatePin(pin, rpicomponents::pin::INPUT_MODE) }{
+    Initialize();
 }
 
 bool rpicomponents::Motionsensor::MotionDetected() const {
 	
-	auto val = pin_.ReadPinValue();
+    auto val = pin_->ReadPinValue();
 	if (val > 0) return true;
 	return false;
 }

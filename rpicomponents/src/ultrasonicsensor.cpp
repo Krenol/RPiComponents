@@ -6,41 +6,43 @@ const std::map<rpicomponents::DISTANCE_UNIT, float> rpicomponents::UltrasonicSen
 void rpicomponents::UltrasonicSensor::Initialize() const
 {
 
-	auto mode = trigger_pin_.OutputMode();
+    auto mode = trigger_pin_->OutputMode();
 	if (mode != rpicomponents::pin::DIGITAL_MODE) throw new std::invalid_argument("given trigger pin is not in digital mode; it must be on digital mode for a ultrasonsic sensor!");
-	mode = echo_pin_.OutputMode();
+    mode = echo_pin_->OutputMode();
 	if (mode != rpicomponents::pin::INPUT_MODE) throw new std::invalid_argument("given echo pin is not in input mode; it must be on input mode for a ultrasonsic sensor!");
-	AddPin(trigger_pin_.GetPin());
-	AddPin(echo_pin_.GetPin());
+    AddPin(trigger_pin_->GetPin());
+    AddPin(echo_pin_->GetPin());
 }
 
 float rpicomponents::UltrasonicSensor::GetEchoTime() const
 {
 	std::lock_guard<std::mutex> lck(mtx_);
-	trigger_pin_.OutputOn();
+    trigger_pin_->OutputOn();
 	rpicomponents::utils::Waiter::SleepNanos(10);
-	trigger_pin_.OutputOff();
+    trigger_pin_->OutputOff();
 	clock_t start = clock();
 	while (clock() - start < max_delay_time_)
 	{
-		if (echo_pin_.ReadPinValue() == HIGH)
+        if (echo_pin_->ReadPinValue() == HIGH)
 		{
 			start = clock();
-			while (echo_pin_.ReadPinValue() && clock() - start < max_delay_time_) {}
+            while (echo_pin_->ReadPinValue() && clock() - start < max_delay_time_) {}
 			return (float)(clock() - start) / CLOCKS_PER_SEC;
 		}
 	}
 	return INFINITY;
 }
 
-rpicomponents::UltrasonicSensor::UltrasonicSensor(const pin::Pin& trigger_pin, const pin::Pin& echo_pin) : Component("ultrasonic_sensor"), trigger_pin_{ trigger_pin }, echo_pin_{ echo_pin }
+rpicomponents::UltrasonicSensor::UltrasonicSensor(const int8_t& trigger_pin, const int8_t& echo_pin) : Component(COMPONENT_ULTRASONIC_SENSOR),
+    trigger_pin_{ rpicomponents::pin::PinCreator::CreatePin(trigger_pin, rpicomponents::pin::DIGITAL_MODE) },
+    echo_pin_{ rpicomponents::pin::PinCreator::CreatePin(echo_pin, rpicomponents::pin::INPUT_MODE) }
 {
 	Initialize();
 }
 
 rpicomponents::UltrasonicSensor::UltrasonicSensor(int8_t&& trigger_pin, int8_t&& echo_pin) :
-	Component("ultrasonic_sensor"), trigger_pin_{ rpicomponents::pin::PinFactory::CreatePin(trigger_pin, rpicomponents::pin::DIGITAL_MODE) }, 
-	echo_pin_{ rpicomponents::pin::PinFactory::CreatePin(echo_pin, rpicomponents::pin::INPUT_MODE) }
+    Component(COMPONENT_ULTRASONIC_SENSOR), trigger_pin_{ rpicomponents::pin::PinCreator::CreatePin(trigger_pin, rpicomponents::pin::DIGITAL_MODE) },
+    echo_pin_{ rpicomponents::pin::PinCreator::CreatePin(echo_pin, rpicomponents::pin::INPUT_MODE) }
 {
 	Initialize();
 }

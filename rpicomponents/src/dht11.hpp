@@ -10,10 +10,10 @@ namespace rpicomponents {
 		float temperature{ 0 };
 		float humidity{ 0 };
 	};
-
+    constexpr const char* COMPONENT_DHT11 = "dht11";
 	class Dht11 : public Component {
 	private:
-		const pin::Pin& pin_; //the used pin of the button
+        const std::unique_ptr<pin::Pin> pin_; //the used pin of the button
 		const float wake_delay_{ 18.0f * 1e-3f }, time_delay_{ 1.0f * 1e-6f }; //ms
 		const int8_t max_timings_ = 85;
 

@@ -1,4 +1,5 @@
 #include "component.hpp"
+#include <map>
 
 #ifndef RPICOMPONENTS_Q74HC595_H
 #define RPICOMPONENTS_Q74HC595_H

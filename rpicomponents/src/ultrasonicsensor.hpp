@@ -1,6 +1,7 @@
 #include "component.hpp"
 #include <ctime>
 #include <thread>
+#include <map>
 #include "../utils/include/rpicomponents/utils/rpicomponents_utils.hpp"
 
 #ifndef RPICOMPONENTS_ULTRASONIC_SENSOR_H
@@ -13,11 +14,11 @@ namespace rpicomponents {
 	enum DISTANCE_UNIT {
 		UNIT_M, UNIT_CM, UNIT_MM, UNIT_NM
 	};
-
+    constexpr const char* COMPONENT_ULTRASONIC_SENSOR= "ultrasonic_sensor";
 	class UltrasonicSensor : public Component {
 	private:
-		const pin::Pin& trigger_pin_; //the used trigger pin of the sensor
-		const pin::Pin& echo_pin_; //the used echo pin of the sensor
+        const std::unique_ptr<pin::Pin> trigger_pin_; //the used trigger pin of the sensor
+        const std::unique_ptr<pin::Pin>  echo_pin_; //the used echo pin of the sensor
 		const clock_t max_delay_time_ = 10 * 1e-3 * CLOCKS_PER_SEC; //ms
 		const float std_temperature_ = 20.0f;
 		const DISTANCE_UNIT std_unit_ = UNIT_MM;
@@ -42,7 +43,7 @@ namespace rpicomponents {
 		* @param trigger_pin: Pointer to the pin of the ultrasonic sensor to trigger a measurement
 		* @param echo_pin: Pointer to the pin of the ultrasonic sensor to measure the inbound wave
 		*/
-		UltrasonicSensor(const pin::Pin& trigger_pin, const pin::Pin& echo_pin);
+        UltrasonicSensor(const int8_t& trigger_pin, const int8_t& echo_pin);
 
 		/**
 		* Constructor for creating a ultrasonic sensor
@@ -51,6 +52,15 @@ namespace rpicomponents {
 		* @param echo_pin: pin of the ultrasonic sensor to measure the inbound wave
 		*/
 		UltrasonicSensor(int8_t&& trigger_pin, int8_t&& echo_pin);
+
+        //@TODO IMPLEMENT THIS
+        /**
+        * Copy Constructor for creating a ultrasonic sensor
+        *
+        * @param trigger_pin: pin of the ultrasonic sensor to trigger a measurement
+        * @param echo_pin: pin of the ultrasonic sensor to measure the inbound wave
+        */
+        //UltrasonicSensor(const UltrasonicSensor &uss);
 
 		/**
 		* Method to measure the distance to an object

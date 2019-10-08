@@ -10,10 +10,10 @@ namespace rpicomponents {
 	enum TRANSISTOR_TYPE {
 		NPN, PNP
 	};
-
+    constexpr const char* COMPONENT_TRANSISTOR = "transistor";
 	class Transistor : public Component {
 	private:
-		const pin::Pin& pin_; //the used pin of the transistor
+        const std::unique_ptr<pin::Pin> pin_; //the used pin of the transistor
 		const TRANSISTOR_TYPE type_{ NPN }; //the transistor type
 
 		/**
