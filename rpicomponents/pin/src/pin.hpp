@@ -60,6 +60,13 @@ namespace rpicomponents {
 			 */
 			void OutputOff() const;
 
+			/*
+			Method to get the max output value of this pin
+
+			@returns an int16_t representing the maxoutput value of the pin
+			*/
+			int16_t GetMaxOutValue() const;
+
 		protected:
 			/**
 			 * Constructor
