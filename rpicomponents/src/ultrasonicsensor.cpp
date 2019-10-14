@@ -47,6 +47,13 @@ rpicomponents::UltrasonicSensor::UltrasonicSensor(int8_t&& trigger_pin, int8_t&&
 	Initialize();
 }
 
+rpicomponents::UltrasonicSensor::UltrasonicSensor(const UltrasonicSensor& uss): Component(COMPONENT_ULTRASONIC_SENSOR),
+trigger_pin_{ rpicomponents::pin::PinCreator::CreatePin(uss.GetTriggerPin(), rpicomponents::pin::DIGITAL_MODE) },
+echo_pin_{ rpicomponents::pin::PinCreator::CreatePin(uss.GetEchoPin(), rpicomponents::pin::INPUT_MODE) }
+{
+	Initialize();
+}
+
 float rpicomponents::UltrasonicSensor::MeasureDistance() const
 {
 	return MeasureDistance(std_temperature_, std_unit_);
@@ -103,4 +110,14 @@ float rpicomponents::UltrasonicSensor::UnitConverter(const float& value, const D
 		throw std::invalid_argument(err.c_str());
 	}
 	return outVal;
+}
+
+const int8_t& rpicomponents::UltrasonicSensor::GetTriggerPin() const
+{
+	return trigger_pin_->GetPin();
+}
+
+const int8_t& rpicomponents::UltrasonicSensor::GetEchoPin() const
+{
+	return echo_pin_->GetPin();
 }

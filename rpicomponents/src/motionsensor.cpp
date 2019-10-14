@@ -13,6 +13,12 @@ pin_{ rpicomponents::pin::PinCreator::CreatePin(pin, rpicomponents::pin::INPUT_M
 	Initialize();
 }
 
+rpicomponents::Motionsensor::Motionsensor(const Motionsensor& motionsensor) : Component(COMPONENT_MOTIONSENSOR), 
+pin_{ rpicomponents::pin::PinCreator::CreatePin(motionsensor.GetPin(), rpicomponents::pin::INPUT_MODE) }
+{
+	Initialize();
+}
+
 rpicomponents::Motionsensor::Motionsensor(const int8_t& pin) : Component(COMPONENT_MOTIONSENSOR),
 pin_{ rpicomponents::pin::PinCreator::CreatePin(pin, rpicomponents::pin::INPUT_MODE) }{
     Initialize();
@@ -23,4 +29,9 @@ bool rpicomponents::Motionsensor::MotionDetected() const {
     auto val = pin_->ReadPinValue();
 	if (val > 0) return true;
 	return false;
+}
+
+const int8_t& rpicomponents::Motionsensor::GetPin() const
+{
+	return pin_->GetPin();
 }

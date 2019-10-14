@@ -29,13 +29,25 @@ constexpr const char* COMPONENT_MOTIONSENSOR = "motionsensor";
 		*/
 		Motionsensor(int8_t&& pin);
 
-        //@TODO COPY CONSTRUCTOR
+		/*
+		 * Copy constructor for the motion sensor
+		 * @param motionsensor Motionsensor to be copied
+		*/
+		Motionsensor(const Motionsensor& motionsensor);
+
 		/*
 		 * Method to check if the motion sensor has detected a motion or not
 		 * NON BLOCKING
 		 * @returns true if a motion has been detected else false
 		*/
 		bool MotionDetected() const;
+
+		/*
+		* Method to get the used pin
+		*
+		* @returns the used pin of the component
+		*/
+		const int8_t& GetPin() const;
 
 	};
 }

@@ -53,14 +53,13 @@ namespace rpicomponents {
 		*/
 		UltrasonicSensor(int8_t&& trigger_pin, int8_t&& echo_pin);
 
-        //@TODO IMPLEMENT THIS
         /**
         * Copy Constructor for creating a ultrasonic sensor
         *
         * @param trigger_pin: pin of the ultrasonic sensor to trigger a measurement
         * @param echo_pin: pin of the ultrasonic sensor to measure the inbound wave
         */
-        //UltrasonicSensor(const UltrasonicSensor &uss);
+        UltrasonicSensor(const UltrasonicSensor &uss);
 
 		/**
 		* Method to measure the distance to an object
@@ -136,6 +135,20 @@ namespace rpicomponents {
 		* @returns the converted value in outUnit
 		*/
 		float UnitConverter(const float& value, const DISTANCE_UNIT& inUnit, const DISTANCE_UNIT& outUnit) const;
+
+		/*
+		* Method to get the used trigger pin
+		*
+		* @returns the used pin of the component
+		*/
+		const int8_t& GetTriggerPin() const;
+
+		/*
+		* Method to get the used echo pin
+		*
+		* @returns the used pin of the component
+		*/
+		const int8_t& GetEchoPin() const;
 	};
 }
 
