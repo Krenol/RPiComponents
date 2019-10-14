@@ -27,6 +27,11 @@ void rpicomponents::pin::Pin::OutputOff() const {
 	WriteToPin(min_value_);
 }
 
+int16_t rpicomponents::pin::Pin::GetMaxOutValue() const
+{
+	return max_value_;
+}
+
 int16_t rpicomponents::pin::Pin::ReadPinValue() const {
 	return ReadFromPin();
 }
