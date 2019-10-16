@@ -170,6 +170,48 @@ namespace rpicomponents {
 		Method to turn of the enable pin 2
 		*/
 		void TurnOffEnablePin2() const;
+
+		/*
+		Method to get the current output value of enable pin 1
+
+		@returns the output value of enable pin 1 as int
+		*/
+		int EnablePin1OutputValue() const;
+
+		/*
+		Method to get the current output value of enable pin 2
+
+		@returns the output value of enable pin 2 as int
+		*/
+		int EnablePin2OutputValue() const;
+
+		/*
+		Method that returns whether in pin 1 is on (output 1) or not (output 0)
+
+		@returns true if pin is on else false
+		*/
+		bool InPin1On() const;
+
+		/*
+		Method that returns whether in pin 2 is on (output 1) or not (output 0)
+
+		@returns true if pin is on else false
+		*/
+		bool InPin2On() const;
+
+		/*
+		Method that returns whether in pin 3 is on (output 1) or not (output 0)
+
+		@returns true if pin is on else false
+		*/
+		bool InPin3On() const;
+
+		/*
+		Method that returns whether in pin 4 is on (output 1) or not (output 0)
+
+		@returns true if pin is on else false
+		*/
+		bool InPin4On() const;
 	};
 }
 

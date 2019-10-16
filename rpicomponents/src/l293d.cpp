@@ -114,3 +114,33 @@ void rpicomponents::L293D::TurnOnEnablePin2(const int& value) const {
 void rpicomponents::L293D::TurnOffEnablePin2() const {
 	enable_pin2_->OutputOff();
 }
+
+int rpicomponents::L293D::EnablePin1OutputValue() const {
+	int value = enable_pin1_->ReadPinValue();
+	return value;
+}
+
+int rpicomponents::L293D::EnablePin2OutputValue() const {
+	int value = enable_pin2_->ReadPinValue();
+	return value;
+}
+
+bool rpicomponents::L293D::InPin1On() const {
+	bool status = in_pin1_->IsOn();
+	return status;
+}
+
+bool rpicomponents::L293D::InPin2On() const {
+	bool status = in_pin2_->IsOn();
+	return status;
+}
+
+bool rpicomponents::L293D::InPin3On() const {
+	bool status = in_pin3_->IsOn();
+	return status;
+}
+
+bool rpicomponents::L293D::InPin4On() const {
+	bool status = in_pin4_->IsOn();
+	return status;
+}
