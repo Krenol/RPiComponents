@@ -1,12 +1,12 @@
 #include "button.hpp"
 
 
-rpicomponents::Button::Button(int8_t &pin, const int8_t &pud) : Component(COMPONENT_BUTTON), pin_{ rpicomponents::pin::PinCreator::CreatePin(pin, rpicomponents::pin::INPUT_MODE) }, pud_{pud}
+rpicomponents::Button::Button(int &pin, const int &pud) : Component(COMPONENT_BUTTON), pin_{ rpicomponents::pin::PinCreator::CreatePin(pin, rpicomponents::pin::INPUT_MODE) }, pud_{pud}
 {
 	Initialize();
 }
 
-rpicomponents::Button::Button(int8_t &&pin, int8_t &&pud) : Component(COMPONENT_BUTTON), pin_(rpicomponents::pin::PinCreator::CreatePin(pin, rpicomponents::pin::INPUT_MODE)), pud_{ pud }
+rpicomponents::Button::Button(int &&pin, int &&pud) : Component(COMPONENT_BUTTON), pin_(rpicomponents::pin::PinCreator::CreatePin(pin, rpicomponents::pin::INPUT_MODE)), pud_{ pud }
 {
 	Initialize();
 }
@@ -25,7 +25,7 @@ void rpicomponents::Button::Initialize() const {
 	AddPin(pin_->GetPin());
 }
 
-bool rpicomponents::Button::IsPUD(int8_t pud) const {
+bool rpicomponents::Button::IsPUD(int pud) const {
 	if (pud == PUD_UP || pud == PUD_DOWN || pud == PUD_OFF) return true;
 	return false;
 }
@@ -37,11 +37,11 @@ bool rpicomponents::Button::IsPressed() const {
 	return false;
 }
 
-const int8_t& rpicomponents::Button::GetPUD() const {
+const int& rpicomponents::Button::GetPUD() const {
 	return pud_;
 }
 
-const int8_t& rpicomponents::Button::GetPin() const
+const int& rpicomponents::Button::GetPin() const
 {
 	return pin_->GetPin();
 }

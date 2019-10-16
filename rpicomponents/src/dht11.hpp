@@ -15,7 +15,7 @@ namespace rpicomponents {
 	private:
         const std::unique_ptr<pin::Pin> pin_; //the used pin of the button
 		const float wake_delay_{ 18.0f * 1e-3f }, time_delay_{ 1.0f * 1e-6f }; //ms
-		const int8_t max_timings_ = 85;
+		const int max_timings_ = 85;
 
 		/**
 		* Initializer for Constructors; reduce redundancy
@@ -57,14 +57,14 @@ namespace rpicomponents {
 		*
 		* @param pin: GPIO pin number of the DHT11
 		*/
-		Dht11(const int8_t &pin);
+		Dht11(const int &pin);
 
 		/**
 		* Constructor for creating a DHT11
 		*
 		* @param pin: GPIO pin number of the DHT11
 		*/
-		Dht11(int8_t&& pin);
+		Dht11(int&& pin);
 
 		/**
 		* Copy Constructor 
@@ -102,7 +102,7 @@ namespace rpicomponents {
 		*
 		* @returns the used pin of the component
 		*/
-		const int8_t& GetPin() const;
+		const int& GetPin() const;
 	};
 }
 

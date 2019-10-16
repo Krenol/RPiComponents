@@ -1723,7 +1723,7 @@ bool rpicomponents::Mpu6050::getIntDataReadyStatus() {
  * @see getRotation()
  * @see MPU6050_RA_ACCEL_XOUT_H
  */
-void rpicomponents::Mpu6050::getMotion9(int16_t* ax, int16_t* ay, int16_t* az, int16_t* gx, int16_t* gy, int16_t* gz, int16_t* mx, int16_t* my, int16_t* mz) {
+void rpicomponents::Mpu6050::getMotion9(int* ax, int* ay, int* az, int* gx, int* gy, int* gz, int* mx, int* my, int* mz) {
 	getMotion6(ax, ay, az, gx, gy, gz);
 	// TODO: magnetometer integration
 }
@@ -1739,14 +1739,14 @@ void rpicomponents::Mpu6050::getMotion9(int16_t* ax, int16_t* ay, int16_t* az, i
  * @see getRotation()
  * @see MPU6050_RA_ACCEL_XOUT_H
  */
-void rpicomponents::Mpu6050::getMotion6(int16_t* ax, int16_t* ay, int16_t* az, int16_t* gx, int16_t* gy, int16_t* gz) {
+void rpicomponents::Mpu6050::getMotion6(int* ax, int* ay, int* az, int* gx, int* gy, int* gz) {
 	I2Cdev::readBytes(address_, MPU6050_RA_ACCEL_XOUT_H, 14, buffer);
-	*ax = (((int16_t)buffer[0]) << 8) | buffer[1];
-	*ay = (((int16_t)buffer[2]) << 8) | buffer[3];
-	*az = (((int16_t)buffer[4]) << 8) | buffer[5];
-	*gx = (((int16_t)buffer[8]) << 8) | buffer[9];
-	*gy = (((int16_t)buffer[10]) << 8) | buffer[11];
-	*gz = (((int16_t)buffer[12]) << 8) | buffer[13];
+	*ax = (((int)buffer[0]) << 8) | buffer[1];
+	*ay = (((int)buffer[2]) << 8) | buffer[3];
+	*az = (((int)buffer[4]) << 8) | buffer[5];
+	*gx = (((int)buffer[8]) << 8) | buffer[9];
+	*gy = (((int)buffer[10]) << 8) | buffer[11];
+	*gz = (((int)buffer[12]) << 8) | buffer[13];
 }
 /** Get 3-axis accelerometer readings.
  * These registers store the most recent accelerometer measurements.
@@ -1784,38 +1784,38 @@ void rpicomponents::Mpu6050::getMotion6(int16_t* ax, int16_t* ay, int16_t* az, i
  * @param z 16-bit signed integer container for Z-axis acceleration
  * @see MPU6050_RA_GYRO_XOUT_H
  */
-void rpicomponents::Mpu6050::getAcceleration(int16_t* x, int16_t* y, int16_t* z) {
+void rpicomponents::Mpu6050::getAcceleration(int* x, int* y, int* z) {
 	I2Cdev::readBytes(address_, MPU6050_RA_ACCEL_XOUT_H, 6, buffer);
-	*x = (((int16_t)buffer[0]) << 8) | buffer[1];
-	*y = (((int16_t)buffer[2]) << 8) | buffer[3];
-	*z = (((int16_t)buffer[4]) << 8) | buffer[5];
+	*x = (((int)buffer[0]) << 8) | buffer[1];
+	*y = (((int)buffer[2]) << 8) | buffer[3];
+	*z = (((int)buffer[4]) << 8) | buffer[5];
 }
 /** Get X-axis accelerometer reading.
  * @return X-axis acceleration measurement in 16-bit 2's complement format
  * @see getMotion6()
  * @see MPU6050_RA_ACCEL_XOUT_H
  */
-int16_t rpicomponents::Mpu6050::getAccelerationX() {
+int rpicomponents::Mpu6050::getAccelerationX() {
 	I2Cdev::readBytes(address_, MPU6050_RA_ACCEL_XOUT_H, 2, buffer);
-	return (((int16_t)buffer[0]) << 8) | buffer[1];
+	return (((int)buffer[0]) << 8) | buffer[1];
 }
 /** Get Y-axis accelerometer reading.
  * @return Y-axis acceleration measurement in 16-bit 2's complement format
  * @see getMotion6()
  * @see MPU6050_RA_ACCEL_YOUT_H
  */
-int16_t rpicomponents::Mpu6050::getAccelerationY() {
+int rpicomponents::Mpu6050::getAccelerationY() {
 	I2Cdev::readBytes(address_, MPU6050_RA_ACCEL_YOUT_H, 2, buffer);
-	return (((int16_t)buffer[0]) << 8) | buffer[1];
+	return (((int)buffer[0]) << 8) | buffer[1];
 }
 /** Get Z-axis accelerometer reading.
  * @return Z-axis acceleration measurement in 16-bit 2's complement format
  * @see getMotion6()
  * @see MPU6050_RA_ACCEL_ZOUT_H
  */
-int16_t rpicomponents::Mpu6050::getAccelerationZ() {
+int rpicomponents::Mpu6050::getAccelerationZ() {
 	I2Cdev::readBytes(address_, MPU6050_RA_ACCEL_ZOUT_H, 2, buffer);
-	return (((int16_t)buffer[0]) << 8) | buffer[1];
+	return (((int)buffer[0]) << 8) | buffer[1];
 }
 
 // TEMP_OUT_* registers
@@ -1824,9 +1824,9 @@ int16_t rpicomponents::Mpu6050::getAccelerationZ() {
  * @return Temperature reading in 16-bit 2's complement format
  * @see MPU6050_RA_TEMP_OUT_H
  */
-int16_t rpicomponents::Mpu6050::getTemperature() {
+int rpicomponents::Mpu6050::getTemperature() {
 	I2Cdev::readBytes(address_, MPU6050_RA_TEMP_OUT_H, 2, buffer);
-	return (((int16_t)buffer[0]) << 8) | buffer[1];
+	return (((int)buffer[0]) << 8) | buffer[1];
 }
 
 // GYRO_*OUT_* registers
@@ -1863,38 +1863,38 @@ int16_t rpicomponents::Mpu6050::getTemperature() {
  * @see getMotion6()
  * @see MPU6050_RA_GYRO_XOUT_H
  */
-void rpicomponents::Mpu6050::getRotation(int16_t* x, int16_t* y, int16_t* z) {
+void rpicomponents::Mpu6050::getRotation(int* x, int* y, int* z) {
 	I2Cdev::readBytes(address_, MPU6050_RA_GYRO_XOUT_H, 6, buffer);
-	*x = (((int16_t)buffer[0]) << 8) | buffer[1];
-	*y = (((int16_t)buffer[2]) << 8) | buffer[3];
-	*z = (((int16_t)buffer[4]) << 8) | buffer[5];
+	*x = (((int)buffer[0]) << 8) | buffer[1];
+	*y = (((int)buffer[2]) << 8) | buffer[3];
+	*z = (((int)buffer[4]) << 8) | buffer[5];
 }
 /** Get X-axis gyroscope reading.
  * @return X-axis rotation measurement in 16-bit 2's complement format
  * @see getMotion6()
  * @see MPU6050_RA_GYRO_XOUT_H
  */
-int16_t rpicomponents::Mpu6050::getRotationX() {
+int rpicomponents::Mpu6050::getRotationX() {
 	I2Cdev::readBytes(address_, MPU6050_RA_GYRO_XOUT_H, 2, buffer);
-	return (((int16_t)buffer[0]) << 8) | buffer[1];
+	return (((int)buffer[0]) << 8) | buffer[1];
 }
 /** Get Y-axis gyroscope reading.
  * @return Y-axis rotation measurement in 16-bit 2's complement format
  * @see getMotion6()
  * @see MPU6050_RA_GYRO_YOUT_H
  */
-int16_t rpicomponents::Mpu6050::getRotationY() {
+int rpicomponents::Mpu6050::getRotationY() {
 	I2Cdev::readBytes(address_, MPU6050_RA_GYRO_YOUT_H, 2, buffer);
-	return (((int16_t)buffer[0]) << 8) | buffer[1];
+	return (((int)buffer[0]) << 8) | buffer[1];
 }
 /** Get Z-axis gyroscope reading.
  * @return Z-axis rotation measurement in 16-bit 2's complement format
  * @see getMotion6()
  * @see MPU6050_RA_GYRO_ZOUT_H
  */
-int16_t rpicomponents::Mpu6050::getRotationZ() {
+int rpicomponents::Mpu6050::getRotationZ() {
 	I2Cdev::readBytes(address_, MPU6050_RA_GYRO_ZOUT_H, 2, buffer);
-	return (((int16_t)buffer[0]) << 8) | buffer[1];
+	return (((int)buffer[0]) << 8) | buffer[1];
 }
 
 // EXT_SENS_DATA_* registers
@@ -2730,121 +2730,121 @@ uint8_t rpicomponents::Mpu6050::getOTPBankValid() {
 void rpicomponents::Mpu6050::setOTPBankValid(bool enabled) {
 	I2Cdev::writeBit(address_, MPU6050_RA_XG_OFFS_TC, MPU6050_TC_OTP_BNK_VLD_BIT, enabled);
 }
-int8_t rpicomponents::Mpu6050::getXGyroOffset() {
+int rpicomponents::Mpu6050::getXGyroOffset() {
 	I2Cdev::readBits(address_, MPU6050_RA_XG_OFFS_TC, MPU6050_TC_OFFSET_BIT, MPU6050_TC_OFFSET_LENGTH, buffer);
 	return buffer[0];
 }
-void rpicomponents::Mpu6050::setXGyroOffset(int8_t offset) {
+void rpicomponents::Mpu6050::setXGyroOffset(int offset) {
 	I2Cdev::writeBits(address_, MPU6050_RA_XG_OFFS_TC, MPU6050_TC_OFFSET_BIT, MPU6050_TC_OFFSET_LENGTH, offset);
 }
 
 // YG_OFFS_TC register
 
-int8_t rpicomponents::Mpu6050::getYGyroOffset() {
+int rpicomponents::Mpu6050::getYGyroOffset() {
 	I2Cdev::readBits(address_, MPU6050_RA_YG_OFFS_TC, MPU6050_TC_OFFSET_BIT, MPU6050_TC_OFFSET_LENGTH, buffer);
 	return buffer[0];
 }
-void rpicomponents::Mpu6050::setYGyroOffset(int8_t offset) {
+void rpicomponents::Mpu6050::setYGyroOffset(int offset) {
 	I2Cdev::writeBits(address_, MPU6050_RA_YG_OFFS_TC, MPU6050_TC_OFFSET_BIT, MPU6050_TC_OFFSET_LENGTH, offset);
 }
 
 // ZG_OFFS_TC register
 
-int8_t rpicomponents::Mpu6050::getZGyroOffset() {
+int rpicomponents::Mpu6050::getZGyroOffset() {
 	I2Cdev::readBits(address_, MPU6050_RA_ZG_OFFS_TC, MPU6050_TC_OFFSET_BIT, MPU6050_TC_OFFSET_LENGTH, buffer);
 	return buffer[0];
 }
-void rpicomponents::Mpu6050::setZGyroOffset(int8_t offset) {
+void rpicomponents::Mpu6050::setZGyroOffset(int offset) {
 	I2Cdev::writeBits(address_, MPU6050_RA_ZG_OFFS_TC, MPU6050_TC_OFFSET_BIT, MPU6050_TC_OFFSET_LENGTH, offset);
 }
 
 // X_FINE_GAIN register
 
-int8_t rpicomponents::Mpu6050::getXFineGain() {
+int rpicomponents::Mpu6050::getXFineGain() {
 	I2Cdev::readByte(address_, MPU6050_RA_X_FINE_GAIN, buffer);
 	return buffer[0];
 }
-void rpicomponents::Mpu6050::setXFineGain(int8_t gain) {
+void rpicomponents::Mpu6050::setXFineGain(int gain) {
 	I2Cdev::writeByte(address_, MPU6050_RA_X_FINE_GAIN, gain);
 }
 
 // Y_FINE_GAIN register
 
-int8_t rpicomponents::Mpu6050::getYFineGain() {
+int rpicomponents::Mpu6050::getYFineGain() {
 	I2Cdev::readByte(address_, MPU6050_RA_Y_FINE_GAIN, buffer);
 	return buffer[0];
 }
-void rpicomponents::Mpu6050::setYFineGain(int8_t gain) {
+void rpicomponents::Mpu6050::setYFineGain(int gain) {
 	I2Cdev::writeByte(address_, MPU6050_RA_Y_FINE_GAIN, gain);
 }
 
 // Z_FINE_GAIN register
 
-int8_t rpicomponents::Mpu6050::getZFineGain() {
+int rpicomponents::Mpu6050::getZFineGain() {
 	I2Cdev::readByte(address_, MPU6050_RA_Z_FINE_GAIN, buffer);
 	return buffer[0];
 }
-void rpicomponents::Mpu6050::setZFineGain(int8_t gain) {
+void rpicomponents::Mpu6050::setZFineGain(int gain) {
 	I2Cdev::writeByte(address_, MPU6050_RA_Z_FINE_GAIN, gain);
 }
 
 // XA_OFFS_* registers
 
-int16_t rpicomponents::Mpu6050::getXAccelOffset() {
+int rpicomponents::Mpu6050::getXAccelOffset() {
 	I2Cdev::readBytes(address_, MPU6050_RA_XA_OFFS_H, 2, buffer);
-	return (((int16_t)buffer[0]) << 8) | buffer[1];
+	return (((int)buffer[0]) << 8) | buffer[1];
 }
-void rpicomponents::Mpu6050::setXAccelOffset(int16_t offset) {
+void rpicomponents::Mpu6050::setXAccelOffset(int offset) {
 	I2Cdev::writeWord(address_, MPU6050_RA_XA_OFFS_H, offset);
 }
 
 // YA_OFFS_* register
 
-int16_t rpicomponents::Mpu6050::getYAccelOffset() {
+int rpicomponents::Mpu6050::getYAccelOffset() {
 	I2Cdev::readBytes(address_, MPU6050_RA_YA_OFFS_H, 2, buffer);
-	return (((int16_t)buffer[0]) << 8) | buffer[1];
+	return (((int)buffer[0]) << 8) | buffer[1];
 }
-void rpicomponents::Mpu6050::setYAccelOffset(int16_t offset) {
+void rpicomponents::Mpu6050::setYAccelOffset(int offset) {
 	I2Cdev::writeWord(address_, MPU6050_RA_YA_OFFS_H, offset);
 }
 
 // ZA_OFFS_* register
 
-int16_t rpicomponents::Mpu6050::getZAccelOffset() {
+int rpicomponents::Mpu6050::getZAccelOffset() {
 	I2Cdev::readBytes(address_, MPU6050_RA_ZA_OFFS_H, 2, buffer);
-	return (((int16_t)buffer[0]) << 8) | buffer[1];
+	return (((int)buffer[0]) << 8) | buffer[1];
 }
-void rpicomponents::Mpu6050::setZAccelOffset(int16_t offset) {
+void rpicomponents::Mpu6050::setZAccelOffset(int offset) {
 	I2Cdev::writeWord(address_, MPU6050_RA_ZA_OFFS_H, offset);
 }
 
 // XG_OFFS_USR* registers
 
-int16_t rpicomponents::Mpu6050::getXGyroOffsetUser() {
+int rpicomponents::Mpu6050::getXGyroOffsetUser() {
 	I2Cdev::readBytes(address_, MPU6050_RA_XG_OFFS_USRH, 2, buffer);
-	return (((int16_t)buffer[0]) << 8) | buffer[1];
+	return (((int)buffer[0]) << 8) | buffer[1];
 }
-void rpicomponents::Mpu6050::setXGyroOffsetUser(int16_t offset) {
+void rpicomponents::Mpu6050::setXGyroOffsetUser(int offset) {
 	I2Cdev::writeWord(address_, MPU6050_RA_XG_OFFS_USRH, offset);
 }
 
 // YG_OFFS_USR* register
 
-int16_t rpicomponents::Mpu6050::getYGyroOffsetUser() {
+int rpicomponents::Mpu6050::getYGyroOffsetUser() {
 	I2Cdev::readBytes(address_, MPU6050_RA_YG_OFFS_USRH, 2, buffer);
-	return (((int16_t)buffer[0]) << 8) | buffer[1];
+	return (((int)buffer[0]) << 8) | buffer[1];
 }
-void rpicomponents::Mpu6050::setYGyroOffsetUser(int16_t offset) {
+void rpicomponents::Mpu6050::setYGyroOffsetUser(int offset) {
 	I2Cdev::writeWord(address_, MPU6050_RA_YG_OFFS_USRH, offset);
 }
 
 // ZG_OFFS_USR* register
 
-int16_t rpicomponents::Mpu6050::getZGyroOffsetUser() {
+int rpicomponents::Mpu6050::getZGyroOffsetUser() {
 	I2Cdev::readBytes(address_, MPU6050_RA_ZG_OFFS_USRH, 2, buffer);
-	return (((int16_t)buffer[0]) << 8) | buffer[1];
+	return (((int)buffer[0]) << 8) | buffer[1];
 }
-void rpicomponents::Mpu6050::setZGyroOffsetUser(int16_t offset) {
+void rpicomponents::Mpu6050::setZGyroOffsetUser(int offset) {
 	I2Cdev::writeWord(address_, MPU6050_RA_ZG_OFFS_USRH, offset);
 }
 

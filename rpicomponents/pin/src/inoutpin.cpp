@@ -1,12 +1,12 @@
 #include "inoutpin.hpp"
 
 
-rpicomponents::pin::InOutPin::InOutPin(const int8_t &pin) : Pin(pin, rpicomponents::pin::IN_OUT_MODE, rpicomponents::pin::DIGITAL_MODE_MAX_VAL)
+rpicomponents::pin::InOutPin::InOutPin(const int &pin) : Pin(pin, rpicomponents::pin::IN_OUT_MODE, rpicomponents::pin::DIGITAL_MODE_MAX_VAL)
 {
 	OutputOff();
 }
 
-rpicomponents::pin::InOutPin::InOutPin(int8_t&& pin) : Pin(pin, rpicomponents::pin::IN_OUT_MODE, rpicomponents::pin::DIGITAL_MODE_MAX_VAL)
+rpicomponents::pin::InOutPin::InOutPin(int&& pin) : Pin(pin, rpicomponents::pin::IN_OUT_MODE, rpicomponents::pin::DIGITAL_MODE_MAX_VAL)
 {
 	OutputOff();
 }
@@ -16,7 +16,7 @@ rpicomponents::pin::InOutPin::InOutPin(InOutPin& pin) : Pin(pin.GetPin(), rpicom
 	OutputOff();
 }
 
-void rpicomponents::pin::InOutPin::WriteToPin(int16_t value) const
+void rpicomponents::pin::InOutPin::WriteToPin(const int& value) const
 {
 	if (!CheckInputValue(value)) return;
 	//lock function to not cause any overhead on pin writings
@@ -26,7 +26,7 @@ void rpicomponents::pin::InOutPin::WriteToPin(int16_t value) const
 	status_ = value; //wouldn't need a lock, as it is atomic
 }
 
-int16_t rpicomponents::pin::InOutPin::ReadFromPin() const
+int rpicomponents::pin::InOutPin::ReadFromPin() const
 {
 	std::lock_guard<std::mutex> lockGuard(mtx_);
 	pinMode(pin_, INPUT);

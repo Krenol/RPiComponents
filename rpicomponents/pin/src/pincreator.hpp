@@ -23,7 +23,7 @@ namespace rpicomponents {
 			 * @param maxOutputValue: the maximum output of a pin, is depending on the pin mode
 			 * @return the pointer to the pin; if pin already created, pointer to existing pin is returned
 			 */
-			static std::unique_ptr<Pin> CreatePin(const int8_t& pin, PIN_MODE mode = DIGITAL_MODE, const int16_t& maxOutputValue = DIGITAL_MODE_MAX_VAL);
+			static std::unique_ptr<Pin> CreatePin(const int& pin, PIN_MODE mode = DIGITAL_MODE, const int& maxOutputValue = DIGITAL_MODE_MAX_VAL);
 
 			/**
 			* Static method to check whether a pin has the passed PIN_MODE

@@ -2,7 +2,7 @@
 
 const std::vector<float> rpicomponents::Photoresistor::allowed_voltages_{ 3.3f, 5.0f };
 
-rpicomponents::Photoresistor::Photoresistor(const rpicomponents::Pcf8591* pcf, int8_t pcf_pin, float voltage) : Component("photoresistor"),
+rpicomponents::Photoresistor::Photoresistor(const rpicomponents::Pcf8591* pcf, int pcf_pin, float voltage) : Component("photoresistor"),
 pcf_{ pcf }, pcf_pin_{ pcf_pin }, voltage_{ voltage }
 {
 	Initialize();
@@ -16,7 +16,7 @@ void rpicomponents::Photoresistor::Initialize() const {
 	if (!pcf_->CheckIfPcfPin(pcf_pin_)) throw std::invalid_argument("Invalid pcf pin was given!");
 }
 
-int16_t rpicomponents::Photoresistor::GetPhotoresistorValue() const {
+int rpicomponents::Photoresistor::GetPhotoresistorValue() const {
 	auto val = pcf_->ReadFromPcfPin(pcf_pin_);;
 	return val;
 }

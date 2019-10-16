@@ -3,7 +3,7 @@
 #include <stdexcept>
 #include <vector>
 
-bool rpicomponents::pin::AddressChecker::IsI2CAddress(int16_t address) {
+bool rpicomponents::pin::AddressChecker::IsI2CAddress(int address) {
 	const std::vector<char> i2c_col = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 	const std::vector<char> i2c_row = { '0', '1', '2', '3', '4', '5', '6', '7' };
 	auto hexAddr = GetHexAddress(address);
@@ -27,7 +27,7 @@ bool rpicomponents::pin::AddressChecker::IsI2CAddress(int16_t address) {
 	return false;
 }
 
-std::string rpicomponents::pin::AddressChecker::GetHexAddress(int16_t address) {
+std::string rpicomponents::pin::AddressChecker::GetHexAddress(int address) {
 	std::vector<char> hex = { '0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F' };
 	std::string hexdec_num = "";
 	int r = 0;

@@ -7,7 +7,7 @@
 namespace rpicomponents {
 
 	struct Q_Pin {
-		const int8_t pin_no{ 0 };
+		const int pin_no{ 0 };
 		bool turn_on{ false };
 	};
 
@@ -17,8 +17,8 @@ namespace rpicomponents {
 		const pin::Pin* ds_;
 		const pin::Pin* stcp_;
 		const pin::Pin* shcp_;
-		const int8_t max_q_pin_no_{ 8 };
-		mutable std::map<int8_t, Q_Pin> q_pin_map_;
+		const int max_q_pin_no_{ 8 };
+		mutable std::map<int, Q_Pin> q_pin_map_;
 
 		/**
 		* Initializer for Constructors; reduce redundancy
@@ -39,7 +39,7 @@ namespace rpicomponents {
 		* @param pin_no: q pin number to be retrieved
 		* @returns The Q_Pin from the map or throws an error for invalid input
 		*/
-		Q_Pin GetQPin(int8_t pin_no);
+		Q_Pin GetQPin(int pin_no);
 
 		/**
 		* Method to set a Q_Pin of the q_pin_map_
@@ -48,7 +48,7 @@ namespace rpicomponents {
 		* @param pin_no: q pin number to be retrieved
 		* @param is_on: bool whether Q_Pin is on or off
 		*/
-		void SetQPin(int8_t pin_no, bool is_on);
+		void SetQPin(int pin_no, bool is_on);
 
 		/**
 		* Method to turn on/off a Q_Pin
@@ -88,7 +88,7 @@ namespace rpicomponents {
 		* @param stcp: Pin number of the stcp
 		* @param shcp: Pin number of the shcp
 		*/
-		Q74Hc595(int8_t ds, int8_t stcp, int8_t shcp);
+		Q74Hc595(int ds, int stcp, int shcp);
 
 		/**
 		* Method to create a valid Q_Pin
@@ -97,7 +97,7 @@ namespace rpicomponents {
 		* @param turn_on: bool if pin is to be turned on or off
 		* @returns a valid Q_Pin if input was correct else throws an error
 		*/
-		Q_Pin CreateQPin(int8_t pin_no, bool turn_on);
+		Q_Pin CreateQPin(int pin_no, bool turn_on);
 
 		/**
 		* Method to set a vector of Q_Pins on or off

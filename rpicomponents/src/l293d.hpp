@@ -8,22 +8,22 @@ namespace rpicomponents {
 
 	struct EnablePinStruct {
 		//Constructor for const vals
-		EnablePinStruct(const int8_t& enable_pin1, const int8_t& enable_pin2, const rpicomponents::pin::PIN_MODE& enable_pin1_mode = rpicomponents::pin::SOFTPWM_MODE,
-			const rpicomponents::pin::PIN_MODE& enable_pin2_mode = rpicomponents::pin::SOFTPWM_MODE, const int16_t& max_output_enable_pin1 = 254, const int16_t& max_output_enable_pin2 = 254) :
+		EnablePinStruct(const int& enable_pin1, const int& enable_pin2, const rpicomponents::pin::PIN_MODE& enable_pin1_mode = rpicomponents::pin::SOFTPWM_MODE,
+			const rpicomponents::pin::PIN_MODE& enable_pin2_mode = rpicomponents::pin::SOFTPWM_MODE, const int& max_output_enable_pin1 = 254, const int& max_output_enable_pin2 = 254) :
 			enable_pin1_(enable_pin1), enable_pin2_(enable_pin2), enable_pin1_mode_(enable_pin1_mode), enable_pin2_mode_ (enable_pin2_mode), 
 			max_output_enable_pin1_(max_output_enable_pin1), max_output_enable_pin2_ (max_output_enable_pin2_){}
 
-		const int8_t enable_pin1_, enable_pin2_;
+		const int enable_pin1_, enable_pin2_;
 		const rpicomponents::pin::PIN_MODE enable_pin1_mode_, enable_pin2_mode_;
-		const int16_t max_output_enable_pin1_, max_output_enable_pin2_;
+		const int max_output_enable_pin1_, max_output_enable_pin2_;
 	};
 
 	struct InPinStruct {
 		//Constructor for const vals
-		InPinStruct(const int8_t& in_pin1, const int8_t& in_pin2, const int8_t& in_pin3, const int8_t& in_pin4) :
+		InPinStruct(const int& in_pin1, const int& in_pin2, const int& in_pin3, const int& in_pin4) :
 			in_pin1_(in_pin1), in_pin2_(in_pin2), in_pin3_(in_pin3), in_pin4_(in_pin4) {}
 
-		const int8_t in_pin1_, in_pin2_, in_pin3_, in_pin4_;
+		const int in_pin1_, in_pin2_, in_pin3_, in_pin4_;
 	};
 
 	class L293D : Component {
@@ -52,9 +52,9 @@ namespace rpicomponents {
 		 @param in_pin3 The third input pin
 		 @param in_pin4 The fourth input pin
 		*/
-		L293D(const int8_t& enable_pin1, const int8_t& enable_pin2, const rpicomponents::pin::PIN_MODE& enable_pin1_mode = rpicomponents::pin::SOFTPWM_MODE,
-			const rpicomponents::pin::PIN_MODE& enable_pin2_mode = rpicomponents::pin::SOFTPWM_MODE, const int16_t& max_output_enable_pin1 = 254, const int16_t& max_output_enable_pin2 = 254,
-			const int8_t& in_pin1 = -1, const int8_t& in_pin2 = -1, const int8_t& in_pin3 = -1, const int8_t& in_pin4 = -1);
+		L293D(const int& enable_pin1, const int& enable_pin2, const rpicomponents::pin::PIN_MODE& enable_pin1_mode = rpicomponents::pin::SOFTPWM_MODE,
+			const rpicomponents::pin::PIN_MODE& enable_pin2_mode = rpicomponents::pin::SOFTPWM_MODE, const int& max_output_enable_pin1 = 254, const int& max_output_enable_pin2 = 254,
+			const int& in_pin1 = -1, const int& in_pin2 = -1, const int& in_pin3 = -1, const int& in_pin4 = -1);
 
 		/*
 		 Constructor for this component
@@ -70,9 +70,9 @@ namespace rpicomponents {
 		 @param in_pin3 The third input pin
 		 @param in_pin4 The fourth input pin
 		*/
-		L293D(int8_t&& enable_pin1, int8_t&& enable_pin2, rpicomponents::pin::PIN_MODE&& enable_pin1_mode = rpicomponents::pin::SOFTPWM_MODE,
-			rpicomponents::pin::PIN_MODE&& enable_pin2_mode = rpicomponents::pin::SOFTPWM_MODE, int16_t&& max_output_enable_pin1 = 254, int16_t&& max_output_enable_pin2 = 254,
-			int8_t&& in_pin1 = -1, int8_t&& in_pin2 = -1, int8_t&& in_pin3 = -1, int8_t&& in_pin4 = -1);
+		L293D(int&& enable_pin1, int&& enable_pin2, rpicomponents::pin::PIN_MODE&& enable_pin1_mode = rpicomponents::pin::SOFTPWM_MODE,
+			rpicomponents::pin::PIN_MODE&& enable_pin2_mode = rpicomponents::pin::SOFTPWM_MODE, int&& max_output_enable_pin1 = 254, int&& max_output_enable_pin2 = 254,
+			int&& in_pin1 = -1, int&& in_pin2 = -1, int&& in_pin3 = -1, int&& in_pin4 = -1);
 
 		L293D(const EnablePinStruct& enable_pins, const InPinStruct& in_pins);
 
@@ -147,7 +147,7 @@ namespace rpicomponents {
 
 		@param value The value to which the pin should be turned on to
 		*/
-		void TurnOnEnablePin1(int16_t value) const;
+		void TurnOnEnablePin1(const int& value) const;
 
 		/*
 		Method to turn of the enable pin 1
@@ -164,7 +164,7 @@ namespace rpicomponents {
 
 		@param value The value to which the pin should be turned on to
 		*/
-		void TurnOnEnablePin2(int16_t value) const;
+		void TurnOnEnablePin2(const int& value) const;
 
 		/*
 		Method to turn of the enable pin 2

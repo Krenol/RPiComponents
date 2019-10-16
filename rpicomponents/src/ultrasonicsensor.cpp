@@ -33,14 +33,14 @@ float rpicomponents::UltrasonicSensor::GetEchoTime() const
 	return INFINITY;
 }
 
-rpicomponents::UltrasonicSensor::UltrasonicSensor(const int8_t& trigger_pin, const int8_t& echo_pin) : Component(COMPONENT_ULTRASONIC_SENSOR),
+rpicomponents::UltrasonicSensor::UltrasonicSensor(const int& trigger_pin, const int& echo_pin) : Component(COMPONENT_ULTRASONIC_SENSOR),
     trigger_pin_{ rpicomponents::pin::PinCreator::CreatePin(trigger_pin, rpicomponents::pin::DIGITAL_MODE) },
     echo_pin_{ rpicomponents::pin::PinCreator::CreatePin(echo_pin, rpicomponents::pin::INPUT_MODE) }
 {
 	Initialize();
 }
 
-rpicomponents::UltrasonicSensor::UltrasonicSensor(int8_t&& trigger_pin, int8_t&& echo_pin) :
+rpicomponents::UltrasonicSensor::UltrasonicSensor(int&& trigger_pin, int&& echo_pin) :
     Component(COMPONENT_ULTRASONIC_SENSOR), trigger_pin_{ rpicomponents::pin::PinCreator::CreatePin(trigger_pin, rpicomponents::pin::DIGITAL_MODE) },
     echo_pin_{ rpicomponents::pin::PinCreator::CreatePin(echo_pin, rpicomponents::pin::INPUT_MODE) }
 {
@@ -112,12 +112,12 @@ float rpicomponents::UltrasonicSensor::UnitConverter(const float& value, const D
 	return outVal;
 }
 
-const int8_t& rpicomponents::UltrasonicSensor::GetTriggerPin() const
+const int& rpicomponents::UltrasonicSensor::GetTriggerPin() const
 {
 	return trigger_pin_->GetPin();
 }
 
-const int8_t& rpicomponents::UltrasonicSensor::GetEchoPin() const
+const int& rpicomponents::UltrasonicSensor::GetEchoPin() const
 {
 	return echo_pin_->GetPin();
 }

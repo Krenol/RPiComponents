@@ -21,13 +21,13 @@ constexpr const char* COMPONENT_MOTIONSENSOR = "motionsensor";
 		 * Constructor for the motion sensor
 		 * @param pin constant pointer to the input pin of the motion sensor
 		*/
-        Motionsensor(const int8_t& pin);
+        Motionsensor(const int& pin);
 
 		/*
 		 * Constructor for the motion sensor
 		 * @param pin GPIO pin of the motion sensor pin (must be a input pin if already in use)
 		*/
-		Motionsensor(int8_t&& pin);
+		Motionsensor(int&& pin);
 
 		/*
 		 * Copy constructor for the motion sensor
@@ -47,7 +47,7 @@ constexpr const char* COMPONENT_MOTIONSENSOR = "motionsensor";
 		*
 		* @returns the used pin of the component
 		*/
-		const int8_t& GetPin() const;
+		const int& GetPin() const;
 
 	};
 }

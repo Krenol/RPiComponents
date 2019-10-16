@@ -16,7 +16,7 @@ namespace rpicomponents {
             * @param address The i2c address to be checked
             * @return true if hardware is a valid I2C address capable, else false
             */
-			static bool IsI2CAddress(int16_t address);
+			static bool IsI2CAddress(int address);
 
 			/**
             * Static method to transform an integer & decimal I2C addres into a std::string hex value
@@ -24,7 +24,7 @@ namespace rpicomponents {
             * @param address The decimal i2c address to be transformed
             * @return String with the transformed hex i2c address
             */
-			static std::string GetHexAddress(int16_t address);
+			static std::string GetHexAddress(int address);
 
 
 		private:

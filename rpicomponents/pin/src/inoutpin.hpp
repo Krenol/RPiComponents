@@ -13,14 +13,14 @@ namespace rpicomponents {
 			 *
 			 * @param pin The used pin of this object
 			 */
-			InOutPin(const int8_t &pin);
+			InOutPin(const int &pin);
 
 			/**
 			 * Constructor of this class
 			 *
 			 * @param pin Pointer to the used pin of this object
 			 */
-			InOutPin(int8_t&& pin);
+			InOutPin(int&& pin);
 
 			/**
 			 * Copy constructor
@@ -36,7 +36,7 @@ namespace rpicomponents {
 			 * BLOCKING
 			 * @param value Output value that is to be written to the pin
 			 */
-			void WriteToPin(int16_t value) const;
+			void WriteToPin(const int& value) const;
 
 			/**
 			 * Virtual method to read the value of the pin.
@@ -44,7 +44,7 @@ namespace rpicomponents {
 			 * BLOCKING
 			 * @returns the status_ variable
 			 */
-			int16_t ReadFromPin() const;
+			int ReadFromPin() const;
 		};
 	}
 }

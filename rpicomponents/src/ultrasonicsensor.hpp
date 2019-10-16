@@ -43,7 +43,7 @@ namespace rpicomponents {
 		* @param trigger_pin: Pointer to the pin of the ultrasonic sensor to trigger a measurement
 		* @param echo_pin: Pointer to the pin of the ultrasonic sensor to measure the inbound wave
 		*/
-        UltrasonicSensor(const int8_t& trigger_pin, const int8_t& echo_pin);
+        UltrasonicSensor(const int& trigger_pin, const int& echo_pin);
 
 		/**
 		* Constructor for creating a ultrasonic sensor
@@ -51,7 +51,7 @@ namespace rpicomponents {
 		* @param trigger_pin: pin of the ultrasonic sensor to trigger a measurement
 		* @param echo_pin: pin of the ultrasonic sensor to measure the inbound wave
 		*/
-		UltrasonicSensor(int8_t&& trigger_pin, int8_t&& echo_pin);
+		UltrasonicSensor(int&& trigger_pin, int&& echo_pin);
 
         /**
         * Copy Constructor for creating a ultrasonic sensor
@@ -141,14 +141,14 @@ namespace rpicomponents {
 		*
 		* @returns the used pin of the component
 		*/
-		const int8_t& GetTriggerPin() const;
+		const int& GetTriggerPin() const;
 
 		/*
 		* Method to get the used echo pin
 		*
 		* @returns the used pin of the component
 		*/
-		const int8_t& GetEchoPin() const;
+		const int& GetEchoPin() const;
 	};
 }
 

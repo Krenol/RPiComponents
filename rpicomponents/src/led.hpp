@@ -24,7 +24,7 @@ namespace rpicomponents {
 		* @param outputMode: The output mode of the LED pin
 		* @param onIfPinOn: bool if LED light is on if pin output is on
 		*/
-		Led(const int8_t& pin, const rpicomponents::pin::PIN_MODE& mode, const bool& onIfPinOn = true);
+		Led(const int& pin, const rpicomponents::pin::PIN_MODE& mode, const bool& onIfPinOn = true);
 
 		/**
 		* Constructor for creating a LED
@@ -33,7 +33,7 @@ namespace rpicomponents {
 		* @param outputMode: The output mode of the LED pin
 		* @param onIfPinOn: bool if LED light is on if pin output is on
 		*/
-		Led(int8_t&& pin, rpicomponents::pin::PIN_MODE&& mode, bool&& onIfPinOn = true);
+		Led(int&& pin, rpicomponents::pin::PIN_MODE&& mode, bool&& onIfPinOn = true);
 
 		/**
 		* Copy Constructor
@@ -52,7 +52,7 @@ namespace rpicomponents {
 		*
 		* @param value: Output value of the pin
 		*/
-		void TurnOn(int16_t value) const;
+		void TurnOn(const int& value) const;
 
 		/**
 		* Turn the led off
@@ -71,7 +71,7 @@ namespace rpicomponents {
 		*
 		* @returns the used pin of the component
 		*/
-		const int8_t& GetPin() const;
+		const int& GetPin() const;
 
 		/*
 		* Method to check if led is on if gpio pin has power

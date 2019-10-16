@@ -8,7 +8,7 @@ namespace rpicomponents {
 	class Button : public Component {
 	private:
 		const std::unique_ptr<pin::Pin> pin_; //the used pin of the button
-		const int8_t pud_{ PUD_UP }; //the pud mode of the button
+		const int pud_{ PUD_UP }; //the pud mode of the button
 
 		/**
 		* Initializer for Constructors; reduce redundancy
@@ -21,7 +21,7 @@ namespace rpicomponents {
 		* @param pud: the to be checked PUD value
 		* @returns true if PUD is valid, else false
 		*/
-		bool IsPUD(int8_t pud) const;
+		bool IsPUD(int pud) const;
 
 	public:
 		/**
@@ -30,7 +30,7 @@ namespace rpicomponents {
 		* @param pin: GPIO pin number of the button
 		* @param pud: the to be checked PUD value
 		*/
-		Button(int8_t &pin, const int8_t &pud = PUD_UP);
+		Button(int &pin, const int &pud = PUD_UP);
 
 		/**
 		* Constructor for creating a button
@@ -38,7 +38,7 @@ namespace rpicomponents {
 		* @param pin: GPIO pin number of the button
 		* @param pud: the to be checked PUD value
 		*/
-		Button(int8_t&& pin, int8_t&& pud = PUD_UP);
+		Button(int&& pin, int&& pud = PUD_UP);
 
 		/**
 		* Copy Constructor
@@ -59,14 +59,14 @@ namespace rpicomponents {
 		*
 		* @returns the int of the defined PUD by the wiringPi library
 		*/
-		const int8_t& GetPUD() const;
+		const int& GetPUD() const;
 
 		/*
 		* Method to get the used pin
 		*
 		* @returns the used pin of the component
 		*/
-		const int8_t& GetPin() const;
+		const int& GetPin() const;
 	};
 }
 
