@@ -12,7 +12,7 @@ namespace rpicomponents {
 	{
 	private:
 		const std::unique_ptr<pin::Pin> ds_, stcp_, shcp_;
-		static const int max_q_pin_no_{ 8 };
+        const int max_q_pin_no_{ 8 };
 		mutable std::map<int, bool> q_pin_map_;
 
 		/*
@@ -35,7 +35,7 @@ namespace rpicomponents {
 		@param pin_no: q pin number to be retrieved
 		@param turn_on: bool whether Q_Pin is to be turned on or off
 		*/
-		void SetQPin(const int& pin_no, bool turn_on);
+        void SetQPin(const int& pin_no, bool turn_on) const;
 
 		/*
 		Method to write to the q74hc595 q_pins with values stored in the q_pin_map_
@@ -115,7 +115,7 @@ namespace rpicomponents {
 		/*
 		Method to get the max count of q pins for this component
 		*/
-		const int& GetMaxQPinCount() const;
+        const int& GetMaxQPinCount() const;
 	};
 }
 #endif

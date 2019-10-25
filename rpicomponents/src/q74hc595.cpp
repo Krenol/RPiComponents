@@ -12,7 +12,7 @@ void rpicomponents::Q74HC595::Initialize() const
 		throw new std::invalid_argument("stcp pin cannot be the same as the ds pin!");
 	}
 
-	for (int i = 0; i < max_q_pin_no_; i++) {
+    for (int i = 0; i < max_q_pin_no_; i++) {
 		q_pin_map_.insert(std::make_pair(i, false));
 	}
 }
@@ -26,12 +26,12 @@ bool rpicomponents::Q74HC595::ValidQPin(const int& pin_no) const
 	return true;
 }
 
-void rpicomponents::Q74HC595::SetQPin(const int& pin_no, bool turn_on)
+void rpicomponents::Q74HC595::SetQPin(const int& pin_no, bool turn_on) const
 {
 	if (!ValidQPin(pin_no)) {
 		throw new std::invalid_argument("pin_no must be in the range 0 <= pin_no < max_q_pin_no_");
 	}
-	auto q_pin = q_pin_map_[pin_no] = turn_on;
+    q_pin_map_[pin_no] = turn_on;
 }
 
 
@@ -40,7 +40,7 @@ void rpicomponents::Q74HC595::WriteToQPins() const
 	ds_->OutputOff();
 	shcp_->OutputOff();
 	stcp_->OutputOff();
-	for (int i = max_q_pin_no_ - 1; i >= 0; i--) {
+    for (int i = max_q_pin_no_ - 1; i >= 0; i--) {
 		ds_->Output(q_pin_map_[i]);
 		shcp_->OutputOn();
 		utils::Waiter::SleepMillis(1); //sleep to make sure data is pushed correctly
@@ -116,5 +116,5 @@ const int& rpicomponents::Q74HC595::GetShcpPin() const
 
 const int& rpicomponents::Q74HC595::GetMaxQPinCount() const
 {
-	return max_q_pin_no_;
+    return max_q_pin_no_;
 }
