@@ -18,7 +18,6 @@ bool rpicomponents::Dht11::CheckSum(const std::vector<uint8_t> &bits) const
 
 std::vector<uint8_t> rpicomponents::Dht11::ReadSensor() const
 {
-	std::lock_guard<std::mutex> grd(mtx_);
 	std::vector<uint8_t> bits (5,0);
 	uint8_t counter = 0, j = 0;
 
@@ -56,13 +55,11 @@ std::vector<uint8_t> rpicomponents::Dht11::ReadSensor() const
 
 float rpicomponents::Dht11::CalculateTemperature(const std::vector<uint8_t> &bits) const
 {
-	std::lock_guard<std::mutex> grd(mtx_);
 	return bits[2] + bits[3] * 0.1;
 }
 
 float rpicomponents::Dht11::CalculateHumidty(const std::vector<uint8_t> &bits) const
 {
-	std::lock_guard<std::mutex> grd(mtx_);
 	return bits[0] + bits[1] * 0.1;
 }
 

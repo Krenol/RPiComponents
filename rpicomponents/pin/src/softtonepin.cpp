@@ -20,11 +20,11 @@ rpicomponents::pin::SofttonePin::SofttonePin(const SofttonePin& pin) : Pin(pin.G
 
 void rpicomponents::pin::SofttonePin::WriteToPin(const int& value) const {
 	if (!CheckInputValue(value)) return;
-	std::lock_guard<std::mutex> lockGuard(mtx_);
 	softToneWrite(pin_, value);
-	status_ = value; //wouldn't need a lock, as it is atomic
+	status_.store(value);
 }
 
 int rpicomponents::pin::SofttonePin::ReadFromPin() const {
-	return status_;
+	auto val = status_.load();
+	return val;
 }

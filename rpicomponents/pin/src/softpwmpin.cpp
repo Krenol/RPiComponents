@@ -18,11 +18,11 @@ rpicomponents::pin::SoftPWMPin::SoftPWMPin(const SoftPWMPin& pin) : Pin(pin)
 
 void rpicomponents::pin::SoftPWMPin::WriteToPin(const int& value) const {
 	if (!CheckInputValue(value)) return;
-	std::lock_guard<std::mutex> lockGuard(mtx_);
 	softPwmWrite(pin_, value);
-	status_ = value; //wouldn't need a lock, as it is atomic
+	status_.store(value); 
 }
 
 int rpicomponents::pin::SoftPWMPin::ReadFromPin() const {
-	return status_;
+	auto val = status_.load();
+	return val;
 }

@@ -18,14 +18,12 @@ void rpicomponents::Pcf8574::SetPinMode(int pcf_pin_no, int pin_mode) const {
 void rpicomponents::Pcf8574::WriteToPcfPin(int pcf_pin_no, const int& value) const {
 	if (!CheckIfPcfPin(pcf_pin_no)) return;
 	if (value < 0 || value > resolution_) return; 
-	std::lock_guard<std::mutex> grd(mtx_);
 	SetPinMode(pcf_pin_no, OUTPUT);
 	digitalWrite(pin_base_ + pcf_pin_no, value);
 }
 
 int rpicomponents::Pcf8574::ReadFromPcfPin(int pcf_pin_no) const {
 	if (!CheckIfPcfPin(pcf_pin_no)) return -1;
-	std::lock_guard<std::mutex> grd(mtx_);
 	SetPinMode(pcf_pin_no, INPUT);
 	auto val = digitalRead(pin_base_ + pcf_pin_no);
 	return val;

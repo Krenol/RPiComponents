@@ -14,14 +14,12 @@ void rpicomponents::Pcf8591::WriteToPcfPin(int pcf_pin_no, const int& value) con
 
 void rpicomponents::Pcf8591::WriteToPcfPin(const int& value) const {
 	if (value < 0 || value > resolution_) return;
-	std::lock_guard<std::mutex> grd(mtx_);
 	analogWrite(pin_base_, value);
 }
 
 
 int rpicomponents::Pcf8591::ReadFromPcfPin(int pcf_pin_no) const {
 	if (!CheckIfPcfPin(pcf_pin_no)) return -1;
-	std::lock_guard<std::mutex> grd(mtx_);
 	return analogRead(pin_base_ + pcf_pin_no);
 }
 

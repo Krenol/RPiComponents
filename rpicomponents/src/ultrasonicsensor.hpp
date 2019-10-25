@@ -24,129 +24,129 @@ namespace rpicomponents {
 		const DISTANCE_UNIT std_unit_ = UNIT_MM;
 		static const std::map<DISTANCE_UNIT, float> convert_values_;
 
-		/**
-		* Initializer for Constructors; reduce redundancy
+		/*
+		Initializer for Constructors; reduce redundancy
 		*/
 		void Initialize() const;
 
-		/**
-		* Method to measure the ping time to an object
-		* BLOCKING METHOD
-		* @returns The ping time to an object in seconds or INFINITY if above the max_delay_time_
+		/*
+		Method to measure the ping time to an object
+
+		@returns The ping time to an object in seconds or INFINITY if above the max_delay_time_
 		*/
 		float GetEchoTime() const;
 
 	public:
-		/**
-		* Constructor for creating a ultrasonic sensor
-		*
-		* @param trigger_pin: Pointer to the pin of the ultrasonic sensor to trigger a measurement
-		* @param echo_pin: Pointer to the pin of the ultrasonic sensor to measure the inbound wave
+		/*
+		Constructor for creating a ultrasonic sensor
+		
+		@param trigger_pin: Pointer to the pin of the ultrasonic sensor to trigger a measurement
+		@param echo_pin: Pointer to the pin of the ultrasonic sensor to measure the inbound wave
 		*/
         UltrasonicSensor(const int& trigger_pin, const int& echo_pin);
 
-		/**
-		* Constructor for creating a ultrasonic sensor
-		*
-		* @param trigger_pin: pin of the ultrasonic sensor to trigger a measurement
-		* @param echo_pin: pin of the ultrasonic sensor to measure the inbound wave
+		/*
+		Constructor for creating a ultrasonic sensor
+		
+		@param trigger_pin: pin of the ultrasonic sensor to trigger a measurement
+		@param echo_pin: pin of the ultrasonic sensor to measure the inbound wave
 		*/
 		UltrasonicSensor(int&& trigger_pin, int&& echo_pin);
 
-        /**
-        * Copy Constructor for creating a ultrasonic sensor
-        *
-        * @param trigger_pin: pin of the ultrasonic sensor to trigger a measurement
-        * @param echo_pin: pin of the ultrasonic sensor to measure the inbound wave
+        /*
+        Copy Constructor for creating a ultrasonic sensor
+        
+        @param trigger_pin: pin of the ultrasonic sensor to trigger a measurement
+        @param echo_pin: pin of the ultrasonic sensor to measure the inbound wave
         */
         UltrasonicSensor(const UltrasonicSensor &uss);
 
-		/**
-		* Method to measure the distance to an object
-		*
-		* @returns the distance to a object in UNIT_MM, or INFINITY if nothing is measured
+		/*
+		Method to measure the distance to an object
+		
+		@returns the distance to a object in UNIT_MM, or INFINITY if nothing is measured
 		*/
 		float MeasureDistance() const;
 
-		/**
-		* Method to measure the distance to an object
-		*
-		* @param temperature: the temperature of air (influences the speed of sound)
-		* @returns the distance to a object in UNIT_MM, or INFINITY if nothing is measured
+		/*
+		Method to measure the distance to an object
+		
+		@param temperature: the temperature of air (influences the speed of sound)
+		@returns the distance to a object in UNIT_MM, or INFINITY if nothing is measured
 		*/
 		float MeasureDistance(const float& temperature) const;
 
-		/**
-		* Method to measure the distance to an object
-		*
-		* @param unit: the unit of the to be returned distance value
-		* @returns the distance to a object in DISTANCE_UNIT, or INFINITY if nothing is measured
+		/*
+		Method to measure the distance to an object
+		
+		@param unit: the unit of the to be returned distance value
+		@returns the distance to a object in DISTANCE_UNIT, or INFINITY if nothing is measured
 		*/
 		float MeasureDistance(const DISTANCE_UNIT& unit) const;
 
-		/**
-		* Method to measure the distance to an object
-		*
-		* @param temperature: the temperature of air (influences the speed of sound)
-		* @param unit: the unit of the to be returned distance value
-		* @returns the distance to a object in DISTANCE_UNIT, or INFINITY if nothing is measured
+		/*
+		Method to measure the distance to an object
+		
+		@param temperature: the temperature of air (influences the speed of sound)
+		@param unit: the unit of the to be returned distance value
+		@returns the distance to a object in DISTANCE_UNIT, or INFINITY if nothing is measured
 		*/
 		float MeasureDistance(const float& temperature, const DISTANCE_UNIT& unit) const;
 
-		/**
-		* Method to measure the distance to an object
-		*
-		* @param temperature: the temperature of air (influences the speed of sound)
-		* @returns the speed of sound to a object in mm/s
+		/*
+		Method to measure the distance to an object
+		
+		@param temperature: the temperature of air (influences the speed of sound)
+		@returns the speed of sound to a object in mm/s
 		*/
 		float CalculateSpeedOfSound() const;
 
-		/**
-		* Method to measure the distance to an object
-		*
-		* @param temperature: the temperature of air (influences the speed of sound)
-		* @returns the speed of sound to a object in mm/s for a given temperature
+		/*
+		Method to measure the distance to an object
+		
+		@param temperature: the temperature of air (influences the speed of sound)
+		@returns the speed of sound to a object in mm/s for a given temperature
 		*/
 		float CalculateSpeedOfSound(const float& temperature) const;
 
-		/**
-		* Method to measure the distance to an object
-		*
-		* @param unit: the unit of the to be returned speed of sound value
-		* @returns the speed of sound to a object in DISTANCE_UNIT/s
+		/*
+		Method to measure the distance to an object
+		
+		@param unit: the unit of the to be returned speed of sound value
+		@returns the speed of sound to a object in DISTANCE_UNIT/s
 		*/
 		float CalculateSpeedOfSound(const DISTANCE_UNIT& unit) const;
 
-		/**
-		* Method to measure the distance to an object
-		*
-		* @param temperature: the temperature of air (influences the speed of sound)
-		* @param unit: the unit of the to be returned speed of sound value
-		* @returns the speed of sound to a object in DISTANCE_UNIT/s
+		/*
+		Method to measure the distance to an object
+		
+		@param temperature: the temperature of air (influences the speed of sound)
+		@param unit: the unit of the to be returned speed of sound value
+		@returns the speed of sound to a object in DISTANCE_UNIT/s
 		*/
 		float CalculateSpeedOfSound(const float& temperature, const DISTANCE_UNIT& unit) const;
 
-		/**
-		* Method to convert one unit to the other
-		*
-		* @param value: float of the to be converted value
-		* @param inUnit: the unit of the passed value
-		* @param outUnit: the unit of the return value
-		* @returns the converted value in outUnit
+		/*
+		Method to convert one unit to the other
+		
+		@param value: float of the to be converted value
+		@param inUnit: the unit of the passed value
+		@param outUnit: the unit of the return value
+		@returns the converted value in outUnit
 		*/
 		float UnitConverter(const float& value, const DISTANCE_UNIT& inUnit, const DISTANCE_UNIT& outUnit) const;
 
 		/*
-		* Method to get the used trigger pin
-		*
-		* @returns the used pin of the component
+		Method to get the used trigger pin
+		
+		@returns the used pin of the component
 		*/
 		const int& GetTriggerPin() const;
 
 		/*
-		* Method to get the used echo pin
-		*
-		* @returns the used pin of the component
+		Method to get the used echo pin
+		
+		@returns the used pin of the component
 		*/
 		const int& GetEchoPin() const;
 	};

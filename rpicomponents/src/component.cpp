@@ -27,7 +27,6 @@ std::vector<int>::iterator rpicomponents::Component::GetPinIterator(const int& p
 }
 
 bool rpicomponents::Component::UsesPin(const int& pin) const {
-	std::lock_guard<std::mutex> lck{ mtx_ };
 	auto check = GetPinIterator(pin);
 	if (check == used_pins_.end()) {
 		return false;
@@ -47,7 +46,6 @@ bool rpicomponents::Component::UsesPins(std::vector<int>& pins) const {
 void rpicomponents::Component::AddPin(const int& pin) const {
 	auto uses_pin = UsesPin(pin);
 	if (!uses_pin) {
-		std::lock_guard<std::mutex> lck{ mtx_ };
 		used_pins_.push_back(pin);
 	}
 }
@@ -59,14 +57,12 @@ void rpicomponents::Component::AddPins(const std::vector<int>& pins) const {
 }
 
 bool rpicomponents::Component::RemoveAllPins() const {
-	std::lock_guard<std::mutex> lck{ mtx_ };
 	if (used_pins_.empty()) return false;
 	used_pins_.clear();
 	return true;
 }
 
 bool rpicomponents::Component::RemovePin(const int& pin) const {
-	std::lock_guard<std::mutex> lck{ mtx_ };
 	auto it = GetPinIterator(pin);
 	if (it == used_pins_.end()) return false;
 	used_pins_.erase(it);

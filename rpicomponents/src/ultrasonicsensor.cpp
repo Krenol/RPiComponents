@@ -16,7 +16,6 @@ void rpicomponents::UltrasonicSensor::Initialize() const
 
 float rpicomponents::UltrasonicSensor::GetEchoTime() const
 {
-	std::lock_guard<std::mutex> lck(mtx_);
     trigger_pin_->OutputOn();
 	rpicomponents::utils::Waiter::SleepNanos(10);
     trigger_pin_->OutputOff();

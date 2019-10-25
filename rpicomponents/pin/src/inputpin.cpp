@@ -20,7 +20,6 @@ void rpicomponents::pin::InputPin::WriteToPin(const int& value) const {
 }
 
 int rpicomponents::pin::InputPin::ReadFromPin() const {
-	std::lock_guard<std::mutex> lockGuard(mtx_);
 	auto val = digitalRead(pin_);
 	return val;
 }

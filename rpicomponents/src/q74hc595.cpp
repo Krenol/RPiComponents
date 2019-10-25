@@ -2,61 +2,119 @@
 
 void rpicomponents::Q74HC595::Initialize() const
 {
-}
+	if (ds_->GetPin() == shcp_->GetPin()) {
+		throw new std::invalid_argument("shcp pin cannot be the same as the ds pin!");
+	}
+	if (shcp_->GetPin() == stcp_->GetPin()) {
+		throw new std::invalid_argument("stcp pin cannot be the same as the shcp pin!");
+	}
+	if (ds_->GetPin() == stcp_->GetPin()) {
+		throw new std::invalid_argument("stcp pin cannot be the same as the ds pin!");
+	}
 
-bool rpicomponents::Q74HC595::ValidQPin(Q_Pin q_pin) const
-{
-	return false;
-}
-
-rpicomponents::Q_Pin rpicomponents::Q74HC595::GetQPin(const int& pin_no)
-{
-	return Q_Pin();
-}
-
-void rpicomponents::Q74HC595::SetQPin(const int& pin_no, bool is_on)
-{
-}
-
-void rpicomponents::Q74HC595::WriteToQPin(const Q_Pin& q_pin)
-{
+	for (int i = 0; i < max_q_pin_no_; i++) {
+		q_pin_map_.insert(std::make_pair(i, false));
+	}
 }
 
 
-void rpicomponents::Q74HC595::WriteToPins(const std::vector<Q_Pin>& q_values) const
+bool rpicomponents::Q74HC595::ValidQPin(const int& pin_no) const
 {
+	if (pin_no < 0 || pin_no >= max_q_pin_no_) {
+		return false;
+	}
+	return true;
 }
 
-rpicomponents::Q74HC595::Q74HC595(const int& ds_pin, const int& stcp_pin, const int& shcp_pin)
+void rpicomponents::Q74HC595::SetQPin(const int& pin_no, bool turn_on)
 {
-}
-
-rpicomponents::Q74HC595::Q74HC595(int&& ds_pin, int&& stcp_pin, int&& shcp_pin)
-{
-}
-
-rpicomponents::Q74HC595::Q74HC595(const Q74HC595& q74hc595)
-{
-}
-
-rpicomponents::Q_Pin rpicomponents::Q74HC595::CreateQPin(const int& pin_no, bool turn_on)
-{
-	return Q_Pin();
+	if (!ValidQPin(pin_no)) {
+		throw new std::invalid_argument("pin_no must be in the range 0 <= pin_no < max_q_pin_no_");
+	}
+	auto q_pin = q_pin_map_[pin_no] = turn_on;
 }
 
 
-void rpicomponents::Q74HC595::SetQPinOutput(const std::vector<Q_Pin>& q_values) const
+void rpicomponents::Q74HC595::WriteToQPins() const
 {
+	ds_->OutputOff();
+	shcp_->OutputOff();
+	stcp_->OutputOff();
+	for (int i = max_q_pin_no_ - 1; i >= 0; i--) {
+		ds_->Output(q_pin_map_[i]);
+		shcp_->OutputOn();
+		utils::Waiter::SleepMillis(1); //sleep to make sure data is pushed correctly
+		shcp_->OutputOff();
+	}
+	stcp_->OutputOn();
+	utils::Waiter::SleepMillis(1); //sleep to make sure data is pushed correctly
+	stcp_->OutputOff();
 }
 
-void rpicomponents::Q74HC595::SetQPinOutput(const Q_Pin& q_pin) const
+rpicomponents::Q74HC595::Q74HC595(const int& ds_pin, const int& stcp_pin, const int& shcp_pin) : Component(COMPONENT_Q74HC595), 
+ds_{pin::PinCreator::CreatePin(ds_pin, pin::DIGITAL_MODE)}, shcp_{ pin::PinCreator::CreatePin(shcp_pin, pin::DIGITAL_MODE) },
+stcp_{ pin::PinCreator::CreatePin(stcp_pin, pin::DIGITAL_MODE) }
 {
+	Initialize();
+}
+
+rpicomponents::Q74HC595::Q74HC595(int&& ds_pin, int&& stcp_pin, int&& shcp_pin) : Component(COMPONENT_Q74HC595),
+ds_{ pin::PinCreator::CreatePin(ds_pin, pin::DIGITAL_MODE) }, shcp_{ pin::PinCreator::CreatePin(shcp_pin, pin::DIGITAL_MODE) },
+stcp_{ pin::PinCreator::CreatePin(stcp_pin, pin::DIGITAL_MODE) }
+{
+	Initialize();
+}
+
+rpicomponents::Q74HC595::Q74HC595(const Q74HC595& q74hc595) : Component(COMPONENT_Q74HC595),
+ds_{ pin::PinCreator::CreatePin(q74hc595.GetDsPin(), pin::DIGITAL_MODE) }, shcp_{ pin::PinCreator::CreatePin(q74hc595.GetShcpPin(), pin::DIGITAL_MODE) },
+stcp_{ pin::PinCreator::CreatePin(q74hc595.GetStcpPin(), pin::DIGITAL_MODE) }
+{
+	Initialize();
+}
+
+void rpicomponents::Q74HC595::SetQPinOutput(const int& pin, bool turn_on) const
+{
+	if (!ValidQPin(pin)) {
+		throw new std::invalid_argument("pin_no must be in the range 0 <= pin_no < max_q_pin_no_");
+	}
+	q_pin_map_[pin] = turn_on;
+}
+
+bool rpicomponents::Q74HC595::GetQPinOutput(const int& pin) const
+{
+	if (!ValidQPin(pin)) {
+		throw new std::invalid_argument("pin_no must be in the range 0 <= pin_no < max_q_pin_no_");
+	}
+	auto val = q_pin_map_[pin];
+	return val;
 }
 
 void rpicomponents::Q74HC595::TurnOn() const
 {
+
 }
 
 void rpicomponents::Q74HC595::TurnOff() const
 {
+
+}
+
+const int& rpicomponents::Q74HC595::GetDsPin() const
+{
+	return ds_->GetPin();
+}
+
+const int& rpicomponents::Q74HC595::GetStcpPin() const
+{
+	return stcp_->GetPin();
+}
+
+const int& rpicomponents::Q74HC595::GetShcpPin() const
+{
+	return shcp_->GetPin();
+}
+
+const int& rpicomponents::Q74HC595::GetMaxQPinCount() const
+{
+	return max_q_pin_no_;
 }

@@ -1,5 +1,6 @@
 #include "pin.hpp"
 #include "pinchecker.hpp"
+#include <stdexcept>
 
 
 const int& rpicomponents::pin::Pin::GetPin() const {
@@ -96,11 +97,6 @@ void rpicomponents::pin::Pin::Initialize() const
 const rpicomponents::pin::PIN_MODE& rpicomponents::pin::Pin::OutputMode() const {
 	return mode_;
 }
-
-/*rpicomponents::pin::Pin::Pin(int pin, rpicomponents::pin::PIN_MODE mode, int maxOutputValue) : pin_{ pin }, mode_{ mode }, max_value_{ maxOutputValue } 
-{
-	Initialize();
-}*/
 
 rpicomponents::pin::Pin::Pin(const int& pin, const PIN_MODE& mode, const int& maxOutputValue) : pin_{ pin }, mode_{ mode }, max_value_{ maxOutputValue }
 {

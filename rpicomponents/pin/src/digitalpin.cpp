@@ -19,12 +19,11 @@ rpicomponents::pin::DigitalPin::DigitalPin(const DigitalPin& pin) : Pin(pin)
 
 void rpicomponents::pin::DigitalPin::WriteToPin(const int& value) const {
 	if (!CheckInputValue(value)) return;
-	//lock function to not cause any overhead on pin writings
-	std::lock_guard<std::mutex> lockGuard(mtx_);
 	digitalWrite(pin_, value);
-	status_ = value; //wouldn't need a lock, as it is atomic
+	status_.store(value); //wouldn't need a lock, as it is atomic
 }
 
 int rpicomponents::pin::DigitalPin::ReadFromPin() const {
-	return status_;
+	auto val = status_.load();
+	return val;
 }
