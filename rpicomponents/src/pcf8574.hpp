@@ -5,8 +5,13 @@
 #define RPICOMPONENTS_PCF8574_H
 
 namespace rpicomponents {
+	constexpr const char* COMPONENT_PCF8574 = "pcf8574";
+	constexpr int COMPONENT_PCF8574_READ_PINS = 8, COMPONENT_PCF8574_WRITE_PINS = 8, COMPONENT_PCF8574_MIN_PIN_OFFSET = 0, 
+		COMPONENT_PCF8574_MAX_PIN_OFFSET = 7;
+
 	class Pcf8574 : public Pcf {
 	private:
+
 		/*
 		Method that sets the pin mode of a pcf pin to in- or output
 
@@ -38,20 +43,6 @@ namespace rpicomponents {
 		@returns: the read digital pin value (0 to 1)
 		*/
 		int ReadFromPcfPin(int pcf_pin_no) const;
-
-		/*
-		Method that returns the amount of pins that can be read from
-
-		@returns: the amount of read pins (8)
-		*/
-		int AmountReadPins() const;
-
-		/*
-		Method that returns the amount of pins that can be written to
-
-		@returns: the amount of write pins (8)
-		*/
-		int AmountWritePins() const;
 	};
 }
 

@@ -51,7 +51,7 @@ using namespace rpicomponents::utils;
  * @see MPU6050_ADDRESS_AD0_LOW
  * @see MPU6050_ADDRESS_AD0_HIGH
  */
-rpicomponents::Mpu6050::Mpu6050(uint8_t address) : Component("mpu6050"), address_{address}
+rpicomponents::Mpu6050::Mpu6050(uint8_t address) : Component(COMPONENT_MPU6050), address_{address}
 {
 	initialize();
 }

@@ -3,7 +3,8 @@
 
 
 
-rpicomponents::Pcf8574::Pcf8574(int address, int pin_base) : Pcf(address, pin_base, 0, 7, "pcf8574")
+rpicomponents::Pcf8574::Pcf8574(int address, int pin_base) : Pcf(address, pin_base, COMPONENT_PCF8574_READ_PINS, 
+	COMPONENT_PCF8574_WRITE_PINS, COMPONENT_PCF8574_MIN_PIN_OFFSET, COMPONENT_PCF8574_MAX_PIN_OFFSET, COMPONENT_PCF8574)
 {
 	pcf8574Setup(pin_base_, address_);
 }
@@ -27,13 +28,4 @@ int rpicomponents::Pcf8574::ReadFromPcfPin(int pcf_pin_no) const {
 	SetPinMode(pcf_pin_no, INPUT);
 	auto val = digitalRead(pin_base_ + pcf_pin_no);
 	return val;
-}
-
-int rpicomponents::Pcf8574::AmountReadPins() const {
-	return 8;
-}
-
-
-int rpicomponents::Pcf8574::AmountWritePins() const {
-	return 8;
 }

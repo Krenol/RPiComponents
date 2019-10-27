@@ -400,6 +400,7 @@ THE SOFTWARE.
 
 // note: DMP code memory blocks defined at end of header file
 namespace rpicomponents {
+	constexpr const char* COMPONENT_MPU6050 = "mpu6050";
 	class Mpu6050 : public Component {
 	public:
 		Mpu6050(uint8_t address = MPU6050_DEFAULT_ADDRESS);

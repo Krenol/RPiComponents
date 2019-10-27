@@ -4,7 +4,9 @@
 #define RPICOMPONENTS_PCF8591_H
 
 namespace rpicomponents {
-
+	constexpr const char* COMPONENT_PCF8591 = "pcf8591";
+	constexpr int COMPONENT_PCF8591_READ_PINS = 4, COMPONENT_PCF8591_WRITE_PINS = 1, COMPONENT_PCF8591_MIN_PIN_OFFSET = 0,
+		COMPONENT_PCF8591_MAX_PIN_OFFSET = 3;
 	class Pcf8591 : public Pcf
 	{
 	public:
@@ -38,18 +40,6 @@ namespace rpicomponents {
 		@returns: the read pin value (0 to 255)
 		*/
 		int ReadFromPcfPin(int pcf_pin_no) const;
-
-		/*
-		Method that returns the amount of pins that can be read from
-		@returns: the amount of read pins (4)
-		*/
-		int AmountReadPins() const;
-
-		/*
-		Method that returns the amount of pins that can be written to
-		@returns: the amount of write pins (1)
-		*/
-		int AmountWritePins() const;
 	};
 }
 #endif
