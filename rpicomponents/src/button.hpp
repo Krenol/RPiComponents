@@ -30,7 +30,7 @@ namespace rpicomponents {
 		* @param pin: GPIO pin number of the button
 		* @param pud: the to be checked PUD value
 		*/
-		Button(int &pin, const int &pud = PUD_UP);
+		Button(const int &pin, const int &pud = PUD_UP);
 
 		/**
 		* Constructor for creating a button

@@ -12,7 +12,7 @@ namespace rpicomponents {
 	constexpr const char* COMPONENT = "component";
 	class Component {
 	private:
-		//necessary compoennt values
+		//necessary Component values
 		mutable std::vector<int> used_pins_{ };
 		const std::string component_name_{ COMPONENT };
 
