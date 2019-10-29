@@ -2,8 +2,8 @@
 
 void rpicomponents::Transistor::Initialize() {
 	
-    const auto mode = pin_->OutputMode();
-	if (mode != rpicomponents::pin::INPUT_MODE) throw new std::invalid_argument("pin for transistor cannot be on input mode");
+    auto mode = pin_->OutputMode();
+    if (mode == rpicomponents::pin::INPUT_MODE || mode == rpicomponents::pin::IN_OUT_MODE) throw new std::invalid_argument("pin for transistor cannot be on input mode");
     AddPin(pin_->GetPin());
 }
 

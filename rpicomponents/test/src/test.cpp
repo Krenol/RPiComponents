@@ -20,20 +20,20 @@ void On(rpicomponents::Led* led, int no){
 
 
 int main() {
-	rpicomponents::Pcf8574 pcf(0x48);
-	rpicomponents::Pcf8591 pcf1(0x49, 124);
-	rpicomponents::Mpu6050 mpu(0x51); 
-	rpicomponents::Transistor tr(5, rpicomponents::NPN, rpicomponents::pin::PWM_MODE);
+    rpicomponents::Pcf8574 pcf(0x48);
+    rpicomponents::Pcf8591 pcf1(0x49, 124);
+    //rpicomponents::Mpu6050 mpu(0x51);
+    rpicomponents::Transistor tr(1, rpicomponents::NPN, rpicomponents::pin::PWM_MODE);
 
     //cout << btn->IsPressed()<<endl;
 	//auto pin = rpicomponents::pin::PinFactory::CreatePin(12);
-	rpicomponents::UltrasonicSensor uss (2, 3);
+    rpicomponents::UltrasonicSensor uss (2, 3);
 
 	rpicomponents::Button btn(1);
 
   
 	std::cout << "500 mm are " << uss.UnitConverter(500, rpicomponents::UNIT_MM, rpicomponents::UNIT_M) << " m\n";
-	std::cout << pcf.ToString() << std::endl;
+    std::cout << pcf.ToString() << std::endl;
 
 
 	std::cin.get();
