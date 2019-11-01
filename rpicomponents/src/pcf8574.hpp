@@ -26,7 +26,22 @@ namespace rpicomponents {
 		@param address: The i2c address of the pcf8574 (must be greater than 63)
 		@param pin_base: The pin base of the i2c component
 		*/
-		Pcf8574(int address, int pin_base = 64);
+		Pcf8574(const int& address, const int& pin_base = 64);
+
+		/*
+		Constructor
+
+		@param address: The i2c address of the pcf8574 (must be greater than 63)
+		@param pin_base: The pin base of the i2c component
+		*/
+		Pcf8574(int&& address, int&& pin_base = 64);
+
+		/*
+		Constructor
+
+		@param pcf: The pcf to be copied
+		*/
+		Pcf8574(const Pcf8574& pcf);
 
 		/*
 		Method that writes output to a pcf pin

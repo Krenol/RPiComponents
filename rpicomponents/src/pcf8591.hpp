@@ -29,8 +29,7 @@ namespace rpicomponents {
 		/*
 		Constructor
 
-		@param address: The i2c address of the pcf8591 (must be greater than 63)
-		@param pin_base: The pin base of the i2c component
+		@param pcf: The pcf to be copied
 		*/
 		Pcf8591(const Pcf8591& pcf);
 
