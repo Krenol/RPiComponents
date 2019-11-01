@@ -9,14 +9,6 @@ namespace rpicomponents {
 		COMPONENT_PCF8591_MAX_PIN_OFFSET = 3;
 	class Pcf8591 : public Pcf
 	{
-	private:
-		/*
-		Method that writes output to a pcf pin
-
-		@param pcf_pin_no: The pcf pin to be written to
-		@param value: The value to be written (0-255)
-		*/
-		void WriteToPcfPin(const int& pcf_pin_no, const int& value) const;
 	public:
 		/*
 		Constructor
@@ -56,6 +48,14 @@ namespace rpicomponents {
 		@returns: the read pin value (0 to 255)
 		*/
 		int ReadFromPcfPin(const int& pcf_pin_no) const;
+
+		/*
+		Method that writes output to a pcf pin
+
+		@param pcf_pin_no: The pcf pin to be written to
+		@param value: The value to be written (0-255)
+		*/
+		void WriteToPcfPin(const int& pcf_pin_no, const int& value) const;
 	};
 }
 #endif
