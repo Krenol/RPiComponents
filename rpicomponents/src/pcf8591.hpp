@@ -49,6 +49,7 @@ namespace rpicomponents {
 		*/
 		int ReadFromPcfPin(const int& pcf_pin_no) const;
 
+     private:
 		/*
 		Method that writes output to a pcf pin
 

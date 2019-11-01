@@ -34,7 +34,7 @@ namespace rpicomponents {
 		@param value: The value to be written (0-1)
 		@param pcf_pin_no: The pcf pin to be written to
 		*/
-		void WriteToPcfPin(int pcf_pin_no, const int& value) const;
+        void WriteToPcfPin(const int& pcf_pin_no, const int& value) const;
 
 		/*
 		Method that reads the input to a pcf pin
@@ -42,7 +42,7 @@ namespace rpicomponents {
 		@param pcf_pin_no: The pcf pin to be read
 		@returns: the read digital pin value (0 to 1)
 		*/
-		int ReadFromPcfPin(int pcf_pin_no) const;
+        int ReadFromPcfPin(const int& pcf_pin_no) const;
 	};
 }
 
