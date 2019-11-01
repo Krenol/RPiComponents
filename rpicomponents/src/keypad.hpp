@@ -64,7 +64,7 @@ typedef struct {
 namespace rpicomponents {
 	constexpr const char* COMPONENT_KEYPAD = "keypad";
 
-	class Keypad : public Key, public Component {
+    class Keypad : public Key, public Component {
 	public:
 
 		Keypad(char* userKeymap, byte* row, byte* col, byte numRows, byte numCols);
