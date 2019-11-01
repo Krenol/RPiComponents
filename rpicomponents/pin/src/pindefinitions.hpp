@@ -7,7 +7,7 @@
 namespace rpicomponents {
 	namespace pin {
 
-		typedef enum PIN_MODE {
+		enum PIN_MODE {
 			DIGITAL_MODE, PWM_MODE, SOFTPWM_MODE, SOFTTONE_MODE, INPUT_MODE, IN_OUT_MODE
 		};
 		//define gpio pins for pi 3b and 3b+

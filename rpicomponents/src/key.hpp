@@ -6,12 +6,12 @@
 namespace rpicomponents {
 	constexpr const char* COMPONENT_KEY = "key";
 
-	typedef enum { IDLE, PRESSED, HOLD, RELEASED } KeyState;
+    enum KeyState { IDLE, PRESSED, HOLD, RELEASED };
 
 	class Key : public Component {
 	private:
 		mutable std::atomic_char userChar_;
-		mutable std::atomic<KeyState> keyState_;
+        mutable std::atomic<rpicomponents::KeyState> keyState_;
 		mutable std::atomic_bool stateChanged_;
 
 
@@ -74,4 +74,4 @@ namespace rpicomponents {
 	};
 }
 
-#endifs
+#endif

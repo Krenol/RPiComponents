@@ -12,7 +12,7 @@ rpicomponents::Key::Key(char&& userChar) : Component(COMPONENT_KEY), userChar_{ 
 {
 }
 
-rpicomponents::Key::Key(const Key& key) : : Component(COMPONENT_KEY), userChar_{ key.GetChar() }
+rpicomponents::Key::Key(const Key& key) : Component(COMPONENT_KEY), userChar_{ key.GetChar() }
 {
 }
 
