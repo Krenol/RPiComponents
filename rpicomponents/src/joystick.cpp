@@ -22,7 +22,7 @@ rpicomponents::Joystick::Joystick(int&& pcf_address, int&& pin_base, int&& pcf_x
 }
 
 rpicomponents::Joystick::Joystick(const Joystick& joystick) : Joystick(joystick.GetPcfAddress(), joystick.GetPcfBase(), joystick.GetPcfXPin(), joystick.GetPcfYPin(), 
-	joystick.GetGpioZPin(), joystick.GetZPud)
+    joystick.GetGpioZPin(), joystick.GetZPud())
 {
 }
 

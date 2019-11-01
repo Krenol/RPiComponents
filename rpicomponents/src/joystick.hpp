@@ -15,7 +15,7 @@ namespace rpicomponents {
 
 		}
 
-		const int x{ INT_MAX }, y{ INT_MAX };
+        const int x{ INT32_MAX }, y{ INT32_MAX };
 		const bool z{ false };
 	};
 

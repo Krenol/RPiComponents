@@ -1,7 +1,7 @@
 #include "button.hpp"
 
 
-rpicomponents::Button::Button(int &pin, const int &pud) : Component(COMPONENT_BUTTON), pin_{ rpicomponents::pin::PinCreator::CreatePin(pin, rpicomponents::pin::INPUT_MODE) }, pud_{pud}
+rpicomponents::Button::Button(const int &pin, const int &pud) : Component(COMPONENT_BUTTON), pin_{ rpicomponents::pin::PinCreator::CreatePin(pin, rpicomponents::pin::INPUT_MODE) }, pud_{pud}
 {
 	Initialize();
 }
