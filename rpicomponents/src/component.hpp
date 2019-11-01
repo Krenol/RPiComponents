@@ -96,6 +96,13 @@ namespace rpicomponents {
 		bool UsesPins(std::vector<int>& pins) const;
 
 		/*
+		Method to get all used pin of the component
+
+		@return all used pins in a vector
+		*/
+		const std::vector<int>& GetUsedPins() const;
+
+		/*
 		Method to get the name of the component
 		
 		@return The component name as a std::string as given during initialization

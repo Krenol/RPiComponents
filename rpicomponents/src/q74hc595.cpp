@@ -15,6 +15,7 @@ void rpicomponents::Q74HC595::Initialize() const
     for (int i = 0; i < max_q_pin_no_; i++) {
 		q_pin_map_.insert(std::make_pair(i, false));
 	}
+	AddPins({ shcp_->GetPin(),  ds_->GetPin(), stcp_->GetPin() });
 }
 
 

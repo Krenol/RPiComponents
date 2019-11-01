@@ -8,6 +8,7 @@ void rpicomponents::Photoresistor::Initialize() const {
 		throw std::invalid_argument("Voltage must either be 3.3 V or 5.0 V");
 	}
 	if (!pcf_->CheckIfPcfPin(pcf_pin_)) throw std::invalid_argument("Invalid pcf pin was given!");
+	AddPins(pcf_->GetUsedPins());
 }
 
 rpicomponents::Photoresistor::Photoresistor(const int& pcf_address, const int& pin_base, const int& read_pin, const float& voltage) : Component(COMPONENT_PHOTORESISTOR), 

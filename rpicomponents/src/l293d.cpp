@@ -9,6 +9,9 @@ void rpicomponents::L293D::Initialize() const {
 	if (enable_pin2_->OutputMode() == pin::INPUT_MODE || enable_pin2_->OutputMode() == pin::IN_OUT_MODE) {
 		throw std::invalid_argument("enable pin 2 cannot be an input or input/output pin!");
 	}
+
+	AddPins({ enable_pin1_->GetPin(), enable_pin2_->GetPin(), in_pin1_->GetPin(), 
+		in_pin2_->GetPin(), in_pin3_->GetPin(), in_pin4_->GetPin() });
 }
 
 rpicomponents::L293D::L293D(const int& enable_pin1, const int& enable_pin2, const rpicomponents::pin::PIN_MODE& enable_pin1_mode,

@@ -43,6 +43,11 @@ bool rpicomponents::Component::UsesPins(std::vector<int>& pins) const {
 	return uses;
 }
 
+const std::vector<int>& rpicomponents::Component::GetUsedPins() const
+{
+	return used_pins_;
+}
+
 void rpicomponents::Component::AddPin(const int& pin) const {
 	auto uses_pin = UsesPin(pin);
 	if (!uses_pin) {

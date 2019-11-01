@@ -7,6 +7,8 @@ void rpicomponents::Joystick::Initialize() const
 
 	if (pcfXPin_ > pcf_->GetMaxPinOffset()) throw new std::invalid_argument("joystick pcf x pin must be < " + std::to_string(pcf_->GetMaxPinOffset()));
 	if (pcfYPin_ > pcf_->GetMaxPinOffset()) throw new std::invalid_argument("joystick pcf y pin must be < " + std::to_string(pcf_->GetMaxPinOffset()));
+	AddPins(pcf_->GetUsedPins());
+	AddPins(zBtn_->GetUsedPins());
 }
 
 rpicomponents::Joystick::Joystick(const int& pcf_address, const int& pin_base, const int& pcf_x_pin, const int& pcf_y_pin, const int& gpio_z, const int& z_pud) : Component(COMPONENT_JOYSTICK), 
