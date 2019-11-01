@@ -37,8 +37,13 @@ rpicomponents::Keypad::Keypad(char* userKeymap, byte* row, byte* col, byte numRo
 	columnPins = col;
 	sizeKpd.rows = numRows;
 	sizeKpd.columns = numCols;
-
+	/*
+	std::vector<int> dataVec;
+	dataVec.insert(dataVec.end(), &row[0], &row[numRows]);
+	dataVec.insert(dataVec.end(), &col[0], &col[numCols]);
+	AddPins(dataVec);
 	begin(userKeymap);
+	*/
 
 	setDebounceTime(50);
 	setHoldTime(500);
