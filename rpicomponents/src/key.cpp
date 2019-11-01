@@ -1,59 +1,56 @@
+/*
+|| @file Key.cpp
+|| @version 1.0
+|| @author Mark Stanley
+|| @contact mstanley@technologist.com
+||
+|| @description
+|| | Key class provides an abstract definition of a key or button
+|| | and was initially designed to be used in conjunction with a
+|| | state-machine.
+|| #
+||
+|| @license
+|| | This library is free software; you can redistribute it and/or
+|| | modify it under the terms of the GNU Lesser General Public
+|| | License as published by the Free Software Foundation; version
+|| | 2.1 of the License.
+|| |
+|| | This library is distributed in the hope that it will be useful,
+|| | but WITHOUT ANY WARRANTY; without even the implied warranty of
+|| | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+|| | Lesser General Public License for more details.
+|| |
+|| | You should have received a copy of the GNU Lesser General Public
+|| | License along with this library; if not, write to the Free Software
+|| | Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+|| #
+||
+|| Modified by Krenol
+*/
+
 #include "key.hpp"
-#include "key.hpp"
-#include "key.hpp"
-#include "key.hpp"
 
-rpicomponents::Key::Key() : Component(COMPONENT_KEY)
-{
+
+// default constructor
+rpicomponents::Key::Key() : Component(COMPONENT_KEY) {
+	kchar = NO_KEY;
+	kstate = IDLE;
+	stateChanged = false;
 }
 
-rpicomponents::Key::Key(const char& userChar) : Component(COMPONENT_KEY), userChar_{userChar}
-{
+// constructor
+rpicomponents::Key::Key(char userKeyChar) : Component(COMPONENT_KEY){
+	kchar = userKeyChar;
+	kcode = -1;
+	kstate = IDLE;
+	stateChanged = false;
 }
 
-rpicomponents::Key::Key(char&& userChar) : Component(COMPONENT_KEY), userChar_{ userChar }
-{
-}
 
-rpicomponents::Key::Key(const Key& key) : Component(COMPONENT_KEY), userChar_{ key.GetChar() }
-{
+void rpicomponents::Key::UpdateKey(char userKeyChar, KeyState userState, boolean userStatus) {
+	kchar = userKeyChar;
+	kstate = userState;
+	stateChanged = userStatus;
 }
-
-void rpicomponents::Key::UpdateKey(const char& userChar, const KeyState& userState, bool userStatus) const
-{
-	userChar_.store(userChar);
-	keyState_.store(userState);
-	stateChanged_.store(userStatus);
-}
-
-char rpicomponents::Key::GetChar() const
-{
-	return userChar_.load();
-}
-
-void rpicomponents::Key::SetChar(const char& userChar) const
-{
-	userChar_.store(userChar);
-}
-
-rpicomponents::KeyState rpicomponents::Key::GetState() const
-{
-	return keyState_.load();
-}
-
-void rpicomponents::Key::SetState(const KeyState& userState) const
-{
-	keyState_.store(userState);
-}
-
-bool rpicomponents::Key::IsChanged() const
-{
-	return stateChanged_.load();
-}
-
-void rpicomponents::Key::SetChanged(bool userStatus) const
-{
-	stateChanged_.store(userStatus);
-}
-
 

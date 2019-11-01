@@ -1,97 +1,64 @@
+/*
+||
+|| @file Key.h
+|| @version 1.0
+|| @author Mark Stanley
+|| @contact mstanley@technologist.com
+||
+|| @description
+|| | Key class provides an abstract definition of a key or button
+|| | and was initially designed to be used in conjunction with a
+|| | state-machine.
+|| #
+||
+|| @license
+|| | This library is free software; you can redistribute it and/or
+|| | modify it under the terms of the GNU Lesser General Public
+|| | License as published by the Free Software Foundation; version
+|| | 2.1 of the License.
+|| |
+|| | This library is distributed in the hope that it will be useful,
+|| | but WITHOUT ANY WARRANTY; without even the implied warranty of
+|| | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+|| | Lesser General Public License for more details.
+|| |
+|| | You should have received a copy of the GNU Lesser General Public
+|| | License along with this library; if not, write to the Free Software
+|| | Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+|| #
+||
+|| Modified by Krenol
+*/
+
 #include "component.hpp"
 
 #ifndef RPICOMPONENTS_KEY_H
 #define RPICOMPONENTS_KEY_H
 
+#define boolean bool
+#define byte unsigned char 
+#define OPEN LOW
+#define CLOSED HIGH
+typedef unsigned int uint;
+
 namespace rpicomponents {
 	constexpr const char* COMPONENT_KEY = "key";
-
+	constexpr const char NO_KEY = '\0';
     enum KeyState { IDLE, PRESSED, HOLD, RELEASED };
 
+
 	class Key : public Component {
-	private:
-		mutable std::atomic_char userChar_;
-        mutable std::atomic<rpicomponents::KeyState> keyState_;
-		mutable std::atomic_bool stateChanged_;
-
-
 	public:
-		/*
-		Default constructor
-		*/
+		// members
+		char kchar;
+		int kcode;
+		KeyState kstate;
+		boolean stateChanged;
+
+		// methods
 		Key();
-
-		/*
-		Constructor
-
-		@param userChar: The char of the key
-		*/
-		Key(const char& userChar);
-
-		/*
-		Constructor
-
-		@param userChar: The char of the key
-		*/
-		Key(char&& userChar);
-
-		/*
-		Constructor
-
-		@param key: The key to be copied
-		*/
-		Key(const Key& key);
-
-		/*
-		Method to update the key
-		
-		@param userChar: The char that was pressed
-		@param userState: The state of the key
-		@param userStatus: bool to set if key state has changed
-		*/
-		void UpdateKey(const char& userChar, const KeyState& userState, bool userStatus) const;
-
-		/*
-		Method to get the current char of the key
-
-		@returns the current key char
-		*/
-		char GetChar() const;
-
-		/*
-		Method to set the current char of the key
-
-		@param userChar: The char that was pressed
-		*/
-		void SetChar(const char& userChar) const;
-
-		/*
-		Method to get the current key state
-
-		@returns the current key state
-		*/
-		KeyState GetState() const;
-
-		/*
-		Method to set the current key state
-
-		@param userState: The state of the key
-		*/
-		void SetState(const KeyState& userState) const;
-
-		/*
-		Method to check if key changed
-
-		@returns true if key changed else false
-		*/
-		bool IsChanged() const;
-
-		/*
-		Method to set if key changed
-
-		@param userStatus: bool to set if key state has changed
-		*/
-		void SetChanged(bool userStatus) const;
+		Key(char userKeyChar);
+		void UpdateKey(char userKeyChar, KeyState userState, boolean userStatus);
 	};
 }
 

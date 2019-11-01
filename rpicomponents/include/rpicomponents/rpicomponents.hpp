@@ -19,6 +19,7 @@
 #include "../../src/joystick.hpp"
 #include "../../src/l293d.hpp"
 #include "../../src/key.hpp"
+#include "../../src/keypad.hpp"
 #include "../../pin/include/rpicomponents/pin/pins.hpp"
 #include "../utils/include/rpicomponents/utils/rpicomponents_utils.hpp"
 
