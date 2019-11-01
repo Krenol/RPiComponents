@@ -59,6 +59,13 @@ namespace rpicomponents {
 		char GetChar() const;
 
 		/*
+		Method to set the current char of the key
+
+		@param userChar: The char that was pressed
+		*/
+		void SetChar(const char& userChar) const;
+
+		/*
 		Method to get the current key state
 
 		@returns the current key state
@@ -66,11 +73,25 @@ namespace rpicomponents {
 		KeyState GetState() const;
 
 		/*
+		Method to set the current key state
+
+		@param userState: The state of the key
+		*/
+		void SetState(const KeyState& userState) const;
+
+		/*
 		Method to check if key changed
 
 		@returns true if key changed else false
 		*/
 		bool IsChanged() const;
+
+		/*
+		Method to set if key changed
+
+		@param userStatus: bool to set if key state has changed
+		*/
+		void SetChanged(bool userStatus) const;
 	};
 }
 
