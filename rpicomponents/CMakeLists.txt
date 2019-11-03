@@ -32,6 +32,7 @@ ${PROJECT_SOURCE_DIR}/l293d.cpp
 ${PROJECT_SOURCE_DIR}/joystick.cpp
 ${PROJECT_SOURCE_DIR}/key.cpp
 ${PROJECT_SOURCE_DIR}/keypad.cpp
+${PROJECT_SOURCE_DIR}/lcd1602.cpp
 )
  
 include_directories("${PROJECT_INCLUDE_DIR}")
