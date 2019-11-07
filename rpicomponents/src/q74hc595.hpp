@@ -99,16 +99,19 @@ namespace rpicomponents {
 
 		/*
 		Method to get the DS pin number
+		@returns the used ds pin
 		*/
 		const int& GetDsPin() const;
 
 		/*
 		Method to get the STCP pin number
+		@returns the used stcp pin
 		*/
 		const int& GetStcpPin() const;
 
 		/*
 		Method to get the SHCP pin number
+		@returns the used shcp pin
 		*/
 		const int& GetShcpPin() const;
 
