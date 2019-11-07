@@ -11,7 +11,11 @@ namespace rpicomponents {
 		EnablePinStruct(const int& enable_pin1, const int& enable_pin2, const rpicomponents::pin::PIN_MODE& enable_pin1_mode = rpicomponents::pin::SOFTPWM_MODE,
 			const rpicomponents::pin::PIN_MODE& enable_pin2_mode = rpicomponents::pin::SOFTPWM_MODE, const int& max_output_enable_pin1 = 254, const int& max_output_enable_pin2 = 254) :
 			enable_pin1_(enable_pin1), enable_pin2_(enable_pin2), enable_pin1_mode_(enable_pin1_mode), enable_pin2_mode_ (enable_pin2_mode), 
-			max_output_enable_pin1_(max_output_enable_pin1), max_output_enable_pin2_ (max_output_enable_pin2_){}
+			max_output_enable_pin1_(max_output_enable_pin1), max_output_enable_pin2_ (max_output_enable_pin2){}
+
+		EnablePinStruct(const EnablePinStruct& enablePins) :
+			enable_pin1_(enablePins.enable_pin1_), enable_pin2_(enablePins.enable_pin2_), enable_pin1_mode_(enablePins.enable_pin1_mode_), enable_pin2_mode_(enablePins.enable_pin2_mode_),
+			max_output_enable_pin1_(enablePins.max_output_enable_pin1_), max_output_enable_pin2_(enablePins.max_output_enable_pin2_) {}
 
 		const int enable_pin1_, enable_pin2_;
 		const rpicomponents::pin::PIN_MODE enable_pin1_mode_, enable_pin2_mode_;
@@ -22,6 +26,9 @@ namespace rpicomponents {
 		//Constructor for const vals
 		InPinStruct(const int& in_pin1, const int& in_pin2, const int& in_pin3, const int& in_pin4) :
 			in_pin1_(in_pin1), in_pin2_(in_pin2), in_pin3_(in_pin3), in_pin4_(in_pin4) {}
+
+		InPinStruct(const InPinStruct& inPins) :
+			in_pin1_(inPins.in_pin1_), in_pin2_(inPins.in_pin2_), in_pin3_(inPins.in_pin3_), in_pin4_(inPins.in_pin4_) {}
 
 		const int in_pin1_, in_pin2_, in_pin3_, in_pin4_;
 	};
