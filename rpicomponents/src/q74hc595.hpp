@@ -29,15 +29,6 @@ namespace rpicomponents {
 		bool ValidQPin(const int& pin_no) const;
 
 		/*
-		Method to set a Q_Pin of the q_pin_map_
-		throws an error for wrong pin_no outside range 0 <= pin_no < max_q_pin_no_
-		
-		@param pin_no: q pin number to be retrieved
-		@param turn_on: bool whether Q_Pin is to be turned on or off
-		*/
-        void SetQPin(const int& pin_no, bool turn_on) const;
-
-		/*
 		Method to write to the q74hc595 q_pins with values stored in the q_pin_map_
 
 		*/
@@ -77,6 +68,14 @@ namespace rpicomponents {
 		@param turn_on: Turn on or off the passed pin
 		*/
 		void SetQPinOutput(const int& pin, bool turn_on) const;
+
+		/*
+		Method to set a q_pin on or off
+		Wrong input throws an error
+
+		@param pins: map of Q_Pins to be turned on/off according to the set bools in the map
+		*/
+		void SetQPinOutput(const std::map<int, bool>& pins) const;
 
 		/*
 		Method to get the status of a q_pin

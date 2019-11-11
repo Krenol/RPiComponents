@@ -27,14 +27,6 @@ bool rpicomponents::Q74HC595::ValidQPin(const int& pin_no) const
 	return true;
 }
 
-void rpicomponents::Q74HC595::SetQPin(const int& pin_no, bool turn_on) const
-{
-	if (!ValidQPin(pin_no)) {
-		throw new std::invalid_argument("pin_no must be in the range 0 <= pin_no < max_q_pin_no_");
-	}
-    q_pin_map_[pin_no] = turn_on;
-}
-
 
 void rpicomponents::Q74HC595::WriteToQPins() const
 {
@@ -79,6 +71,15 @@ void rpicomponents::Q74HC595::SetQPinOutput(const int& pin, bool turn_on) const
 		throw new std::invalid_argument("pin_no must be in the range 0 <= pin_no < max_q_pin_no_");
 	}
 	q_pin_map_[pin] = turn_on;
+	WriteToQPins();
+}
+
+void rpicomponents::Q74HC595::SetQPinOutput(const std::map<int, bool>& pins) const
+{
+	for (auto const& it : pins) {
+		if(ValidQPin(it.first)) q_pin_map_[it.first] = it.second;
+	}
+	WriteToQPins();
 }
 
 bool rpicomponents::Q74HC595::GetQPinOutput(const int& pin) const
@@ -92,12 +93,18 @@ bool rpicomponents::Q74HC595::GetQPinOutput(const int& pin) const
 
 void rpicomponents::Q74HC595::TurnOn() const
 {
-
+	for (int i = 0; i < max_q_pin_no_; i++) {
+		q_pin_map_[i] = true;
+	}
+	WriteToQPins();
 }
 
 void rpicomponents::Q74HC595::TurnOff() const
 {
-
+	for (int i = 0; i < max_q_pin_no_; i++) {
+		q_pin_map_[i] = false;
+	}
+	WriteToQPins();
 }
 
 const int& rpicomponents::Q74HC595::GetDsPin() const

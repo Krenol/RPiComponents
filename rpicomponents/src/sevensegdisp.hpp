@@ -23,6 +23,8 @@ namespace rpicomponents {
 		const int segA, segB, segC, segD, segE, segF, segG, segDP;
 	};
 
+	constexpr bool SEG_ON = false, SEG_OFF = true;
+
 	class SevenSegmentDisplay : public Component {
 	private:
 		std::unique_ptr<Q74HC595> q74_;
@@ -301,7 +303,7 @@ namespace rpicomponents {
 		@param gOn: Segment G is to be set on (true) or off (false)
 		@param dpOn: Segment DT is to be set on (true) or off (false)
 		*/
-		void Write(aOn = false, bOn = false, cOn = false, dOn = false, fOn = false, eOn = false, gOn = false, dpOn = false) const;
+		void Write(bool aOn = false, bool bOn = false, bool cOn = false, bool  dOn = false, bool fOn = false, bool eOn = false, bool gOn = false, bool dpOn = false) const;
 	};
 
 
