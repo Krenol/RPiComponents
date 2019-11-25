@@ -1,5 +1,5 @@
 #include "button.hpp"
-
+#include "../external/doctest/doctest/doctest.h"
 
 rpicomponents::Button::Button(const int &pin, const int &pud) : Component(COMPONENT_BUTTON), pin_{ rpicomponents::pin::PinCreator::CreatePin(pin, rpicomponents::pin::INPUT_MODE) }, pud_{pud}
 {
@@ -44,4 +44,12 @@ const int& rpicomponents::Button::GetPUD() const {
 const int& rpicomponents::Button::GetPin() const
 {
 	return pin_->GetPin();
+}
+
+//***TEST CASES***
+
+TEST_CASE("Creating button and checking it") {
+	rpicomponents::Button btn(1, PUD_UP);
+	CHECK(btn.ToString().compare(rpicomponents::COMPONENT_BUTTON) == 0);
+	CHECK(btn.ToString().compare(rpicomponents::COMPONENT) == 0);
 }

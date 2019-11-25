@@ -13,6 +13,7 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
  
 set(PROJECT_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 set(PROJECT_SOURCE_DIR ${PROJECT_SOURCE_DIR}/src)
+set(DOCTEST_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/external/doctest CACHE INTERNAL "Path to include folder for doctest")
 
 set(RPICOMPONENT_PROJECT_SRCS 
 ${PROJECT_SOURCE_DIR}/button.cpp
@@ -37,6 +38,7 @@ ${PROJECT_SOURCE_DIR}/lcd1602.cpp
  
 include_directories("${PROJECT_INCLUDE_DIR}")
 include_directories("${PROJECT_SOURCE_DIR}")
+include_directories(${DOCTEST_INCLUDE_DIR})
 
 add_library(${PROJECT_NAME} SHARED ${RPICOMPONENT_PROJECT_SRCS})
 
@@ -51,6 +53,7 @@ target_include_directories(${PROJECT_NAME}
 add_subdirectory (pin)
 add_subdirectory (test)
 add_subdirectory (utils)
+add_subdirectory (external/doctest)
 
 target_link_libraries(${PROJECT_NAME} pin)
 target_link_libraries(${PROJECT_NAME} rpicomponents_utils)

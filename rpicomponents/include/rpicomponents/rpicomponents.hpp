@@ -4,6 +4,10 @@
 #define RPICOMPONENTS_H
 #pragma once
 
+
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "../external/doctest/doctest/doctest.h"
+
 #include "../../src/button.hpp"
 #include "../../src/led.hpp"
 #include "../../src/transistor.hpp"
