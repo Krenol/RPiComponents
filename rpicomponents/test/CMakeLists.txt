@@ -15,6 +15,8 @@ include_directories("${PROJECT_INCLUDE_DIR}")
 
 # Add source to this project's executable.
 add_executable (test_project ${TEST_PROJECT_SRCS})
+#add_executable(my_tests ${PROJECT_SOURCE_DIR}/button.cpp)
+target_link_libraries(test_project doctest)
 
 target_link_libraries(test_project RPiComponents)
 

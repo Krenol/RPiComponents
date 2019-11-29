@@ -1,4 +1,17 @@
+#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
+#include "../external/doctest/doctest/doctest.h"
+
 #include "rpicomponents/rpicomponents.hpp"
+
+//***TEST CASES***
+
+TEST_CASE("Creating button and checking it") {
+    rpicomponents::Button btn(1, PUD_UP);
+    CHECK(btn.ToString().compare(rpicomponents::COMPONENT_BUTTON) == 0);
+    CHECK(btn.ToString().compare(rpicomponents::COMPONENT) == 0);
+}
+
+/*
 #include <thread>
 #include <cassert>
 #include <iostream>
@@ -39,3 +52,4 @@ int main() {
 	std::cin.get();
 
 }
+*/
