@@ -13,7 +13,7 @@ rpicomponents::pin::PinCreator& rpicomponents::pin::PinCreator::GetInstance() {
 }
 
 
-std::unique_ptr<rpicomponents::pin::Pin> rpicomponents::pin::PinCreator::CreatePin(const int& pin, rpicomponents::pin::PIN_MODE mode, const int& maxOutputValue) {
+std::unique_ptr<rpicomponents::pin::Pin> rpicomponents::pin::PinCreator::CreatePin(int pin, rpicomponents::pin::PIN_MODE mode, int maxOutputValue) {
 	switch (mode)
 	{
 	case rpicomponents::pin::DIGITAL_MODE:

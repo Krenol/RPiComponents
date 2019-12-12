@@ -13,14 +13,14 @@ namespace rpicomponents {
 			 
 			 @param pin The used pin of this object
 			 */
-			DigitalPin(const int &pin);
+			DigitalPin(int pin);
 
 			/*
 			 Constructor of this class
 			 
 			 @param pin RValue of the used pin of this object
 			 */
-			DigitalPin(int&& pin);
+			//DigitalPin(int&& pin);
 
 			/*
 			 Copy constructor
@@ -35,7 +35,7 @@ namespace rpicomponents {
 			 
 			 @param value Output value that is to be written to the pin
 			 */
-			void WriteToPin(const int& value) const;
+			void WriteToPin(int value) const;
 
 			/*
 			 Method to read the value of the pin.

@@ -43,7 +43,7 @@ namespace rpicomponents {
 		@param trigger_pin: Pointer to the pin of the ultrasonic sensor to trigger a measurement
 		@param echo_pin: Pointer to the pin of the ultrasonic sensor to measure the inbound wave
 		*/
-        UltrasonicSensor(const int& trigger_pin, const int& echo_pin);
+        UltrasonicSensor(int trigger_pin, int echo_pin);
 
 		/*
 		Constructor for creating a ultrasonic sensor
@@ -51,7 +51,7 @@ namespace rpicomponents {
 		@param trigger_pin: pin of the ultrasonic sensor to trigger a measurement
 		@param echo_pin: pin of the ultrasonic sensor to measure the inbound wave
 		*/
-		UltrasonicSensor(int&& trigger_pin, int&& echo_pin);
+		//UltrasonicSensor(int&& trigger_pin, int&& echo_pin);
 
         /*
         Copy Constructor for creating a ultrasonic sensor
@@ -74,7 +74,7 @@ namespace rpicomponents {
 		@param temperature: the temperature of air (influences the speed of sound)
 		@returns the distance to a object in UNIT_MM, or INFINITY if nothing is measured
 		*/
-		float MeasureDistance(const float& temperature) const;
+		float MeasureDistance(float  temperature) const;
 
 		/*
 		Method to measure the distance to an object
@@ -82,7 +82,7 @@ namespace rpicomponents {
 		@param unit: the unit of the to be returned distance value
 		@returns the distance to a object in DISTANCE_UNIT, or INFINITY if nothing is measured
 		*/
-		float MeasureDistance(const DISTANCE_UNIT& unit) const;
+		float MeasureDistance(DISTANCE_UNIT unit) const;
 
 		/*
 		Method to measure the distance to an object
@@ -91,7 +91,7 @@ namespace rpicomponents {
 		@param unit: the unit of the to be returned distance value
 		@returns the distance to a object in DISTANCE_UNIT, or INFINITY if nothing is measured
 		*/
-		float MeasureDistance(const float& temperature, const DISTANCE_UNIT& unit) const;
+		float MeasureDistance(float  temperature, DISTANCE_UNIT unit) const;
 
 		/*
 		Method to measure the distance to an object
@@ -107,7 +107,7 @@ namespace rpicomponents {
 		@param temperature: the temperature of air (influences the speed of sound)
 		@returns the speed of sound to a object in mm/s for a given temperature
 		*/
-		float CalculateSpeedOfSound(const float& temperature) const;
+		float CalculateSpeedOfSound(float  temperature) const;
 
 		/*
 		Method to measure the distance to an object
@@ -115,7 +115,7 @@ namespace rpicomponents {
 		@param unit: the unit of the to be returned speed of sound value
 		@returns the speed of sound to a object in DISTANCE_UNIT/s
 		*/
-		float CalculateSpeedOfSound(const DISTANCE_UNIT& unit) const;
+		float CalculateSpeedOfSound(DISTANCE_UNIT unit) const;
 
 		/*
 		Method to measure the distance to an object
@@ -124,7 +124,7 @@ namespace rpicomponents {
 		@param unit: the unit of the to be returned speed of sound value
 		@returns the speed of sound to a object in DISTANCE_UNIT/s
 		*/
-		float CalculateSpeedOfSound(const float& temperature, const DISTANCE_UNIT& unit) const;
+		float CalculateSpeedOfSound(float  temperature, DISTANCE_UNIT unit) const;
 
 		/*
 		Method to convert one unit to the other
@@ -134,21 +134,21 @@ namespace rpicomponents {
 		@param outUnit: the unit of the return value
 		@returns the converted value in outUnit
 		*/
-		float UnitConverter(const float& value, const DISTANCE_UNIT& inUnit, const DISTANCE_UNIT& outUnit) const;
+		float UnitConverter(float  value, DISTANCE_UNIT inUnit, DISTANCE_UNIT outUnit) const;
 
 		/*
 		Method to get the used trigger pin
 		
 		@returns the used pin of the component
 		*/
-		const int& GetTriggerPin() const;
+		int GetTriggerPin() const;
 
 		/*
 		Method to get the used echo pin
 		
 		@returns the used pin of the component
 		*/
-		const int& GetEchoPin() const;
+		int GetEchoPin() const;
 	};
 }
 

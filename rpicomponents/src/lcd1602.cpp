@@ -12,28 +12,28 @@ void rpicomponents::Lcd1602::Initialize() const
 	pcf_->WriteToPcfPin(lcdPins_.led - lcdPins_.pinBase, 1);
 }
 
-rpicomponents::Lcd1602::Lcd1602(const int& pcf_address, const int& pin_base) : Component(COMPONENT_LCD1602), pcf_{std::unique_ptr<Pcf8574>(new Pcf8574(pcf_address, pin_base))}, 
+rpicomponents::Lcd1602::Lcd1602(int pcf_address, int pin_base) : Component(COMPONENT_LCD1602), pcf_{std::unique_ptr<Pcf8574>(new Pcf8574(pcf_address, pin_base))}, 
 	lcdPins_{LcdPins(pin_base)}, lcdHandle_{ lcdInit(2, 16, 4, lcdPins_.rs, lcdPins_.en, lcdPins_.d4, lcdPins_.d5, lcdPins_.d6, lcdPins_.d7, 0, 0, 0, 0)}
 {
 	Initialize();
 }
 
-rpicomponents::Lcd1602::Lcd1602(int&& pcf_address, int&& pin_base) : Component(COMPONENT_LCD1602), pcf_{ std::unique_ptr<Pcf8574>(new Pcf8574(pcf_address, pin_base)) },
-lcdPins_{ LcdPins(pin_base) }, lcdHandle_{ lcdInit(2, 16, 4, lcdPins_.rs, lcdPins_.en, lcdPins_.d4, lcdPins_.d5, lcdPins_.d6, lcdPins_.d7, 0, 0, 0, 0) }
-{
-	Initialize();
-}
+//rpicomponents::Lcd1602::Lcd1602(int&& pcf_address, int&& pin_base) : Component(COMPONENT_LCD1602), pcf_{ std::unique_ptr<Pcf8574>(new Pcf8574(pcf_address, pin_base)) },
+//lcdPins_{ LcdPins(pin_base) }, lcdHandle_{ lcdInit(2, 16, 4, lcdPins_.rs, lcdPins_.en, lcdPins_.d4, lcdPins_.d5, lcdPins_.d6, lcdPins_.d7, 0, 0, 0, 0) }
+//{
+//	Initialize();
+//}
 
 rpicomponents::Lcd1602::Lcd1602(const Lcd1602& lcd) : Lcd1602(lcd.GetPcfAddress(), lcd.GetPcfBase())
 {
 }
 
-const int& rpicomponents::Lcd1602::GetPcfBase() const
+int rpicomponents::Lcd1602::GetPcfBase() const
 {
 	pcf_->GetPinBase();
 }
 
-const int& rpicomponents::Lcd1602::GetPcfAddress() const
+int rpicomponents::Lcd1602::GetPcfAddress() const
 {
 	pcf_->GetPcfAddress();
 }

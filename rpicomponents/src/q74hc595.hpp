@@ -26,7 +26,7 @@ namespace rpicomponents {
 		@param pin_no: pin_no to be checked
 		@returns true if 0 <= pin_no < max_q_pin_no_ else false
 		*/
-		bool ValidQPin(const int& pin_no) const;
+		bool ValidQPin(int pin_no) const;
 
 		/*
 		Method to write to the q74hc595 q_pins with values stored in the q_pin_map_
@@ -42,7 +42,7 @@ namespace rpicomponents {
 		@param stcp_pin: Pin number of the stcp
 		@param shcp_pin: Pin number of the shcp
 		*/
-		Q74HC595(const int& ds_pin, const int& stcp_pin, const int& shcp_pin);
+		Q74HC595(int ds_pin, int stcp_pin, int shcp_pin);
 
 		/*
 		Constructor for creating a Q74HC595
@@ -51,7 +51,7 @@ namespace rpicomponents {
 		@param stcp_pin: Pin number of the stcp
 		@param shcp_pin: Pin number of the shcp
 		*/
-		Q74HC595(int&& ds_pin, int&& stcp_pin, int&& shcp_pin);
+		/*Q74HC595(int&& ds_pin, int&& stcp_pin, int&& shcp_pin);*/
 
 		/*
 		Copy Constructor for Q74HC595
@@ -67,7 +67,7 @@ namespace rpicomponents {
 		@param pin: Q_Pin to be turned on/off according to boolean turn_on
 		@param turn_on: Turn on or off the passed pin
 		*/
-		void SetQPinOutput(const int& pin, bool turn_on) const;
+		void SetQPinOutput(int pin, bool turn_on) const;
 
 		/*
 		Method to set a q_pin on or off
@@ -84,7 +84,7 @@ namespace rpicomponents {
 		@param pin: Q_Pin for whcih status is to be returned
 		@returns true if pin is on, else false
 		*/
-		bool GetQPinOutput(const int& pin) const;
+		bool GetQPinOutput(int pin) const;
 
 		/*
 		Method to turn off all Q_Pins
@@ -100,24 +100,24 @@ namespace rpicomponents {
 		Method to get the DS pin number
 		@returns the used ds pin
 		*/
-		const int& GetDsPin() const;
+		int GetDsPin() const;
 
 		/*
 		Method to get the STCP pin number
 		@returns the used stcp pin
 		*/
-		const int& GetStcpPin() const;
+		int GetStcpPin() const;
 
 		/*
 		Method to get the SHCP pin number
 		@returns the used shcp pin
 		*/
-		const int& GetShcpPin() const;
+		int GetShcpPin() const;
 
 		/*
 		Method to get the max count of q pins for this component
 		*/
-        const int& GetMaxQPinCount() const;
+        int GetMaxQPinCount() const;
 	};
 }
 #endif

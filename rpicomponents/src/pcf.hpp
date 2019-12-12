@@ -30,8 +30,8 @@ namespace rpicomponents {
 		@param max_pin_offset: The max pin offset to the pin base
 		@param comp_name: The name of the child component; e.g. pcf8574
 		*/
-		Pcf(const int& address, const int& pin_base = 64, const int& read_pin_count = 0, const int& write_pin_count = 0, 
-			const int& min_pin_offset = 0, const int& max_pin_offset = 1, const std::string& comp_name = COMPONENT_PCF);
+		Pcf(int address, int pin_base = 64, int read_pin_count = 0, int write_pin_count = 0, 
+			int min_pin_offset = 0, int max_pin_offset = 1, const std::string& comp_name = COMPONENT_PCF);
 
 		/*
 		Constructor
@@ -43,8 +43,8 @@ namespace rpicomponents {
 		@param max_pin_offset: The max pin offset to the pin base
 		@param comp_name: The name of the child component; e.g. pcf8574
 		*/
-		Pcf(int&& address, int&& pin_base = 64, int&& read_pin_count = 0, int&& write_pin_count = 0,
-			int&& min_pin_offset = 0, int&& max_pin_offset = 1, std::string&& comp_name = COMPONENT_PCF);
+		/*Pcf(int&& address, int&& pin_base = 64, int&& read_pin_count = 0, int&& write_pin_count = 0,
+			int&& min_pin_offset = 0, int&& max_pin_offset = 1, std::string&& comp_name = COMPONENT_PCF);*/
 
 		/*
 		Copy Constructor
@@ -66,7 +66,7 @@ namespace rpicomponents {
 		@param pcf_pin_no: The pcf pin to be written to
 		@param value: The value to be written (0 to resolution_)
 		*/
-        virtual void WriteToPcfPin(const int& pcf_pin_no, const int& value) const = 0;
+        virtual void WriteToPcfPin(int pcf_pin_no, int value) const = 0;
 
 		/*
 		Method that reads the input to a pcf pin
@@ -74,53 +74,53 @@ namespace rpicomponents {
 		@param pcf_pin_no: The pcf pin to be read
 		@returns: the read digital pin value (0 to resolution_)
 		*/
-        virtual int ReadFromPcfPin(const int& pcf_pin_no) const = 0;
+        virtual int ReadFromPcfPin(int pcf_pin_no) const = 0;
 
 		/*
 		Method that returns the resolution of the pcf
 
 		@returns: the resolution_ integer
 		*/
-		const int& GetResolution() const;
+		int GetResolution() const;
 
 		/*
 		Method that returns the amount of pins that can be read from
 
 		@returns: the amount of read pins 
 		*/
-		const int& AmountReadPins() const;
+		int AmountReadPins() const;
 
 		/*
 		Method that returns the amount of pins that can be written to
 
 		@returns: the amount of write pins 
 		*/
-		const int& AmountWritePins() const;
+		int AmountWritePins() const;
 
 		/*
 		Get the pcf address
 
 		@returns the pcf address
 		*/
-		const int& GetPcfAddress() const;
+		int GetPcfAddress() const;
 
 		/*
 		Get the PCF pin base
 		@returns the pin base of the pcf
 		*/
-		const int& GetPinBase() const;
+		int GetPinBase() const;
 
 		/*
 		Get the min pin offset of the pcf
 		@returns the min pin offset
 		*/
-		const int& GetMinPinOffset() const;
+		int GetMinPinOffset() const;
 
 		/*
 		Get the max pin offset of the pcf
 		@returns the max pin offset
 		*/
-		const int& GetMaxPinOffset() const;
+		int GetMaxPinOffset() const;
 	};
 }
 #endif

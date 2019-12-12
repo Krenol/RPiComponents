@@ -3,7 +3,7 @@
 #include <stdexcept>
 
 
-const int& rpicomponents::pin::Pin::GetPin() const {
+int rpicomponents::pin::Pin::GetPin() const {
 	return pin_;
 }
 
@@ -18,7 +18,7 @@ void rpicomponents::pin::Pin::OutputOn() const {
 	WriteToPin(max_value_);
 }
 
-void rpicomponents::pin::Pin::Output(const int& value) const {
+void rpicomponents::pin::Pin::Output(int value) const {
 	if (mode_ == rpicomponents::pin::INPUT_MODE) return;
 	WriteToPin(value);
 }
@@ -37,10 +37,10 @@ int rpicomponents::pin::Pin::ReadPinValue() const {
 	return ReadFromPin();
 }
 
-rpicomponents::pin::Pin::Pin(int&& pin, const PIN_MODE&& mode, const int&& maxOutputValue) : pin_{ pin }, mode_{ mode }, max_value_{ maxOutputValue }
-{
-	Initialize();
-}
+//rpicomponents::pin::Pin::Pin(int&& pin, PIN_MODE&& mode, int&& maxOutputValue) : pin_{ pin }, mode_{ mode }, max_value_{ maxOutputValue }
+//{
+//	Initialize();
+//}
 
 
 
@@ -49,7 +49,7 @@ rpicomponents::pin::Pin::Pin(const Pin& pin) : pin_{ pin.GetPin() }, mode_{ pin.
 	Initialize();
 }
 
-bool rpicomponents::pin::Pin::CheckInputValue(const int& value) const {
+bool rpicomponents::pin::Pin::CheckInputValue(int value) const {
 	if (value < min_value_ || value > max_value_) {
 		return false;
 	}
@@ -94,11 +94,11 @@ void rpicomponents::pin::Pin::Initialize() const
 	}
 }
 
-const rpicomponents::pin::PIN_MODE& rpicomponents::pin::Pin::OutputMode() const {
+rpicomponents::pin::PIN_MODE rpicomponents::pin::Pin::OutputMode() const {
 	return mode_;
 }
 
-rpicomponents::pin::Pin::Pin(const int& pin, const PIN_MODE& mode, const int& maxOutputValue) : pin_{ pin }, mode_{ mode }, max_value_{ maxOutputValue }
+rpicomponents::pin::Pin::Pin(int pin, PIN_MODE mode, int maxOutputValue) : pin_{ pin }, mode_{ mode }, max_value_{ maxOutputValue }
 {
 	Initialize();
 }

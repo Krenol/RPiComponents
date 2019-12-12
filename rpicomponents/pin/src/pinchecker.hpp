@@ -17,7 +17,7 @@ namespace rpicomponents {
             @param pin The pin integer to be checked
             @return true if pin is inside the RPi 3 gpio pin range ( 0 <= pin <= 31), else false
             */
-            static bool IsValidPinValue(const int &pin);
+            static bool IsValidPinValue(int pin);
 
             /*
             Static method to check whether a pin is hardware pwm capable or not
@@ -25,7 +25,7 @@ namespace rpicomponents {
             @param pin The pin that should be checked for hardware pwm capability
             @return true if pin is hardware pwm capable, else false
             */
-            static bool PinIsHardwarePWMCapable(const int &pin);
+            static bool PinIsHardwarePWMCapable(int pin);
 
         private:
             /*

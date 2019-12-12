@@ -23,7 +23,7 @@ namespace rpicomponents {
 		@param pin the Pin object to be found
 		@return std::vector<int>::iterator pointing to the location the pin is stored inside the vector
 		*/
-		std::vector<int>::iterator GetPinIterator( const int& pin) const;
+		std::vector<int>::iterator GetPinIterator( int pin) const;
 
 	protected:
 		virtual ~Component() = 0; //virtual protected destructor to make class abstract
@@ -33,7 +33,7 @@ namespace rpicomponents {
 		
 		@param pin The pin to be added
 		*/
-		void AddPin(const int& pin) const;
+		void AddPin(int pin) const;
 
 		/*
 		Method to check multiple pins to the component
@@ -55,7 +55,7 @@ namespace rpicomponents {
 		@param pin The pin to be removed from the vector
 		@return true if operation was successfull (pin was stored in the vector), else false
 		*/
-		bool RemovePin(const int& pin) const;
+		bool RemovePin(int pin) const;
 
 		/*
 		Constructor
@@ -85,7 +85,7 @@ namespace rpicomponents {
 		@param pin The pin to be checked for usage
 		@return true if pin is used, else false
 		*/
-		bool UsesPin(const int& pin) const;
+		bool UsesPin(int pin) const;
 
 		/*
 		Method to check if the current component uses certain pins

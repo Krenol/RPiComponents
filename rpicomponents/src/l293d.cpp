@@ -14,9 +14,9 @@ void rpicomponents::L293D::Initialize() const {
 		in_pin2_->GetPin(), in_pin3_->GetPin(), in_pin4_->GetPin() });
 }
 
-rpicomponents::L293D::L293D(const int& enable_pin1, const int& enable_pin2, const rpicomponents::pin::PIN_MODE& enable_pin1_mode,
-	const rpicomponents::pin::PIN_MODE& enable_pin2_mode, const int& max_output_enable_pin1, const int& max_output_enable_pin2,
-	const int& in_pin1, const int& in_pin2, const int& in_pin3, const int& in_pin4) : 
+rpicomponents::L293D::L293D(int enable_pin1, int enable_pin2, rpicomponents::pin::PIN_MODE enable_pin1_mode,
+	rpicomponents::pin::PIN_MODE enable_pin2_mode, int max_output_enable_pin1, int max_output_enable_pin2,
+	int in_pin1, int in_pin2, int in_pin3, int in_pin4) : 
 	Component(COMPONENT_L293D), enable_pin1_{pin::PinCreator::CreatePin(enable_pin1, enable_pin1_mode, max_output_enable_pin1)}, 
 	enable_pin2_{ pin::PinCreator::CreatePin(enable_pin2, enable_pin2_mode, max_output_enable_pin2) },
 	in_pin1_{ pin::PinCreator::CreatePin(in_pin1, pin::DIGITAL_MODE)}, in_pin2_{ pin::PinCreator::CreatePin(in_pin2, pin::DIGITAL_MODE) }, 
@@ -25,16 +25,16 @@ rpicomponents::L293D::L293D(const int& enable_pin1, const int& enable_pin2, cons
 	Initialize();
 }
 
-rpicomponents::L293D::L293D(int&& enable_pin1, int&& enable_pin2, rpicomponents::pin::PIN_MODE&& enable_pin1_mode,
-	rpicomponents::pin::PIN_MODE&& enable_pin2_mode, int&& max_output_enable_pin1, int&& max_output_enable_pin2,
-	int&& in_pin1, int&& in_pin2, int&& in_pin3, int&& in_pin4) :
-	Component(COMPONENT_L293D), enable_pin1_{ pin::PinCreator::CreatePin(enable_pin1, enable_pin1_mode, max_output_enable_pin1) },
-	enable_pin2_{ pin::PinCreator::CreatePin(enable_pin2, enable_pin2_mode, max_output_enable_pin2) },
-	in_pin1_{ pin::PinCreator::CreatePin(in_pin1, pin::DIGITAL_MODE) }, in_pin2_{ pin::PinCreator::CreatePin(in_pin2, pin::DIGITAL_MODE) },
-	in_pin3_{ pin::PinCreator::CreatePin(in_pin3, pin::DIGITAL_MODE) }, in_pin4_{ pin::PinCreator::CreatePin(in_pin4, pin::DIGITAL_MODE) }
-{
-	Initialize();
-}
+//rpicomponents::L293D::L293D(int&& enable_pin1, int&& enable_pin2, rpicomponents::pin::PIN_MODE&& enable_pin1_mode,
+//	rpicomponents::pin::PIN_MODE&& enable_pin2_mode, int&& max_output_enable_pin1, int&& max_output_enable_pin2,
+//	int&& in_pin1, int&& in_pin2, int&& in_pin3, int&& in_pin4) :
+//	Component(COMPONENT_L293D), enable_pin1_{ pin::PinCreator::CreatePin(enable_pin1, enable_pin1_mode, max_output_enable_pin1) },
+//	enable_pin2_{ pin::PinCreator::CreatePin(enable_pin2, enable_pin2_mode, max_output_enable_pin2) },
+//	in_pin1_{ pin::PinCreator::CreatePin(in_pin1, pin::DIGITAL_MODE) }, in_pin2_{ pin::PinCreator::CreatePin(in_pin2, pin::DIGITAL_MODE) },
+//	in_pin3_{ pin::PinCreator::CreatePin(in_pin3, pin::DIGITAL_MODE) }, in_pin4_{ pin::PinCreator::CreatePin(in_pin4, pin::DIGITAL_MODE) }
+//{
+//	Initialize();
+//}
 
 rpicomponents::L293D::L293D(const EnablePinStruct& enable_pins, const InPinStruct& in_pins) : 
 	Component(COMPONENT_L293D), enable_pin1_{ pin::PinCreator::CreatePin(enable_pins.enable_pin1_, enable_pins.enable_pin1_mode_, enable_pins.max_output_enable_pin1_) },
@@ -98,7 +98,7 @@ void rpicomponents::L293D::TurnOnEnablePin1() const {
 	enable_pin1_->OutputOn();
 }
 
-void rpicomponents::L293D::TurnOnEnablePin1(const int& value) const {
+void rpicomponents::L293D::TurnOnEnablePin1(int value) const {
 	enable_pin1_->Output(value);
 }
 
@@ -110,7 +110,7 @@ void rpicomponents::L293D::TurnOnEnablePin2() const {
 	enable_pin2_->OutputOn();
 }
 
-void rpicomponents::L293D::TurnOnEnablePin2(const int& value) const {
+void rpicomponents::L293D::TurnOnEnablePin2(int value) const {
 	enable_pin2_->Output(value);
 }
 

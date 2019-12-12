@@ -15,7 +15,7 @@ namespace rpicomponents {
 			 @param pin The used pin of this object
 			 @param maxOutputValue The max output value of this pin
 			 */
-			SoftPWMPin(const int &pin, const int &maxOutputValue = 100);
+			SoftPWMPin(int pin, int maxOutputValue = 100);
 
 			/*
 			 Constructor of this class
@@ -23,7 +23,7 @@ namespace rpicomponents {
 			 @param pin Pointer to the used pin of this object
 			 @param maxOutputValue The max output value of this pin
 			 */
-			SoftPWMPin(int&& pin, int&& maxOutputValue = 100);
+			//SoftPWMPin(int&& pin, int&& maxOutputValue = 100);
 
 			/*
 			 Copy constructor
@@ -39,7 +39,7 @@ namespace rpicomponents {
 			 
 			 @param value Output value that is to be written to the pin
 			 */
-			void WriteToPin(const int& value) const;
+			void WriteToPin(int value) const;
 
 			/*
 			 Virtual method to read the value of the pin.

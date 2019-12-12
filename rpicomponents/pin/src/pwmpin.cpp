@@ -1,15 +1,15 @@
 #include "pwmpin.hpp"
 
 
-rpicomponents::pin::PWMPin::PWMPin(const int &pin) : Pin(pin, rpicomponents::pin::PWM_MODE, rpicomponents::pin::PWM_MODE_MAX_VAL) 
+rpicomponents::pin::PWMPin::PWMPin(int pin) : Pin(pin, rpicomponents::pin::PWM_MODE, rpicomponents::pin::PWM_MODE_MAX_VAL) 
 {
 	OutputOff();
 }
 
-rpicomponents::pin::PWMPin::PWMPin(int&& pin) : Pin(pin, rpicomponents::pin::PWM_MODE, rpicomponents::pin::PWM_MODE_MAX_VAL)
-{
-	OutputOff();
-}
+//rpicomponents::pin::PWMPin::PWMPin(int&& pin) : Pin(pin, rpicomponents::pin::PWM_MODE, rpicomponents::pin::PWM_MODE_MAX_VAL)
+//{
+//	OutputOff();
+//}
 
 rpicomponents::pin::PWMPin::PWMPin(const PWMPin& pin) : Pin(pin)
 {
@@ -17,7 +17,7 @@ rpicomponents::pin::PWMPin::PWMPin(const PWMPin& pin) : Pin(pin)
 }
 
 
-void rpicomponents::pin::PWMPin::WriteToPin(const int& value) const {
+void rpicomponents::pin::PWMPin::WriteToPin(int value) const {
 	if (!CheckInputValue(value)) return;
 	pwmWrite(pin_, value);
 	status_.store(value); 

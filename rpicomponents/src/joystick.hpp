@@ -10,7 +10,7 @@ namespace rpicomponents {
 	constexpr const char* COMPONENT_JOYSTICK = "joystick";
 
 	struct JoystickAxes {
-		JoystickAxes(const int& x, const int& y, bool z) : x{ x }, y{ y }, z{ z }
+		JoystickAxes(int x, int y, bool z) : x{ x }, y{ y }, z{ z }
 		{
 
 		}
@@ -42,7 +42,7 @@ namespace rpicomponents {
 		@param gpio_z The gpio pin of the z axis of the joystick
 		@param z_pud The PUD of the z axis
 		*/
-		Joystick(const int& pcf_address, const int& pin_base, const int& pcf_x_pin, const int& pcf_y_pin, const int& gpio_z, const int& z_pud = PUD_UP);
+		Joystick(int pcf_address, int pin_base, int pcf_x_pin, int pcf_y_pin, int gpio_z, int z_pud = PUD_UP);
 
 		/*
 		Constructor for Joystick component
@@ -54,7 +54,7 @@ namespace rpicomponents {
 		@param gpio_z The gpio pin of the z axis of the joystick
 		@param z_pud The PUD of the z axis
 		*/
-		Joystick(int&& pcf_address, int&& pin_base, int&& pcf_x_pin, int&& pcf_y_pin, int&& gpio_z, int&& z_pud = PUD_UP);
+		//Joystick(int&& pcf_address, int&& pin_base, int&& pcf_x_pin, int&& pcf_y_pin, int&& gpio_z, int&& z_pud = PUD_UP);
 
 		/*
 		Copy constructor
@@ -95,42 +95,42 @@ namespace rpicomponents {
 
 		@returns the pcf pin base
 		*/
-		const int& GetPcfBase() const;
+		int GetPcfBase() const;
 
 		/*
 		Method to get the pcf address
 
 		@returns the pcf address
 		*/
-		const int& GetPcfAddress() const;
+		int GetPcfAddress() const;
 
 		/*
 		Method to get the pcf x pin
 
 		@returns the pcf x pin of the joystick
 		*/
-		const int& GetPcfXPin() const;
+		int GetPcfXPin() const;
 
 		/*
 		Method to get the pcf y pin
 
 		@returns the pcf y pin of the joystick
 		*/
-		const int& GetPcfYPin() const;
+		int GetPcfYPin() const;
 
 		/*
 		Method to get the gpio z pin
 
 		@returns the gpio z pin of the joystick
 		*/
-		const int& GetGpioZPin() const;
+		int GetGpioZPin() const;
 
 		/*
 		Method to get the z pud
 
 		@returns the z pud of the joystick
 		*/
-		const int& GetZPud() const;
+		int GetZPud() const;
 	};
 }
 

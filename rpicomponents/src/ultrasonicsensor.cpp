@@ -32,19 +32,19 @@ float rpicomponents::UltrasonicSensor::GetEchoTime() const
 	return INFINITY;
 }
 
-rpicomponents::UltrasonicSensor::UltrasonicSensor(const int& trigger_pin, const int& echo_pin) : Component(COMPONENT_ULTRASONIC_SENSOR),
+rpicomponents::UltrasonicSensor::UltrasonicSensor(int trigger_pin, int echo_pin) : Component(COMPONENT_ULTRASONIC_SENSOR),
     trigger_pin_{ rpicomponents::pin::PinCreator::CreatePin(trigger_pin, rpicomponents::pin::DIGITAL_MODE) },
     echo_pin_{ rpicomponents::pin::PinCreator::CreatePin(echo_pin, rpicomponents::pin::INPUT_MODE) }
 {
 	Initialize();
 }
 
-rpicomponents::UltrasonicSensor::UltrasonicSensor(int&& trigger_pin, int&& echo_pin) :
-    Component(COMPONENT_ULTRASONIC_SENSOR), trigger_pin_{ rpicomponents::pin::PinCreator::CreatePin(trigger_pin, rpicomponents::pin::DIGITAL_MODE) },
-    echo_pin_{ rpicomponents::pin::PinCreator::CreatePin(echo_pin, rpicomponents::pin::INPUT_MODE) }
-{
-	Initialize();
-}
+//rpicomponents::UltrasonicSensor::UltrasonicSensor(int&& trigger_pin, int&& echo_pin) :
+//    Component(COMPONENT_ULTRASONIC_SENSOR), trigger_pin_{ rpicomponents::pin::PinCreator::CreatePin(trigger_pin, rpicomponents::pin::DIGITAL_MODE) },
+//    echo_pin_{ rpicomponents::pin::PinCreator::CreatePin(echo_pin, rpicomponents::pin::INPUT_MODE) }
+//{
+//	Initialize();
+//}
 
 rpicomponents::UltrasonicSensor::UltrasonicSensor(const UltrasonicSensor& uss): Component(COMPONENT_ULTRASONIC_SENSOR),
 trigger_pin_{ rpicomponents::pin::PinCreator::CreatePin(uss.GetTriggerPin(), rpicomponents::pin::DIGITAL_MODE) },
@@ -58,17 +58,17 @@ float rpicomponents::UltrasonicSensor::MeasureDistance() const
 	return MeasureDistance(std_temperature_, std_unit_);
 }
 
-float rpicomponents::UltrasonicSensor::MeasureDistance(const float& temperature) const
+float rpicomponents::UltrasonicSensor::MeasureDistance(float  temperature) const
 {
 	return MeasureDistance(temperature, std_unit_);
 }
 
-float rpicomponents::UltrasonicSensor::MeasureDistance(const DISTANCE_UNIT& unit) const
+float rpicomponents::UltrasonicSensor::MeasureDistance(DISTANCE_UNIT unit) const
 {
 	return MeasureDistance(std_temperature_, unit);
 }
 
-float rpicomponents::UltrasonicSensor::MeasureDistance(const float& temperature, const DISTANCE_UNIT& unit) const
+float rpicomponents::UltrasonicSensor::MeasureDistance(float  temperature, DISTANCE_UNIT unit) const
 {
 	auto vs = CalculateSpeedOfSound(temperature, unit); //[unit/s]
 	auto ping = GetEchoTime() / 2; //[s]
@@ -81,24 +81,24 @@ float rpicomponents::UltrasonicSensor::CalculateSpeedOfSound() const
 	return CalculateSpeedOfSound(std_temperature_, std_unit_);
 }
 
-float rpicomponents::UltrasonicSensor::CalculateSpeedOfSound(const float& temperature) const
+float rpicomponents::UltrasonicSensor::CalculateSpeedOfSound(float  temperature) const
 {
 	return CalculateSpeedOfSound(temperature, std_unit_);
 }
 
-float rpicomponents::UltrasonicSensor::CalculateSpeedOfSound(const DISTANCE_UNIT& unit) const
+float rpicomponents::UltrasonicSensor::CalculateSpeedOfSound(DISTANCE_UNIT unit) const
 {
 	return CalculateSpeedOfSound(std_temperature_, unit);
 }
 
-float rpicomponents::UltrasonicSensor::CalculateSpeedOfSound(const float& temperature, const DISTANCE_UNIT& unit) const
+float rpicomponents::UltrasonicSensor::CalculateSpeedOfSound(float  temperature, DISTANCE_UNIT unit) const
 {
 	auto val = 331.5f + 0.6f * temperature;
 	val = UnitConverter(val, UNIT_M, unit);
 	return val;
 }
 
-float rpicomponents::UltrasonicSensor::UnitConverter(const float& value, const DISTANCE_UNIT& inUnit, const DISTANCE_UNIT& outUnit) const
+float rpicomponents::UltrasonicSensor::UnitConverter(float  value, DISTANCE_UNIT inUnit, DISTANCE_UNIT outUnit) const
 {
 	float outVal = INFINITY;
 	try {
@@ -111,12 +111,12 @@ float rpicomponents::UltrasonicSensor::UnitConverter(const float& value, const D
 	return outVal;
 }
 
-const int& rpicomponents::UltrasonicSensor::GetTriggerPin() const
+int rpicomponents::UltrasonicSensor::GetTriggerPin() const
 {
 	return trigger_pin_->GetPin();
 }
 
-const int& rpicomponents::UltrasonicSensor::GetEchoPin() const
+int rpicomponents::UltrasonicSensor::GetEchoPin() const
 {
 	return echo_pin_->GetPin();
 }

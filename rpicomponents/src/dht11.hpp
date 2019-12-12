@@ -57,14 +57,14 @@ namespace rpicomponents {
 		
 		@param pin: GPIO pin number of the DHT11
 		*/
-		Dht11(const int &pin);
+		Dht11(int pin);
 
 		/*
 		Constructor for creating a DHT11
 		
 		@param pin: GPIO pin number of the DHT11
 		*/
-		Dht11(int&& pin);
+		//Dht11(int&& pin);
 
 		/*
 		Copy Constructor 
@@ -99,7 +99,7 @@ namespace rpicomponents {
 		
 		@returns the used pin of the component
 		*/
-		const int& GetPin() const;
+		int GetPin() const;
 	};
 }
 

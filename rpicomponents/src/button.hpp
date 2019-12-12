@@ -30,7 +30,7 @@ namespace rpicomponents {
 		* @param pin: GPIO pin number of the button
 		* @param pud: the to be checked PUD value
 		*/
-		Button(const int &pin, const int &pud = PUD_UP);
+		Button(int pin, int pud = PUD_UP);
 
 		/**
 		* Constructor for creating a button
@@ -38,7 +38,7 @@ namespace rpicomponents {
 		* @param pin: GPIO pin number of the button
 		* @param pud: the to be checked PUD value
 		*/
-		Button(int&& pin, int&& pud = PUD_UP);
+		//Button(int&& pin, int&& pud = PUD_UP);
 
 		/**
 		* Copy Constructor
@@ -59,14 +59,14 @@ namespace rpicomponents {
 		*
 		* @returns the int of the defined PUD by the wiringPi library
 		*/
-		const int& GetPUD() const;
+		int GetPUD() const;
 
 		/*
 		* Method to get the used pin
 		*
 		* @returns the used pin of the component
 		*/
-		const int& GetPin() const;
+		int GetPin() const;
 	};
 }
 

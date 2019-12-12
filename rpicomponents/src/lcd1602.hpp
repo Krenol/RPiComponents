@@ -37,7 +37,7 @@ namespace rpicomponents {
 		@param pcf_address The address of the lcd pcf
 		@param pin_base The pin base of the lcd pcf
 		*/
-		Lcd1602(const int& pcf_address, const int& pin_base);
+		Lcd1602(int pcf_address, int pin_base);
 
 		/*
 		Constructor for Lcd1602 component
@@ -45,7 +45,7 @@ namespace rpicomponents {
 		@param pcf_address The address of the lcd pcf
 		@param pin_base The pin base of the lcd pcf
 		*/
-		Lcd1602(int&& pcf_address, int&& pin_base);
+		//Lcd1602(int&& pcf_address, int&& pin_base);
 
 		/*
 		Copy Constructor for Lcd1602 component
@@ -59,14 +59,14 @@ namespace rpicomponents {
 
 		@returns the pcf pin base
 		*/
-		const int& GetPcfBase() const;
+		int GetPcfBase() const;
 
 		/*
 		Method to get the pcf address
 
 		@returns the pcf address
 		*/
-		const int& GetPcfAddress() const;
+		int GetPcfAddress() const;
 
 		/*
 		Method to turn on the lcd's backlight

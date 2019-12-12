@@ -22,14 +22,14 @@ namespace rpicomponents {
 			 
 			 @return used pin of the object as const int
 			 */
-			const int& GetPin() const;
+			int GetPin() const;
 
 			/*
 			 Get the pin output mode 
 			 
 			 @return output mode of this pin as const PIN_MODE
 			 */
-			const PIN_MODE& OutputMode() const;
+			PIN_MODE OutputMode() const;
 
 			/*
 			 Check if pin is on or off
@@ -49,7 +49,7 @@ namespace rpicomponents {
 			 
 			 @param value: set output value of pin
 			 */
-			void Output(const int& value) const;
+			void Output(int value) const;
 
 			/*
 			 Turn the pin output off
@@ -80,7 +80,7 @@ namespace rpicomponents {
 			 @param mode The output mode of the pin (digital, pwm, soft pwm, input, inputoutput or softtone)
 			 @param maxValue The maximum output of this pin (digital must be 1, pwm must be 1023 and always above 0)
 			 */
-			Pin(const int &pin, const PIN_MODE &mode = PIN_MODE::DIGITAL_MODE, const int &maxOutputValue = DIGITAL_MODE_MAX_VAL);
+			Pin(int pin, PIN_MODE mode = PIN_MODE::DIGITAL_MODE, int maxOutputValue = DIGITAL_MODE_MAX_VAL);
 
 			/*
 			 Constructor
@@ -89,7 +89,7 @@ namespace rpicomponents {
 			 @param mode The output mode of the pin (digital, pwm, soft pwm, input, inputoutput or softtone)
 			 @param maxValue The maximum output of this pin (digital must be 1, pwm must be 1023 and always above 0)
 			 */
-			Pin(int&& pin, const PIN_MODE&& mode = PIN_MODE::DIGITAL_MODE, const int&& maxOutputValue = 1);
+			//Pin(int&& pin, PIN_MODE&& mode = PIN_MODE::DIGITAL_MODE, int&& maxOutputValue = 1);
 
 			/*
 			 Constructor
@@ -106,7 +106,7 @@ namespace rpicomponents {
 			 Note: this method call is thread safe without using mutex and locks
 			 @return true if value is inside the 0 and given max_value_, else false
 			 */
-			bool CheckInputValue(const int& value) const;
+			bool CheckInputValue(int value) const;
 
 			/*
 			 Virtual method to write a value to the pin. 
@@ -114,7 +114,7 @@ namespace rpicomponents {
 			 
 			 @param value Output value that is to be written to the pin
 			 */
-			virtual void WriteToPin(const int& value) const  = 0;
+			virtual void WriteToPin(int value) const  = 0;
 
 			/*
 			 Virtual method to read the value of the pin.

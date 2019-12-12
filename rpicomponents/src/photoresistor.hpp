@@ -27,7 +27,7 @@ namespace rpicomponents {
 		 @param read_pin the pin of the pcf the output of the photoresistor can be read from
 		 @param voltage the voltage at the pcf; either 3.3 V or 5 V
 		*/
-		Photoresistor(const int& pcf_address, const int& pin_base, const int& read_pin = 0, const float& voltage = 3.3);
+		Photoresistor(int pcf_address, int pin_base, int read_pin = 0, float  voltage = 3.3);
 
 		/*
 		 Constructor for the photoresistor
@@ -37,7 +37,7 @@ namespace rpicomponents {
 		 @param read_pin the pin of the pcf the output of the photoresistor can be read from
 		 @param voltage the voltage at the pcf; either 3.3 V or 5 V
 		*/
-		Photoresistor(int&& pcf_address, int&& pin_base, int&& read_pin = 0, float&& voltage = 3.3);
+		//Photoresistor(int&& pcf_address, int&& pin_base, int&& read_pin = 0, float&& voltage = 3.3);
 
 		/*
 		 Copy Constructor for the photoresistor
@@ -64,25 +64,25 @@ namespace rpicomponents {
 		Method to get the pcf pin base
 		@returns the pcf pin base
 		*/
-		const int& GetPcfBase() const;
+		int GetPcfBase() const;
 
 		/*
 		Method to get the pcf address
 		@returns the pcf address
 		*/
-		const int& GetPcfAddress() const;
+		int GetPcfAddress() const;
 
 		/*
 		Method to get the pcf pin of the photoresistor
 		@returns the pcf pin of the photoresistor
 		*/
-		const int& GetPcfPin() const;
+		int GetPcfPin() const;
 
 		/*
 		Method to get the voltage of this photoresistor
 		@returns the set voltage of this photoresistor
 		*/
-		const float& GetVoltage() const;
+		float  GetVoltage() const;
 	};
 }
 

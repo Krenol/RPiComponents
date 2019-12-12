@@ -13,14 +13,14 @@ namespace rpicomponents {
 			 
 			 @param pin The used pin of this object
 			 */
-			PWMPin(const int &pin);
+			PWMPin(int pin);
 
 			/*
 			 Constructor of this class
 			 
 			 @param pin Pointer to the used pin of this object
 			 */
-			PWMPin(int&& pin);
+			//PWMPin(int&& pin);
 
 			/*
 			 Copy constructor
@@ -36,7 +36,7 @@ namespace rpicomponents {
 			 
 			 @param value Output value that is to be written to the pin
 			 */
-			void WriteToPin(const int& value) const;
+			void WriteToPin(int value) const;
 
 			/*
 			 Virtual method to read the value of the pin.

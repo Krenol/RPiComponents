@@ -1,22 +1,22 @@
 #include "softpwmpin.hpp"
 
 
-rpicomponents::pin::SoftPWMPin::SoftPWMPin(const int &pin, const int &maxOutputValue) : Pin(pin, rpicomponents::pin::SOFTPWM_MODE, maxOutputValue) 
+rpicomponents::pin::SoftPWMPin::SoftPWMPin(int pin, int maxOutputValue) : Pin(pin, rpicomponents::pin::SOFTPWM_MODE, maxOutputValue) 
 {
 	OutputOff();
 }
 
-rpicomponents::pin::SoftPWMPin::SoftPWMPin(int&& pin, int&& maxOutputValue) : Pin(pin, rpicomponents::pin::SOFTPWM_MODE, maxOutputValue)
-{
-	OutputOff();
-}
+//rpicomponents::pin::SoftPWMPin::SoftPWMPin(int&& pin, int&& maxOutputValue) : Pin(pin, rpicomponents::pin::SOFTPWM_MODE, maxOutputValue)
+//{
+//	OutputOff();
+//}
 
 rpicomponents::pin::SoftPWMPin::SoftPWMPin(const SoftPWMPin& pin) : Pin(pin)
 {
 	OutputOff();
 }
 
-void rpicomponents::pin::SoftPWMPin::WriteToPin(const int& value) const {
+void rpicomponents::pin::SoftPWMPin::WriteToPin(int value) const {
 	if (!CheckInputValue(value)) return;
 	softPwmWrite(pin_, value);
 	status_.store(value); 

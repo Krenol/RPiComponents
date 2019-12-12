@@ -16,7 +16,7 @@ namespace rpicomponents {
 		@param address: The i2c address of the pcf8591 (must be greater than 63)
 		@param pin_base: The pin base of the i2c component
 		*/
-		Pcf8591(const int& address, const int& pin_base = 64);
+		Pcf8591(int address, int pin_base = 64);
 
 		/*
 		Constructor
@@ -24,7 +24,7 @@ namespace rpicomponents {
 		@param address: The i2c address of the pcf8591 (must be greater than 63)
 		@param pin_base: The pin base of the i2c component
 		*/
-		Pcf8591(int&& address, int&& pin_base = 64);
+		//Pcf8591(int&& address, int&& pin_base = 64);
 
 		/*
 		Constructor
@@ -38,7 +38,7 @@ namespace rpicomponents {
 
 		@param value: The value to be written (0-255)
 		*/
-		void WriteToPcfPin(const int& value) const;
+		void WriteToPcfPin(int value) const;
 
 		/*
 		Method that reads the input to a pcf pin
@@ -46,7 +46,7 @@ namespace rpicomponents {
 		@param pcf_pin_no: The pcf pin to be read
 		@returns: the read pin value (0 to 255)
 		*/
-		int ReadFromPcfPin(const int& pcf_pin_no) const;
+		int ReadFromPcfPin(int pcf_pin_no) const;
 
      private:
 		/*
@@ -55,7 +55,7 @@ namespace rpicomponents {
 		@param pcf_pin_no: The pcf pin to be written to
 		@param value: The value to be written (0-255)
 		*/
-		void WriteToPcfPin(const int& pcf_pin_no, const int& value) const;
+		void WriteToPcfPin(int pcf_pin_no, int value) const;
 	};
 }
 #endif

@@ -29,7 +29,7 @@ namespace rpicomponents {
 		* @param pin: GPIO pin number of the transistor
 		* @param pud: the to be checked PUD value
 		*/
-		Transistor(const int& pin, const TRANSISTOR_TYPE& type, const rpicomponents::pin::PIN_MODE& mode);
+		Transistor(int pin, TRANSISTOR_TYPE type, rpicomponents::pin::PIN_MODE mode);
 
 		/**
 		* Constructor for creating a transistor
@@ -37,7 +37,7 @@ namespace rpicomponents {
 		* @param pin: GPIO pin number of the transistor
 		* @param pud: the to be checked PUD value
 		*/
-		Transistor(int&& pin, TRANSISTOR_TYPE&& type, rpicomponents::pin::PIN_MODE&& mode);
+		//Transistor(int&& pin, TRANSISTOR_TYPE&& type, rpicomponents::pin::PIN_MODE&& mode);
 
 		/**
 		* Copy Constructor 
@@ -51,7 +51,7 @@ namespace rpicomponents {
 		*
 		* @returns The transistor type of this object
 		*/
-		const TRANSISTOR_TYPE& GetType() const;
+		TRANSISTOR_TYPE GetType() const;
 
 		/**
 		* Turn the transistor on to the maximum output value of the pin's output mode
@@ -63,7 +63,7 @@ namespace rpicomponents {
 		*
 		* @param value: Output value of the pin
 		*/
-		void TurnOn(const int& value) const;
+		void TurnOn(int value) const;
 
 		/**
 		* Turn the transistor off
@@ -82,14 +82,14 @@ namespace rpicomponents {
 		*
 		* @returns the used pin of the component
 		*/
-		const int& GetPin() const;
+		int GetPin() const;
 
 		/*
 		* Method to get the pin mode of the led pin
 		*
 		* @returns the pin mode
 		*/
-		const rpicomponents::pin::PIN_MODE& GetPinMode() const;
+		rpicomponents::pin::PIN_MODE GetPinMode() const;
 	};
 }
 

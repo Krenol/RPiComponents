@@ -8,10 +8,10 @@ void rpicomponents::Motionsensor::Initialize() const {
 }
 
 
-rpicomponents::Motionsensor::Motionsensor(int&& pin) : Component(COMPONENT_MOTIONSENSOR),
-pin_{ rpicomponents::pin::PinCreator::CreatePin(pin, rpicomponents::pin::INPUT_MODE) }{
-	Initialize();
-}
+//rpicomponents::Motionsensor::Motionsensor(int&& pin) : Component(COMPONENT_MOTIONSENSOR),
+//pin_{ rpicomponents::pin::PinCreator::CreatePin(pin, rpicomponents::pin::INPUT_MODE) }{
+//	Initialize();
+//}
 
 rpicomponents::Motionsensor::Motionsensor(const Motionsensor& motionsensor) : Component(COMPONENT_MOTIONSENSOR), 
 pin_{ rpicomponents::pin::PinCreator::CreatePin(motionsensor.GetPin(), rpicomponents::pin::INPUT_MODE) }
@@ -19,7 +19,7 @@ pin_{ rpicomponents::pin::PinCreator::CreatePin(motionsensor.GetPin(), rpicompon
 	Initialize();
 }
 
-rpicomponents::Motionsensor::Motionsensor(const int& pin) : Component(COMPONENT_MOTIONSENSOR),
+rpicomponents::Motionsensor::Motionsensor(int pin) : Component(COMPONENT_MOTIONSENSOR),
 pin_{ rpicomponents::pin::PinCreator::CreatePin(pin, rpicomponents::pin::INPUT_MODE) }{
     Initialize();
 }
@@ -31,7 +31,7 @@ bool rpicomponents::Motionsensor::MotionDetected() const {
 	return false;
 }
 
-const int& rpicomponents::Motionsensor::GetPin() const
+int rpicomponents::Motionsensor::GetPin() const
 {
 	return pin_->GetPin();
 }

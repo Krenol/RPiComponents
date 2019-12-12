@@ -8,7 +8,7 @@ namespace rpicomponents {
 	constexpr const char* COMPONENT_SEVENSEGMENTDISPLAY = "sevensegmentdisplay";
 
 	struct DisplaySegments {
-		DisplaySegments(const int& a = 0, const int& b = 1, const int& c = 2, const int& d = 3, const int& e = 4, const int& f = 5, const int& g = 6, const int& dp = 7) :
+		DisplaySegments(int a = 0, int b = 1, int c = 2, int d = 3, int e = 4, int f = 5, int g = 6, int dp = 7) :
 			segA{ a }, segB{ b }, segC{ c }, segD{ d }, segE{ e }, segF{ f }, segG{ g }, segDP{ dp }
 		{
 
@@ -44,7 +44,7 @@ namespace rpicomponents {
 		@param shcp_pin: Pin number of the shcp
 		@param dispSegments: DisplaySegments struct holding the q74 pin to display pin wiring values
 		*/
-		SevenSegmentDisplay(const int& ds_pin, const int& stcp_pin, const int& shcp_pin, const DisplaySegments& dispSegments);
+		SevenSegmentDisplay(int ds_pin, int stcp_pin, int shcp_pin, const DisplaySegments& dispSegments);
 
 		/*
 		Constructor for 7-segment display
@@ -61,8 +61,8 @@ namespace rpicomponents {
 		@param g: Q74 pin segment G is wired to
 		@param dp: Q74 pin segment DP is wired to
 		*/
-		SevenSegmentDisplay(const int& ds_pin, const int& stcp_pin, const int& shcp_pin, const int& a = 0, const int& b = 1, 
-			const int& c = 2, const int& d = 3, const int& e = 4, const int& f = 5, const int& g = 6, const int& dp = 7);
+		SevenSegmentDisplay(int ds_pin, int stcp_pin, int shcp_pin, int a = 0, int b = 1, 
+			int c = 2, int d = 3, int e = 4, int f = 5, int g = 6, int dp = 7);
 
 		/*
 		Constructor for 7-segment display
@@ -104,19 +104,19 @@ namespace rpicomponents {
 		Method to get the DS pin number
 		@returns the used ds pin
 		*/
-		const int& GetDsPin() const;
+		int GetDsPin() const;
 
 		/*
 		Method to get the STCP pin number
 		@returns the used stcp pin
 		*/
-		const int& GetStcpPin() const;
+		int GetStcpPin() const;
 
 		/*
 		Method to get the SHCP pin number
 		@returns the used shcp pin
 		*/
-		const int& GetShcpPin() const;
+		int GetShcpPin() const;
 
 		/*
 		Method to get the display segments of this 7-segment display

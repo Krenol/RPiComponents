@@ -4,13 +4,13 @@ void rpicomponents::SevenSegmentDisplay::Initialize() const
 {
 }
 
-rpicomponents::SevenSegmentDisplay::SevenSegmentDisplay(const int& ds_pin, const int& stcp_pin, const int& shcp_pin, const DisplaySegments& dispSegments) : Component(COMPONENT_SEVENSEGMENTDISPLAY), 
+rpicomponents::SevenSegmentDisplay::SevenSegmentDisplay(int ds_pin, int stcp_pin, int shcp_pin, const DisplaySegments& dispSegments) : Component(COMPONENT_SEVENSEGMENTDISPLAY), 
 	q74_{std::unique_ptr<Q74HC595>(new Q74HC595(ds_pin, stcp_pin, shcp_pin)}, segments_{ dispSegments }
 {
 }
 
-rpicomponents::SevenSegmentDisplay::SevenSegmentDisplay(const int& ds_pin, const int& stcp_pin, const int& shcp_pin, const int& a, const int& b, const int& c, 
-	const int& d, const int& e, const int& f, const int& g, const int& dp) : Component(COMPONENT_SEVENSEGMENTDISPLAY),
+rpicomponents::SevenSegmentDisplay::SevenSegmentDisplay(int ds_pin, int stcp_pin, int shcp_pin, int a, int b, int c, 
+	int d, int e, int f, int g, int dp) : Component(COMPONENT_SEVENSEGMENTDISPLAY),
 	q74_{ std::unique_ptr<Q74HC595>(new Q74HC595(ds_pin, stcp_pin, shcp_pin) }, segments_{ DisplaySegments(a, b, c, d, e, f, g, dp) }
 {
 }
@@ -30,17 +30,17 @@ rpicomponents::SevenSegmentDisplay::SevenSegmentDisplay(const SevenSegmentDispla
 {
 }
 
-const int& rpicomponents::SevenSegmentDisplay::GetDsPin() const
+int rpicomponents::SevenSegmentDisplay::GetDsPin() const
 {
 	return q74_->GetDsPin();
 }
 
-const int& rpicomponents::SevenSegmentDisplay::GetStcpPin() const
+int rpicomponents::SevenSegmentDisplay::GetStcpPin() const
 {
 	return q74_->GetStcpPin();
 }
 
-const int& rpicomponents::SevenSegmentDisplay::GetShcpPin() const
+int rpicomponents::SevenSegmentDisplay::GetShcpPin() const
 {
 	return q74_->GetShcpPin();
 }

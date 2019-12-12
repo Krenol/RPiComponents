@@ -1,15 +1,15 @@
 #include "button.hpp"
 //#include "../external/doctest/doctest/doctest.h"
 
-rpicomponents::Button::Button(const int &pin, const int &pud) : Component(COMPONENT_BUTTON), pin_{ rpicomponents::pin::PinCreator::CreatePin(pin, rpicomponents::pin::INPUT_MODE) }, pud_{pud}
+rpicomponents::Button::Button(int pin, int pud) : Component(COMPONENT_BUTTON), pin_{ rpicomponents::pin::PinCreator::CreatePin(pin, rpicomponents::pin::INPUT_MODE) }, pud_{pud}
 {
 	Initialize();
 }
 
-rpicomponents::Button::Button(int &&pin, int &&pud) : Component(COMPONENT_BUTTON), pin_(rpicomponents::pin::PinCreator::CreatePin(pin, rpicomponents::pin::INPUT_MODE)), pud_{ pud }
-{
-	Initialize();
-}
+//rpicomponents::Button::Button(int &&pin, int &&pud) : Component(COMPONENT_BUTTON), pin_(rpicomponents::pin::PinCreator::CreatePin(pin, rpicomponents::pin::INPUT_MODE)), pud_{ pud }
+//{
+//	Initialize();
+//}
 
 rpicomponents::Button::Button(const Button& button) : Component(button.ToString()), pin_{ rpicomponents::pin::PinCreator::CreatePin(button.GetPin(), rpicomponents::pin::INPUT_MODE) }, 
 pud_{ button.GetPUD() }
@@ -37,11 +37,11 @@ bool rpicomponents::Button::IsPressed() const {
 	return false;
 }
 
-const int& rpicomponents::Button::GetPUD() const {
+int rpicomponents::Button::GetPUD() const {
 	return pud_;
 }
 
-const int& rpicomponents::Button::GetPin() const
+int rpicomponents::Button::GetPin() const
 {
 	return pin_->GetPin();
 }

@@ -16,15 +16,15 @@ void rpicomponents::Led::Initialize() {
 	Initialize();
 }*/
 
-rpicomponents::Led::Led(const int& pin, const rpicomponents::pin::PIN_MODE& mode, const bool& onIfPinOn) : Component(COMPONENT_LED), on_mode_{ onIfPinOn }, pin_{ rpicomponents::pin::PinCreator::CreatePin(pin, mode) }
+rpicomponents::Led::Led(int pin, rpicomponents::pin::PIN_MODE mode, const bool& onIfPinOn) : Component(COMPONENT_LED), on_mode_{ onIfPinOn }, pin_{ rpicomponents::pin::PinCreator::CreatePin(pin, mode) }
 {
 	Initialize();
 }
 
-rpicomponents::Led::Led(int&& pin, rpicomponents::pin::PIN_MODE&& mode, bool&& onIfPinOn) : Component(COMPONENT_LED), on_mode_{ onIfPinOn }, pin_{ rpicomponents::pin::PinCreator::CreatePin(pin, mode) }
-{
-	Initialize();
-}
+//rpicomponents::Led::Led(int&& pin, rpicomponents::pin::PIN_MODE&& mode, bool&& onIfPinOn) : Component(COMPONENT_LED), on_mode_{ onIfPinOn }, pin_{ rpicomponents::pin::PinCreator::CreatePin(pin, mode) }
+//{
+//	Initialize();
+//}
 
 rpicomponents::Led::Led(const Led& led) : Component(led.ToString()), pin_{ rpicomponents::pin::PinCreator::GetInstance().CreatePin(led.GetPin(), led.GetPinMode()) }
 {
@@ -35,7 +35,7 @@ void rpicomponents::Led::TurnOn() const {
 	on_mode_ ? pin_->OutputOn() : pin_->OutputOff();
 }
 
-void rpicomponents::Led::TurnOn(const int& value) const {
+void rpicomponents::Led::TurnOn(int value) const {
 	pin_->Output(value);
 }
 
@@ -47,7 +47,7 @@ bool rpicomponents::Led::IsOn() const {
 	return on_mode_ ? pin_->IsOn() : !pin_->IsOn();
 }
 
-const int& rpicomponents::Led::GetPin() const
+int rpicomponents::Led::GetPin() const
 {
 	return pin_->GetPin();
 }
@@ -57,7 +57,7 @@ bool rpicomponents::Led::IsOnIfPinHasPower() const
 	return on_mode_;
 }
 
-const rpicomponents::pin::PIN_MODE& rpicomponents::Led::GetPinMode() const
+rpicomponents::pin::PIN_MODE rpicomponents::Led::GetPinMode() const
 {
 	return pin_->OutputMode();
 }
