@@ -5,11 +5,11 @@
 #define RPICOMPONENTS_MOTOR_H
 
 namespace rpicomponents {
-	constexpr const char* COMPONENT_PCF = "motor";
+    constexpr const char* COMPONENT_MOTOR = "motor";
 
 	class Motor : public Component {
 	protected:
-		const std::unique_ptr<rpicomponents:L293D> l293d_;
+        const std::unique_ptr<L293D> l293d_;
 
 		/*
 		Method to check if the passed pin is an enable pin of the L293D
@@ -75,14 +75,14 @@ namespace rpicomponents {
 
 		@returns a EnablePinStruct containing the parameters of enable pin 1 and 2
 		*/
-		EnablePinStruct GetEnablePins() const;
+        const EnablePinStruct& GetEnablePins() const;
 
 		/*
 		Method to get the in pin parameters of the used l293d
 
 		@returns a InPinStruct containing the parameters of input pin 1, 2, 3 and 4
 		*/
-		InPinStruct GetInPins() const;
+        const InPinStruct& GetInPins() const;
 	};
 }
 

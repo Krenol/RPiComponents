@@ -37,7 +37,8 @@ namespace rpicomponents {
 	private:
 		const std::unique_ptr<pin::Pin> enable_pin1_, enable_pin2_; //the used enable pins of the l293d
 		const std::unique_ptr<pin::Pin> in_pin1_, in_pin2_, in_pin3_, in_pin4_; //the used in pins of the l293d
-
+        const InPinStruct inPins_;
+        const EnablePinStruct enablePins_;
 		/*
 		Initiliazer for this component
 		*/
@@ -83,14 +84,14 @@ namespace rpicomponents {
 
 		@returns a EnablePinStruct containing the parameters of enable pin 1 and 2
 		*/
-		EnablePinStruct GetEnablePins() const;
+        const EnablePinStruct& GetEnablePins() const;
 
 		/*
 		Method to get the in pin parameters
 
 		@returns a InPinStruct containing the parameters of input pin 1, 2, 3 and 4
 		*/
-		InPinStruct GetInPins() const;
+        const InPinStruct& GetInPins() const;
 
 		/*
 		Method to turn on in pin 1
