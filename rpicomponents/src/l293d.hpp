@@ -66,21 +66,9 @@ namespace rpicomponents {
 		/*
 		 Constructor for this component
 
-		 @param enable_pin1 The first enable pin of the l293d
-		 @param enable_pin2 The second enable pin of the l293d
-		 @param enable_pin1_mode The pin mode of the first pin
-		 @param enable_pin2_mode The pin mode of the second pin
-		 @param max_output_enable_pin1 The max output value of the first pin
-		 @param max_output_enable_pin2 The max output value of the second pin
-		 @param in_pin1 The first input pin
-		 @param in_pin2 The second input pin
-		 @param in_pin3 The third input pin
-		 @param in_pin4 The fourth input pin
-		*/
-		/*L293D(int&& enable_pin1, int&& enable_pin2, rpicomponents::pin::PIN_MODE&& enable_pin1_mode = rpicomponents::pin::SOFTPWM_MODE,
-			rpicomponents::pin::PIN_MODE&& enable_pin2_mode = rpicomponents::pin::SOFTPWM_MODE, int&& max_output_enable_pin1 = 254, int&& max_output_enable_pin2 = 254,
-			int&& in_pin1 = -1, int&& in_pin2 = -1, int&& in_pin3 = -1, int&& in_pin4 = -1);*/
-
+		 @param enable_pins The EnablePinStruct struct containing all necessary enable pin information for the l293d
+		 @param enable_pin2 The InPinStruct struct containing all necessary in pin information for the l293d
+		 */
 		L293D(const EnablePinStruct& enable_pins, const InPinStruct& in_pins);
 
 		/*
