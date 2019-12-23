@@ -54,16 +54,6 @@ namespace rpicomponents {
 			int in_pin1 = -1, int in_pin2 = -1, int in_pin3 = -1, int in_pin4 = -1);
 
 	public:
-		/*
-		Method to let the motor rotate at full pace (motor dependent)
-		*/
-		virtual void Rotate() const = 0;
-
-		/*
-		Method to let the motor rotate with given speed (motor dependent)
-		@param speed: The speed with which the motor should rotate
-		*/
-		virtual void Rotate(int speed) const = 0;
 
 		/*
 		Method to stop the motor

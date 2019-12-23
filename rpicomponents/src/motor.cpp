@@ -2,13 +2,16 @@
 
 bool rpicomponents::Motor::ValidEnablePin(int pin) const
 {
+	auto pins = l293d_->GetEnablePins();
 
-	return false;
+	return (pins.enable_pin1_ == pin || pins.enable_pin2_ == pin);
 }
 
 bool rpicomponents::Motor::ValidInPin(int pin) const
 {
-	return false;
+	auto pins = l293d_->GetInPins();
+
+	return (pins.in_pin1_ == pin || pins.in_pin1_ == pin || pins.in_pin3_ == pin || pins.in_pin4_ == pin);
 }
 
 const rpicomponents::EnablePinStruct& rpicomponents::Motor::GetEnablePins() const
