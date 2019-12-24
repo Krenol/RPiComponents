@@ -17,13 +17,13 @@ rpicomponents::pin::DigitalPin::DigitalPin(const DigitalPin& pin) : Pin(pin)
 }
 
 
-void rpicomponents::pin::DigitalPin::WriteToPin(int value) const {
+void rpicomponents::pin::DigitalPin::WriteToPin(int value) {
 	if (!CheckInputValue(value)) return;
 	digitalWrite(pin_, value);
 	status_.store(value); //wouldn't need a lock, as it is atomic
 }
 
-int rpicomponents::pin::DigitalPin::ReadFromPin() const {
+int rpicomponents::pin::DigitalPin::ReadFromPin() {
 	auto val = status_.load();
 	return val;
 }

@@ -18,13 +18,13 @@ rpicomponents::pin::SofttonePin::SofttonePin(const SofttonePin& pin) : Pin(pin.G
 }
 
 
-void rpicomponents::pin::SofttonePin::WriteToPin(int value) const {
+void rpicomponents::pin::SofttonePin::WriteToPin(int value) {
 	if (!CheckInputValue(value)) return;
 	softToneWrite(pin_, value);
 	status_.store(value);
 }
 
-int rpicomponents::pin::SofttonePin::ReadFromPin() const {
+int rpicomponents::pin::SofttonePin::ReadFromPin() {
 	auto val = status_.load();
 	return val;
 }

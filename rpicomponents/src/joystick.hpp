@@ -29,7 +29,7 @@ namespace rpicomponents {
 		/*
 		generic motion sensor initializer to avoid code duplication
 		*/
-		void Initialize() const;
+        void Initialize();
 
 	public:
 		/*

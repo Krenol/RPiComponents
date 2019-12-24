@@ -28,7 +28,7 @@ namespace rpicomponents {
 		/*
 		Method to init component
 		*/
-		void Initialize() const;
+        void Initialize();
 
 	public:
 		/*

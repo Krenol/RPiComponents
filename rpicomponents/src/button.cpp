@@ -17,7 +17,7 @@ pud_{ button.GetPUD() }
 	Initialize();
 }
 
-void rpicomponents::Button::Initialize() const {
+void rpicomponents::Button::Initialize() {
 	if (!IsPUD(pud_)) throw new std::invalid_argument("given PUD is invalid!");
 	const auto mode = pin_->OutputMode();
 	if (mode != rpicomponents::pin::INPUT_MODE) throw new std::invalid_argument("given pin is on output mode; it must be on input mode for a button!");

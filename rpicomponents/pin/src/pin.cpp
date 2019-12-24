@@ -7,23 +7,23 @@ int rpicomponents::pin::Pin::GetPin() const {
 	return pin_;
 }
 
-bool rpicomponents::pin::Pin::IsOn() const {
+bool rpicomponents::pin::Pin::IsOn() {
 	auto status = ReadFromPin();
 	if (status == min_value_) return false;
 	return true;
 }
 
-void rpicomponents::pin::Pin::OutputOn() const {
+void rpicomponents::pin::Pin::OutputOn() {
 	if (mode_ == rpicomponents::pin::INPUT_MODE) return;
 	WriteToPin(max_value_);
 }
 
-void rpicomponents::pin::Pin::Output(int value) const {
+void rpicomponents::pin::Pin::Output(int value) {
 	if (mode_ == rpicomponents::pin::INPUT_MODE) return;
 	WriteToPin(value);
 }
 
-void rpicomponents::pin::Pin::OutputOff() const {
+void rpicomponents::pin::Pin::OutputOff() {
 	if (mode_ == rpicomponents::pin::INPUT_MODE) return;
 	WriteToPin(min_value_);
 }
@@ -33,7 +33,7 @@ int rpicomponents::pin::Pin::GetMaxOutValue() const
 	return max_value_;
 }
 
-int rpicomponents::pin::Pin::ReadPinValue() const {
+int rpicomponents::pin::Pin::ReadPinValue() {
 	return ReadFromPin();
 }
 

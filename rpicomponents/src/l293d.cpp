@@ -1,6 +1,6 @@
 #include "l293d.hpp"
 
-void rpicomponents::L293D::Initialize() const {
+void rpicomponents::L293D::Initialize() {
 	//catch wrong inputs
 	if (enable_pin1_->OutputMode() == pin::INPUT_MODE || enable_pin1_->OutputMode() == pin::IN_OUT_MODE) {
 		throw std::invalid_argument("enable pin 1 cannot be an input or input/output pin!");

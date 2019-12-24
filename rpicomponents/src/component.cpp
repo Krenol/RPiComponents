@@ -22,11 +22,11 @@ rpicomponents::Component::~Component() {
 
 }
 
-std::vector<int>::iterator rpicomponents::Component::GetPinIterator(int pin) const {
+std::vector<int>::iterator rpicomponents::Component::GetPinIterator(int pin) {
 	return find(used_pins_.begin(), used_pins_.end(), pin);
 }
 
-bool rpicomponents::Component::UsesPin(int pin) const {
+bool rpicomponents::Component::UsesPin(int pin) {
 	auto check = GetPinIterator(pin);
 	if (check == used_pins_.end()) {
 		return false;
@@ -34,7 +34,7 @@ bool rpicomponents::Component::UsesPin(int pin) const {
 	return true;
 }
 
-bool rpicomponents::Component::UsesPins(std::vector<int>& pins) const {
+bool rpicomponents::Component::UsesPins(std::vector<int>& pins) {
 	bool uses = true;
 	for (auto pin : pins) {
 		uses = uses && UsesPin(pin);
@@ -48,26 +48,26 @@ const std::vector<int>& rpicomponents::Component::GetUsedPins() const
 	return used_pins_;
 }
 
-void rpicomponents::Component::AddPin(int pin) const {
+void rpicomponents::Component::AddPin(int pin) {
 	auto uses_pin = UsesPin(pin);
 	if (!uses_pin) {
 		used_pins_.push_back(pin);
 	}
 }
 
-void rpicomponents::Component::AddPins(const std::vector<int>& pins) const {
+void rpicomponents::Component::AddPins(const std::vector<int>& pins) {
 	for (auto pin : pins) {
 		AddPin(pin);
 	}
 }
 
-bool rpicomponents::Component::RemoveAllPins() const {
+bool rpicomponents::Component::RemoveAllPins() {
 	if (used_pins_.empty()) return false;
 	used_pins_.clear();
 	return true;
 }
 
-bool rpicomponents::Component::RemovePin(int pin) const {
+bool rpicomponents::Component::RemovePin(int pin) {
 	auto it = GetPinIterator(pin);
 	if (it == used_pins_.end()) return false;
 	used_pins_.erase(it);

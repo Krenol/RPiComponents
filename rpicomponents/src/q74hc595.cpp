@@ -1,6 +1,6 @@
 #include "q74hc595.hpp"
 
-void rpicomponents::Q74HC595::Initialize() const
+void rpicomponents::Q74HC595::Initialize()
 {
 	if (ds_->GetPin() == shcp_->GetPin()) {
 		throw new std::invalid_argument("shcp pin cannot be the same as the ds pin!");
@@ -28,7 +28,7 @@ bool rpicomponents::Q74HC595::ValidQPin(int pin_no) const
 }
 
 
-void rpicomponents::Q74HC595::WriteToQPins() const
+void rpicomponents::Q74HC595::WriteToQPins()
 {
 	ds_->OutputOff();
 	shcp_->OutputOff();
@@ -65,7 +65,7 @@ stcp_{ pin::PinCreator::CreatePin(q74hc595.GetStcpPin(), pin::DIGITAL_MODE) }
 	Initialize();
 }
 
-void rpicomponents::Q74HC595::SetQPinOutput(int pin, bool turn_on) const
+void rpicomponents::Q74HC595::SetQPinOutput(int pin, bool turn_on)
 {
 	if (!ValidQPin(pin)) {
 		throw new std::invalid_argument("pin_no must be in the range 0 <= pin_no < max_q_pin_no_");
@@ -74,7 +74,7 @@ void rpicomponents::Q74HC595::SetQPinOutput(int pin, bool turn_on) const
 	WriteToQPins();
 }
 
-void rpicomponents::Q74HC595::SetQPinOutput(const std::map<int, bool>& pins) const
+void rpicomponents::Q74HC595::SetQPinOutput(const std::map<int, bool>& pins)
 {
 	for (auto const& it : pins) {
 		if(ValidQPin(it.first)) q_pin_map_[it.first] = it.second;
@@ -82,7 +82,7 @@ void rpicomponents::Q74HC595::SetQPinOutput(const std::map<int, bool>& pins) con
 	WriteToQPins();
 }
 
-bool rpicomponents::Q74HC595::GetQPinOutput(int pin) const
+bool rpicomponents::Q74HC595::GetQPinOutput(int pin)
 {
 	if (!ValidQPin(pin)) {
 		throw new std::invalid_argument("pin_no must be in the range 0 <= pin_no < max_q_pin_no_");
@@ -91,7 +91,7 @@ bool rpicomponents::Q74HC595::GetQPinOutput(int pin) const
 	return val;
 }
 
-void rpicomponents::Q74HC595::TurnOn() const
+void rpicomponents::Q74HC595::TurnOn()
 {
 	for (int i = 0; i < max_q_pin_no_; i++) {
 		q_pin_map_[i] = true;
@@ -99,7 +99,7 @@ void rpicomponents::Q74HC595::TurnOn() const
 	WriteToQPins();
 }
 
-void rpicomponents::Q74HC595::TurnOff() const
+void rpicomponents::Q74HC595::TurnOff()
 {
 	for (int i = 0; i < max_q_pin_no_; i++) {
 		q_pin_map_[i] = false;

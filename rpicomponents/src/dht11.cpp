@@ -1,7 +1,7 @@
 #include "dht11.hpp"
 
 
-void rpicomponents::Dht11::Initialize() const
+void rpicomponents::Dht11::Initialize()
 {
     auto mode = pin_->OutputMode();
 	if (mode != rpicomponents::pin::IN_OUT_MODE) throw new std::invalid_argument("pin for dht11 must be in in_out_mode");

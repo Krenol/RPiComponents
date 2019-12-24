@@ -17,13 +17,13 @@ rpicomponents::pin::PWMPin::PWMPin(const PWMPin& pin) : Pin(pin)
 }
 
 
-void rpicomponents::pin::PWMPin::WriteToPin(int value) const {
+void rpicomponents::pin::PWMPin::WriteToPin(int value) {
 	if (!CheckInputValue(value)) return;
 	pwmWrite(pin_, value);
 	status_.store(value); 
 }
 
-int rpicomponents::pin::PWMPin::ReadFromPin() const {
+int rpicomponents::pin::PWMPin::ReadFromPin() {
 	auto val = status_.load();
 	return val;
 }

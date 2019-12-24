@@ -1,5 +1,9 @@
 #include "motor.hpp"
 
+rpicomponents::Motor::~Motor() {
+
+}
+
 bool rpicomponents::Motor::ValidEnablePin(int pin) const
 {
 	auto pins = l293d_->GetEnablePins();

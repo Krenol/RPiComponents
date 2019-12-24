@@ -2,7 +2,7 @@
 
 const std::vector<float> rpicomponents::Photoresistor::allowed_voltages_{ 3.3f, 5.0f };
 
-void rpicomponents::Photoresistor::Initialize() const {
+void rpicomponents::Photoresistor::Initialize() {
 	if (pcf_ == nullptr) throw std::invalid_argument("Passed Pcf8591 is nullptr!");
 	if (std::find(allowed_voltages_.begin(), allowed_voltages_.end(), voltage_) == allowed_voltages_.end()) {
 		throw std::invalid_argument("Voltage must either be 3.3 V or 5.0 V");

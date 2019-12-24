@@ -13,12 +13,12 @@ namespace rpicomponents {
 	private:
 		const std::unique_ptr<pin::Pin> ds_, stcp_, shcp_;
         const int max_q_pin_no_{ 8 };
-		mutable std::map<int, bool> q_pin_map_;
+        std::map<int, bool> q_pin_map_;
 
 		/*
 		Initializer for Constructors; reduce redundancy
 		*/
-		void Initialize() const;
+        void Initialize();
 
 		/*
 		Method to check whether a pin number matches the required pin range of q74hc595
@@ -32,7 +32,7 @@ namespace rpicomponents {
 		Method to write to the q74hc595 q_pins with values stored in the q_pin_map_
 
 		*/
-		void WriteToQPins() const;
+        void WriteToQPins();
 
 	public:
 		/*
@@ -67,7 +67,7 @@ namespace rpicomponents {
 		@param pin: Q_Pin to be turned on/off according to boolean turn_on
 		@param turn_on: Turn on or off the passed pin
 		*/
-		void SetQPinOutput(int pin, bool turn_on) const;
+        void SetQPinOutput(int pin, bool turn_on);
 
 		/*
 		Method to set a q_pin on or off
@@ -75,7 +75,7 @@ namespace rpicomponents {
 
 		@param pins: map of Q_Pins to be turned on/off according to the set bools in the map
 		*/
-		void SetQPinOutput(const std::map<int, bool>& pins) const;
+        void SetQPinOutput(const std::map<int, bool>& pins);
 
 		/*
 		Method to get the status of a q_pin
@@ -84,17 +84,17 @@ namespace rpicomponents {
 		@param pin: Q_Pin for whcih status is to be returned
 		@returns true if pin is on, else false
 		*/
-		bool GetQPinOutput(int pin) const;
+        bool GetQPinOutput(int pin);
 
 		/*
 		Method to turn off all Q_Pins
 		*/
-		void TurnOn() const;
+        void TurnOn();
 
 		/*
 		Method to turn off all Q_Pins
 		*/
-		void TurnOff() const;
+        void TurnOff();
 
 		/*
 		Method to get the DS pin number

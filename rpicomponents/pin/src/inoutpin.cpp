@@ -16,7 +16,7 @@ rpicomponents::pin::InOutPin::InOutPin(InOutPin& pin) : Pin(pin.GetPin(), rpicom
 	OutputOff();
 }
 
-void rpicomponents::pin::InOutPin::WriteToPin(int value) const
+void rpicomponents::pin::InOutPin::WriteToPin(int value)
 {
 	if (!CheckInputValue(value)) return;
 	pinMode(pin_, OUTPUT);
@@ -24,7 +24,7 @@ void rpicomponents::pin::InOutPin::WriteToPin(int value) const
 	status_.store(value); 
 }
 
-int rpicomponents::pin::InOutPin::ReadFromPin() const
+int rpicomponents::pin::InOutPin::ReadFromPin()
 {
 	pinMode(pin_, INPUT);
 	auto value = digitalRead(pin_);

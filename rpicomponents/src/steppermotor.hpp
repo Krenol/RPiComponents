@@ -11,7 +11,7 @@ namespace rpicomponents {
 	private:
 		const std::vector<int> stepVector_ { 0x01,0x02,0x04,0x08 };
 		const int steps_{ 2048 };
-		std::atomic_int currentCoil_{ 0 }; //current coil position of the stepper; can have a offset as it starts with 0 and motor could be e.g. at coil 3. 
+        std::atomic_int currentCoil_{ 0 }; //current coil position of the stepper; can have a offset as it starts with 0 and motor could be e.g. at coil 3.
 
 	public:
 		/*
@@ -46,12 +46,12 @@ namespace rpicomponents {
 		@param cw: Set to true if motor should step clockwise, else false
 		@param stepDelay: The waiting time between each step in ms
 		*/
-		void Rotate(int steps, bool cw = true, long stepDelay = 3) const;
+        void Rotate(int steps, bool cw = true, long stepDelay = 3);
 
 		/*
 		Method to stop the motor
 		*/
-		void Stop() const;
+        void Stop() const;
 	};
 }
 

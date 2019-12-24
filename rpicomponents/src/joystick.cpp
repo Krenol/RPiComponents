@@ -1,6 +1,6 @@
 #include "joystick.hpp"
 
-void rpicomponents::Joystick::Initialize() const
+void rpicomponents::Joystick::Initialize()
 {
 	if (pcfXPin_ < 0) throw new std::invalid_argument("joystick pcf x pin cannot be lower than 0");
 	if (pcfYPin_ < 0) throw new std::invalid_argument("joystick pcf y pin cannot be lower than 0");

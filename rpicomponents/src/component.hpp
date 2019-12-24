@@ -13,7 +13,7 @@ namespace rpicomponents {
 	class Component {
 	private:
 		//necessary Component values
-		mutable std::vector<int> used_pins_{ };
+        std::vector<int> used_pins_{ };
 		const std::string component_name_{ COMPONENT };
 
 		/*
@@ -23,7 +23,7 @@ namespace rpicomponents {
 		@param pin the Pin object to be found
 		@return std::vector<int>::iterator pointing to the location the pin is stored inside the vector
 		*/
-		std::vector<int>::iterator GetPinIterator( int pin) const;
+        std::vector<int>::iterator GetPinIterator( int pin);
 
 	protected:
 		virtual ~Component() = 0; //virtual protected destructor to make class abstract
@@ -33,21 +33,21 @@ namespace rpicomponents {
 		
 		@param pin The pin to be added
 		*/
-		void AddPin(int pin) const;
+        void AddPin(int pin);
 
 		/*
 		Method to check multiple pins to the component
 		
 		@param pins The vector containing all pins to be added
 		*/
-		void AddPins(const std::vector<int>& pins) const;
+        void AddPins(const std::vector<int>& pins);
 
 		/*
 		Method to remove all pins from the pin vector
 		
 		@return true if operation was successfull (vector not empty), else false
 		*/
-		bool RemoveAllPins() const;
+        bool RemoveAllPins();
 
 		/*
 		Method to check if the current component uses a certain Pin
@@ -55,7 +55,7 @@ namespace rpicomponents {
 		@param pin The pin to be removed from the vector
 		@return true if operation was successfull (pin was stored in the vector), else false
 		*/
-		bool RemovePin(int pin) const;
+        bool RemovePin(int pin);
 
 		/*
 		Constructor
@@ -85,7 +85,7 @@ namespace rpicomponents {
 		@param pin The pin to be checked for usage
 		@return true if pin is used, else false
 		*/
-		bool UsesPin(int pin) const;
+        bool UsesPin(int pin);
 
 		/*
 		Method to check if the current component uses certain pins
@@ -93,7 +93,7 @@ namespace rpicomponents {
 		@param pins The vector containing all the pins to be checked for usage
 		@return true if all pins are used by the component, else false
 		*/
-		bool UsesPins(std::vector<int>& pins) const;
+        bool UsesPins(std::vector<int>& pins);
 
 		/*
 		Method to get all used pin of the component

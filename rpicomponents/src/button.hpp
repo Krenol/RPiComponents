@@ -13,7 +13,7 @@ namespace rpicomponents {
 		/**
 		* Initializer for Constructors; reduce redundancy
 		*/
-		void Initialize() const;
+        void Initialize();
 
 		/**
 		* Method to check if a given PUD value is valid

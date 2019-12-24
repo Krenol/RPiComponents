@@ -3,7 +3,7 @@
 #include <stdexcept>
 
 
-void rpicomponents::Lcd1602::Initialize() const
+void rpicomponents::Lcd1602::Initialize()
 {
 	if (lcdHandle_ == -1) {
 		throw new std::invalid_argument("error while initializing lcd");

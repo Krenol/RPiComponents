@@ -13,7 +13,7 @@ constexpr const char* COMPONENT_MOTIONSENSOR = "motionsensor";
 		/*
 		 * generic motion sensor initializer to avoid code duplication
 		*/
-		void Initialize() const;
+        void Initialize();
 
 	public:
 

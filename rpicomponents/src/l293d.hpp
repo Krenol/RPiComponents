@@ -43,7 +43,7 @@ namespace rpicomponents {
 		/*
 		Initiliazer for this component
 		*/
-		void Initialize() const;
+        void Initialize();
 
 	public:
 		/*

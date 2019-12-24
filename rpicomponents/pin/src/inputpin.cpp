@@ -15,11 +15,11 @@ rpicomponents::pin::InputPin::InputPin(const InputPin& pin) : Pin(pin.GetPin(), 
 	OutputOff();
 }
 
-void rpicomponents::pin::InputPin::WriteToPin(int value) const {
+void rpicomponents::pin::InputPin::WriteToPin(int value) {
 	return;
 }
 
-int rpicomponents::pin::InputPin::ReadFromPin() const {
+int rpicomponents::pin::InputPin::ReadFromPin() {
 	auto val = digitalRead(pin_);
 	return val;
 }

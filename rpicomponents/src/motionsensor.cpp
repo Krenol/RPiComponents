@@ -1,7 +1,7 @@
 #include "motionsensor.hpp"
 
 
-void rpicomponents::Motionsensor::Initialize() const {
+void rpicomponents::Motionsensor::Initialize() {
 	
     if(pin_->OutputMode() != rpicomponents::pin::INPUT_MODE) throw new std::invalid_argument("pin must be of type INPUT_MODE");
     AddPin(pin_->GetPin());

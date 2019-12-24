@@ -3,7 +3,7 @@
 
 const std::map<rpicomponents::DISTANCE_UNIT, float> rpicomponents::UltrasonicSensor::convert_values_ = { {UNIT_M, 1.0f},  {UNIT_CM, 1e-2f}, {UNIT_MM, 1e-3f}, {UNIT_M, 1e-6f} };
 
-void rpicomponents::UltrasonicSensor::Initialize() const
+void rpicomponents::UltrasonicSensor::Initialize()
 {
 
     auto mode = trigger_pin_->OutputMode();

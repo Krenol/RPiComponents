@@ -12,7 +12,7 @@ namespace rpicomponents {
 		/*
 		Method to initilaize the pcf
 		*/
-		void Initialize() const;
+        void Initialize();
 
 	protected:
 		const int pin_base_{ 64 }, address_{ 0x48 }, resolution_{ 0 };

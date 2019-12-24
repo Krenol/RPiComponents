@@ -27,7 +27,7 @@ namespace rpicomponents {
 		/*
 		Initializer for Constructors; reduce redundancy
 		*/
-		void Initialize() const;
+        void Initialize();
 
 		/*
 		Method to measure the ping time to an object
