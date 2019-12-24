@@ -1,4 +1,5 @@
 #include "motor.hpp"
+#include <atomic>
 
 #ifndef RPICOMPONENTS_STEPPERMOTOR_H
 #define RPICOMPONENTS_STEPPERMOTOR_H
@@ -7,8 +8,10 @@ namespace rpicomponents {
 	constexpr const char* COMPONENT_STEPPERMOTOR = "steppermotor";
 
 	class Steppermotor : public Motor {
-	protected:
-		
+	private:
+		const std::vector<int> stepVector_ { 0x01,0x02,0x04,0x08 };
+		const int steps_{ 2048 };
+		std::atomic_int currentCoil_{ 0 }; //current coil position of the stepper; can have a offset as it starts with 0 and motor could be e.g. at coil 3. 
 
 	public:
 		/*
@@ -17,7 +20,7 @@ namespace rpicomponents {
 		@param enable_pins The EnablePinStruct struct containing all necessary enable pin information for the l293d
 		@param enable_pin2 The InPinStruct struct containing all necessary in pin information for the l293d
 		*/
-		Steppermotor(const EnablePinStruct& enable_pins, const InPinStruct& in_pins);
+		Steppermotor(const EnablePinStruct& enable_pins, const InPinStruct& in_pins, int steps = 2048);
 
 		/*
 		 Constructor for this component
@@ -35,15 +38,15 @@ namespace rpicomponents {
 		*/
 		Steppermotor(int enable_pin1, int enable_pin2, rpicomponents::pin::PIN_MODE enable_pin1_mode = rpicomponents::pin::SOFTPWM_MODE,
 			rpicomponents::pin::PIN_MODE enable_pin2_mode = rpicomponents::pin::SOFTPWM_MODE, int max_output_enable_pin1 = 254, int max_output_enable_pin2 = 254,
-			int in_pin1 = -1, int in_pin2 = -1, int in_pin3 = -1, int in_pin4 = -1);
+			int in_pin1 = -1, int in_pin2 = -1, int in_pin3 = -1, int in_pin4 = -1, int steps = 2048);
 
 		/*
 		Method to let the motor rotate with given speed (motor dependent)
-		@param steps: The steps to be rotated; if set to -1 motor will step continiously 
+		@param steps: The steps to be rotated
 		@param cw: Set to true if motor should step clockwise, else false
-		@param speed: The waiting time between each step in ms
+		@param stepDelay: The waiting time between each step in ms
 		*/
-		void Rotate(int steps, bool cw = true, long speed = 3) const;
+		void Rotate(int steps, bool cw = true, long stepDelay = 3) const;
 
 		/*
 		Method to stop the motor

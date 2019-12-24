@@ -5,6 +5,7 @@
 
 namespace rpicomponents {
 	constexpr const char* COMPONENT_L293D = "l293d";
+	constexpr const int L293D_INPIN_COUNT = 4, L293D_ENABLEPIN_COUNT = 2;
 
 	struct EnablePinStruct {
 		//Constructor for const vals
@@ -45,7 +46,6 @@ namespace rpicomponents {
 		void Initialize() const;
 
 	public:
-
 		/*
 		 Constructor for this component
 
@@ -208,6 +208,20 @@ namespace rpicomponents {
 		@returns true if pin is on else false
 		*/
 		bool InPin4On() const;
+
+		/*
+		Method to turn on/off to a specific inPin
+		@param pinNo: The inPin to be turned on/off; between 1 and 4
+		@param turnOn: If true pin is tunrned on, else off
+		*/
+		bool WriteToInPin(int pinNo, bool turnOn) const;
+
+		/*
+		Method to turn on/off to a specific enable pin
+		@param pinNo: The enable pin to be turned on/off; between 1 and 2
+		@param turnOn: If true pin is tunrned on, else off
+		*/
+		bool WriteToEnablePin(int pinNo, bool turnOn) const;
 	};
 }
 

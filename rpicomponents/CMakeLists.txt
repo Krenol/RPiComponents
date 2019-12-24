@@ -35,10 +35,11 @@ ${PROJECT_SOURCE_DIR}/key.cpp
 ${PROJECT_SOURCE_DIR}/keypad.cpp
 ${PROJECT_SOURCE_DIR}/lcd1602.cpp
 ${PROJECT_SOURCE_DIR}/motor.cpp
+${PROJECT_SOURCE_DIR}/steppermotor.cpp
 )
  
-include_directories("${PROJECT_INCLUDE_DIR}")
-include_directories("${PROJECT_SOURCE_DIR}")
+include_directories(${PROJECT_INCLUDE_DIR})
+include_directories(${PROJECT_SOURCE_DIR})
 include_directories(${DOCTEST_INCLUDE_DIR})
 
 add_library(${PROJECT_NAME} SHARED ${RPICOMPONENT_PROJECT_SRCS})

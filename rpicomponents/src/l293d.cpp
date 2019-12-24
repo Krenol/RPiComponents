@@ -134,3 +134,37 @@ bool rpicomponents::L293D::InPin4On() const {
 	bool status = in_pin4_->IsOn();
 	return status;
 }
+
+bool rpicomponents::L293D::WriteToInPin(int pinNo, bool turnOn) const
+{
+	switch (pinNo) {
+	case 1:
+		turnOn ? TurnOnIn1() : TurnOffIn1();
+		return true;
+	case 2:
+		turnOn ? TurnOnIn2() : TurnOffIn2();
+		return true;
+	case 3:
+		turnOn ? TurnOnIn3() : TurnOffIn3();
+		return true;
+	case 4:
+		turnOn ? TurnOnIn4() : TurnOffIn4();
+		break;
+	default:
+		return false;
+	}
+}
+
+bool rpicomponents::L293D::WriteToEnablePin(int pinNo, bool turnOn) const
+{
+	switch (pinNo) {
+	case 1:
+		turnOn ? TurnOnEnablePin1() : TurnOffEnablePin1();
+		return true;
+	case 2:
+		turnOn ? TurnOnEnablePin2() : TurnOffEnablePin2();
+		return true;
+	default:
+		return false;
+	}
+}

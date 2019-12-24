@@ -33,7 +33,7 @@ namespace rpicomponents {
 		@param enable_pins The EnablePinStruct struct containing all necessary enable pin information for the l293d
 		@param enable_pin2 The InPinStruct struct containing all necessary in pin information for the l293d
 		*/
-		Motor(const EnablePinStruct& enable_pins, const InPinStruct& in_pins);
+		Motor(const std::string& comp_name, const EnablePinStruct& enable_pins, const InPinStruct& in_pins);
 
 		/*
 		 Constructor for this component
@@ -49,7 +49,7 @@ namespace rpicomponents {
 		 @param in_pin3 The third input pin
 		 @param in_pin4 The fourth input pin
 		*/
-		Motor(int enable_pin1, int enable_pin2, rpicomponents::pin::PIN_MODE enable_pin1_mode = rpicomponents::pin::SOFTPWM_MODE,
+		Motor(const std::string& comp_name, int enable_pin1, int enable_pin2, rpicomponents::pin::PIN_MODE enable_pin1_mode = rpicomponents::pin::SOFTPWM_MODE,
 			rpicomponents::pin::PIN_MODE enable_pin2_mode = rpicomponents::pin::SOFTPWM_MODE, int max_output_enable_pin1 = 254, int max_output_enable_pin2 = 254,
 			int in_pin1 = -1, int in_pin2 = -1, int in_pin3 = -1, int in_pin4 = -1);
 
