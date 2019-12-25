@@ -17,11 +17,15 @@ rpicomponents::Steppermotor::Steppermotor(const Steppermotor& motor) : Steppermo
 	AddPins(motor.GetMotorPins());
 }
 
-std::vector<const std::unique_ptr<rpicomponents::pin::Pin>> rpicomponents::Steppermotor::CreatePinVector(const std::vector<int>& pins) const {
+std::vector<std::unique_ptr<rpicomponents::pin::Pin>> rpicomponents::Steppermotor::CreatePinVector(const std::vector<int>& pins) const {
 	if (pins.size() != 4) throw std::invalid_argument("Steppermotor needs 4 pins!");
-	std::vector<const std::unique_ptr<pin::Pin>> pinVec = { pin::PinCreator::CreatePin(pins[0], pin::DIGITAL_MODE), pin::PinCreator::CreatePin(pins[1], pin::DIGITAL_MODE),
-		pin::PinCreator::CreatePin(pins[2], pin::DIGITAL_MODE), pin::PinCreator::CreatePin(pins[3], pin::DIGITAL_MODE) };
-	
+
+    std::vector<std::unique_ptr<rpicomponents::pin::Pin>> pinVec;
+    pinVec.emplace_back(pin::PinCreator::CreatePin(pins[0], pin::DIGITAL_MODE));
+    pinVec.emplace_back(pin::PinCreator::CreatePin(pins[1], pin::DIGITAL_MODE));
+    pinVec.emplace_back(pin::PinCreator::CreatePin(pins[2], pin::DIGITAL_MODE));
+    pinVec.emplace_back(pin::PinCreator::CreatePin(pins[3], pin::DIGITAL_MODE));
+
 	return pinVec;
 }
 

@@ -27,7 +27,7 @@ void rpicomponents::Bidirectionalmotor::Initialize() {
 	AddPins({ usedPins_.enablePin, usedPins_.inCCW, usedPins_.inCW });
 }
 
-void rpicomponents::Bidirectionalmotor::Rotate(int speed, bool cw = true) {
+void rpicomponents::Bidirectionalmotor::Rotate(int speed, bool cw) {
 	l293d_->WriteToEnablePin(usedPins_.enablePin, speed);
 	l293d_->WriteToInPin(usedPins_.inCW, cw);
 	l293d_->WriteToInPin(usedPins_.inCCW, !cw);
