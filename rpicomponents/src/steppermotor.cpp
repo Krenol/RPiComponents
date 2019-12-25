@@ -1,20 +1,27 @@
 #include "steppermotor.hpp"
 
 rpicomponents::Steppermotor::Steppermotor(int pin1, int pin2, int pin3, int pin4, int steps) : Motor(COMPONENT_STEPPERMOTOR), steps_{steps},
-	pins_{ CreatePinVector({pin1, pin2, pin3, pin4}) }
+	motorPins_{ {pin1, pin2, pin3, pin4} }, pins_{ CreatePinVector(motorPins_) }
 {
+	AddPins(motorPins_);
 }
 
 rpicomponents::Steppermotor::Steppermotor(const std::vector<int>& pins, int steps) : Motor(COMPONENT_STEPPERMOTOR), steps_{ steps },
-	pins_{ CreatePinVector(pins) }
+	motorPins_{ {pins} }, pins_{ CreatePinVector(motorPins_) }
 {
+	AddPins(motorPins_);
+}
+
+rpicomponents::Steppermotor::Steppermotor(const Steppermotor& motor) : Steppermotor(motor.GetMotorPins(), motor.GetMotorSteps())
+{
+	AddPins(motor.GetMotorPins());
 }
 
 std::vector<const std::unique_ptr<rpicomponents::pin::Pin>> rpicomponents::Steppermotor::CreatePinVector(const std::vector<int>& pins) const {
 	if (pins.size() != 4) throw std::invalid_argument("Steppermotor needs 4 pins!");
 	std::vector<const std::unique_ptr<pin::Pin>> pinVec = { pin::PinCreator::CreatePin(pins[0], pin::DIGITAL_MODE), pin::PinCreator::CreatePin(pins[1], pin::DIGITAL_MODE),
 		pin::PinCreator::CreatePin(pins[2], pin::DIGITAL_MODE), pin::PinCreator::CreatePin(pins[3], pin::DIGITAL_MODE) };
-
+	
 	return pinVec;
 }
 
@@ -46,4 +53,14 @@ void rpicomponents::Steppermotor::Rotate(int steps, bool cw, long stepDelay)
 void rpicomponents::Steppermotor::Stop() const
 {
 	for (int i = 0; i < pins_.size(); i++) pins_[i]->OutputOff();
+}
+
+
+int rpicomponents::Steppermotor::GetMotorSteps() const {
+	return steps_;
+}
+
+
+const std::vector<int> rpicomponents::Steppermotor::GetMotorPins() const {
+	return motorPins_;
 }

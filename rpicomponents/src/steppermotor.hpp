@@ -9,7 +9,7 @@ namespace rpicomponents {
 
 	class Steppermotor : public Motor {
 	private:
-		const std::vector<int> stepVector_ { 0x01,0x02,0x04,0x08 };
+		const std::vector<int> stepVector_ { 0x01,0x02,0x04,0x08 }, motorPins_;
 		const std::vector<const std::unique_ptr<pin::Pin>> pins_;
 		const int steps_{ 2048 };
         std::atomic_int currentCoil_{ 0 }; //current coil position of the stepper; can have a offset as it starts with 0 and motor could be e.g. at coil 3.
@@ -37,6 +37,12 @@ namespace rpicomponents {
 		Steppermotor(const std::vector<int> &pins, int steps = 2048);
 
 		/*
+		Copy constructor
+		@param motor The motor to be copied
+		*/
+		Steppermotor(const Steppermotor& motor);
+
+		/*
 		Method to let the motor rotate with given speed (motor dependent)
 		@param steps: The steps to be rotated
 		@param cw: Set to true if motor should step clockwise, else false
@@ -48,6 +54,20 @@ namespace rpicomponents {
 		Method to stop the motor
 		*/
         void Stop() const;
+
+		/*
+		Method to get the amount of steps of the motor
+
+		@returns the step count of the motor
+		*/
+		int GetMotorSteps() const;
+
+		/*
+		Method to get the used motor pins of the stepper motor
+
+		@returns the used motor pins in a vector
+		*/
+		const std::vector<int> GetMotorPins() const;
 	};
 }
 
