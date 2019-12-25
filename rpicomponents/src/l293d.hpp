@@ -68,7 +68,7 @@ namespace rpicomponents {
 		 Constructor for this component
 
 		 @param enable_pins The EnablePinStruct struct containing all necessary enable pin information for the l293d
-		 @param enable_pin2 The InPinStruct struct containing all necessary in pin information for the l293d
+		 @param in_pins The InPinStruct struct containing all necessary in pin information for the l293d
 		 */
 		L293D(const EnablePinStruct& enable_pins, const InPinStruct& in_pins);
 
@@ -222,6 +222,13 @@ namespace rpicomponents {
 		@param turnOn: If true pin is tunrned on, else off
 		*/
 		bool WriteToEnablePin(int pinNo, bool turnOn) const;
+
+		/*
+		Method to turn on/off to a specific enable pin
+		@param pinNo: The enable pin to be turned on/off; between 1 and 2
+		@param value: The value to which the pin should be turned on to
+		*/
+		bool WriteToEnablePin(int pinNo, int value) const;
 	};
 }
 

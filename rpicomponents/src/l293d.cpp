@@ -168,3 +168,17 @@ bool rpicomponents::L293D::WriteToEnablePin(int pinNo, bool turnOn) const
 		return false;
 	}
 }
+
+bool rpicomponents::L293D::WriteToEnablePin(int pinNo, int value) const
+{
+	switch (pinNo) {
+	case 1:
+		TurnOnEnablePin1(value);
+		return true;
+	case 2:
+		TurnOnEnablePin2(value);
+		return true;
+	default:
+		return false;
+	}
+}

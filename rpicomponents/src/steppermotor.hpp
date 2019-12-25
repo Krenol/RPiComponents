@@ -10,35 +10,31 @@ namespace rpicomponents {
 	class Steppermotor : public Motor {
 	private:
 		const std::vector<int> stepVector_ { 0x01,0x02,0x04,0x08 };
+		const std::vector<const std::unique_ptr<pin::Pin>> pins_;
 		const int steps_{ 2048 };
         std::atomic_int currentCoil_{ 0 }; //current coil position of the stepper; can have a offset as it starts with 0 and motor could be e.g. at coil 3.
+
+		std::vector<const std::unique_ptr<pin::Pin>> CreatePinVector(const std::vector<int>& pins) const;
 
 	public:
 		/*
 		Constructor for this component
 
-		@param enable_pins The EnablePinStruct struct containing all necessary enable pin information for the l293d
-		@param enable_pin2 The InPinStruct struct containing all necessary in pin information for the l293d
+		@param pin1 The first pin of the stepper motor
+		@param pin2 The second pin of the stepper motor
+		@param pin3 The third pin of the stepper motor
+		@param pin4 The fourth pin of the stepper motor
+		@param steps The amount of steps the motor has
 		*/
-		Steppermotor(const EnablePinStruct& enable_pins, const InPinStruct& in_pins, int steps = 2048);
+		Steppermotor(int pin1, int pin2, int pin3, int pin4, int steps = 2048);
 
 		/*
-		 Constructor for this component
+		Constructor for this component
 
-		 @param enable_pin1 The first enable pin of the l293d
-		 @param enable_pin2 The second enable pin of the l293d
-		 @param enable_pin1_mode The pin mode of the first pin
-		 @param enable_pin2_mode The pin mode of the second pin
-		 @param max_output_enable_pin1 The max output value of the first pin
-		 @param max_output_enable_pin2 The max output value of the second pin
-		 @param in_pin1 The first input pin
-		 @param in_pin2 The second input pin
-		 @param in_pin3 The third input pin
-		 @param in_pin4 The fourth input pin
+		@param pins Vector holding the four GPIO pins of the stepper motor
+		@param steps The amount of steps the motor has
 		*/
-		Steppermotor(int enable_pin1, int enable_pin2, rpicomponents::pin::PIN_MODE enable_pin1_mode = rpicomponents::pin::SOFTPWM_MODE,
-			rpicomponents::pin::PIN_MODE enable_pin2_mode = rpicomponents::pin::SOFTPWM_MODE, int max_output_enable_pin1 = 254, int max_output_enable_pin2 = 254,
-			int in_pin1 = -1, int in_pin2 = -1, int in_pin3 = -1, int in_pin4 = -1, int steps = 2048);
+		Steppermotor(const std::vector<int> &pins, int steps = 2048);
 
 		/*
 		Method to let the motor rotate with given speed (motor dependent)

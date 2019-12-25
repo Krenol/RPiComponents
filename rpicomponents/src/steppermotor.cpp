@@ -1,22 +1,27 @@
 #include "steppermotor.hpp"
 
-rpicomponents::Steppermotor::Steppermotor(const EnablePinStruct& enable_pins, const InPinStruct& in_pins, int steps) : 
-	Motor(COMPONENT_STEPPERMOTOR, enable_pins, in_pins), steps_{steps}
+rpicomponents::Steppermotor::Steppermotor(int pin1, int pin2, int pin3, int pin4, int steps) : Motor(COMPONENT_STEPPERMOTOR), steps_{steps},
+	pins_{ CreatePinVector({pin1, pin2, pin3, pin4}) }
 {
 }
 
-rpicomponents::Steppermotor::Steppermotor(int enable_pin1, int enable_pin2, rpicomponents::pin::PIN_MODE enable_pin1_mode, 
-	rpicomponents::pin::PIN_MODE enable_pin2_mode, int max_output_enable_pin1, int max_output_enable_pin2, 
-	int in_pin1, int in_pin2, int in_pin3, int in_pin4, int steps) :
-	Motor(COMPONENT_STEPPERMOTOR, enable_pin1, enable_pin2, enable_pin1_mode, enable_pin2_mode,
-        max_output_enable_pin1, max_output_enable_pin2, in_pin1, in_pin2, in_pin3, in_pin4), steps_{ steps }
+rpicomponents::Steppermotor::Steppermotor(const std::vector<int>& pins, int steps) : Motor(COMPONENT_STEPPERMOTOR), steps_{ steps },
+	pins_{ CreatePinVector(pins) }
 {
+}
+
+std::vector<const std::unique_ptr<rpicomponents::pin::Pin>> rpicomponents::Steppermotor::CreatePinVector(const std::vector<int>& pins) const {
+	if (pins.size() != 4) throw std::invalid_argument("Steppermotor needs 4 pins!");
+	std::vector<const std::unique_ptr<pin::Pin>> pinVec = { pin::PinCreator::CreatePin(pins[0], pin::DIGITAL_MODE), pin::PinCreator::CreatePin(pins[1], pin::DIGITAL_MODE),
+		pin::PinCreator::CreatePin(pins[2], pin::DIGITAL_MODE), pin::PinCreator::CreatePin(pins[3], pin::DIGITAL_MODE) };
+
+	return pinVec;
 }
 
 void rpicomponents::Steppermotor::Rotate(int steps, bool cw, long stepDelay)
 {
 	if(steps < 0) throw std::invalid_argument("steps cannot be negative!");
-    if(stepDelay < 1) throw std::invalid_argument("stepDelay cannot be lower than 1!");
+    if(stepDelay < 1) throw std::invalid_argument("stepDelay cannot be lower than 1 ms!");
 
 	auto stepVecSize = stepVector_.size();
 	auto cylces = steps / stepVecSize + 1;
@@ -26,11 +31,12 @@ void rpicomponents::Steppermotor::Rotate(int steps, bool cw, long stepDelay)
 		for (int j = 0; j < loopCounter; j++) {
             pos = currentCoil_.load();
             pos = (cw ? (pos + j) : (pos - j)) % stepVecSize; // the next coil to be turned on;
+			currentCoil_.store(pos);
 			for (int k = 0; k < L293D_INPIN_COUNT; k++) {
-                l293d_->WriteToInPin(k, stepVector_[pos] == (1 << k));
+
+				pins_[k]->Output(stepVector_[pos] == (1 << k));
 			}
-            currentCoil_.store(pos);
-            rpicomponents::utils::Waiter::SleepNanos(stepDelay);
+            rpicomponents::utils::Waiter::SleepMillis(stepDelay);
 		}
 		steps -= loopCounter;
 		loopCounter = steps < stepVecSize ? steps : stepVecSize;
@@ -39,8 +45,5 @@ void rpicomponents::Steppermotor::Rotate(int steps, bool cw, long stepDelay)
 
 void rpicomponents::Steppermotor::Stop() const
 {
-	l293d_->TurnOffIn1();
-	l293d_->TurnOffIn2();
-	l293d_->TurnOffIn3();
-	l293d_->TurnOffIn4();
+	for (int i = 0; i < pins_.size(); i++) pins_[i]->OutputOff();
 }

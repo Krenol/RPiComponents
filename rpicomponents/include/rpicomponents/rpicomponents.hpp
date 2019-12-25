@@ -25,6 +25,7 @@
 #include "../../src/key.hpp"
 #include "../../src/motor.hpp"
 #include "../../src/steppermotor.hpp"
+#include "../../src/bidirectionalmotor.hpp"
 #include "../../src/keypad.hpp"
 #include "../../src/lcd1602.hpp"
 #include "../../pin/include/rpicomponents/pin/pins.hpp"
