@@ -1,4 +1,5 @@
 #include "motor.hpp"
+#include "l293d.hpp"
 
 #ifndef RPICOMPONENTS_BIDIRECTIONALMOTOR_H
 #define RPICOMPONENTS_BIDIRECTIONALMOTOR_H

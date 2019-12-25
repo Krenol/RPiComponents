@@ -1,5 +1,4 @@
 #include "component.hpp"
-#include "l293d.hpp"
 
 #ifndef RPICOMPONENTS_MOTOR_H
 #define RPICOMPONENTS_MOTOR_H
