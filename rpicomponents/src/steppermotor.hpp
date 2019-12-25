@@ -53,7 +53,7 @@ namespace rpicomponents {
 		/*
 		Method to stop the motor
 		*/
-        void Stop() const;
+        void Stop();
 
 		/*
 		Method to get the amount of steps of the motor

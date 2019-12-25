@@ -71,7 +71,7 @@ namespace rpicomponents {
 		/*
 		Method to stop the motor
 		*/
-		void Stop() const;
+        void Stop();
 
 		/*
 		Method to get the enable pins of the l293d

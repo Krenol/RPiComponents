@@ -21,7 +21,7 @@ namespace rpicomponents {
 		/*
 		Method to stop the motor
 		*/
-		virtual void Stop() const = 0;
+        virtual void Stop() = 0;
 
 	};
 }
