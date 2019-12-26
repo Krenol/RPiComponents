@@ -9,6 +9,7 @@
 //#include "../external/doctest/doctest/doctest.h"
 
 #include "../../src/button.hpp"
+#include "../../src/esc.hpp"
 #include "../../src/led.hpp"
 #include "../../src/transistor.hpp"
 #include "../../src/ultrasonicsensor.hpp"
@@ -26,6 +27,7 @@
 #include "../../src/motor.hpp"
 #include "../../src/steppermotor.hpp"
 #include "../../src/bidirectionalmotor.hpp"
+#include "../../src/unidirectionalmotor.hpp"
 #include "../../src/servomotor.hpp"
 #include "../../src/keypad.hpp"
 #include "../../src/lcd1602.hpp"

@@ -10,8 +10,8 @@ namespace rpicomponents {
 		const std::unique_ptr<pin::Pin> pin_; //the used pin of the button
 		const int pud_{ PUD_UP }; //the pud mode of the button
 
-		/**
-		* Initializer for Constructors; reduce redundancy
+		/*
+		Initializer for Constructors; reduce redundancy
 		*/
         void Initialize();
 
