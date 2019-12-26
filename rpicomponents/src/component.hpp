@@ -100,7 +100,7 @@ namespace rpicomponents {
 
 		@return all used pins in a vector
 		*/
-		const std::vector<int>& GetUsedPins() const;
+        const std::vector<int>& GetUsedPins();
 
 		/*
 		Method to get the name of the component

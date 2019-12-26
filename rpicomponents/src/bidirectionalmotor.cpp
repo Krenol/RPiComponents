@@ -24,8 +24,7 @@ void rpicomponents::Bidirectionalmotor::Initialize() {
 	if (!l293d_->WriteToEnablePin(usedPins_.enablePin, false)) throw std::invalid_argument("Invalid enable pin given!");
 	if (!l293d_->WriteToInPin(usedPins_.inCW, false)) throw std::invalid_argument("Invalid in pin for CW given!");
 	if (!l293d_->WriteToInPin(usedPins_.inCCW, false)) throw std::invalid_argument("Invalid in pin for CCW given!");
-
-	AddPins(l293d_->GetUsedPins());
+    AddPins(l293d_->GetUsedPins());
 }
 
 void rpicomponents::Bidirectionalmotor::Rotate(int speed, bool cw) {
