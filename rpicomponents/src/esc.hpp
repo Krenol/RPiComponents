@@ -6,34 +6,38 @@
 
 namespace rpicomponents {
 	constexpr const char* COMPONENT_ESC = "esc";
-	constexpr const int ESC_MAX_VALUE = 2000, ESC_MIN_VALUE = 700;
+    constexpr const int ESC_MAX_VALUE = 2000, ESC_MIN_VALUE = 700, ESC_ARM_SLEEP_TIME_MS = 100;
 
 	struct EscData {
-		EscData(int pin, int esc_min_value = ESC_MIN_VALUE, int esc_max_value = ESC_MAX_VALUE, int softpwm_pulse_width = ESC_SOFTPWM_PULSE_WIDTH) :
-			pin{ pin }, esc_min_value{ esc_min_value }, esc_max_value{ esc_max_value }, softpwm_pulse_width{ softpwm_pulse_width }
+        EscData(int pin, int esc_min_value = ESC_MIN_VALUE, int esc_max_value = ESC_MAX_VALUE) :
+            pin{ pin }, esc_min_value{ esc_min_value }, esc_max_value{ esc_max_value }
 		{
 
 		}
 
 		EscData(const EscData& data) :
-			pin{ data.pin }, esc_min_value{ data.esc_min_value }, esc_max_value{ data.esc_max_value }, softpwm_pulse_width{ data.softpwm_pulse_width }
+            pin{ data.pin }, esc_min_value{ data.esc_min_value }, esc_max_value{ data.esc_max_value }
 		{
 
 		}
 
-		const int pin;
-		int esc_min_value, esc_max_value;
+        const int pin, esc_min_value, esc_max_value;
 	};
 
 	class Esc : public Component {
 	private:
-		EscData escData_;
+        const EscData escData_;
 		std::unique_ptr<pin::Pin> pin_;
 
 		/*
 		Initializer for Constructors; reduce redundancy
 		*/
 		void Initialize(); 
+
+        /*
+         method to arm the ESC
+        */
+        void Arm() const;
 
 	public:
 		/*
@@ -46,9 +50,9 @@ namespace rpicomponents {
 
 		/*
 		Constructor for ESC
-		@param pin: The pin of the ESC
+        @param escData: The EscData struct
 		*/
-		Esc(const EscData& escData_);
+        Esc(const EscData& escData);
 
 		/*
 		The copy constructor of the ESC
@@ -57,15 +61,9 @@ namespace rpicomponents {
 		Esc(const Esc& esc);
 
 		/*
-		Method to calibrate the ESC
-		Sets the right esc_min_value and esc_max_value of the ESC
-		*/
-		void Calibrate();
-
-		/*
 		Method to set the output speed of the ESC according to esc_min_value <= speed <= esc_max_value
 		*/
-		void SetOutputSpeed(int speed);
+        void SetOutputSpeed(int speed) const;
 
 		/*
 		Method to get the currently set ESC speed
@@ -76,13 +74,13 @@ namespace rpicomponents {
 		/*
 		Method to turn off ESC output
 		*/
-		void TurnOff();
+        void TurnOff() const;
 
 		/*
 		Method to get the ESC data
 		@returns EscData struct containing all ESC information
 		*/
-		const EscData& GetEscData();
+        const EscData& GetEscData() const;
 	};
 }
 

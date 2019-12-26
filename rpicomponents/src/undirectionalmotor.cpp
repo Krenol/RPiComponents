@@ -37,7 +37,7 @@ void rpicomponents::Undirectionalmotor::Rotate(int speed)
 void rpicomponents::Undirectionalmotor::Stop() const
 {
 	l293d_->WriteToEnablePin(usedPins_.enablePin, false);
-	l293d_->WriteToInPin(usedPins_.inPins, false);
+    l293d_->WriteToInPin(usedPins_.inPin, false);
 }
 
 const rpicomponents::EnablePinStruct& rpicomponents::Undirectionalmotor::GetL293DEnablePins() const

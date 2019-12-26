@@ -37,7 +37,7 @@ ${PROJECT_SOURCE_DIR}/lcd1602.cpp
 ${PROJECT_SOURCE_DIR}/motor.cpp
 ${PROJECT_SOURCE_DIR}/steppermotor.cpp
 ${PROJECT_SOURCE_DIR}/bidirectionalmotor.cpp
-${PROJECT_SOURCE_DIR}/unidirectionalmotor.cpp
+${PROJECT_SOURCE_DIR}/undirectionalmotor.cpp
 ${PROJECT_SOURCE_DIR}/esc.cpp
 ${PROJECT_SOURCE_DIR}/servomotor.cpp
 )

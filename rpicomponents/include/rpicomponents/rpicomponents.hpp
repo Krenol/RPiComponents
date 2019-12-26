@@ -27,7 +27,7 @@
 #include "../../src/motor.hpp"
 #include "../../src/steppermotor.hpp"
 #include "../../src/bidirectionalmotor.hpp"
-#include "../../src/unidirectionalmotor.hpp"
+#include "../../src/undirectionalmotor.hpp"
 #include "../../src/servomotor.hpp"
 #include "../../src/keypad.hpp"
 #include "../../src/lcd1602.hpp"
