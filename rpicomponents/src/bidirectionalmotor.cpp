@@ -13,7 +13,8 @@ rpicomponents::Bidirectionalmotor::Bidirectionalmotor(const EnablePinStruct& ena
 	Initialize();
 }
 
-rpicomponents::Bidirectionalmotor::Bidirectionalmotor(const Bidirectionalmotor& motor) : Bidirectionalmotor(motor.GetL293DEnablePins(), motor.GetL293DInPins(), motor.GetUsedL293DPins())
+rpicomponents::Bidirectionalmotor::Bidirectionalmotor(const Bidirectionalmotor& motor) : 
+	Bidirectionalmotor(motor.GetL293DEnablePins(), motor.GetL293DInPins(), motor.GetUsedL293DPins())
 {
 
 }
@@ -24,7 +25,7 @@ void rpicomponents::Bidirectionalmotor::Initialize() {
 	if (!l293d_->WriteToInPin(usedPins_.inCW, false)) throw std::invalid_argument("Invalid in pin for CW given!");
 	if (!l293d_->WriteToInPin(usedPins_.inCCW, false)) throw std::invalid_argument("Invalid in pin for CCW given!");
 
-	AddPins({ usedPins_.enablePin, usedPins_.inCCW, usedPins_.inCW });
+	AddPins(l293d_->GetUsedPins());
 }
 
 void rpicomponents::Bidirectionalmotor::Rotate(int speed, bool cw) {
