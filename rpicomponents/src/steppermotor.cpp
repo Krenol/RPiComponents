@@ -53,7 +53,7 @@ void rpicomponents::Steppermotor::Rotate(int steps, bool cw, long stepDelay)
 	}
 }
 
-void rpicomponents::Steppermotor::Stop() const
+void rpicomponents::Steppermotor::Stop()
 {
 	for (int i = 0; i < pins_.size(); i++) pins_[i]->OutputOff();
 }

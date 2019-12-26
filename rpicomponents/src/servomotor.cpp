@@ -24,7 +24,7 @@ rpicomponents::Servomotor::Servomotor(int pin, int maxAngle, int minPulseDuratio
 }
 
 rpicomponents::Servomotor::Servomotor(const ServomotorData& data) : Motor(COMPONENT_SERVOMOTOR), servoData_{ data }, 
-pin_{ pin::PinCreator::CreatePin(servoData_.pin, pin::SOFTPWM_MODE, , servoData_.pwmVal) }
+pin_{ pin::PinCreator::CreatePin(servoData_.pin, pin::SOFTPWM_MODE, servoData_.pwmVal) }
 {
 	Initialize();
 }
@@ -40,7 +40,7 @@ const rpicomponents::ServomotorData& rpicomponents::Servomotor::GetServoData() c
 
 int rpicomponents::Servomotor::GetServoAngle() const
 {
-	auto angle = angle_.load()
+    auto angle = angle_.load();
 	return angle;
 }
 
@@ -52,7 +52,7 @@ void rpicomponents::Servomotor::Rotate(int angle)
 	utils::Waiter::SleepMillis(50);
 }
 
-void rpicomponents::Servomotor::Stop() const
+void rpicomponents::Servomotor::Stop()
 {
-	Rotate(0);
+    Rotate(0);
 }

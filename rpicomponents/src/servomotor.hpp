@@ -85,7 +85,7 @@ namespace rpicomponents {
 		/*
 		Method to stop the motor and reset it to 0 degree
 		*/
-		void Stop() const;
+        void Stop();
 	};
 }
 

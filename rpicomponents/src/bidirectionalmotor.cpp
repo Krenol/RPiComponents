@@ -34,7 +34,7 @@ void rpicomponents::Bidirectionalmotor::Rotate(int speed, bool cw) {
 	l293d_->WriteToInPin(usedPins_.inCCW, !cw);
 }
 
-void rpicomponents::Bidirectionalmotor::Stop() const {
+void rpicomponents::Bidirectionalmotor::Stop() {
 	l293d_->WriteToEnablePin(usedPins_.enablePin, false);
 	l293d_->WriteToInPin(usedPins_.inCW, false);
 	l293d_->WriteToInPin(usedPins_.inCCW, false);
