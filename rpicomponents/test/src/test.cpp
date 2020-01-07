@@ -16,6 +16,15 @@ TEST_CASE("Address checker") {
     CHECK(rpicomponents::pin::AddressChecker::IsI2CAddress(0x1) == 0);
 }
 
+TEST_CASE("Steppermotor checker") {
+    rpicomponents::Steppermotor motor({2,3,4,5}, 2048);
+    CHECK(motor.ToString().compare(rpicomponents::COMPONENT_STEPPERMOTOR) == 0);
+
+    CHECK_NOTHROW(motor.Rotate(2,true, 3));
+    CHECK_THROWS_WITH_AS(motor.Rotate(2,true, -2), "stepDelay cannot be lower than 1 ms!", std::invalid_argument);
+    CHECK_THROWS_WITH_AS(motor.Rotate(-2,true, 5), "steps cannot be negative!", std::invalid_argument);
+}
+
 /*
 #include <thread>
 #include <cassert>

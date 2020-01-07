@@ -43,9 +43,12 @@ void rpicomponents::Steppermotor::Rotate(int steps, bool cw, long stepDelay)
             pos = currentCoil_.load();
             pos = (cw ? (pos + j) : (pos - j)) % stepVecSize; // the next coil to be turned on;
 			currentCoil_.store(pos);
-			for (int k = 0; k < pins_.size(); k++) {
+            for(auto it = pins_.begin(); it != pins_.end(); ++it) {
+                (*it)->Output(stepVector_[pos] == (1 << std::distance(pins_.begin(), it)));
+            }
+            /*for (int k = 0; k < pins_.size(); k++) {
 				pins_[k]->Output(stepVector_[pos] == (1 << k));
-			}
+            }*/
             rpicomponents::utils::Waiter::SleepMillis(stepDelay);
 		}
 		steps -= loopCounter;
