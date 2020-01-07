@@ -21,28 +21,12 @@ bool rpicomponents::pin::AddressChecker::IsI2CAddress(int address) {
 
 			if (rowPos == rowLgth - 1 && colPos > 7) break;
 
-			addr += i2c_row[i];
-			addr += i2c_col[j];
+            addr += *row;
+            addr += *col;
 
 			if (hexAddr.compare(addr) == 0) return true;
 		}
 	}
-
-	/*for (int i = 0; i < i2c_row.size(); i++)
-	{
-		for (int j = 0; j < i2c_col.size(); j++)
-		{
-			if (i == 0 && j < 3) continue;
-				
-			if (i == sizeof(i2c_row) - 1 && j > 7) break;
-				
-			std::string addr;
-			addr += i2c_row[i];
-			addr += i2c_col[j];
-
-			if (hexAddr.compare(addr) == 0) return true;
-		}
-	}*/
 
 	return false;
 }

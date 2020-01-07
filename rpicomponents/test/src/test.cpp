@@ -11,6 +11,11 @@ TEST_CASE("Creating button and checking it") {
     CHECK(btn.ToString().compare(rpicomponents::COMPONENT) == 0);
 }
 
+TEST_CASE("Address checker") {
+    CHECK(rpicomponents::pin::AddressChecker::IsI2CAddress(0x42) == 1);
+    CHECK(rpicomponents::pin::AddressChecker::IsI2CAddress(0x1) == 0);
+}
+
 /*
 #include <thread>
 #include <cassert>
