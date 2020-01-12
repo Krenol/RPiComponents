@@ -26,7 +26,7 @@ namespace rpicomponents {
 	class Bidirectionalmotor : public Motor
 	{
 	private:
-		const std::unique_ptr<L293D> l293d_;
+        const std::shared_ptr<L293D> l293d_;
 		const BidirectionalmotorData usedPins_;
 		
 		/*
@@ -38,22 +38,20 @@ namespace rpicomponents {
 		/*
 		Constructor for this component
 
-		@param enable_pins The EnablePinStruct struct containing all necessary enable pin information for the l293d
-		@param in_pins The InPinStruct struct containing all necessary in pin information for the l293d
+        @param l293d The l293d used for this component
 		@param enablePin The enable pin of the L293D that is connected to the motor
 		@param inPinCW The in pin of the L293D that lets the motor turn clockwise
 		@param inPinCCW The in pin of the L293D that lets the motor turn counter clockwise
 		*/
-		Bidirectionalmotor(const EnablePinStruct& enable_pins, const InPinStruct& in_pins, int enablePin, int inPinCW, int inPinCCW);
+        Bidirectionalmotor(const std::shared_ptr<L293D> l293d, int enablePin, int inPinCW, int inPinCCW);
 
 		/*
 		Constructor for this component
 
-		@param enable_pins The EnablePinStruct struct containing all necessary enable pin information for the l293d
-		@param in_pins The InPinStruct struct containing all necessary in pin information for the l293d
+        @param l293d The l293d used for this component
 		@param usedL293DPins A BidirectionalmotorData containing the used L293D pins
 		*/
-		Bidirectionalmotor(const EnablePinStruct& enable_pins, const InPinStruct& in_pins, const BidirectionalmotorData& usedL293DPins);
+        Bidirectionalmotor(std::shared_ptr<L293D>, const BidirectionalmotorData& usedL293DPins);
 
 		/*
 		Constructor for this component
@@ -90,6 +88,12 @@ namespace rpicomponents {
 		@returns the used L293D pins as BidirectionalmotorData struct
 		*/
 		const BidirectionalmotorData& GetUsedL293DPins() const;
+
+        /*
+         Method to get the used L293D
+         @returns reference to used L293D
+        */
+        const std::shared_ptr<L293D>& GetL293D() const;
 	};
 }
 #endif

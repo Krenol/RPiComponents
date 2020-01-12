@@ -1,22 +1,26 @@
 #include "bidirectionalmotor.hpp"
 
-rpicomponents::Bidirectionalmotor::Bidirectionalmotor(const EnablePinStruct& enable_pins, const InPinStruct& in_pins, int enablePin, int inPinCW, int inPinCCW) :
-	Motor(COMPONENT_BIDIRECTIONALMOTOR), l293d_{ std::unique_ptr<L293D>(new L293D(enable_pins , in_pins)) },
+rpicomponents::Bidirectionalmotor::Bidirectionalmotor(const std::shared_ptr<L293D> l293d,int enablePin, int inPinCW, int inPinCCW) :
+    Motor(COMPONENT_BIDIRECTIONALMOTOR), l293d_{ l293d },
 	usedPins_{ BidirectionalmotorData(enablePin, inPinCW , inPinCCW) }
 {
 	Initialize();
 }
 
-rpicomponents::Bidirectionalmotor::Bidirectionalmotor(const EnablePinStruct& enable_pins, const InPinStruct& in_pins, const BidirectionalmotorData& usedL293DPins) :
-	Motor(COMPONENT_BIDIRECTIONALMOTOR), l293d_{ std::unique_ptr<L293D>(new L293D(enable_pins , in_pins)) }, usedPins_{ usedL293DPins }
+rpicomponents::Bidirectionalmotor::Bidirectionalmotor(const std::shared_ptr<L293D> l293d, const BidirectionalmotorData& usedL293DPins) :
+    Motor(COMPONENT_BIDIRECTIONALMOTOR), l293d_{ l293d }, usedPins_{ usedL293DPins }
 {
 	Initialize();
 }
 
 rpicomponents::Bidirectionalmotor::Bidirectionalmotor(const Bidirectionalmotor& motor) : 
-	Bidirectionalmotor(motor.GetL293DEnablePins(), motor.GetL293DInPins(), motor.GetUsedL293DPins())
+    Bidirectionalmotor(motor.GetL293D(), motor.GetL293DInPins(), motor.GetUsedL293DPins())
 {
 
+}
+
+const std::shared_ptr<rpicomponents::Bidirectionalmotor::L293D>& rpicomponents::Bidirectionalmotor::GetL293D() const {
+    return l293d_;
 }
 
 void rpicomponents::Bidirectionalmotor::Initialize() {

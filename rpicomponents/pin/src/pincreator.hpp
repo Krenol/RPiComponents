@@ -6,8 +6,8 @@
 #include <memory>
 #include <map>
 
-typedef void pinfun_t(int, int);
-typedef std::map<rpicomponents::pin::PIN_MODE, pinfun_t*> pinmap_t;
+typedef std::shared_ptr<rpicomponents::pin::Pin> (*pinfun_t) (int, int);
+typedef std::map<rpicomponents::pin::PIN_MODE, pinfun_t> pinmap_t;
 
 namespace rpicomponents {
 	namespace pin {
