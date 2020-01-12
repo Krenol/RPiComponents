@@ -8,7 +8,7 @@ namespace rpicomponents {
 constexpr const char* COMPONENT_MOTIONSENSOR = "motionsensor";
 	class Motionsensor : Component {
 	private:
-        const std::unique_ptr<pin::Pin> pin_;
+        const std::shared_ptr<pin::Pin> pin_;
 
 		/*
 		 * generic motion sensor initializer to avoid code duplication

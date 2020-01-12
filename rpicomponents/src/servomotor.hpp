@@ -29,7 +29,7 @@ namespace rpicomponents {
 	private:
 		const ServomotorData servoData_;
 		std::atomic_int angle_{ 0 };
-		const std::unique_ptr<pin::Pin> pin_;
+		const std::shared_ptr<pin::Pin> pin_;
 
 		/*
 		Method to init component

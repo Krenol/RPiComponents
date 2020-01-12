@@ -7,7 +7,7 @@ namespace rpicomponents {
 	constexpr const char* COMPONENT_LED = "led";
 	class Led : public Component {
 	private:
-		const std::unique_ptr<pin::Pin> pin_; //the used pin of the LED
+		const std::shared_ptr<pin::Pin> pin_; //the used pin of the LED
 		const bool on_mode_{ true }; //the on_mode_ of the pin
 
 		/**

@@ -43,7 +43,7 @@ namespace rpicomponents {
 		@param inPinCW The in pin of the L293D that lets the motor turn clockwise
 		@param inPinCCW The in pin of the L293D that lets the motor turn counter clockwise
 		*/
-        Bidirectionalmotor(const std::shared_ptr<L293D> l293d, int enablePin, int inPinCW, int inPinCCW);
+        Bidirectionalmotor(std::shared_ptr<L293D> l293d, int enablePin, int inPinCW, int inPinCCW);
 
 		/*
 		Constructor for this component

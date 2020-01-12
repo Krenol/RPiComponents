@@ -11,7 +11,7 @@ namespace rpicomponents {
 	class Q74HC595 : public Component
 	{
 	private:
-		const std::unique_ptr<pin::Pin> ds_, stcp_, shcp_;
+		const std::shared_ptr<pin::Pin> ds_, stcp_, shcp_;
         const int max_q_pin_no_{ 8 };
         std::map<int, bool> q_pin_map_;
 

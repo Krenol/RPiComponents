@@ -63,7 +63,7 @@ float rpicomponents::Dht11::CalculateHumidty(const std::vector<uint8_t> &bits) c
 	return bits[0] + bits[1] * 0.1;
 }
 
-rpicomponents::Dht11::Dht11(int pin) : Component(COMPONENT_DHT11), pin_{ rpicomponents::pin::PinCreator::CreatePin(pin, rpicomponents::pin::DIGITAL_MODE) }
+rpicomponents::Dht11::Dht11(std::shared_ptr<pin::Pin> pin) : Component(COMPONENT_DHT11), pin_{ pin }
 {
 	Initialize();
 }
@@ -73,7 +73,7 @@ rpicomponents::Dht11::Dht11(int pin) : Component(COMPONENT_DHT11), pin_{ rpicomp
 //	Initialize();
 //}
 
-rpicomponents::Dht11::Dht11(const Dht11& dht11) : Component(dht11.ToString()), pin_{ rpicomponents::pin::PinCreator::CreatePin(dht11.GetPin(), rpicomponents::pin::DIGITAL_MODE) }
+rpicomponents::Dht11::Dht11(const Dht11& dht11) : Component(dht11.ToString()), pin_{ dht11.GetPin() }
 {
 	Initialize();
 }
@@ -104,7 +104,7 @@ rpicomponents::DHT_VALUES rpicomponents::Dht11::GetDhtValues() const
 	return vals;
 }
 
-int rpicomponents::Dht11::GetPin() const
+const std::shared_ptr<rpicomponents::pin::Pin>& rpicomponents::Dht11::GetPin() const
 {
-    return pin_->GetPin();
+    return pin_;
 }

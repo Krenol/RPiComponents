@@ -7,7 +7,7 @@ namespace rpicomponents {
 	constexpr const char* COMPONENT_BUTTON = "button";
 	class Button : public Component {
 	private:
-		const std::unique_ptr<pin::Pin> pin_; //the used pin of the button
+		const std::shared_ptr<pin::Pin> pin_; //the used pin of the button
 		const int pud_{ PUD_UP }; //the pud mode of the button
 
 		/*
@@ -30,7 +30,7 @@ namespace rpicomponents {
 		* @param pin: GPIO pin number of the button
 		* @param pud: the to be checked PUD value
 		*/
-		Button(int pin, int pud = PUD_UP);
+		Button(std::shared_ptr<pin::Pin> pin, int pud = PUD_UP);
 
 		/**
 		* Constructor for creating a button
@@ -66,7 +66,7 @@ namespace rpicomponents {
 		*
 		* @returns the used pin of the component
 		*/
-		int GetPin() const;
+		const std::shared_ptr<pin::Pin>& GetPin() const;
 	};
 }
 

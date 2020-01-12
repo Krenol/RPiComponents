@@ -19,19 +19,19 @@ void rpicomponents::Esc::Arm() const
     utils::Waiter::SleepMillis(ESC_ARM_SLEEP_TIME_MS);
 }
 
-rpicomponents::Esc::Esc(int pin, int esc_min_value, int esc_max_value) : Component(COMPONENT_ESC), pin_{pin::PinCreator::CreatePin(pin, pin::SOFTPWM_MODE, esc_max_value)}, 
-	escData_{EscData(pin, esc_min_value, esc_max_value)}
+rpicomponents::Esc::Esc(std::shared_ptr<pin::Pin> pin, int esc_min_value, int esc_max_value) : Component(COMPONENT_ESC), pin_{pin},
+	escData_{EscData(esc_min_value, esc_max_value)}
 {
     Initialize();
 }
 
-rpicomponents::Esc::Esc(const EscData& escData) : Component(COMPONENT_ESC), pin_{ pin::PinCreator::CreatePin(escData.pin, pin::SOFTPWM_MODE, escData.esc_max_value) },
+rpicomponents::Esc::Esc(std::shared_ptr<pin::Pin> pin, const EscData& escData) : Component(COMPONENT_ESC), pin_{ pin },
 escData_{ EscData(escData) }
 {
     Initialize();
 }
 
-rpicomponents::Esc::Esc(const Esc& esc) : Esc(esc.GetEscData())
+rpicomponents::Esc::Esc(const Esc& esc) : Esc(esc.GetPin(), esc.GetEscData())
 {
 }
 
@@ -54,4 +54,8 @@ void rpicomponents::Esc::TurnOff() const
 const rpicomponents::EscData& rpicomponents::Esc::GetEscData() const
 {
 	return escData_;
+}
+
+const std::shared_ptr<rpicomponents::pin::Pin>& rpicomponents::Esc::GetPin() const {
+	return pin_;
 }

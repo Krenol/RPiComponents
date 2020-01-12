@@ -1,7 +1,7 @@
 #include "button.hpp"
 //#include "../external/doctest/doctest/doctest.h"
 
-rpicomponents::Button::Button(int pin, int pud) : Component(COMPONENT_BUTTON), pin_{ rpicomponents::pin::PinCreator::CreatePin(pin, rpicomponents::pin::INPUT_MODE) }, pud_{pud}
+rpicomponents::Button::Button(std::shared_ptr<pin::Pin> pin, int pud) : Component(COMPONENT_BUTTON), pin_{ pin }, pud_{pud}
 {
 	Initialize();
 }
@@ -11,7 +11,7 @@ rpicomponents::Button::Button(int pin, int pud) : Component(COMPONENT_BUTTON), p
 //	Initialize();
 //}
 
-rpicomponents::Button::Button(const Button& button) : Component(button.ToString()), pin_{ rpicomponents::pin::PinCreator::CreatePin(button.GetPin(), rpicomponents::pin::INPUT_MODE) }, 
+rpicomponents::Button::Button(const Button& button) : Component(button.ToString()), pin_{ button.GetPin() }, 
 pud_{ button.GetPUD() }
 {
 	Initialize();
@@ -41,7 +41,7 @@ int rpicomponents::Button::GetPUD() const {
 	return pud_;
 }
 
-int rpicomponents::Button::GetPin() const
+const std::shared_ptr<rpicomponents::pin::Pin>& rpicomponents::Button::GetPin() const
 {
-	return pin_->GetPin();
+	return pin_;
 }

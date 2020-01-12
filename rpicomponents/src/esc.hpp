@@ -9,25 +9,25 @@ namespace rpicomponents {
     constexpr const int ESC_MAX_VALUE = 2000, ESC_MIN_VALUE = 700, ESC_ARM_SLEEP_TIME_MS = 100;
 
 	struct EscData {
-        EscData(int pin, int esc_min_value = ESC_MIN_VALUE, int esc_max_value = ESC_MAX_VALUE) :
-            pin{ pin }, esc_min_value{ esc_min_value }, esc_max_value{ esc_max_value }
+        EscData(int esc_min_value = ESC_MIN_VALUE, int esc_max_value = ESC_MAX_VALUE) :
+            esc_min_value{ esc_min_value }, esc_max_value{ esc_max_value }
 		{
 
 		}
 
 		EscData(const EscData& data) :
-            pin{ data.pin }, esc_min_value{ data.esc_min_value }, esc_max_value{ data.esc_max_value }
+            esc_min_value{ data.esc_min_value }, esc_max_value{ data.esc_max_value }
 		{
 
 		}
 
-        const int pin, esc_min_value, esc_max_value;
+        const int esc_min_value, esc_max_value;
 	};
 
 	class Esc : public Component {
 	private:
         const EscData escData_;
-		std::unique_ptr<pin::Pin> pin_;
+		const std::shared_ptr<pin::Pin> pin_;
 
 		/*
 		Initializer for Constructors; reduce redundancy
@@ -46,13 +46,13 @@ namespace rpicomponents {
 		@param esc_min_value: The min pulse width value of the ESC at which it works; find right value via Calibrate()
 		@param esc_max_value: The max pulse width value of the ESC at which it works; find right value via Calibrate(); defines the max softpwm ouput of the pin
 		*/
-		Esc(int pin, int esc_min_value = ESC_MIN_VALUE, int esc_max_value = ESC_MAX_VALUE);
+		Esc(std::shared_ptr<pin::Pin> pin, int esc_min_value = ESC_MIN_VALUE, int esc_max_value = ESC_MAX_VALUE);
 
 		/*
 		Constructor for ESC
         @param escData: The EscData struct
 		*/
-        Esc(const EscData& escData);
+        Esc(std::shared_ptr<pin::Pin> pin, const EscData& escData);
 
 		/*
 		The copy constructor of the ESC
@@ -81,6 +81,13 @@ namespace rpicomponents {
 		@returns EscData struct containing all ESC information
 		*/
         const EscData& GetEscData() const;
+
+		/*
+		Method to load the used pin of the ESC
+
+		@returns reference to used pin as shared_ptr
+		*/
+		const std::shared_ptr<pin::Pin>& GetPin() const;
 	};
 }
 

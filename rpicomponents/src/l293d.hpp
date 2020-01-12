@@ -36,8 +36,8 @@ namespace rpicomponents {
 
     class L293D : public Component {
 	private:
-		const std::unique_ptr<pin::Pin> enable_pin1_, enable_pin2_; //the used enable pins of the l293d
-		const std::unique_ptr<pin::Pin> in_pin1_, in_pin2_, in_pin3_, in_pin4_; //the used in pins of the l293d
+		const std::shared_ptr<pin::Pin> enable_pin1_, enable_pin2_; //the used enable pins of the l293d
+		const std::shared_ptr<pin::Pin> in_pin1_, in_pin2_, in_pin3_, in_pin4_; //the used in pins of the l293d
         const InPinStruct inPins_;
         const EnablePinStruct enablePins_;
 		/*

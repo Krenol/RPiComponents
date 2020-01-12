@@ -10,11 +10,11 @@ namespace rpicomponents {
 	class Steppermotor : public Motor {
 	private:
 		const std::vector<int> stepVector_ { 0x01,0x02,0x04,0x08 }, motorPins_;
-        const std::vector<std::unique_ptr<pin::Pin>> pins_;
+        const std::vector<std::shared_ptr<pin::Pin>> pins_;
 		const int steps_{ 2048 };
         std::atomic_int currentCoil_{ 0 }; //current coil position of the stepper; can have a offset as it starts with 0 and motor could be e.g. at coil 3.
 
-        std::vector<std::unique_ptr<pin::Pin>> CreatePinVector(const std::vector<int>& pins) const;
+        std::vector<std::shared_ptr<pin::Pin>> CreatePinVector(const std::vector<int>& pins) const;
 
 	public:
 		/*
