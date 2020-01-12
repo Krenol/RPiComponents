@@ -19,7 +19,6 @@ namespace rpicomponents {
 		//the HW PWM channel pins (channel 0 and channel 1)
 		constexpr int PWM_CHANNEL0_PIN1 = 1, PWM_CHANNEL0_PIN2 = 26, PWM_CHANNEL1_PIN1 = 23, PWM_CHANNEL1_PIN2 = 24;
 		constexpr int DIGITAL_MODE_MAX_VAL = 1, PWM_MODE_MAX_VAL = 1023;
-
 	}
 	
 }

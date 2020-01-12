@@ -4,6 +4,10 @@
 
 #include "pin.hpp"
 #include <memory>
+#include <map>
+
+typedef void pinfun_t(int, int);
+typedef std::map<rpicomponents::pin::PIN_MODE, pinfun_t*> pinmap_t;
 
 namespace rpicomponents {
 	namespace pin {
@@ -23,7 +27,7 @@ namespace rpicomponents {
 			 @param maxOutputValue: the maximum output of a pin, is depending on the pin mode
 			 @return the pointer to the pin; if pin already created, pointer to existing pin is returned
 			 */
-			static std::unique_ptr<Pin> CreatePin(int pin, PIN_MODE mode = DIGITAL_MODE, int maxOutputValue = DIGITAL_MODE_MAX_VAL);
+			static std::shared_ptr<Pin> CreatePin(int pin, PIN_MODE mode = DIGITAL_MODE, int maxOutputValue = DIGITAL_MODE_MAX_VAL);
 
 			/*
 			Static method to check whether a pin has the passed PIN_MODE
@@ -32,7 +36,9 @@ namespace rpicomponents {
 			@param mode The expected PIN_MODE
 			@return true if pin has passed PIN_MODE else false
 			*/
-			static bool CheckPinMode(std::unique_ptr<Pin> const& pin, rpicomponents::pin::PIN_MODE mode);
+			static bool CheckPinMode(std::shared_ptr<Pin> const& pin, rpicomponents::pin::PIN_MODE mode);
+
+			static std::shared_ptr<Pin> CreateDigitalPin(int pin, int maxOutputValue);
 
 		private:
 			/*
@@ -46,6 +52,8 @@ namespace rpicomponents {
 
 			PinCreator(const PinCreator&) = delete;
 			PinCreator& operator=(const PinCreator&) = delete;
+
+			static pinmap_t func_map_; //map to pin creation functions
 		};
 	}
 }

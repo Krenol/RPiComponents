@@ -6,6 +6,10 @@
 #include "softpwmpin.hpp"
 #include "softtonepin.hpp"
 
+pinmap_t  rpicomponents::pin::PinCreator::func_map_ = {
+	{rpicomponents::pin::DIGITAL_MODE, *CreateDigitalPin}
+
+};
 
 rpicomponents::pin::PinCreator& rpicomponents::pin::PinCreator::GetInstance() {
 	static PinCreator instance;
@@ -13,7 +17,8 @@ rpicomponents::pin::PinCreator& rpicomponents::pin::PinCreator::GetInstance() {
 }
 
 
-std::unique_ptr<rpicomponents::pin::Pin> rpicomponents::pin::PinCreator::CreatePin(int pin, rpicomponents::pin::PIN_MODE mode, int maxOutputValue) {
+
+std::shared_ptr<rpicomponents::pin::Pin> rpicomponents::pin::PinCreator::CreatePin(int pin, rpicomponents::pin::PIN_MODE mode, int maxOutputValue) {
 	switch (mode)
 	{
 	case rpicomponents::pin::DIGITAL_MODE:
@@ -39,7 +44,12 @@ std::unique_ptr<rpicomponents::pin::Pin> rpicomponents::pin::PinCreator::CreateP
 	}
 }
 
-bool rpicomponents::pin::PinCreator::CheckPinMode(std::unique_ptr<rpicomponents::pin::Pin> const &pin, rpicomponents::pin::PIN_MODE mode) {
+bool rpicomponents::pin::PinCreator::CheckPinMode(std::shared_ptr<rpicomponents::pin::Pin> const &pin, rpicomponents::pin::PIN_MODE mode) {
 	if (pin.get()->OutputMode() == mode) return true;
 	return false;
+}
+
+std::shared_ptr<rpicomponents::pin::Pin> rpicomponents::pin::PinCreator::CreateDigitalPin(int pin, int maxOutputValue)
+{
+	return std::shared_ptr<Pin>(new rpicomponents::pin::DigitalPin(pin));
 }
