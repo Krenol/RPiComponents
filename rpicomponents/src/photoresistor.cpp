@@ -11,20 +11,15 @@ void rpicomponents::Photoresistor::Initialize() {
 	AddPins(pcf_->GetUsedPins());
 }
 
-rpicomponents::Photoresistor::Photoresistor(int pcf_address, int pin_base, int read_pin, float  voltage) : Component(COMPONENT_PHOTORESISTOR), 
-voltage_{voltage}, pcf_pin_{ read_pin }, pcf_{ std::unique_ptr<rpicomponents::Pcf8591>(new Pcf8591(pcf_address, pin_base)) }
+rpicomponents::Photoresistor::Photoresistor(std::shared_ptr <rpicomponents::Pcf8591> pcf, int read_pin, float  voltage) : Component(COMPONENT_PHOTORESISTOR),
+voltage_{voltage}, pcf_pin_{ read_pin }, pcf_{ pcf }
 {
 	Initialize();
 }
 
-//rpicomponents::Photoresistor::Photoresistor(int&& pcf_address, int&& pin_base, int&& read_pin, float&& voltage) : Component(COMPONENT_PHOTORESISTOR), 
-//voltage_{voltage}, pcf_pin_{read_pin}, pcf_{ std::unique_ptr<rpicomponents::Pcf8591>(new Pcf8591(pcf_address, pin_base)) }
-//{
-//	Initialize();
-//}
 
-rpicomponents::Photoresistor::Photoresistor(const Photoresistor& photoresistor) : Photoresistor(photoresistor.GetPcfAddress(), photoresistor.GetPcfBase(),
-photoresistor.GetPcfPin(), photoresistor.GetVoltage())
+rpicomponents::Photoresistor::Photoresistor(const Photoresistor& photoresistor) : 
+	Photoresistor(photoresistor.GetPcf(), photoresistor.GetPcfPin(), photoresistor.GetVoltage())
 {
 }
 
@@ -39,14 +34,9 @@ float rpicomponents::Photoresistor::GetPhotoresistorVoltage() const {
 	return  val / res * voltage_;
 }
 
-int rpicomponents::Photoresistor::GetPcfBase() const
+const std::shared_ptr <rpicomponents::Pcf8591>& rpicomponents::Photoresistor::GetPcf() const
 {
-	return pcf_->GetPinBase();
-}
-
-int rpicomponents::Photoresistor::GetPcfAddress() const
-{
-	return pcf_->GetPcfAddress();
+	return pcf_;
 }
 
 int rpicomponents::Photoresistor::GetPcfPin() const

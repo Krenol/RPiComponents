@@ -11,22 +11,17 @@ void rpicomponents::Joystick::Initialize()
 	AddPins(zBtn_->GetUsedPins());
 }
 
-rpicomponents::Joystick::Joystick(int pcf_address, int pin_base, int pcf_x_pin, int pcf_y_pin, int gpio_z, int z_pud) : Component(COMPONENT_JOYSTICK), 
-	zBtn_{std::unique_ptr<Button>(new Button(gpio_z, z_pud))}, pcf_{std::unique_ptr<Pcf8591>(new Pcf8591(pcf_address, pin_base))}, pcfXPin_{ pcf_x_pin }, pcfYPin_{pcf_y_pin}
+rpicomponents::Joystick::Joystick(std::shared_ptr<rpicomponents::Pcf8591> pcf, int pcf_x_pin, int pcf_y_pin, std::shared_ptr<rpicomponents::Button> zBtn) : 
+	Component(COMPONENT_JOYSTICK), pcf_{ pcf }, zBtn_{ zBtn }, pcfXPin_{ pcf_x_pin }, pcfYPin_{ pcf_y_pin }
 {
 	Initialize();
 }
 
-//rpicomponents::Joystick::Joystick(int&& pcf_address, int&& pin_base, int&& pcf_x_pin, int&& pcf_y_pin, int&& gpio_z, int&& z_pud) : Component(COMPONENT_JOYSTICK),
-//	zBtn_{ std::unique_ptr<Button>(new Button(gpio_z, z_pud)) }, pcf_{ std::unique_ptr<Pcf8591>(new Pcf8591(pcf_address, pin_base)) }, pcfXPin_{ pcf_x_pin }, pcfYPin_{ pcf_y_pin }
-//{
-//	Initialize();
-//}
-
-rpicomponents::Joystick::Joystick(const Joystick& joystick) : Joystick(joystick.GetPcfAddress(), joystick.GetPcfBase(), joystick.GetPcfXPin(), joystick.GetPcfYPin(), 
-    joystick.GetGpioZPin(), joystick.GetZPud())
+rpicomponents::Joystick::Joystick(const Joystick& joystick) : Joystick(joystick.GetPcf(), joystick.GetPcfXPin(), joystick.GetPcfYPin(), joystick.GetZBtn())
 {
+	Initialize();
 }
+
 
 int rpicomponents::Joystick::ReadXAxis() const
 {
@@ -48,15 +43,16 @@ rpicomponents::JoystickAxes rpicomponents::Joystick::ReadAxes() const
 	return JoystickAxes(ReadXAxis(), ReadYAxis(), ReadZAxis());
 }
 
-int rpicomponents::Joystick::GetPcfBase() const
+const std::shared_ptr<rpicomponents::Pcf8591>& rpicomponents::Joystick::GetPcf() const
 {
-	return pcf_->GetPinBase();
+	return pcf_;
 }
 
-int rpicomponents::Joystick::GetPcfAddress() const
+const std::shared_ptr<rpicomponents::Button>& rpicomponents::Joystick::GetZBtn() const
 {
-	return pcf_->GetPcfAddress();
+	return zBtn_;
 }
+
 
 int rpicomponents::Joystick::GetPcfXPin() const
 {
@@ -68,12 +64,4 @@ int rpicomponents::Joystick::GetPcfYPin() const
 	return pcfYPin_;
 }
 
-int rpicomponents::Joystick::GetGpioZPin() const
-{
-	return zBtn_->GetPin();
-}
 
-int rpicomponents::Joystick::GetZPud() const
-{
-	return zBtn_->GetPUD();
-}

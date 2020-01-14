@@ -8,6 +8,7 @@
 namespace rpicomponents {
 
 	constexpr const char* COMPONENT_LCD1602 = "lcd1602";
+	constexpr const int COMPONENT_LCD1602_MAX_CHARS = 16, COMPONENT_LCD1602_LINES = 2, COMPONENT_LCD1602_BITS = 4;
 
 	struct LcdPins {
 		LcdPins(int pinBase) : pinBase{ pinBase }, rs{ pinBase }, rw(pinBase + 1), en{ pinBase + 2 }, led(pinBase + 3), d4{ pinBase + 4 }, d5{ pinBase + 5 }, d6{ pinBase + 6 }, d7{ pinBase + 7 }
@@ -20,8 +21,8 @@ namespace rpicomponents {
 	class Lcd1602 : public Component
 	{
 	private:
-		std::unique_ptr<Pcf8574> pcf_;
-		const int lcdHandle_{ -1 }, lines_{ 2 }, maxChars_{ 16 };
+		std::shared_ptr<Pcf8574> pcf_;
+		const int lcdHandle_{ -1 };
 		const LcdPins lcdPins_;
 		const long sleepMs_{ 300 };
 
@@ -34,18 +35,9 @@ namespace rpicomponents {
 		/*
 		Constructor for Lcd1602 component
 
-		@param pcf_address The address of the lcd pcf
-		@param pin_base The pin base of the lcd pcf
+		@param pcf The used pcf of the LCD
 		*/
-		Lcd1602(int pcf_address, int pin_base);
-
-		/*
-		Constructor for Lcd1602 component
-
-		@param pcf_address The address of the lcd pcf
-		@param pin_base The pin base of the lcd pcf
-		*/
-		//Lcd1602(int&& pcf_address, int&& pin_base);
+		Lcd1602(std::shared_ptr<Pcf8574> pcf);
 
 		/*
 		Copy Constructor for Lcd1602 component
@@ -55,18 +47,11 @@ namespace rpicomponents {
 		Lcd1602(const Lcd1602& lcd);
 
 		/*
-		Method to get the pcf pin base
+		Method to get the pcf 
 
-		@returns the pcf pin base
+		@returns const ref to pcf 
 		*/
-		int GetPcfBase() const;
-
-		/*
-		Method to get the pcf address
-
-		@returns the pcf address
-		*/
-		int GetPcfAddress() const;
+		const std::shared_ptr<Pcf8574>& GetPcf() const;
 
 		/*
 		Method to turn on the lcd's backlight
@@ -84,7 +69,7 @@ namespace rpicomponents {
 		@param text The text to be written
 		@param moveText If true the current text is moved to the right else it is overwritten
 		*/
-		void WriteLine(int line, std::string text, bool moveText = false) const;
+		void WriteLine(int line, std::string& text, bool moveText = false) const;
 	};
 }
 

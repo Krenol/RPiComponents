@@ -34,19 +34,6 @@ namespace rpicomponents {
 			int min_pin_offset = 0, int max_pin_offset = 1, const std::string& comp_name = COMPONENT_PCF);
 
 		/*
-		Constructor
-		@param address: The i2c address of the pcf (must be greater than 63)
-		@param pin_base: The pin base of the i2c component
-		@param read_pin_count: The amount of read pins of the pcf
-		@param write_pin_count: The amount of write pins of the pcf
-		@param min_pin_offset: The min pin offset of the pcf to the pin base
-		@param max_pin_offset: The max pin offset to the pin base
-		@param comp_name: The name of the child component; e.g. pcf8574
-		*/
-		/*Pcf(int&& address, int&& pin_base = 64, int&& read_pin_count = 0, int&& write_pin_count = 0,
-			int&& min_pin_offset = 0, int&& max_pin_offset = 1, std::string&& comp_name = COMPONENT_PCF);*/
-
-		/*
 		Copy Constructor
 
 		@param pcf Pcf to be copied

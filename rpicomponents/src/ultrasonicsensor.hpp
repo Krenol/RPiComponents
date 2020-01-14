@@ -40,18 +40,11 @@ namespace rpicomponents {
 		/*
 		Constructor for creating a ultrasonic sensor
 		
-		@param trigger_pin: Pointer to the pin of the ultrasonic sensor to trigger a measurement
-		@param echo_pin: Pointer to the pin of the ultrasonic sensor to measure the inbound wave
-		*/
-        UltrasonicSensor(int trigger_pin, int echo_pin);
-
-		/*
-		Constructor for creating a ultrasonic sensor
-		
 		@param trigger_pin: pin of the ultrasonic sensor to trigger a measurement
 		@param echo_pin: pin of the ultrasonic sensor to measure the inbound wave
 		*/
-		//UltrasonicSensor(int&& trigger_pin, int&& echo_pin);
+        UltrasonicSensor(std::shared_ptr<pin::Pin> trigger_pin, std::shared_ptr<pin::Pin> echo_pin);
+
 
         /*
         Copy Constructor for creating a ultrasonic sensor
@@ -141,14 +134,14 @@ namespace rpicomponents {
 		
 		@returns the used pin of the component
 		*/
-		int GetTriggerPin() const;
+		const std::shared_ptr<pin::Pin>& GetTriggerPin() const;
 
 		/*
 		Method to get the used echo pin
 		
 		@returns the used pin of the component
 		*/
-		int GetEchoPin() const;
+		const std::shared_ptr<pin::Pin>& GetEchoPin() const;
 	};
 }
 

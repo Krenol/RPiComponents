@@ -6,15 +6,14 @@
 
 namespace rpicomponents {
 	constexpr const char* COMPONENT_STEPPERMOTOR = "steppermotor";
+	typedef std::map<int, std::shared_ptr<pin::Pin>> StepperPinMap;
 
 	class Steppermotor : public Motor {
 	private:
 		const std::vector<int> stepVector_ { 0x01,0x02,0x04,0x08 }, motorPins_;
-        const std::vector<std::shared_ptr<pin::Pin>> pins_;
-		const int steps_{ 2048 };
-        std::atomic_int currentCoil_{ 0 }; //current coil position of the stepper; can have a offset as it starts with 0 and motor could be e.g. at coil 3.
-
-        std::vector<std::shared_ptr<pin::Pin>> CreatePinVector(const std::vector<int>& pins) const;
+        const StepperPinMap pins_;
+		const int steps_;
+        std::atomic_int currentCoil_; //current coil position of the stepper; can have a offset as it starts with 0 and motor could be e.g. at coil 3.
 
 	public:
 		/*
@@ -26,15 +25,15 @@ namespace rpicomponents {
 		@param pin4 The fourth pin of the stepper motor
 		@param steps The amount of steps the motor has
 		*/
-		Steppermotor(int pin1, int pin2, int pin3, int pin4, int steps = 2048);
+		Steppermotor(std::shared_ptr<pin::Pin> pin1, std::shared_ptr<pin::Pin> pin2, std::shared_ptr<pin::Pin> pin3, std::shared_ptr<pin::Pin> pin4, int steps = 2048);
 
 		/*
 		Constructor for this component
 
-		@param pins Vector holding the four GPIO pins of the stepper motor
+		@param pins StepperPinMap holding the four pins of the stepper motor
 		@param steps The amount of steps the motor has
 		*/
-		Steppermotor(const std::vector<int> &pins, int steps = 2048);
+		Steppermotor(const StepperPinMap &pins, int steps = 2048);
 
 		/*
 		Copy constructor
@@ -65,9 +64,9 @@ namespace rpicomponents {
 		/*
 		Method to get the used motor pins of the stepper motor
 
-		@returns the used motor pins in a vector
+		@returns the used motor pins in a StepperPinMap
 		*/
-		const std::vector<int> GetMotorPins() const;
+		const StepperPinMap& GetMotorPins() const;
 	};
 }
 

@@ -21,7 +21,7 @@ constexpr const char* COMPONENT_MOTIONSENSOR = "motionsensor";
 		 * Constructor for the motion sensor
 		 * @param pin constant pointer to the input pin of the motion sensor
 		*/
-        Motionsensor(int pin);
+        Motionsensor(std::shared_ptr<pin::Pin> pin);
 
 		/*
 		 * Constructor for the motion sensor
@@ -47,7 +47,7 @@ constexpr const char* COMPONENT_MOTIONSENSOR = "motionsensor";
 		*
 		* @returns the used pin of the component
 		*/
-		int GetPin() const;
+		const std::shared_ptr<pin::Pin>& GetPin() const;
 
 	};
 }

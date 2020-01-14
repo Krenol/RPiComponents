@@ -26,18 +26,11 @@ namespace rpicomponents {
 		/**
 		* Constructor for creating a transistor
 		*
-		* @param pin: GPIO pin number of the transistor
+		* @param pin: GPIO pin of the transistor
 		* @param pud: the to be checked PUD value
 		*/
-		Transistor(int pin, TRANSISTOR_TYPE type, rpicomponents::pin::PIN_MODE mode);
+		Transistor(std::shared_ptr<pin::Pin> pin, TRANSISTOR_TYPE type);
 
-		/**
-		* Constructor for creating a transistor
-		*
-		* @param pin: GPIO pin number of the transistor
-		* @param pud: the to be checked PUD value
-		*/
-		//Transistor(int&& pin, TRANSISTOR_TYPE&& type, rpicomponents::pin::PIN_MODE&& mode);
 
 		/**
 		* Copy Constructor 
@@ -82,14 +75,7 @@ namespace rpicomponents {
 		*
 		* @returns the used pin of the component
 		*/
-		int GetPin() const;
-
-		/*
-		* Method to get the pin mode of the led pin
-		*
-		* @returns the pin mode
-		*/
-		rpicomponents::pin::PIN_MODE GetPinMode() const;
+		const std::shared_ptr<pin::Pin>& GetPin() const;
 	};
 }
 

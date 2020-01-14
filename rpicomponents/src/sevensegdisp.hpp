@@ -27,31 +27,22 @@ namespace rpicomponents {
 
 	class SevenSegmentDisplay : public Component {
 	private:
-		std::unique_ptr<Q74HC595> q74_;
+		std::shared_ptr<Q74HC595> q74_;
 		const DisplaySegments segments_;
-
-		/*
-		method to initialize seven segment display
-		*/
-		void Initialize() const;
 
 	public:
 		/*
 		Constructor for 7-segment display
 
-		@param ds_pin: Pin number of the ds
-		@param stcp_pin: Pin number of the stcp
-		@param shcp_pin: Pin number of the shcp
+		@param q74hc595: The used Q74HC595 of the 7 seg display
 		@param dispSegments: DisplaySegments struct holding the q74 pin to display pin wiring values
 		*/
-		SevenSegmentDisplay(int ds_pin, int stcp_pin, int shcp_pin, const DisplaySegments& dispSegments);
+		SevenSegmentDisplay(std::shared_ptr<Q74HC595> q74hc595, const DisplaySegments& dispSegments);
 
 		/*
 		Constructor for 7-segment display
 
-		@param ds_pin: Pin number of the ds
-		@param stcp_pin: Pin number of the stcp
-		@param shcp_pin: Pin number of the shcp
+		@param q74hc595: The used Q74HC595 of the 7 seg display
 		@param a: Q74 pin segment A is wired to 
 		@param b: Q74 pin segment B is wired to
 		@param c: Q74 pin segment C is wired to
@@ -61,36 +52,8 @@ namespace rpicomponents {
 		@param g: Q74 pin segment G is wired to
 		@param dp: Q74 pin segment DP is wired to
 		*/
-		SevenSegmentDisplay(int ds_pin, int stcp_pin, int shcp_pin, int a = 0, int b = 1, 
+		SevenSegmentDisplay(std::shared_ptr<Q74HC595> q74hc595, int a = 0, int b = 1,
 			int c = 2, int d = 3, int e = 4, int f = 5, int g = 6, int dp = 7);
-
-		/*
-		Constructor for 7-segment display
-
-		@param ds_pin: Pin number of the ds
-		@param stcp_pin: Pin number of the stcp
-		@param shcp_pin: Pin number of the shcp
-		@param dispSegments: DisplaySegments struct holding the q74 pin to display pin wiring values
-		*/
-		SevenSegmentDisplay(int&& ds_pin, int&& stcp_pin, int&& shcp_pin, DisplaySegments&& dispSegments);
-
-		/*
-		Constructor for 7-segment display
-
-		@param ds_pin: Pin number of the ds
-		@param stcp_pin: Pin number of the stcp
-		@param shcp_pin: Pin number of the shcp
-		@param a: Q74 pin segment A is wired to
-		@param b: Q74 pin segment B is wired to
-		@param c: Q74 pin segment C is wired to
-		@param d: Q74 pin segment D is wired to
-		@param e: Q74 pin segment E is wired to
-		@param f: Q74 pin segment F is wired to
-		@param g: Q74 pin segment G is wired to
-		@param dp: Q74 pin segment DP is wired to
-		*/
-		SevenSegmentDisplay(int&& ds_pin, int&& stcp_pin, int&& shcp_pin, int&& a = 0, int&& b = 1,
-			int&& c = 2, int&& d = 3, int&& e = 4, int&& f = 5, int&& g = 6, int&& dt = 7);
 
 		/* 
 		Copy constructor for 7-segment display
@@ -104,19 +67,8 @@ namespace rpicomponents {
 		Method to get the DS pin number
 		@returns the used ds pin
 		*/
-		int GetDsPin() const;
+		const std::shared_ptr<Q74HC595>& GetQ74HC595() const;
 
-		/*
-		Method to get the STCP pin number
-		@returns the used stcp pin
-		*/
-		int GetStcpPin() const;
-
-		/*
-		Method to get the SHCP pin number
-		@returns the used shcp pin
-		*/
-		int GetShcpPin() const;
 
 		/*
 		Method to get the display segments of this 7-segment display

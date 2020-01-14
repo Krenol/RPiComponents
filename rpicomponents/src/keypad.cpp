@@ -32,7 +32,7 @@
 #include "keypad.hpp"
 
 // <<constructor>> Allows custom keymap, pin configuration, and keypad sizes.
-rpicomponents::Keypad::Keypad(char* userKeymap, byte* row, byte* col, byte numRows, byte numCols) : Component(COMPONENT_KEYPAD) {
+rpicomponents::Keypad::Keypad(char* userKeymap, byte* row, byte* col, byte numRows, byte numCols) : Key(COMPONENT_KEYPAD) {
 	rowPins = row;
 	columnPins = col;
 	sizeKpd.rows = numRows;

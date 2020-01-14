@@ -2,29 +2,27 @@
 
 void rpicomponents::Undirectionalmotor::Initialize()
 {
-	//Turn motor off and by this check if valid input was given
-	if (!l293d_->WriteToEnablePin(usedPins_.enablePin, false)) throw std::invalid_argument("Invalid enable pin given!");
-	if (!l293d_->WriteToInPin(usedPins_.inPin, false)) throw std::invalid_argument("Invalid in pin given!");
+	//check if valid input was given
+	if (!l293d_->ValidEnablePin(usedPins_.enablePin)) throw std::invalid_argument("Invalid enable pin given!");
+	if (!l293d_->ValidInPin(usedPins_.inPin)) throw std::invalid_argument("Invalid in pin given!");
 
 	AddPins( l293d_->GetUsedPins() );
 }
 
-rpicomponents::Undirectionalmotor::Undirectionalmotor(const EnablePinStruct& enable_pins, const InPinStruct& in_pins, int enablePin, int inPin) :
-	Motor(COMPONENT_UNDIRECTIONALMOTOR), l293d_{ std::unique_ptr<L293D>(new L293D(enable_pins , in_pins)) },
-	usedPins_{ UndirectionalmotorData(enablePin, inPin) }
+rpicomponents::Undirectionalmotor::Undirectionalmotor(std::shared_ptr<rpicomponents::L293D> l293d, int enablePin, int inPin) :
+	Motor(COMPONENT_UNDIRECTIONALMOTOR), l293d_{l293d}, usedPins_{ UndirectionalmotorData(enablePin, inPin) }
 {
 	Initialize();
 }
 
-rpicomponents::Undirectionalmotor::Undirectionalmotor(const EnablePinStruct& enable_pins, const InPinStruct& in_pins, const UndirectionalmotorData& usedL293DPins) :
-	Motor(COMPONENT_UNDIRECTIONALMOTOR), l293d_{ std::unique_ptr<L293D>(new L293D(enable_pins , in_pins)) },
-	usedPins_{ UndirectionalmotorData(usedL293DPins) }
+rpicomponents::Undirectionalmotor::Undirectionalmotor(std::shared_ptr<rpicomponents::L293D> l293d, const UndirectionalmotorData& usedL293DPins) :
+	Motor(COMPONENT_UNDIRECTIONALMOTOR), l293d_{ l293d }, usedPins_{ UndirectionalmotorData(usedL293DPins) }
 {
 	Initialize();
 }
 
 rpicomponents::Undirectionalmotor::Undirectionalmotor(const Undirectionalmotor& motor) : 
-	Undirectionalmotor(motor.GetL293DEnablePins(), motor.GetL293DInPins(), motor.GetUsedL293DPins())
+	Undirectionalmotor(motor.GetUsedL293D(), motor.GetUsedL293DPins())
 {
 }
 
@@ -40,17 +38,11 @@ void rpicomponents::Undirectionalmotor::Stop() const
     l293d_->WriteToInPin(usedPins_.inPin, false);
 }
 
-const rpicomponents::EnablePinStruct& rpicomponents::Undirectionalmotor::GetL293DEnablePins() const
-{
-	return l293d_->GetEnablePins();
-}
-
-const rpicomponents::InPinStruct& rpicomponents::Undirectionalmotor::GetL293DInPins() const
-{
-	return l293d_->GetInPins();
-}
-
 const rpicomponents::UndirectionalmotorData& rpicomponents::Undirectionalmotor::GetUsedL293DPins() const
 {
 	return usedPins_;
+}
+
+const std::shared_ptr<rpicomponents::L293D>& rpicomponents::Undirectionalmotor::GetUsedL293D() const {
+	return l293d_;
 }

@@ -25,7 +25,7 @@ namespace rpicomponents {
 
 	class Undirectionalmotor : public Motor {
 	private:
-		const std::unique_ptr<L293D> l293d_;
+		const std::shared_ptr<L293D> l293d_;
 		const UndirectionalmotorData usedPins_;
 
 		/*
@@ -37,21 +37,19 @@ namespace rpicomponents {
 		/*
 		Constructor for this component
 
-		@param enable_pins The EnablePinStruct struct containing all necessary enable pin information for the l293d
-		@param in_pins The InPinStruct struct containing all necessary in pin information for the l293d
+		@param l293d: The used L293D of the motor
 		@param enablePin The enable pin of the L293D that is connected to the motor
 		@param inPin The in pin of the L293D that lets the motor turn
 		*/
-		Undirectionalmotor(const EnablePinStruct& enable_pins, const InPinStruct& in_pins, int enablePin, int inPin);
+		Undirectionalmotor(std::shared_ptr<L293D> l293d, int enablePin, int inPin);
 
 		/*
 		Constructor for this component
 
-		@param enable_pins The EnablePinStruct struct containing all necessary enable pin information for the l293d
-		@param in_pins The InPinStruct struct containing all necessary in pin information for the l293d
+		@param l293d: The used L293D of the motor
 		@param usedL293DPins A UndirectionalmotorData containing the used L293D pins
 		*/
-		Undirectionalmotor(const EnablePinStruct& enable_pins, const InPinStruct& in_pins, const UndirectionalmotorData& usedL293DPins);
+		Undirectionalmotor(std::shared_ptr<L293D> l293d, const UndirectionalmotorData& usedL293DPins);
 
 		/*
 		Constructor for this component
@@ -71,22 +69,16 @@ namespace rpicomponents {
 		void Stop() const;
 
 		/*
-		Method to get the enable pins of the l293d
-		@returns a EnablePinStruct containing all enable pin information of the l293d
-		*/
-		const EnablePinStruct& GetL293DEnablePins() const;
-
-		/*
-		Method to get the in pins of the l293d
-		@returns a EnablePinStruct containing all in pin information of the l293d
-		*/
-		const InPinStruct& GetL293DInPins() const;
-
-		/*
 		Method that returns the used L293D pins of the motor
 		@returns the used L293D pins as UndirectionalmotorData struct
 		*/
 		const UndirectionalmotorData& GetUsedL293DPins() const;
+
+		/*
+		Method to get the used L293D of the motor
+		@returns the used L293D
+		*/
+		const std::shared_ptr<L293D>& GetUsedL293D() const;
 	};
 }
 

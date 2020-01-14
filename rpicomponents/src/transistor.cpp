@@ -8,22 +8,15 @@ void rpicomponents::Transistor::Initialize() {
 }
 
 
-rpicomponents::Transistor::Transistor(int pin, TRANSISTOR_TYPE type, rpicomponents::pin::PIN_MODE mode) : Component(COMPONENT_TRANSISTOR),
-pin_{ rpicomponents::pin::PinCreator::CreatePin(pin, mode) }, type_{ type }
+rpicomponents::Transistor::Transistor(std::shared_ptr<pin::Pin> pin, TRANSISTOR_TYPE type) : Component(COMPONENT_TRANSISTOR),
+pin_{ pin }, type_{ type }
 {
 	Initialize();
 }
 
-//rpicomponents::Transistor::Transistor(int&& pin, TRANSISTOR_TYPE&& type, rpicomponents::pin::PIN_MODE&& mode) : Component(COMPONENT_TRANSISTOR),
-//pin_{ rpicomponents::pin::PinCreator::CreatePin(pin, mode) }, type_{ type }
-//{
-//	Initialize();
-//}
-
-rpicomponents::Transistor::Transistor(const Transistor& transistor) : Component(transistor.ToString()),
-pin_{ rpicomponents::pin::PinCreator::CreatePin(transistor.GetPin(), transistor.GetPinMode()) }, type_{ transistor.GetType() }
+rpicomponents::Transistor::Transistor(const Transistor& transistor) : Transistor(transistor.GetPin(), transistor.GetType())
 {
-	Initialize();
+
 }
 
 rpicomponents::TRANSISTOR_TYPE rpicomponents::Transistor::GetType() const {
@@ -50,12 +43,7 @@ bool rpicomponents::Transistor::IsOn() const {
     return type_ == NPN ? pin_->IsOn() : !pin_->IsOn();
 }
 
-int rpicomponents::Transistor::GetPin() const
+const std::shared_ptr<rpicomponents::pin::Pin>& rpicomponents::Transistor::GetPin() const
 {
-    return pin_->GetPin();
-}
-
-rpicomponents::pin::PIN_MODE rpicomponents::Transistor::GetPinMode() const
-{
-    return pin_->OutputMode();
+    return pin_;
 }

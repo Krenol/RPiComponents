@@ -32,25 +32,17 @@ float rpicomponents::UltrasonicSensor::GetEchoTime() const
 	return INFINITY;
 }
 
-rpicomponents::UltrasonicSensor::UltrasonicSensor(int trigger_pin, int echo_pin) : Component(COMPONENT_ULTRASONIC_SENSOR),
-    trigger_pin_{ rpicomponents::pin::PinCreator::CreatePin(trigger_pin, rpicomponents::pin::DIGITAL_MODE) },
-    echo_pin_{ rpicomponents::pin::PinCreator::CreatePin(echo_pin, rpicomponents::pin::INPUT_MODE) }
+rpicomponents::UltrasonicSensor::UltrasonicSensor(std::shared_ptr<rpicomponents::pin::Pin> trigger_pin, std::shared_ptr<rpicomponents::pin::Pin> echo_pin) : 
+	Component(COMPONENT_ULTRASONIC_SENSOR),
+    trigger_pin_{ trigger_pin }, echo_pin_{ echo_pin }
 {
 	Initialize();
 }
 
-//rpicomponents::UltrasonicSensor::UltrasonicSensor(int&& trigger_pin, int&& echo_pin) :
-//    Component(COMPONENT_ULTRASONIC_SENSOR), trigger_pin_{ rpicomponents::pin::PinCreator::CreatePin(trigger_pin, rpicomponents::pin::DIGITAL_MODE) },
-//    echo_pin_{ rpicomponents::pin::PinCreator::CreatePin(echo_pin, rpicomponents::pin::INPUT_MODE) }
-//{
-//	Initialize();
-//}
 
-rpicomponents::UltrasonicSensor::UltrasonicSensor(const UltrasonicSensor& uss): Component(COMPONENT_ULTRASONIC_SENSOR),
-trigger_pin_{ rpicomponents::pin::PinCreator::CreatePin(uss.GetTriggerPin(), rpicomponents::pin::DIGITAL_MODE) },
-echo_pin_{ rpicomponents::pin::PinCreator::CreatePin(uss.GetEchoPin(), rpicomponents::pin::INPUT_MODE) }
+rpicomponents::UltrasonicSensor::UltrasonicSensor(const UltrasonicSensor& uss): UltrasonicSensor(uss.GetTriggerPin(), uss.GetEchoPin())
 {
-	Initialize();
+
 }
 
 float rpicomponents::UltrasonicSensor::MeasureDistance() const
@@ -111,12 +103,12 @@ float rpicomponents::UltrasonicSensor::UnitConverter(float  value, DISTANCE_UNIT
 	return outVal;
 }
 
-int rpicomponents::UltrasonicSensor::GetTriggerPin() const
+const std::shared_ptr<rpicomponents::pin::Pin>& rpicomponents::UltrasonicSensor::GetTriggerPin() const
 {
-	return trigger_pin_->GetPin();
+	return trigger_pin_;
 }
 
-int rpicomponents::UltrasonicSensor::GetEchoPin() const
+const std::shared_ptr<rpicomponents::pin::Pin>& rpicomponents::UltrasonicSensor::GetEchoPin() const
 {
-	return echo_pin_->GetPin();
+	return echo_pin_;
 }

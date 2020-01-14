@@ -59,6 +59,19 @@ namespace rpicomponents {
 		Key();
 		Key(char userKeyChar);
 		void UpdateKey(char userKeyChar, KeyState userState, boolean userStatus);
+
+	protected:
+		/*
+		Constructor for keypad
+		@param compname The name of the child's component
+		*/
+		Key(const std::string& compname);
+
+	private:
+		/*
+		Method to init key class values
+		*/
+		void Initialize();
 	};
 }
 

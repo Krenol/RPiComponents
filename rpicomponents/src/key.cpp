@@ -34,9 +34,7 @@
 
 // default constructor
 rpicomponents::Key::Key() : Component(COMPONENT_KEY) {
-	kchar = NO_KEY;
-	kstate = IDLE;
-	stateChanged = false;
+	Initialize();
 }
 
 // constructor
@@ -52,5 +50,17 @@ void rpicomponents::Key::UpdateKey(char userKeyChar, KeyState userState, boolean
 	kchar = userKeyChar;
 	kstate = userState;
 	stateChanged = userStatus;
+}
+
+rpicomponents::Key::Key(const std::string& compname) : Component(compname)
+{
+	Initialize();
+}
+
+void rpicomponents::Key::Initialize()
+{
+	kchar = NO_KEY;
+	kstate = IDLE;
+	stateChanged = false;
 }
 

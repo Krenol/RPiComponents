@@ -8,7 +8,7 @@ namespace rpicomponents {
 	constexpr const char* COMPONENT_PHOTORESISTOR = "photoresistor";
 	class Photoresistor : Component {
 	private:
-		const std::unique_ptr<rpicomponents::Pcf8591> pcf_;
+		const std::shared_ptr<rpicomponents::Pcf8591> pcf_;
 		const int pcf_pin_{ -1 };
 		const float voltage_{ 3.3f }; //in V
 		static const std::vector<float> allowed_voltages_;
@@ -22,22 +22,11 @@ namespace rpicomponents {
 		/*
 		 Constructor for the photoresistor
 
-		 @param pcf_address the address of the pcf8591
-		 @param pin_base the pin base of the pcf8591
+		 @param pcf The pcf8591 shared_ptr
 		 @param read_pin the pin of the pcf the output of the photoresistor can be read from
 		 @param voltage the voltage at the pcf; either 3.3 V or 5 V
 		*/
-		Photoresistor(int pcf_address, int pin_base, int read_pin = 0, float  voltage = 3.3);
-
-		/*
-		 Constructor for the photoresistor
-
-		 @param pcf_address the address of the pcf8591
-		 @param pin_base the pin base of the pcf8591
-		 @param read_pin the pin of the pcf the output of the photoresistor can be read from
-		 @param voltage the voltage at the pcf; either 3.3 V or 5 V
-		*/
-		//Photoresistor(int&& pcf_address, int&& pin_base, int&& read_pin = 0, float&& voltage = 3.3);
+		Photoresistor(std::shared_ptr <rpicomponents::Pcf8591> pcf,  int read_pin = 0, float  voltage = 3.3);
 
 		/*
 		 Copy Constructor for the photoresistor
@@ -61,16 +50,10 @@ namespace rpicomponents {
 		float GetPhotoresistorVoltage() const;
 
 		/*
-		Method to get the pcf pin base
-		@returns the pcf pin base
+		Method to get the pcf 
+		@returns the pcf 
 		*/
-		int GetPcfBase() const;
-
-		/*
-		Method to get the pcf address
-		@returns the pcf address
-		*/
-		int GetPcfAddress() const;
+		const std::shared_ptr <rpicomponents::Pcf8591>& GetPcf() const;
 
 		/*
 		Method to get the pcf pin of the photoresistor
@@ -82,7 +65,7 @@ namespace rpicomponents {
 		Method to get the voltage of this photoresistor
 		@returns the set voltage of this photoresistor
 		*/
-		float  GetVoltage() const;
+		float GetVoltage() const;
 	};
 }
 

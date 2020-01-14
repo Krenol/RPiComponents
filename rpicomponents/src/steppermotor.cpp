@@ -1,32 +1,32 @@
 #include "steppermotor.hpp"
 
-rpicomponents::Steppermotor::Steppermotor(int pin1, int pin2, int pin3, int pin4, int steps) : Motor(COMPONENT_STEPPERMOTOR), steps_{steps},
-	motorPins_{ {pin1, pin2, pin3, pin4} }, pins_{ CreatePinVector(motorPins_) }
+//http://www.lonecpluspluscoder.com/2015/08/13/an-elegant-way-to-extract-keys-from-a-c-map/
+template<typename TK, typename TV>
+std::vector<TK> ExtractKeys(std::map<TK, TV> const& input_map) {
+	std::vector<TK> retval;
+	for (auto const& element : input_map) {
+		retval.push_back(element.first);
+	}
+	return retval;
+}
+
+rpicomponents::Steppermotor::Steppermotor(std::shared_ptr<pin::Pin> pin1, std::shared_ptr<pin::Pin> pin2, std::shared_ptr<pin::Pin> pin3, std::shared_ptr<pin::Pin> pin4, int steps) : 
+	Motor(COMPONENT_STEPPERMOTOR), steps_{steps},
+	motorPins_{ {pin1->GetPin(), pin2->GetPin(), pin3->GetPin(), pin4->GetPin()} },
+	pins_{ {{1, pin1}, {2, pin2}, {3, pin3}, {4, pin4}} }
 {
 	AddPins(motorPins_);
 }
 
-rpicomponents::Steppermotor::Steppermotor(const std::vector<int>& pins, int steps) : Motor(COMPONENT_STEPPERMOTOR), steps_{ steps },
-	motorPins_{ {pins} }, pins_{ CreatePinVector(motorPins_) }
+rpicomponents::Steppermotor::Steppermotor(const StepperPinMap& pins, int steps) : Motor(COMPONENT_STEPPERMOTOR), steps_{ steps },
+	motorPins_{ ExtractKeys<int,std::shared_ptr<pin::Pin>>(pins) }, pins_{ pins }
 {
 	AddPins(motorPins_);
 }
 
 rpicomponents::Steppermotor::Steppermotor(const Steppermotor& motor) : Steppermotor(motor.GetMotorPins(), motor.GetMotorSteps())
 {
-	AddPins(motor.GetMotorPins());
-}
 
-std::vector<std::shared_ptr<pin::Pin>> rpicomponents::Steppermotor::CreatePinVector(const std::vector<int>& pins) const {
-	if (pins.size() != 4) throw std::invalid_argument("Steppermotor needs 4 pins!");
-
-    std::vector<std::shared_ptr<pin::Pin>> pinVec;
-    pinVec.emplace_back(pin::PinCreator::CreatePin(pins[0], pin::DIGITAL_MODE));
-    pinVec.emplace_back(pin::PinCreator::CreatePin(pins[1], pin::DIGITAL_MODE));
-    pinVec.emplace_back(pin::PinCreator::CreatePin(pins[2], pin::DIGITAL_MODE));
-    pinVec.emplace_back(pin::PinCreator::CreatePin(pins[3], pin::DIGITAL_MODE));
-
-	return pinVec;
 }
 
 void rpicomponents::Steppermotor::Rotate(int steps, bool cw, long stepDelay)
@@ -44,11 +44,8 @@ void rpicomponents::Steppermotor::Rotate(int steps, bool cw, long stepDelay)
             pos = (cw ? (pos + j) : (pos - j)) % stepVecSize; // the next coil to be turned on;
 			currentCoil_.store(pos);
             for(auto it = pins_.begin(); it != pins_.end(); ++it) {
-                (*it)->Output(stepVector_[pos] == (1 << std::distance(pins_.begin(), it)));
+                it->second->Output(stepVector_[pos] == (1 << std::distance(pins_.begin(), it)));
             }
-            /*for (int k = 0; k < pins_.size(); k++) {
-				pins_[k]->Output(stepVector_[pos] == (1 << k));
-            }*/
             rpicomponents::utils::Waiter::SleepMillis(stepDelay);
 		}
 		steps -= loopCounter;
@@ -58,7 +55,9 @@ void rpicomponents::Steppermotor::Rotate(int steps, bool cw, long stepDelay)
 
 void rpicomponents::Steppermotor::Stop()
 {
-	for (int i = 0; i < pins_.size(); i++) pins_[i]->OutputOff();
+	for (auto it : pins_) {
+		it.second->OutputOff();
+	}
 }
 
 
@@ -67,6 +66,6 @@ int rpicomponents::Steppermotor::GetMotorSteps() const {
 }
 
 
-const std::vector<int> rpicomponents::Steppermotor::GetMotorPins() const {
-	return motorPins_;
+const rpicomponents::StepperPinMap& rpicomponents::Steppermotor::GetMotorPins() const {
+	return pins_;
 }

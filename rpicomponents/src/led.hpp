@@ -20,20 +20,10 @@ namespace rpicomponents {
 		/**
 		* Constructor for creating a LED
 		*
-		* @param pin: GPIO pin number to the LED's pin
-		* @param outputMode: The output mode of the LED pin
+		* @param pin: GPIO pin of the LED's pin
 		* @param onIfPinOn: bool if LED light is on if pin output is on
 		*/
-		Led(int pin, rpicomponents::pin::PIN_MODE mode, const bool& onIfPinOn = true);
-
-		/**
-		* Constructor for creating a LED
-		*
-		* @param pin: GPIO pin number to the LED's pin
-		* @param outputMode: The output mode of the LED pin
-		* @param onIfPinOn: bool if LED light is on if pin output is on
-		*/
-		//Led(int&& pin, rpicomponents::pin::PIN_MODE&& mode, bool&& onIfPinOn = true);
+		Led(std::shared_ptr<pin::Pin> pin, const bool& onIfPinOn = true);
 
 		/**
 		* Copy Constructor
@@ -69,9 +59,9 @@ namespace rpicomponents {
 		/*
 		* Method to get the used pin
 		*
-		* @returns the used pin of the component
+		* @returns the pin of the component
 		*/
-		int GetPin() const;
+		const std::shared_ptr<pin::Pin>& GetPin() const;
 
 		/*
 		* Method to check if led is on if gpio pin has power

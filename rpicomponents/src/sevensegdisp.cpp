@@ -1,48 +1,25 @@
 #include "sevensegdisp.hpp"
 
-void rpicomponents::SevenSegmentDisplay::Initialize() const
+
+rpicomponents::SevenSegmentDisplay::SevenSegmentDisplay(std::shared_ptr<Q74HC595> q74hc595, const DisplaySegments& dispSegments) :
+	Component(COMPONENT_SEVENSEGMENTDISPLAY), q74_{ q74hc595 }, segments_{ dispSegments }
 {
 }
 
-rpicomponents::SevenSegmentDisplay::SevenSegmentDisplay(int ds_pin, int stcp_pin, int shcp_pin, const DisplaySegments& dispSegments) : Component(COMPONENT_SEVENSEGMENTDISPLAY), 
-	q74_{std::unique_ptr<Q74HC595>(new Q74HC595(ds_pin, stcp_pin, shcp_pin)}, segments_{ dispSegments }
+rpicomponents::SevenSegmentDisplay::SevenSegmentDisplay(std::shared_ptr<Q74HC595> q74hc595, int a, int b, int c,
+	int d, int e, int f, int g, int dp) : 
+	Component(COMPONENT_SEVENSEGMENTDISPLAY), q74_{ q74hc595 }, segments_{ DisplaySegments(a, b, c, d, e, f, g, dp) }
 {
 }
 
-rpicomponents::SevenSegmentDisplay::SevenSegmentDisplay(int ds_pin, int stcp_pin, int shcp_pin, int a, int b, int c, 
-	int d, int e, int f, int g, int dp) : Component(COMPONENT_SEVENSEGMENTDISPLAY),
-	q74_{ std::unique_ptr<Q74HC595>(new Q74HC595(ds_pin, stcp_pin, shcp_pin) }, segments_{ DisplaySegments(a, b, c, d, e, f, g, dp) }
+rpicomponents::SevenSegmentDisplay::SevenSegmentDisplay(const SevenSegmentDisplay& sevenSegDisp) :
+	SevenSegmentDisplay(sevenSegDisp.GetQ74HC595(), sevenSegDisp.GetDisplaySegments())
 {
 }
 
-rpicomponents::SevenSegmentDisplay::SevenSegmentDisplay(int&& ds_pin, int&& stcp_pin, int&& shcp_pin, DisplaySegments&& dispSegments) : Component(COMPONENT_SEVENSEGMENTDISPLAY),
-	q74_{ std::unique_ptr<Q74HC595>(new Q74HC595(ds_pin, stcp_pin, shcp_pin) }, segments_{ dispSegments }
+const std::shared_ptr<rpicomponents::Q74HC595>& rpicomponents::SevenSegmentDisplay::GetQ74HC595() const
 {
-}
-
-rpicomponents::SevenSegmentDisplay::SevenSegmentDisplay(int&& ds_pin, int&& stcp_pin, int&& shcp_pin, int&& a, int&& b, int&& c, int&& d, int&& e, int&& f, int&& g, int&& dt) : Component(COMPONENT_SEVENSEGMENTDISPLAY),
-	q74_{ std::unique_ptr<Q74HC595>(new Q74HC595(ds_pin, stcp_pin, shcp_pin) }, segments_{ DisplaySegments(a, b, c, d, e, f, g, dp) }
-{
-}
-
-rpicomponents::SevenSegmentDisplay::SevenSegmentDisplay(const SevenSegmentDisplay& sevenSegDisp) : Component(COMPONENT_SEVENSEGMENTDISPLAY),
-	q74_{ std::unique_ptr<Q74HC595>(new Q74HC595(sevenSegDisp.GetDsPin(), sevenSegDisp.GetStcpPin(), sevenSegDisp.GetShcpPin()) }, segments_{ sevenSegDisp.GetDisplaySegments() }
-{
-}
-
-int rpicomponents::SevenSegmentDisplay::GetDsPin() const
-{
-	return q74_->GetDsPin();
-}
-
-int rpicomponents::SevenSegmentDisplay::GetStcpPin() const
-{
-	return q74_->GetStcpPin();
-}
-
-int rpicomponents::SevenSegmentDisplay::GetShcpPin() const
-{
-	return q74_->GetShcpPin();
+	return q74_;
 }
 
 const DisplaySegments& rpicomponents::SevenSegmentDisplay::GetDisplaySegments() const
@@ -62,7 +39,7 @@ void rpicomponents::SevenSegmentDisplay::TurnOnAll() const
 
 void rpicomponents::SevenSegmentDisplay::Write0(bool showPoint) const
 {
-	std::map<int, bool> pins = {
+	QPinMap pins = {
 		{segments_.segA, SEG_ON},
 		{segments_.segB, SEG_ON},
 		{segments_.segC, SEG_ON},
@@ -77,7 +54,7 @@ void rpicomponents::SevenSegmentDisplay::Write0(bool showPoint) const
 
 void rpicomponents::SevenSegmentDisplay::Write1(bool showPoint) const
 {
-	std::map<int, bool> pins = {
+	QPinMap pins = {
 		{segments_.segA, SEG_OFF},
 		{segments_.segB, SEG_ON},
 		{segments_.segC, SEG_ON},
@@ -92,7 +69,7 @@ void rpicomponents::SevenSegmentDisplay::Write1(bool showPoint) const
 
 void rpicomponents::SevenSegmentDisplay::Write2(bool showPoint) const
 {
-	std::map<int, bool> pins = {
+	QPinMap pins = {
 		{segments_.segA, SEG_ON},
 		{segments_.segB, SEG_ON},
 		{segments_.segC, SEG_OFF},
@@ -105,10 +82,10 @@ void rpicomponents::SevenSegmentDisplay::Write2(bool showPoint) const
 	q74_->SetQPinOutput(pins)
 }
 
-//@ TODO
+
 void rpicomponents::SevenSegmentDisplay::Write3(bool showPoint) const
 {
-	std::map<int, bool> pins = {
+	QPinMap pins = {
 		{segments_.segA, SEG_OFF},
 		{segments_.segB, SEG_OFF},
 		{segments_.segC, SEG_OFF},
@@ -123,7 +100,7 @@ void rpicomponents::SevenSegmentDisplay::Write3(bool showPoint) const
 
 void rpicomponents::SevenSegmentDisplay::Write4(bool showPoint) const
 {
-	std::map<int, bool> pins = {
+	QPinMap pins = {
 		{segments_.segA, SEG_OFF},
 		{segments_.segB, SEG_OFF},
 		{segments_.segC, SEG_OFF},
@@ -138,7 +115,7 @@ void rpicomponents::SevenSegmentDisplay::Write4(bool showPoint) const
 
 void rpicomponents::SevenSegmentDisplay::Write5(bool showPoint) const
 {
-	std::map<int, bool> pins = {
+	QPinMap pins = {
 		{segments_.segA, SEG_OFF},
 		{segments_.segB, SEG_OFF},
 		{segments_.segC, SEG_OFF},
@@ -153,7 +130,7 @@ void rpicomponents::SevenSegmentDisplay::Write5(bool showPoint) const
 
 void rpicomponents::SevenSegmentDisplay::Write6(bool showPoint) const
 {
-	std::map<int, bool> pins = {
+	QPinMap pins = {
 		{segments_.segA, SEG_OFF},
 		{segments_.segB, SEG_OFF},
 		{segments_.segC, SEG_OFF},
@@ -168,7 +145,7 @@ void rpicomponents::SevenSegmentDisplay::Write6(bool showPoint) const
 
 void rpicomponents::SevenSegmentDisplay::Write7(bool showPoint) const
 {
-	std::map<int, bool> pins = {
+	QPinMap pins = {
 		{segments_.segA, SEG_OFF},
 		{segments_.segB, SEG_OFF},
 		{segments_.segC, SEG_OFF},
@@ -183,7 +160,7 @@ void rpicomponents::SevenSegmentDisplay::Write7(bool showPoint) const
 
 void rpicomponents::SevenSegmentDisplay::Write8(bool showPoint) const
 {
-	std::map<int, bool> pins = {
+	QPinMap pins = {
 		{segments_.segA, SEG_OFF},
 		{segments_.segB, SEG_OFF},
 		{segments_.segC, SEG_OFF},
@@ -198,7 +175,7 @@ void rpicomponents::SevenSegmentDisplay::Write8(bool showPoint) const
 
 void rpicomponents::SevenSegmentDisplay::Write9(bool showPoint) const
 {
-	std::map<int, bool> pins = {
+	QPinMap pins = {
 		{segments_.segA, SEG_OFF},
 		{segments_.segB, SEG_OFF},
 		{segments_.segC, SEG_OFF},
@@ -213,7 +190,7 @@ void rpicomponents::SevenSegmentDisplay::Write9(bool showPoint) const
 
 void rpicomponents::SevenSegmentDisplay::WriteA(bool showPoint) const
 {
-	std::map<int, bool> pins = {
+	QPinMap pins = {
 		{segments_.segA, SEG_OFF},
 		{segments_.segB, SEG_OFF},
 		{segments_.segC, SEG_OFF},
@@ -228,7 +205,7 @@ void rpicomponents::SevenSegmentDisplay::WriteA(bool showPoint) const
 
 void rpicomponents::SevenSegmentDisplay::WriteB(bool showPoint) const
 {
-	std::map<int, bool> pins = {
+	QPinMap pins = {
 		{segments_.segA, SEG_OFF},
 		{segments_.segB, SEG_OFF},
 		{segments_.segC, SEG_OFF},
@@ -243,7 +220,7 @@ void rpicomponents::SevenSegmentDisplay::WriteB(bool showPoint) const
 
 void rpicomponents::SevenSegmentDisplay::WriteC(bool showPoint) const
 {
-	std::map<int, bool> pins = {
+	QPinMap pins = {
 		{segments_.segA, SEG_OFF},
 		{segments_.segB, SEG_OFF},
 		{segments_.segC, SEG_OFF},
@@ -258,7 +235,7 @@ void rpicomponents::SevenSegmentDisplay::WriteC(bool showPoint) const
 
 void rpicomponents::SevenSegmentDisplay::WriteD(bool showPoint) const
 {
-	std::map<int, bool> pins = {
+	QPinMap pins = {
 		{segments_.segA, SEG_OFF},
 		{segments_.segB, SEG_OFF},
 		{segments_.segC, SEG_OFF},
@@ -273,7 +250,7 @@ void rpicomponents::SevenSegmentDisplay::WriteD(bool showPoint) const
 
 void rpicomponents::SevenSegmentDisplay::WriteE(bool showPoint) const
 {
-	std::map<int, bool> pins = {
+	QPinMap pins = {
 		{segments_.segA, SEG_OFF},
 		{segments_.segB, SEG_OFF},
 		{segments_.segC, SEG_OFF},
@@ -288,7 +265,7 @@ void rpicomponents::SevenSegmentDisplay::WriteE(bool showPoint) const
 
 void rpicomponents::SevenSegmentDisplay::WriteF(bool showPoint) const
 {
-	std::map<int, bool> pins = {
+	QPinMap pins = {
 		{segments_.segA, SEG_OFF},
 		{segments_.segB, SEG_OFF},
 		{segments_.segC, SEG_OFF},
@@ -303,7 +280,7 @@ void rpicomponents::SevenSegmentDisplay::WriteF(bool showPoint) const
 
 void rpicomponents::SevenSegmentDisplay::WriteG(bool showPoint) const
 {
-	std::map<int, bool> pins = {
+	QPinMap pins = {
 		{segments_.segA, SEG_OFF},
 		{segments_.segB, SEG_OFF},
 		{segments_.segC, SEG_OFF},
@@ -318,7 +295,7 @@ void rpicomponents::SevenSegmentDisplay::WriteG(bool showPoint) const
 
 void rpicomponents::SevenSegmentDisplay::WriteH(bool showPoint) const
 {
-	std::map<int, bool> pins = {
+	QPinMap pins = {
 		{segments_.segA, SEG_OFF},
 		{segments_.segB, SEG_OFF},
 		{segments_.segC, SEG_OFF},
@@ -333,7 +310,7 @@ void rpicomponents::SevenSegmentDisplay::WriteH(bool showPoint) const
 
 void rpicomponents::SevenSegmentDisplay::WriteI(bool showPoint) const
 {
-	std::map<int, bool> pins = {
+	QPinMap pins = {
 		{segments_.segA, SEG_OFF},
 		{segments_.segB, SEG_OFF},
 		{segments_.segC, SEG_OFF},
@@ -348,7 +325,7 @@ void rpicomponents::SevenSegmentDisplay::WriteI(bool showPoint) const
 
 void rpicomponents::SevenSegmentDisplay::WriteJ(bool showPoint) const
 {
-	std::map<int, bool> pins = {
+	QPinMap pins = {
 		{segments_.segA, SEG_OFF},
 		{segments_.segB, SEG_OFF},
 		{segments_.segC, SEG_OFF},
@@ -363,7 +340,7 @@ void rpicomponents::SevenSegmentDisplay::WriteJ(bool showPoint) const
 
 void rpicomponents::SevenSegmentDisplay::WriteL(bool showPoint) const
 {
-	std::map<int, bool> pins = {
+	QPinMap pins = {
 		{segments_.segA, SEG_OFF},
 		{segments_.segB, SEG_OFF},
 		{segments_.segC, SEG_OFF},
@@ -378,7 +355,7 @@ void rpicomponents::SevenSegmentDisplay::WriteL(bool showPoint) const
 
 void rpicomponents::SevenSegmentDisplay::WriteO(bool showPoint) const
 {
-	std::map<int, bool> pins = {
+	QPinMap pins = {
 		{segments_.segA, SEG_OFF},
 		{segments_.segB, SEG_OFF},
 		{segments_.segC, SEG_OFF},
@@ -393,7 +370,7 @@ void rpicomponents::SevenSegmentDisplay::WriteO(bool showPoint) const
 
 void rpicomponents::SevenSegmentDisplay::WriteP(bool showPoint) const
 {
-	std::map<int, bool> pins = {
+	QPinMap pins = {
 		{segments_.segA, SEG_OFF},
 		{segments_.segB, SEG_OFF},
 		{segments_.segC, SEG_OFF},
@@ -408,7 +385,7 @@ void rpicomponents::SevenSegmentDisplay::WriteP(bool showPoint) const
 
 void rpicomponents::SevenSegmentDisplay::WriteQ(bool showPoint) const
 {
-	std::map<int, bool> pins = {
+	QPinMap pins = {
 		{segments_.segA, SEG_OFF},
 		{segments_.segB, SEG_OFF},
 		{segments_.segC, SEG_OFF},
@@ -423,7 +400,7 @@ void rpicomponents::SevenSegmentDisplay::WriteQ(bool showPoint) const
 
 void rpicomponents::SevenSegmentDisplay::WriteR(bool showPoint) const
 {
-	std::map<int, bool> pins = {
+	QPinMap pins = {
 		{segments_.segA, SEG_OFF},
 		{segments_.segB, SEG_OFF},
 		{segments_.segC, SEG_OFF},
@@ -438,7 +415,7 @@ void rpicomponents::SevenSegmentDisplay::WriteR(bool showPoint) const
 
 void rpicomponents::SevenSegmentDisplay::WriteS(bool showPoint) const
 {
-	std::map<int, bool> pins = {
+	QPinMap pins = {
 		{segments_.segA, SEG_OFF},
 		{segments_.segB, SEG_OFF},
 		{segments_.segC, SEG_OFF},
@@ -453,7 +430,7 @@ void rpicomponents::SevenSegmentDisplay::WriteS(bool showPoint) const
 
 void rpicomponents::SevenSegmentDisplay::WriteT(bool showPoint) const
 {
-	std::map<int, bool> pins = {
+	QPinMap pins = {
 		{segments_.segA, SEG_OFF},
 		{segments_.segB, SEG_OFF},
 		{segments_.segC, SEG_OFF},
@@ -468,7 +445,7 @@ void rpicomponents::SevenSegmentDisplay::WriteT(bool showPoint) const
 
 void rpicomponents::SevenSegmentDisplay::WriteU(bool showPoint) const
 {
-	std::map<int, bool> pins = {
+	QPinMap pins = {
 		{segments_.segA, SEG_OFF},
 		{segments_.segB, SEG_OFF},
 		{segments_.segC, SEG_OFF},
@@ -483,7 +460,7 @@ void rpicomponents::SevenSegmentDisplay::WriteU(bool showPoint) const
 
 void rpicomponents::SevenSegmentDisplay::WriteMinus(bool showPoint) const
 {
-	std::map<int, bool> pins = {
+	QPinMap pins = {
 		{segments_.segA, SEG_OFF},
 		{segments_.segB, SEG_OFF},
 		{segments_.segC, SEG_OFF},
@@ -498,7 +475,7 @@ void rpicomponents::SevenSegmentDisplay::WriteMinus(bool showPoint) const
 
 void rpicomponents::SevenSegmentDisplay::WriteUnderscore(bool showPoint) const
 {
-	std::map<int, bool> pins = {
+	QPinMap pins = {
 		{segments_.segA, SEG_OFF},
 		{segments_.segB, SEG_OFF},
 		{segments_.segC, SEG_OFF},
@@ -513,7 +490,7 @@ void rpicomponents::SevenSegmentDisplay::WriteUnderscore(bool showPoint) const
 
 void rpicomponents::SevenSegmentDisplay::WriteEqual(bool showPoint) const
 {
-	std::map<int, bool> pins = {
+	QPinMap pins = {
 		{segments_.segA, SEG_OFF},
 		{segments_.segB, SEG_OFF},
 		{segments_.segC, SEG_OFF},
@@ -528,7 +505,7 @@ void rpicomponents::SevenSegmentDisplay::WriteEqual(bool showPoint) const
 
 void rpicomponents::SevenSegmentDisplay::Write(bool aOn, bool bOn, bool cOn, bool dOn, bool fOn, bool eOn, bool gOn, bool dpOn) const
 {
-	std::map<int, bool> pins = {
+	QPinMap pins = {
 		{segments_.segA, aOn},
 		{segments_.segB, bOn},
 		{segments_.segC, cOn},

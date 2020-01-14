@@ -22,9 +22,9 @@ namespace rpicomponents {
 	class Joystick : public Component
 	{
 	private:
-		const std::unique_ptr<rpicomponents::Pcf8591> pcf_;
+		const std::shared_ptr<rpicomponents::Pcf8591> pcf_;
 		const int pcfXPin_{ -1 }, pcfYPin_{ -1 };
-		const std::unique_ptr<rpicomponents::Button> zBtn_;
+		const std::shared_ptr<rpicomponents::Button> zBtn_;
 
 		/*
 		generic motion sensor initializer to avoid code duplication
@@ -35,26 +35,12 @@ namespace rpicomponents {
 		/*
 		Constructor for Joystick component
 
-		@param pcf_address The address of the joystick pcf
-		@param pin_base The pin base of the joystick pcf
+		@param pcf The used pcf of the joystick
 		@param pcf_x_pin The pin at the pcf to which the x axis of the joystick is connected
 		@param pcf_y_pin The pin at the pcf to which the y axis of the joystick is connected
-		@param gpio_z The gpio pin of the z axis of the joystick
-		@param z_pud The PUD of the z axis
+		@param zBtn the z pin can be represented as a button
 		*/
-		Joystick(int pcf_address, int pin_base, int pcf_x_pin, int pcf_y_pin, int gpio_z, int z_pud = PUD_UP);
-
-		/*
-		Constructor for Joystick component
-
-		@param pcf_address The address of the joystick pcf
-		@param pin_base The pin base of the joystick pcf
-		@param pcf_x_pin The pin at the pcf to which the x axis of the joystick is connected
-		@param pcf_y_pin The pin at the pcf to which the y axis of the joystick is connected
-		@param gpio_z The gpio pin of the z axis of the joystick
-		@param z_pud The PUD of the z axis
-		*/
-		//Joystick(int&& pcf_address, int&& pin_base, int&& pcf_x_pin, int&& pcf_y_pin, int&& gpio_z, int&& z_pud = PUD_UP);
+		Joystick(std::shared_ptr<rpicomponents::Pcf8591> pcf, int pcf_x_pin, int pcf_y_pin, std::shared_ptr<rpicomponents::Button> zBtn);
 
 		/*
 		Copy constructor
@@ -95,42 +81,26 @@ namespace rpicomponents {
 
 		@returns the pcf pin base
 		*/
-		int GetPcfBase() const;
+		const std::shared_ptr<Pcf8591>& GetPcf() const;
 
 		/*
-		Method to get the pcf address
+		Method to get the gpio z button of the joystick
 
-		@returns the pcf address
+		@returns the reference to the shared_ptr of the button
 		*/
-		int GetPcfAddress() const;
+		const std::shared_ptr<Button>& GetZBtn() const;
 
 		/*
 		Method to get the pcf x pin
-
-		@returns the pcf x pin of the joystick
+		@returns the pcf y pin of the joystick
 		*/
 		int GetPcfXPin() const;
 
 		/*
 		Method to get the pcf y pin
-
 		@returns the pcf y pin of the joystick
 		*/
 		int GetPcfYPin() const;
-
-		/*
-		Method to get the gpio z pin
-
-		@returns the gpio z pin of the joystick
-		*/
-		int GetGpioZPin() const;
-
-		/*
-		Method to get the z pud
-
-		@returns the z pud of the joystick
-		*/
-		int GetZPud() const;
 	};
 }
 

@@ -1,9 +1,19 @@
 #include "servomotor.hpp"
+#include <iostream>
 
 void rpicomponents::Servomotor::Initialize()
 {
 	Stop();
-	AddPin(servoData_.pin);
+	if (pin_->OutputMode() != pin::SOFTPWM_MODE && pin_->OutputMode() != pin::PWM_MODE) {
+		throw new std::invalid_argument("servo motor needs a pwm or softpwm pin!");
+	}
+	if (pin_->GetMaxOutValue() != COMPONENT_SERVOMOTOR_DEFAULT_PWM_VALUE) {
+		std::cout << "-------------------------------------" << std::endl;
+		std::cout << "WARNING: Servomotor pin max output value should be set to " << std::to_string(COMPONENT_SERVOMOTOR_DEFAULT_PWM_VALUE) << "!" << std::endl;
+		std::cout << "-------------------------------------" << std::endl;
+	}
+
+	AddPin(pin_->GetPin());
 }
 
 int rpicomponents::Servomotor::GetTurnTime(int angle) const
@@ -16,20 +26,21 @@ int rpicomponents::Servomotor::GetTurnTime(int angle) const
 	return val;
 }
 
-rpicomponents::Servomotor::Servomotor(int pin, int maxAngle, int minPulseDuration, int maxPulseDuration, int pulseOffset, int pwmVal) : Motor(COMPONENT_SERVOMOTOR),
-	servoData_{ ServomotorData (pin, maxAngle, minPulseDuration, maxPulseDuration, pulseOffset, pwmVal)},
-	pin_{ pin::PinCreator::CreatePin(servoData_.pin, pin::SOFTPWM_MODE, servoData_.pwmVal)}
+rpicomponents::Servomotor::Servomotor(std::shared_ptr<pin::Pin> pin, int maxAngle, int minPulseDuration, int maxPulseDuration, int pulseOffset) : 
+	Motor(COMPONENT_SERVOMOTOR),
+	servoData_{ ServomotorData (maxAngle, minPulseDuration, maxPulseDuration, pulseOffset)}, 
+	pin_{ pin }
 {
 	Initialize();
 }
 
-rpicomponents::Servomotor::Servomotor(const ServomotorData& data) : Motor(COMPONENT_SERVOMOTOR), servoData_{ data }, 
-pin_{ pin::PinCreator::CreatePin(servoData_.pin, pin::SOFTPWM_MODE, servoData_.pwmVal) }
+rpicomponents::Servomotor::Servomotor(std::shared_ptr<pin::Pin> pin, const ServomotorData& data) : 
+	Motor(COMPONENT_SERVOMOTOR), servoData_{ data }, pin_{ pin }
 {
 	Initialize();
 }
 
-rpicomponents::Servomotor::Servomotor(const Servomotor& motor) : Servomotor(motor.GetServoData())
+rpicomponents::Servomotor::Servomotor(const Servomotor& motor) : Servomotor(motor.GetPin(), motor.GetServoData())
 {
 }
 
@@ -55,4 +66,8 @@ void rpicomponents::Servomotor::Rotate(int angle)
 void rpicomponents::Servomotor::Stop()
 {
     Rotate(0);
+}
+
+const std::shared_ptr<rpicomponents::pin::Pin>& rpicomponents::Servomotor::GetPin() const {
+	return pin_;
 }

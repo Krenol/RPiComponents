@@ -6,23 +6,22 @@
 
 namespace rpicomponents {
 	constexpr const char* COMPONENT_SERVOMOTOR = "servomotor";
-	constexpr int DEFAULT_SERVO_PWM_VALUE = 200;
+	constexpr int COMPONENT_SERVOMOTOR_DEFAULT_PWM_VALUE = 200;
 
 	struct ServomotorData {
-		ServomotorData(int pin, int maxAngle = 180, int minPulseDuration = 5, int maxPulseDuration = 25, int pulseOffset = 3, int pwmVal = DEFAULT_SERVO_PWM_VALUE) :
-			pin{ pin }, maxAngle{ maxAngle }, minPulseDuration{ minPulseDuration }, maxPulseDuration{ maxPulseDuration }, pulseOffset{ pulseOffset }, pwmVal{ pwmVal }
+		ServomotorData(int pin, int maxAngle = 180, int minPulseDuration = 5, int maxPulseDuration = 25, int pulseOffset = 3) :
+			maxAngle{ maxAngle }, minPulseDuration{ minPulseDuration }, maxPulseDuration{ maxPulseDuration }, pulseOffset{ pulseOffset }
 		{
 
 		}
 
 		ServomotorData(const ServomotorData& data) : 
-			pin{ data.pin }, maxAngle{ data.maxAngle }, minPulseDuration{ data.minPulseDuration }, maxPulseDuration{ data.maxPulseDuration }, pulseOffset{ data.pulseOffset }, 
-			pwmVal{ data.pwmVal }
+			maxAngle{ data.maxAngle }, minPulseDuration{ data.minPulseDuration }, maxPulseDuration{ data.maxPulseDuration }, pulseOffset{ data.pulseOffset }
 		{
 
 		}
 
-		const int pin, maxAngle, minPulseDuration, maxPulseDuration, pulseOffset, pwmVal{ DEFAULT_SERVO_PWM_VALUE };
+		const int maxAngle, minPulseDuration, maxPulseDuration, pulseOffset;
 	};
 
 	class Servomotor : public Motor {
@@ -47,15 +46,15 @@ namespace rpicomponents {
 		@param minPulseDuration The minimum pulse duration of the servo in ms
 		@param maxPulseDuration The maximum pulse duration of the servo in ms
 		@param pulseOffset The pulse offset before motor is turned in ms
-		@param pwmVal The SoftPWM value of the GPIO; should be left at DEFAULT_SERVO_PWM_VALUE!
 		*/
-		Servomotor(int pin, int maxAngle = 180, int minPulseDuration = 5, int maxPulseDuration = 25, int pulseOffset = 3, int pwmVal = DEFAULT_SERVO_PWM_VALUE);
+		Servomotor(std::shared_ptr<pin::Pin> pin, int maxAngle = 180, int minPulseDuration = 5, int maxPulseDuration = 25, int pulseOffset = 3);
 
 		/*
 		Constructor for this component
+		@param pin The used pin of the servo
 		@param data The ServomotorData struct containing all information for the servo
 		*/
-		Servomotor(const ServomotorData& data);
+		Servomotor(std::shared_ptr<pin::Pin> pin, const ServomotorData& data);
 
 		/*
 		Copy constructor
@@ -86,6 +85,13 @@ namespace rpicomponents {
 		Method to stop the motor and reset it to 0 degree
 		*/
         void Stop();
+
+		/*
+		Method to get the used pin
+
+		@returns the used pin
+		*/
+		const std::shared_ptr<pin::Pin>& GetPin() const;
 	};
 }
 

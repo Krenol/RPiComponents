@@ -1,45 +1,19 @@
 #include "component.hpp"
-
+#include <map>
 #ifndef RPICOMPONENTS_L293D_H
 #define RPICOMPONENTS_L293D_H
 
 namespace rpicomponents {
 	constexpr const char* COMPONENT_L293D = "l293d";
 	constexpr const int L293D_INPIN_COUNT = 4, L293D_ENABLEPIN_COUNT = 2;
-
-	struct EnablePinStruct {
-		//Constructor for const vals
-		EnablePinStruct(int enable_pin1, int enable_pin2, rpicomponents::pin::PIN_MODE enable_pin1_mode = rpicomponents::pin::SOFTPWM_MODE,
-			rpicomponents::pin::PIN_MODE enable_pin2_mode = rpicomponents::pin::SOFTPWM_MODE, int max_output_enable_pin1 = 254, int max_output_enable_pin2 = 254) :
-			enable_pin1_(enable_pin1), enable_pin2_(enable_pin2), enable_pin1_mode_(enable_pin1_mode), enable_pin2_mode_ (enable_pin2_mode), 
-			max_output_enable_pin1_(max_output_enable_pin1), max_output_enable_pin2_ (max_output_enable_pin2){}
-
-		EnablePinStruct(const EnablePinStruct& enablePins) :
-			enable_pin1_(enablePins.enable_pin1_), enable_pin2_(enablePins.enable_pin2_), enable_pin1_mode_(enablePins.enable_pin1_mode_), enable_pin2_mode_(enablePins.enable_pin2_mode_),
-			max_output_enable_pin1_(enablePins.max_output_enable_pin1_), max_output_enable_pin2_(enablePins.max_output_enable_pin2_) {}
-
-		const int enable_pin1_, enable_pin2_;
-		const rpicomponents::pin::PIN_MODE enable_pin1_mode_, enable_pin2_mode_;
-		const int max_output_enable_pin1_, max_output_enable_pin2_;
-	};
-
-	struct InPinStruct {
-		//Constructor for const vals
-		InPinStruct(int in_pin1, int in_pin2, int in_pin3, int in_pin4) :
-			in_pin1_(in_pin1), in_pin2_(in_pin2), in_pin3_(in_pin3), in_pin4_(in_pin4) {}
-
-		InPinStruct(const InPinStruct& inPins) :
-			in_pin1_(inPins.in_pin1_), in_pin2_(inPins.in_pin2_), in_pin3_(inPins.in_pin3_), in_pin4_(inPins.in_pin4_) {}
-
-		const int in_pin1_, in_pin2_, in_pin3_, in_pin4_;
-	};
+	typedef std::map<int, std::shared_ptr<pin::Pin>> EnablePinMap;
+	typedef std::map<int, std::shared_ptr<pin::Pin>> InPinMap;
 
     class L293D : public Component {
 	private:
-		const std::shared_ptr<pin::Pin> enable_pin1_, enable_pin2_; //the used enable pins of the l293d
-		const std::shared_ptr<pin::Pin> in_pin1_, in_pin2_, in_pin3_, in_pin4_; //the used in pins of the l293d
-        const InPinStruct inPins_;
-        const EnablePinStruct enablePins_;
+		const EnablePinMap enablePins_;
+		const InPinMap inPins_;
+
 		/*
 		Initiliazer for this component
 		*/
@@ -49,28 +23,17 @@ namespace rpicomponents {
 		/*
 		 Constructor for this component
 
-		 @param enable_pin1 The first enable pin of the l293d
-		 @param enable_pin2 The second enable pin of the l293d
-		 @param enable_pin1_mode The pin mode of the first pin
-		 @param enable_pin2_mode The pin mode of the second pin
-		 @param max_output_enable_pin1 The max output value of the first pin
-		 @param max_output_enable_pin2 The max output value of the second pin
+		 @param enable_pin1 The first enable pin of the l293d (Software PWM or Hardware PWM)
+		 @param enable_pin2 The second enable pin of the l293d (Software PWM or Hardware PWM)
 		 @param in_pin1 The first input pin
 		 @param in_pin2 The second input pin
 		 @param in_pin3 The third input pin
 		 @param in_pin4 The fourth input pin
 		*/
-		L293D(int enable_pin1, int enable_pin2, rpicomponents::pin::PIN_MODE enable_pin1_mode = rpicomponents::pin::SOFTPWM_MODE,
-			rpicomponents::pin::PIN_MODE enable_pin2_mode = rpicomponents::pin::SOFTPWM_MODE, int max_output_enable_pin1 = 254, int max_output_enable_pin2 = 254,
-			int in_pin1 = -1, int in_pin2 = -1, int in_pin3 = -1, int in_pin4 = -1);
+		L293D(std::shared_ptr<pin::Pin> enable_pin1, std::shared_ptr<pin::Pin> enable_pin2, std::shared_ptr<pin::Pin> in_pin1, 
+			std::shared_ptr<pin::Pin> in_pin2, std::shared_ptr<pin::Pin> in_pin3, std::shared_ptr<pin::Pin> in_pin4);
 
-		/*
-		 Constructor for this component
-
-		 @param enable_pins The EnablePinStruct struct containing all necessary enable pin information for the l293d
-		 @param in_pins The InPinStruct struct containing all necessary in pin information for the l293d
-		 */
-		L293D(const EnablePinStruct& enable_pins, const InPinStruct& in_pins);
+		L293D(const EnablePinMap& enablePins, const InPinMap& inPins);
 
 		/*
 		 Copy constructor for this component
@@ -84,14 +47,14 @@ namespace rpicomponents {
 
 		@returns a EnablePinStruct containing the parameters of enable pin 1 and 2
 		*/
-        const EnablePinStruct& GetEnablePins() const;
+        const EnablePinMap& GetEnablePins() const;
 
 		/*
 		Method to get the in pin parameters
 
 		@returns a InPinStruct containing the parameters of input pin 1, 2, 3 and 4
 		*/
-        const InPinStruct& GetInPins() const;
+        const InPinMap& GetInPins() const;
 
 		/*
 		Method to turn on in pin 1
@@ -214,21 +177,53 @@ namespace rpicomponents {
 		@param pinNo: The inPin to be turned on/off; between 1 and 4
 		@param turnOn: If true pin is tunrned on, else off
 		*/
-		bool WriteToInPin(int pinNo, bool turnOn) const;
+		void WriteToInPin(int pinNo, bool turnOn) const;
 
 		/*
 		Method to turn on/off to a specific enable pin
 		@param pinNo: The enable pin to be turned on/off; between 1 and 2
 		@param turnOn: If true pin is tunrned on, else off
 		*/
-		bool WriteToEnablePin(int pinNo, bool turnOn) const;
+		void WriteToEnablePin(int pinNo, bool turnOn) const;
 
 		/*
 		Method to turn on/off to a specific enable pin
 		@param pinNo: The enable pin to be turned on/off; between 1 and 2
 		@param value: The value to which the pin should be turned on to
 		*/
-		bool WriteToEnablePin(int pinNo, int value) const;
+		void WriteToEnablePin(int pinNo, int value) const;
+
+		/*
+		Method that returns true if given pin is on else false
+		@param pinNo: The inPin to be turned on/off; between 1 and 4
+		@returns true if pin is on else false
+		*/
+		bool InPinIsOn(int pinNo) const;
+
+		/*
+		method to get the output value of an enable pin
+		@param pinNo: The inPin to be turned on/off; between 1 and 4
+		@returns the output value of the passed enable pin as int
+		*/
+		int EnablePinOutputValue(int pinNo) const;
+
+		/*
+		Method to check if a pin is a valid enable pin
+
+		@param pinNo: The pin to be checked
+
+		@returns true if valid enable pin, else false
+		*/
+		bool ValidEnablePin(int pinNo) const;
+
+		/*
+		Method to check if a pin is a valid in pin
+
+		@param pinNo: The pin to be checked
+
+		@returns true if valid in pin, else false
+		*/
+		bool ValidInPin(int pinNo) const;
 	};
 }
 

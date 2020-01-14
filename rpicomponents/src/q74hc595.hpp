@@ -7,13 +7,15 @@
 namespace rpicomponents {
 
 	constexpr const char* COMPONENT_Q74HC595 = "q74hc595";
+	constexpr const int COMPONENT_Q74HC595_MAX_Q_PINS = 8;
+	typedef std::map<int, bool> QPinMap;
 
 	class Q74HC595 : public Component
 	{
 	private:
 		const std::shared_ptr<pin::Pin> ds_, stcp_, shcp_;
-        const int max_q_pin_no_{ 8 };
         std::map<int, bool> q_pin_map_;
+		static const int out_sleep_{ 1 }; //ms
 
 		/*
 		Initializer for Constructors; reduce redundancy
@@ -38,11 +40,11 @@ namespace rpicomponents {
 		/*
 		Constructor for creating a Q74HC595
 		
-		@param ds_pin: Pin number of the ds
-		@param stcp_pin: Pin number of the stcp
-		@param shcp_pin: Pin number of the shcp
+		@param ds_pin: Pin of the ds
+		@param stcp_pin: Pin of the stcp
+		@param shcp_pin: Pin of the shcp
 		*/
-		Q74HC595(int ds_pin, int stcp_pin, int shcp_pin);
+		Q74HC595(std::shared_ptr<pin::Pin> ds_pin, std::shared_ptr<pin::Pin> stcp_pin, std::shared_ptr<pin::Pin> shcp_pin);
 
 		/*
 		Constructor for creating a Q74HC595
@@ -73,9 +75,9 @@ namespace rpicomponents {
 		Method to set a q_pin on or off
 		Wrong input throws an error
 
-		@param pins: map of Q_Pins to be turned on/off according to the set bools in the map
+		@param pins: QPinMap to turn on/off according to the set bools in the map
 		*/
-        void SetQPinOutput(const std::map<int, bool>& pins);
+        void SetQPinOutput(const QPinMap& pins);
 
 		/*
 		Method to get the status of a q_pin
@@ -100,24 +102,19 @@ namespace rpicomponents {
 		Method to get the DS pin number
 		@returns the used ds pin
 		*/
-		int GetDsPin() const;
+		const std::shared_ptr<pin::Pin>& GetDsPin() const;
 
 		/*
 		Method to get the STCP pin number
 		@returns the used stcp pin
 		*/
-		int GetStcpPin() const;
+		const std::shared_ptr<pin::Pin>& GetStcpPin() const;
 
 		/*
 		Method to get the SHCP pin number
 		@returns the used shcp pin
 		*/
-		int GetShcpPin() const;
-
-		/*
-		Method to get the max count of q pins for this component
-		*/
-        int GetMaxQPinCount() const;
+		const std::shared_ptr<pin::Pin>& GetShcpPin() const;
 	};
 }
 #endif
