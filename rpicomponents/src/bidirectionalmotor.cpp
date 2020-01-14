@@ -24,10 +24,10 @@ const std::shared_ptr<rpicomponents::L293D>& rpicomponents::Bidirectionalmotor::
 }
 
 void rpicomponents::Bidirectionalmotor::Initialize() {
-	//Turn motor off and by this check if valid input was given
-	if (!l293d_->WriteToEnablePin(usedPins_.enablePin, false)) throw std::invalid_argument("Invalid enable pin given!");
-	if (!l293d_->WriteToInPin(usedPins_.inCW, false)) throw std::invalid_argument("Invalid in pin for CW given!");
-	if (!l293d_->WriteToInPin(usedPins_.inCCW, false)) throw std::invalid_argument("Invalid in pin for CCW given!");
+    //check if valid input was given
+    if (!l293d_->ValidEnablePin(usedPins_.enablePin)) throw std::invalid_argument("Invalid enable pin given!");
+    if (!l293d_->ValidInPin(usedPins_.inCW)) throw std::invalid_argument("Invalid in pin for CW given!");
+    if (!l293d_->ValidInPin(usedPins_.inCCW)) throw std::invalid_argument("Invalid in pin for CCW given!");
     AddPins(l293d_->GetUsedPins());
 }
 
@@ -42,16 +42,6 @@ void rpicomponents::Bidirectionalmotor::Stop() {
 	l293d_->WriteToInPin(usedPins_.inCW, false);
 	l293d_->WriteToInPin(usedPins_.inCCW, false);
 }
-
-const rpicomponents::EnablePinStruct& rpicomponents::Bidirectionalmotor::GetL293DEnablePins() const {
-	return l293d_->GetEnablePins();
-}
-
-
-const rpicomponents::InPinStruct& rpicomponents::Bidirectionalmotor::GetL293DInPins() const {
-	return l293d_->GetInPins();
-}
-
 
 const rpicomponents::BidirectionalmotorData& rpicomponents::Bidirectionalmotor::GetUsedL293DPins() const {
 	return usedPins_;

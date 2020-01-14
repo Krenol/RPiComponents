@@ -38,7 +38,53 @@ namespace rpicomponents {
 			*/
 			static bool CheckPinMode(std::shared_ptr<Pin> const& pin, rpicomponents::pin::PIN_MODE mode);
 
+            /*
+             Method to create a digital pin shared ptr
+             @param pin: the GPIO pin number
+             @param maxOutputValue: the maximum output of a pin, is depending on the pin mode
+             @returns shared ptr to a digital pin
+            */
 			static std::shared_ptr<Pin> CreateDigitalPin(int pin, int maxOutputValue);
+
+            /*
+             Method to create an input pin shared ptr
+             @param pin: the GPIO pin number
+             @param maxOutputValue: the maximum output of a pin, is depending on the pin mode
+             @returns shared ptr to an input pin
+            */
+            static std::shared_ptr<Pin> CreateInputPin(int pin, int maxOutputValue);
+
+            /*
+             Method to create an input/output pin shared ptr
+             @param pin: the GPIO pin number
+             @param maxOutputValue: the maximum output of a pin, is depending on the pin mode
+             @returns shared ptr to an input/output pin
+            */
+            static std::shared_ptr<Pin> CreateInOutPin(int pin, int maxOutputValue);
+
+            /*
+             Method to create an pwm pin shared ptr
+             @param pin: the GPIO pin number
+             @param maxOutputValue: the maximum output of a pin, is depending on the pin mode
+             @returns shared ptr to a pwm pin
+            */
+            static std::shared_ptr<Pin> CreatePwmPin(int pin, int maxOutputValue);
+
+            /*
+             Method to create an software pwm pin shared ptr
+             @param pin: the GPIO pin number
+             @param maxOutputValue: the maximum output of a pin, is depending on the pin mode
+             @returns shared ptr to a software pwm pin
+            */
+            static std::shared_ptr<Pin> CreateSoftPwmPin(int pin, int maxOutputValue);
+
+            /*
+             Method to create an softtone pin shared ptr
+             @param pin: the GPIO pin number
+             @param maxOutputValue: the maximum output of a pin, is depending on the pin mode
+             @returns shared ptr to a softtone pin
+            */
+            static std::shared_ptr<Pin> CreateSofttonePin(int pin, int maxOutputValue);
 
 		private:
 			/*

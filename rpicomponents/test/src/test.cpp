@@ -6,7 +6,7 @@
 //***TEST CASES***
 
 TEST_CASE("Creating button and checking it") {
-    rpicomponents::Button btn(1, PUD_UP);
+    rpicomponents::Button btn(rpicomponents::pin::PinCreator::CreatePin(1, rpicomponents::pin::INPUT_MODE), PUD_UP);
     CHECK(btn.ToString().compare(rpicomponents::COMPONENT_BUTTON) == 0);
     CHECK(btn.ToString().compare(rpicomponents::COMPONENT) == 0);
 }
@@ -17,7 +17,11 @@ TEST_CASE("Address checker") {
 }
 
 TEST_CASE("Steppermotor checker") {
-    rpicomponents::Steppermotor motor({2,3,4,5}, 2048);
+    rpicomponents::Steppermotor motor(rpicomponents::pin::PinCreator::CreatePin(2, rpicomponents::pin::DIGITAL_MODE),
+                                      rpicomponents::pin::PinCreator::CreatePin(3, rpicomponents::pin::DIGITAL_MODE),
+                                      rpicomponents::pin::PinCreator::CreatePin(4, rpicomponents::pin::DIGITAL_MODE),
+                                      rpicomponents::pin::PinCreator::CreatePin(5, rpicomponents::pin::DIGITAL_MODE),
+                                      2048);
     CHECK(motor.ToString().compare(rpicomponents::COMPONENT_STEPPERMOTOR) == 0);
 
     CHECK_NOTHROW(motor.Rotate(2,true, 3));

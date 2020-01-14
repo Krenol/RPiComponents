@@ -72,18 +72,6 @@ namespace rpicomponents {
         void Stop();
 
 		/*
-		Method to get the enable pins of the l293d
-		@returns a EnablePinStruct containing all enable pin information of the l293d
-		*/
-		const EnablePinStruct& GetL293DEnablePins() const;
-
-		/*
-		Method to get the in pins of the l293d
-		@returns a EnablePinStruct containing all in pin information of the l293d
-		*/
-		const InPinStruct& GetL293DInPins() const;
-
-		/*
 		Method that returns the used L293D pins of the motor
 		@returns the used L293D pins as BidirectionalmotorData struct
 		*/

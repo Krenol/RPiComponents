@@ -10,18 +10,27 @@ std::vector<TK> ExtractKeys(std::map<TK, TV> const& input_map) {
 	return retval;
 }
 
+void rpicomponents::Steppermotor::Initialize() {
+    AddPins(motorPins_);
+    for(auto it : pins_) {
+        if(it.second->OutputMode() != pin::DIGITAL_MODE) {
+            throw std::invalid_argument("Steppermotor pins can only be of DIGITAL_MODE!");
+        }
+    }
+}
+
 rpicomponents::Steppermotor::Steppermotor(std::shared_ptr<pin::Pin> pin1, std::shared_ptr<pin::Pin> pin2, std::shared_ptr<pin::Pin> pin3, std::shared_ptr<pin::Pin> pin4, int steps) : 
 	Motor(COMPONENT_STEPPERMOTOR), steps_{steps},
 	motorPins_{ {pin1->GetPin(), pin2->GetPin(), pin3->GetPin(), pin4->GetPin()} },
 	pins_{ {{1, pin1}, {2, pin2}, {3, pin3}, {4, pin4}} }
 {
-	AddPins(motorPins_);
+    Initialize();
 }
 
 rpicomponents::Steppermotor::Steppermotor(const StepperPinMap& pins, int steps) : Motor(COMPONENT_STEPPERMOTOR), steps_{ steps },
 	motorPins_{ ExtractKeys<int,std::shared_ptr<pin::Pin>>(pins) }, pins_{ pins }
 {
-	AddPins(motorPins_);
+    Initialize();
 }
 
 rpicomponents::Steppermotor::Steppermotor(const Steppermotor& motor) : Steppermotor(motor.GetMotorPins(), motor.GetMotorSteps())

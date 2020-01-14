@@ -15,6 +15,8 @@ namespace rpicomponents {
 		const int steps_;
         std::atomic_int currentCoil_; //current coil position of the stepper; can have a offset as it starts with 0 and motor could be e.g. at coil 3.
 
+        void Initialize();
+
 	public:
 		/*
 		Constructor for this component
