@@ -1,1 +1,0 @@
-/home/pi/Desktop/test/rpicomponents/CMakeFiles/CMakeTmp/CMakeFiles/cmTC_2a2cb.dir
