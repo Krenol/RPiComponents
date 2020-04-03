@@ -1,0 +1,1 @@
+/usr/bin/c++      CMakeFiles/test_project.dir/src/test.cpp.o  -o ../build/test_project ../build/libRPiComponents.so -lwiringPi -lwiringPiDev -lpthread ../build/libpin.so ../build/librpicomponents_utils.so -Wl,-rpath,/home/pi/Desktop/test/rpicomponents/build 
