@@ -26,7 +26,7 @@ void rpicomponents::utils::Waiter::SleepMillis(const std::chrono::milliseconds m
 
 void rpicomponents::utils::Waiter::SleepMillis(const long millis)
 {
-	std::thread p([&, millis] {std::this_thread::sleep_for(std::chrono::nanoseconds(millis)); });
+	std::thread p([&, millis] {std::this_thread::sleep_for(std::chrono::milliseconds(millis)); });
 	p.join();
 }
 
@@ -38,6 +38,6 @@ void rpicomponents::utils::Waiter::SleepSecs(const std::chrono::seconds secs)
 
 void rpicomponents::utils::Waiter::SleepSecs(const long secs)
 {
-	std::thread p([&, secs] {std::this_thread::sleep_for(std::chrono::nanoseconds(secs)); });
+	std::thread p([&, secs] {std::this_thread::sleep_for(std::chrono::seconds(secs)); });
 	p.join();
 }
