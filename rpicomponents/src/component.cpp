@@ -1,8 +1,5 @@
 #include "component.hpp"
 #include <math.h>
-//#include <iomanip>
-
-#include "../external/doctest/doctest/doctest.h"
 
 
 

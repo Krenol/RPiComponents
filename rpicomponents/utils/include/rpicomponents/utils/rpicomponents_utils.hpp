@@ -6,9 +6,6 @@
 #include "../../../src/i2cdev.hpp"
 
 
-//#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
-#include "../external/doctest/doctest/doctest.h"
-
 namespace rpicomponents {
 	namespace utils {
 

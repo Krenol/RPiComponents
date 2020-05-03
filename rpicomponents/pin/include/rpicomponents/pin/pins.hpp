@@ -13,10 +13,6 @@
 #include "../../../src/pincreator.hpp"
 #include "../../../src/softtonepin.hpp"
 
-
-//#define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
-#include "../external/doctest/doctest/doctest.h"
-
 namespace rpicomponents {
 	namespace pin {
 

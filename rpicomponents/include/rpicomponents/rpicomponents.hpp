@@ -5,9 +5,6 @@
 #pragma once
 
 
-//#define DOCTEST_CONFIG_IMPLEMENT
-//#include "../external/doctest/doctest/doctest.h"
-
 #include "../../src/button.hpp"
 #include "../../src/esc.hpp"
 #include "../../src/led.hpp"
