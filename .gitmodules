@@ -1,3 +1,6 @@
 [submodule "rpicomponents/external/doctest"]
 	path = rpicomponents/external/doctest
 	url = https://github.com/onqtam/doctest.git
+[submodule "rpicomponents/test/external/doctest"]
+	path = rpicomponents/test/external/doctest
+	url = https://github.com/onqtam/doctest.git
