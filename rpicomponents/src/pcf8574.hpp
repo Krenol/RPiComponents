@@ -1,5 +1,5 @@
 #include "component.hpp"
-#include <pcf.hpp>
+#include "pcf.hpp"
 
 #ifndef RPICOMPONENTS_PCF8574_H
 #define RPICOMPONENTS_PCF8574_H
