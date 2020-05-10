@@ -26,7 +26,7 @@ rpicomponents::Lcd1602::Lcd1602(const Lcd1602& lcd) : Lcd1602(lcd.GetPcf())
 
 const std::shared_ptr<rpicomponents::Pcf8574>& rpicomponents::Lcd1602::GetPcf() const
 {
-	pcf_->GetPinBase();
+	return pcf_;
 }
 
 void rpicomponents::Lcd1602::TurnOnBacklight() const
