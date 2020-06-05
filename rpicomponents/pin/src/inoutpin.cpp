@@ -6,11 +6,6 @@ rpicomponents::pin::InOutPin::InOutPin(int pin) : Pin(pin, rpicomponents::pin::I
 	OutputOff();
 }
 
-//rpicomponents::pin::InOutPin::InOutPin(int&& pin) : Pin(pin, rpicomponents::pin::IN_OUT_MODE, rpicomponents::pin::DIGITAL_MODE_MAX_VAL)
-//{
-//	OutputOff();
-//}
-
 rpicomponents::pin::InOutPin::InOutPin(InOutPin& pin) : Pin(pin.GetPin(), rpicomponents::pin::IN_OUT_MODE, rpicomponents::pin::DIGITAL_MODE_MAX_VAL)
 {
 	OutputOff();

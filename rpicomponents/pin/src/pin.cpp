@@ -8,6 +8,7 @@ int rpicomponents::pin::Pin::GetPin() const {
 }
 
 bool rpicomponents::pin::Pin::IsOn() {
+	std::lock_guard<std::mutex> guard(mtx_);
 	auto status = ReadFromPin();
 	if (status == min_value_) return false;
 	return true;
@@ -15,34 +16,31 @@ bool rpicomponents::pin::Pin::IsOn() {
 
 void rpicomponents::pin::Pin::OutputOn() {
 	if (mode_ == rpicomponents::pin::INPUT_MODE) return;
+	std::lock_guard<std::mutex> guard(mtx_);
 	WriteToPin(max_value_);
 }
 
 void rpicomponents::pin::Pin::Output(int value) {
 	if (mode_ == rpicomponents::pin::INPUT_MODE) return;
+	std::lock_guard<std::mutex> guard(mtx_);
 	WriteToPin(value);
 }
 
 void rpicomponents::pin::Pin::OutputOff() {
 	if (mode_ == rpicomponents::pin::INPUT_MODE) return;
+	std::lock_guard<std::mutex> guard(mtx_);
 	WriteToPin(min_value_);
 }
 
-int rpicomponents::pin::Pin::GetMaxOutValue() const
-{
+int rpicomponents::pin::Pin::GetMaxOutValue() const {
 	return max_value_;
 }
 
 int rpicomponents::pin::Pin::ReadPinValue() {
-	return ReadFromPin();
+	std::lock_guard<std::mutex> guard(mtx_);
+	auto value = ReadFromPin();
+	return value;
 }
-
-//rpicomponents::pin::Pin::Pin(int&& pin, PIN_MODE&& mode, int&& maxOutputValue) : pin_{ pin }, mode_{ mode }, max_value_{ maxOutputValue }
-//{
-//	Initialize();
-//}
-
-
 
 rpicomponents::pin::Pin::Pin(const Pin& pin) : pin_{ pin.GetPin() }, mode_{ pin.mode_ }, max_value_{ pin.max_value_ }
 {

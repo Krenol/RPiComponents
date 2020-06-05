@@ -2,7 +2,7 @@
 # project specific logic here.
 #
 cmake_minimum_required (VERSION 3.4)
-set(CMAKE_CXX_STANDARD 11)  # enable C++11 standard
+set(CMAKE_CXX_STANDARD 14)  # enable C++14 standard
 
 project (rpicomponents_test_project)
 set (PROJECT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
@@ -27,8 +27,8 @@ find_library(wiringPi REQUIRED)
 find_library(wiringPiDev REQUIRED)
 find_library(pthread REQUIRED)
 
+target_link_libraries(${PROJECT_NAME} RPiComponents)
 target_link_libraries(${PROJECT_NAME} wiringPi)
 target_link_libraries(${PROJECT_NAME} wiringPiDev)
 target_link_libraries(${PROJECT_NAME} pthread)
 target_link_libraries(${PROJECT_NAME} doctest)
-target_link_libraries(${PROJECT_NAME} RPiComponents)

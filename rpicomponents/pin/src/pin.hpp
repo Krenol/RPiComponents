@@ -5,6 +5,7 @@
 #include "pindefinitions.hpp"
 #include <wiringPi.h>
 #include <atomic>
+#include <mutex>
 
 namespace rpicomponents {
 	namespace pin {
@@ -130,6 +131,7 @@ namespace rpicomponents {
             std::atomic<int> status_{ 0 };
 
 		private:
+			std::mutex mtx_;
 			/*
 			Initializer for Constructors; reduce redundancy
 			*/

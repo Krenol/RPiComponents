@@ -2,8 +2,8 @@
 # project specific logic here.
 #
 cmake_minimum_required (VERSION 3.4)
-set(CMAKE_CXX_STANDARD 11)  # enable C++11 standard
-
+set(CMAKE_CXX_STANDARD 14)  # enable C++14 standard
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 project (RPiComponents VERSION 1.0.0)
 
 set(CMAKE_BINARY_DIR ${CMAKE_SOURCE_DIR}/build)
@@ -14,6 +14,10 @@ set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 set(PROJECT_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include)
 set(PROJECT_SOURCE_DIR ${PROJECT_SOURCE_DIR}/src)
 
+if (NOT "$ENV{BUILD_TEST}" STREQUAL "")
+    set(BUILD_TEST "$ENV{BUILD_TEST}" CACHE INTERNAL "Copied from environment variable")
+endif()
+message("BUILD_TEST = ${BUILD_TEST}")
 
 set(RPICOMPONENT_PROJECT_SRCS 
 ${PROJECT_SOURCE_DIR}/button.cpp
@@ -56,8 +60,11 @@ target_include_directories(${PROJECT_NAME}
 )
 
 add_subdirectory (pin)
-add_subdirectory (test)
 add_subdirectory (utils)
 
 target_link_libraries(${PROJECT_NAME} pin)
 target_link_libraries(${PROJECT_NAME} rpicomponents_utils)
+
+if(${BUILD_TEST})
+    add_subdirectory(test)
+endif()
