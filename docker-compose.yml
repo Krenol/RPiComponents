@@ -1,9 +1,10 @@
 version: '3.7'
 services:
     rpicomponents:
-        build: '.'
-        environment:
-            - BUILD_TEST=ON
+        build: 
+            context: '.'
+            args:
+                - BUILD_TEST=ON
         privileged: true
         volumes: 
             - '/dev/ttyAMA0:/dev/ttyAMA0'
