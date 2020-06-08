@@ -1,8 +1,7 @@
 version: '3.7'
 services:
-    rpidrone:
+    rpicomponents:
         build: '.'
-        
         environment:
             - BUILD_TEST=ON
         privileged: true
