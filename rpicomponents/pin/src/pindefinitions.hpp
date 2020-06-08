@@ -75,12 +75,11 @@ namespace rpicomponents {
 		@param name: The pin name for which id is to be found
 		@returns -1 if pin name not found; else pin id between 0 and 31 matching the given name
 		*/
-		static int GET_PIN_ID(const std::string &name) {
-			std::string str;
-			std::transform(name.begin(), name.end(), str.begin(), ::toupper);
+		static int GET_PIN_ID(std::string name) {
+			std::transform(name.begin(), name.end(), name.begin(), ::toupper);
 			int id;
 			try{
-				id = GPIO_MAP.at(str);
+				id = GPIO_MAP.at(name);
 			} catch(...) {
 				id = -1;
 			}
