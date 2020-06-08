@@ -75,7 +75,7 @@ namespace rpicomponents {
 		@param name: The pin name for which id is to be found
 		@returns -1 if pin name not found; else pin id between 0 and 31 matching the given name
 		*/
-		static int getPinId(const std::string &name) {
+		static int GET_PIN_ID(const std::string &name) {
 			std::string str;
 			std::transform(name.begin(), name.end(), str.begin(), ::toupper);
 			int id;
