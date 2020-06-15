@@ -28,7 +28,6 @@
 #include "../../src/servomotor.hpp"
 #include "../../src/keypad.hpp"
 #include "../../src/lcd1602.hpp"
-#include "../../pin/include/rpicomponents/pin/pins.hpp"
 #include "../utils/include/rpicomponents/utils/rpicomponents_utils.hpp"
 
 namespace rpicomponents {
