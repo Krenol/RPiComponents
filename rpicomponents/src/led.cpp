@@ -5,7 +5,7 @@
 
 void rpicomponents::Led::Initialize() {
 	const auto mode = pin_->OutputMode();
-	if (mode == rpicomponents::pin::INPUT_MODE) throw new std::invalid_argument("pin for led cannot be on input mode");
+	if (mode == pin::INPUT_MODE) throw new std::invalid_argument("pin for led cannot be on input mode");
 	AddPin(pin_->GetPin());
 }
 
@@ -35,7 +35,7 @@ bool rpicomponents::Led::IsOn() const {
 	return on_mode_ ? pin_->IsOn() : !pin_->IsOn();
 }
 
-const std::shared_ptr<rpicomponents::pin::Pin>& rpicomponents::Led::GetPin() const
+const std::shared_ptr<pin::Pin>& rpicomponents::Led::GetPin() const
 {
 	return pin_;
 }
@@ -45,7 +45,7 @@ bool rpicomponents::Led::IsOnIfPinHasPower() const
 	return on_mode_;
 }
 
-rpicomponents::pin::PIN_MODE rpicomponents::Led::GetPinMode() const
+pin::PIN_MODE rpicomponents::Led::GetPinMode() const
 {
 	return pin_->OutputMode();
 }

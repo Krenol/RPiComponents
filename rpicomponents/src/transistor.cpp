@@ -3,7 +3,7 @@
 void rpicomponents::Transistor::Initialize() {
 	
     auto mode = pin_->OutputMode();
-    if (mode == rpicomponents::pin::INPUT_MODE || mode == rpicomponents::pin::IN_OUT_MODE) throw new std::invalid_argument("pin for transistor cannot be on input mode");
+    if (mode == pin::INPUT_MODE || mode == pin::IN_OUT_MODE) throw new std::invalid_argument("pin for transistor cannot be on input mode");
     AddPin(pin_->GetPin());
 }
 
@@ -43,7 +43,7 @@ bool rpicomponents::Transistor::IsOn() const {
     return type_ == NPN ? pin_->IsOn() : !pin_->IsOn();
 }
 
-const std::shared_ptr<rpicomponents::pin::Pin>& rpicomponents::Transistor::GetPin() const
+const std::shared_ptr<pin::Pin>& rpicomponents::Transistor::GetPin() const
 {
     return pin_;
 }

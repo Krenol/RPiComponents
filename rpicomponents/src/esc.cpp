@@ -56,6 +56,6 @@ const rpicomponents::EscData& rpicomponents::Esc::GetEscData() const
 	return escData_;
 }
 
-const std::shared_ptr<rpicomponents::pin::Pin>& rpicomponents::Esc::GetPin() const {
+const std::shared_ptr<pin::Pin>& rpicomponents::Esc::GetPin() const {
 	return pin_;
 }

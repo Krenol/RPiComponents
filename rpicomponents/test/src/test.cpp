@@ -6,21 +6,21 @@
 //***TEST CASES***
 
 TEST_CASE("Creating button and checking it") {
-    rpicomponents::Button btn(rpicomponents::pin::PinCreator::CreatePin(1, rpicomponents::pin::INPUT_MODE), PUD_UP);
+    rpicomponents::Button btn(pin::PinCreator::CreatePin(1, pin::INPUT_MODE), PUD_UP);
     CHECK(btn.ToString().compare(rpicomponents::COMPONENT_BUTTON) == 0);
     CHECK(btn.ToString().compare(rpicomponents::COMPONENT) == 0);
 }
 
 TEST_CASE("Address checker") {
-    CHECK(rpicomponents::pin::AddressChecker::IsI2CAddress(0x42) == 1);
-    CHECK(rpicomponents::pin::AddressChecker::IsI2CAddress(0x1) == 0);
+    CHECK(pin::AddressChecker::IsI2CAddress(0x42) == 1);
+    CHECK(pin::AddressChecker::IsI2CAddress(0x1) == 0);
 }
 
 TEST_CASE("Steppermotor checker") {
-    rpicomponents::Steppermotor motor(rpicomponents::pin::PinCreator::CreatePin(2, rpicomponents::pin::DIGITAL_MODE),
-                                      rpicomponents::pin::PinCreator::CreatePin(3, rpicomponents::pin::DIGITAL_MODE),
-                                      rpicomponents::pin::PinCreator::CreatePin(4, rpicomponents::pin::DIGITAL_MODE),
-                                      rpicomponents::pin::PinCreator::CreatePin(5, rpicomponents::pin::DIGITAL_MODE),
+    rpicomponents::Steppermotor motor(pin::PinCreator::CreatePin(2, pin::DIGITAL_MODE),
+                                      pin::PinCreator::CreatePin(3, pin::DIGITAL_MODE),
+                                      pin::PinCreator::CreatePin(4, pin::DIGITAL_MODE),
+                                      pin::PinCreator::CreatePin(5, pin::DIGITAL_MODE),
                                       2048);
     CHECK(motor.ToString().compare(rpicomponents::COMPONENT_STEPPERMOTOR) == 0);
 
@@ -54,10 +54,10 @@ int main() {
     rpicomponents::Pcf8574 pcf(0x48);
     rpicomponents::Pcf8591 pcf1(0x49, 124);
     //rpicomponents::Mpu6050 mpu(0x51);
-    rpicomponents::Transistor tr(1, rpicomponents::NPN, rpicomponents::pin::PWM_MODE);
+    rpicomponents::Transistor tr(1, rpicomponents::NPN, pin::PWM_MODE);
 
     //cout << btn->IsPressed()<<endl;
-	//auto pin = rpicomponents::pin::PinFactory::CreatePin(12);
+	//auto pin = pin::PinFactory::CreatePin(12);
     rpicomponents::UltrasonicSensor uss (2, 3);
 
 	rpicomponents::Button btn(1);

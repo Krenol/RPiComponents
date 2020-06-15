@@ -267,7 +267,7 @@ void rpicomponents::Keypad::transitionTo(byte idx, KeyState nextState) {
 	}
 }
 
-void rpicomponents::pin_mode(byte pinNum, byte mode) {
+void pin_mode(byte pinNum, byte mode) {
 	if (mode == INPUT_PULLUP) {
 		pinMode(pinNum, INPUT);
 		pullUpDnControl(pinNum, PUD_UP);
@@ -276,9 +276,9 @@ void rpicomponents::pin_mode(byte pinNum, byte mode) {
 		pinMode(pinNum, mode);
 	}
 }
-void rpicomponents::pin_write(byte pinNum, boolean level) {
+void pin_write(byte pinNum, boolean level) {
 	digitalWrite(pinNum, level);
 }
-int  rpicomponents::pin_read(byte pinNum) {
+int  pin_read(byte pinNum) {
 	return digitalRead(pinNum);
 }

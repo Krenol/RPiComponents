@@ -6,7 +6,7 @@ rpicomponents::Button::Button(std::shared_ptr<pin::Pin> pin, int pud) : Componen
 	Initialize();
 }
 
-//rpicomponents::Button::Button(int &&pin, int &&pud) : Component(COMPONENT_BUTTON), pin_(rpicomponents::pin::PinCreator::CreatePin(pin, rpicomponents::pin::INPUT_MODE)), pud_{ pud }
+//rpicomponents::Button::Button(int &&pin, int &&pud) : Component(COMPONENT_BUTTON), pin_(pin::PinCreator::CreatePin(pin, pin::INPUT_MODE)), pud_{ pud }
 //{
 //	Initialize();
 //}
@@ -20,7 +20,7 @@ pud_{ button.GetPUD() }
 void rpicomponents::Button::Initialize() {
 	if (!IsPUD(pud_)) throw new std::invalid_argument("given PUD is invalid!");
 	const auto mode = pin_->OutputMode();
-	if (mode != rpicomponents::pin::INPUT_MODE) throw new std::invalid_argument("given pin is on output mode; it must be on input mode for a button!");
+	if (mode != pin::INPUT_MODE) throw new std::invalid_argument("given pin is on output mode; it must be on input mode for a button!");
 	pullUpDnControl(pin_->GetPin(), pud_);
 	AddPin(pin_->GetPin());
 }
@@ -41,7 +41,7 @@ int rpicomponents::Button::GetPUD() const {
 	return pud_;
 }
 
-const std::shared_ptr<rpicomponents::pin::Pin>& rpicomponents::Button::GetPin() const
+const std::shared_ptr<pin::Pin>& rpicomponents::Button::GetPin() const
 {
 	return pin_;
 }

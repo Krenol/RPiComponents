@@ -28,6 +28,7 @@ find_library(wiringPiDev REQUIRED)
 find_library(pthread REQUIRED)
 
 target_link_libraries(${PROJECT_NAME} RPiComponents)
+target_link_libraries(${PROJECT_NAME} RPiPins)
 target_link_libraries(${PROJECT_NAME} wiringPi)
 target_link_libraries(${PROJECT_NAME} wiringPiDev)
 target_link_libraries(${PROJECT_NAME} pthread)

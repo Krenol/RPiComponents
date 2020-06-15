@@ -16,7 +16,7 @@ rpicomponents::Pcf::Pcf(int address, int pin_base, int read_pin_count, int write
 void rpicomponents::Pcf::Initialize() {
 	if (pin_base_ < 64) throw std::invalid_argument("pin base must be greater than 63!");
 	wiringPiSetup();
-	if (!rpicomponents::pin::AddressChecker::IsI2CAddress(address_)) {
+	if (!pin::AddressChecker::IsI2CAddress(address_)) {
 		throw std::invalid_argument("given address for pcf is not an i2c address!");
 	}
 	if (wiringPiI2CSetup(address_) == -1) {

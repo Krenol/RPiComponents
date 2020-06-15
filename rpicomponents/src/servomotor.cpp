@@ -68,6 +68,6 @@ void rpicomponents::Servomotor::Stop()
     Rotate(0);
 }
 
-const std::shared_ptr<rpicomponents::pin::Pin>& rpicomponents::Servomotor::GetPin() const {
+const std::shared_ptr<pin::Pin>& rpicomponents::Servomotor::GetPin() const {
 	return pin_;
 }

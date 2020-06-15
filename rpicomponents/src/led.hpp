@@ -75,7 +75,7 @@ namespace rpicomponents {
 		*
 		* @returns the pin mode
 		*/
-		rpicomponents::pin::PIN_MODE GetPinMode() const;
+		pin::PIN_MODE GetPinMode() const;
 	};
 }
 

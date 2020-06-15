@@ -113,17 +113,17 @@ void rpicomponents::Q74HC595::TurnOff()
 	WriteToQPins();
 }
 
-const std::shared_ptr<rpicomponents::pin::Pin>& rpicomponents::Q74HC595::GetDsPin() const
+const std::shared_ptr<pin::Pin>& rpicomponents::Q74HC595::GetDsPin() const
 {
 	return ds_;
 }
 
-const std::shared_ptr<rpicomponents::pin::Pin>& rpicomponents::Q74HC595::GetStcpPin() const
+const std::shared_ptr<pin::Pin>& rpicomponents::Q74HC595::GetStcpPin() const
 {
 	return stcp_;
 }
 
-const std::shared_ptr<rpicomponents::pin::Pin>& rpicomponents::Q74HC595::GetShcpPin() const
+const std::shared_ptr<pin::Pin>& rpicomponents::Q74HC595::GetShcpPin() const
 {
 	return shcp_;
 }

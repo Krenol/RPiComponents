@@ -4,7 +4,7 @@
 void rpicomponents::Dht11::Initialize()
 {
     auto mode = pin_->OutputMode();
-	if (mode != rpicomponents::pin::IN_OUT_MODE) throw new std::invalid_argument("pin for dht11 must be in in_out_mode");
+	if (mode != pin::IN_OUT_MODE) throw new std::invalid_argument("pin for dht11 must be in in_out_mode");
     AddPin(pin_->GetPin());
 }
 
@@ -68,7 +68,7 @@ rpicomponents::Dht11::Dht11(std::shared_ptr<pin::Pin> pin) : Component(COMPONENT
 	Initialize();
 }
 
-//rpicomponents::Dht11::Dht11(int&& pin) : Component(COMPONENT_DHT11), pin_{ rpicomponents::pin::PinCreator::CreatePin(pin, rpicomponents::pin::DIGITAL_MODE) }
+//rpicomponents::Dht11::Dht11(int&& pin) : Component(COMPONENT_DHT11), pin_{ pin::PinCreator::CreatePin(pin, pin::DIGITAL_MODE) }
 //{
 //	Initialize();
 //}
@@ -104,7 +104,7 @@ rpicomponents::DHT_VALUES rpicomponents::Dht11::GetDhtValues() const
 	return vals;
 }
 
-const std::shared_ptr<rpicomponents::pin::Pin>& rpicomponents::Dht11::GetPin() const
+const std::shared_ptr<pin::Pin>& rpicomponents::Dht11::GetPin() const
 {
     return pin_;
 }

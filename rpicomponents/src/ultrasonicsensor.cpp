@@ -7,9 +7,9 @@ void rpicomponents::UltrasonicSensor::Initialize()
 {
 
     auto mode = trigger_pin_->OutputMode();
-	if (mode != rpicomponents::pin::DIGITAL_MODE) throw new std::invalid_argument("given trigger pin is not in digital mode; it must be on digital mode for a ultrasonsic sensor!");
+	if (mode != pin::DIGITAL_MODE) throw new std::invalid_argument("given trigger pin is not in digital mode; it must be on digital mode for a ultrasonsic sensor!");
     mode = echo_pin_->OutputMode();
-	if (mode != rpicomponents::pin::INPUT_MODE) throw new std::invalid_argument("given echo pin is not in input mode; it must be on input mode for a ultrasonsic sensor!");
+	if (mode != pin::INPUT_MODE) throw new std::invalid_argument("given echo pin is not in input mode; it must be on input mode for a ultrasonsic sensor!");
     AddPin(trigger_pin_->GetPin());
     AddPin(echo_pin_->GetPin());
 }
@@ -32,7 +32,7 @@ float rpicomponents::UltrasonicSensor::GetEchoTime() const
 	return INFINITY;
 }
 
-rpicomponents::UltrasonicSensor::UltrasonicSensor(std::shared_ptr<rpicomponents::pin::Pin> trigger_pin, std::shared_ptr<rpicomponents::pin::Pin> echo_pin) : 
+rpicomponents::UltrasonicSensor::UltrasonicSensor(std::shared_ptr<pin::Pin> trigger_pin, std::shared_ptr<pin::Pin> echo_pin) : 
 	Component(COMPONENT_ULTRASONIC_SENSOR),
     trigger_pin_{ trigger_pin }, echo_pin_{ echo_pin }
 {
@@ -103,12 +103,12 @@ float rpicomponents::UltrasonicSensor::UnitConverter(float  value, DISTANCE_UNIT
 	return outVal;
 }
 
-const std::shared_ptr<rpicomponents::pin::Pin>& rpicomponents::UltrasonicSensor::GetTriggerPin() const
+const std::shared_ptr<pin::Pin>& rpicomponents::UltrasonicSensor::GetTriggerPin() const
 {
 	return trigger_pin_;
 }
 
-const std::shared_ptr<rpicomponents::pin::Pin>& rpicomponents::UltrasonicSensor::GetEchoPin() const
+const std::shared_ptr<pin::Pin>& rpicomponents::UltrasonicSensor::GetEchoPin() const
 {
 	return echo_pin_;
 }
