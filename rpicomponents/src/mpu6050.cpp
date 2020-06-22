@@ -51,22 +51,78 @@ namespace rpicomponents
 		}
 		Init(accel, gyro);
 	}
+
+	MPU6050::MPU6050(int address, Accelerations offset_acc, Gyro offset_gyro, ACCEL_SENSITIVITY accel, GYRO_SENSITIVITY gyro) : 
+		Component(COMPONENT_MPU6050), 
+		address_{address},
+		gyro_scale_{GYRO_SCALE_FACTOR_MAP.at(gyro)},
+		accel_scale_{ACCEL_SCALE_FACTOR_MAP.at(accel)},
+		fd_{wiringPiI2CSetup(address)}
+	{
+		if(fd_ < 0) {
+			throw std::invalid_argument("Error while initializing MPU6050");
+		}
+		offset_acc_ = offset_acc;
+		offset_gyro_ = offset_gyro;
+		Init(accel, gyro);
+	}
 	
 	Accelerations MPU6050::GetAcceleration()
 	{
 		Accelerations acc;
-		acc.a_x = ReadRawAndConvert(ACCEL_XOUT_H, accel_scale_);
-		acc.a_y = ReadRawAndConvert(ACCEL_YOUT_H, accel_scale_);
-		acc.a_z = ReadRawAndConvert(ACCEL_ZOUT_H, accel_scale_);
+		acc.a_x = ReadRawAndConvert(ACCEL_XOUT_H, accel_scale_) - offset_acc_.a_x;
+		acc.a_y = ReadRawAndConvert(ACCEL_YOUT_H, accel_scale_) - offset_acc_.a_y;
+		acc.a_z = ReadRawAndConvert(ACCEL_ZOUT_H, accel_scale_) - offset_acc_.a_z;
 		return acc;
+	}
+	
+	const Accelerations& MPU6050::CalibrateAcceleration() 
+	{
+		Accelerations acc;
+		for(int i = 0; i < OFFSET_RUNS; i++){
+			acc.a_x += ReadRawAndConvert(ACCEL_XOUT_H, accel_scale_);
+			acc.a_y += ReadRawAndConvert(ACCEL_YOUT_H, accel_scale_);
+			acc.a_z += ReadRawAndConvert(ACCEL_ZOUT_H, accel_scale_);
+		}
+		acc.a_x /= OFFSET_RUNS;
+		acc.a_y /= OFFSET_RUNS;
+		acc.a_z /= OFFSET_RUNS;
+		acc.a_z -= 1; //std value should be 1g, so substract 1
+		offset_acc_ = acc;
+		return offset_acc_;
+	}
+	
+	const Accelerations& MPU6050::GetAccelerationOffset() const
+	{
+		return offset_acc_;
 	}
 	
 	Gyro MPU6050::GetGyro()
 	{
 		Gyro g;
-		g.g_x = ReadRawAndConvert(GYRO_XOUT_H, gyro_scale_);
-		g.g_y = ReadRawAndConvert(GYRO_YOUT_H, gyro_scale_);
-		g.g_z = ReadRawAndConvert(GYRO_ZOUT_H, gyro_scale_);
+		g.g_x = ReadRawAndConvert(GYRO_XOUT_H, gyro_scale_) - offset_gyro_.g_x;
+		g.g_y = ReadRawAndConvert(GYRO_YOUT_H, gyro_scale_) - offset_gyro_.g_y;
+		g.g_z = ReadRawAndConvert(GYRO_ZOUT_H, gyro_scale_) - offset_gyro_.g_z;
 		return g;
+	}
+	
+	const Gyro& MPU6050::CalibrateGyro() 
+	{
+		Gyro g;
+		for(int i = 0; i < OFFSET_RUNS; i++){
+			g.g_x += ReadRawAndConvert(GYRO_XOUT_H, gyro_scale_);
+			g.g_y += ReadRawAndConvert(GYRO_YOUT_H, gyro_scale_);
+			g.g_z += ReadRawAndConvert(GYRO_ZOUT_H, gyro_scale_);
+		}
+		g.g_x /= OFFSET_RUNS;
+		g.g_y /= OFFSET_RUNS;
+		g.g_z /= OFFSET_RUNS;	
+		offset_gyro_ = g;
+		return offset_gyro_;
+	}
+	
+	const Gyro& MPU6050::GetGyroOffset() const
+	{
+		return offset_gyro_;
 	}
 }

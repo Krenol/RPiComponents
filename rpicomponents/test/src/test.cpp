@@ -41,7 +41,8 @@ TEST_CASE("Steppermotor checker") {
 int main() {
     
     rpicomponents::MPU6050 mpu;
-
+    auto offset_a = mpu.CalibrateAcceleration();
+    auto offset_g = mpu.CalibrateGyro();
     while(1){
         auto g = mpu.GetGyro();
         auto a = mpu.GetAcceleration();

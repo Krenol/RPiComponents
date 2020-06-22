@@ -44,22 +44,25 @@ namespace rpicomponents {
 	};
 
 	struct Accelerations {
-		float a_x, a_y, a_z;
+		float a_x = 0, a_y = 0, a_z = 0;
 	};
 
 	struct Gyro {
-		float g_x, g_y, g_z;
+		float g_x = 0, g_y = 0, g_z = 0;
 	};
 
 	class MPU6050 : public Component {
 	// see https://www.electronicwings.com/raspberry-pi/mpu6050-accelerometergyroscope-interfacing-with-raspberry-pi
 	private:
 		const int PWR_MGMT_1 {0x6B}, SMPLRT_DIV {0x19}, CONFIG {0x1A}, GYRO_CONFIG {0x1B}, ACCEL_CONFIG {0x1C}, INT_ENABLE {0x38},
-			ACCEL_XOUT_H {0x3B}, ACCEL_YOUT_H {0x3D}, ACCEL_ZOUT_H {0x3F}, GYRO_XOUT_H {0x43}, GYRO_YOUT_H {0x45}, GYRO_ZOUT_H {0x47}; // collection of needed addresses of MPU according to data sheet
+			ACCEL_XOUT_H {0x3B}, ACCEL_YOUT_H {0x3D}, ACCEL_ZOUT_H {0x3F}, GYRO_XOUT_H {0x43}, GYRO_YOUT_H {0x45}, GYRO_ZOUT_H {0x47}, // collection of needed addresses of MPU according to data sheet
+			OFFSET_RUNS = 100; 
 
 		const int address_ {0x68}, fd_; //std address
 		const float gyro_scale_, accel_scale_;
 		std::mutex mtx_;
+		Accelerations offset_acc_; 
+		Gyro offset_gyro_;
 		
 		/*
 		Method to init component
@@ -91,6 +94,17 @@ namespace rpicomponents {
         MPU6050(int address = 0x68, ACCEL_SENSITIVITY accel = G_2, GYRO_SENSITIVITY gyro = DPS_250);
 
 		/*
+         Constructor for this component
+		 
+		 @param address: Address of MPU
+		 @param offset_acc: Previously retrieved acceleration offset of MPU
+		 @param offset_gyro: Previously retrieved gyro offset of MPU
+         @param accel: Acceleration range of MPU
+		 @param gyro: Gyro range of MPU
+        */
+        MPU6050(int address, Accelerations offset_acc, Gyro offset_gyro, ACCEL_SENSITIVITY accel = G_2, GYRO_SENSITIVITY gyro = DPS_250);
+
+		/*
 		Method to read acceleration of MPU at all three axis
 
 		@returns struct containing the acceleration of all three axis
@@ -98,11 +112,40 @@ namespace rpicomponents {
 		Accelerations GetAcceleration();
 
 		/*
+		Method to calibrate accelerations. 
+		The calibrated values are automatically substracted when retrieving the values via GetAcceleration().
+		Note: Keep MPU horizontally and vertically aligned on a flat surface. Process takes <1s
+		@returns offset of the accelerations
+		*/
+		const Accelerations& CalibrateAcceleration();
+
+		/*
+		Method to get acceleration offset
+		@returns offset of the acceleration
+		*/
+		const Accelerations& GetAccelerationOffset() const;
+
+		/*
 		Method to read gyro values of MPU at all three axis
 
 		@returns struct containing the gyro values of all three axis
 		*/
 		Gyro GetGyro();
+
+		/*
+		Method to calibrate gyro. 
+		The calibrated values are automatically substracted when retrieving the values via GetGyro().
+		Note: Keep MPU horizontally and vertically aligned on a flat surface. Process takes < 1s
+		@returns offset of the gyro
+		*/
+		const Gyro& CalibrateGyro();
+
+		/*
+		Method to get gyro offset
+		@returns offset of the gyro
+		*/
+		const Gyro& GetGyroOffset() const;
+
 	};
 }
 
