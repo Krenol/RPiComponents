@@ -11,8 +11,8 @@ namespace rpicomponents
 		wiringPiI2CWriteReg8 (fd_, PWR_MGMT_1, 0b00000001);	
 		//setup sample rate -> Sample Rate = Gyroscope Output Rate / (1 + SMPLRT_DIV) with SMPLRT_DIV=7
 		wiringPiI2CWriteReg8 (fd_, SMPLRT_DIV, 0b00000111); 
-		//no FSYNC & filtering of accel and gyro signals
-		wiringPiI2CWriteReg8 (fd_, CONFIG, 0b00000000); 
+		//no FSYNC & filtering of accel and gyro signals -> DLPF with 10 Hz bandwidth
+		wiringPiI2CWriteReg8 (fd_, CONFIG, 0b00000101); 
 		//enable data interrupt -> occurs each time a write operation to all of the sensor registers has been completed.
 		wiringPiI2CWriteReg8 (fd_, INT_ENABLE, 0b00000001);	
 
