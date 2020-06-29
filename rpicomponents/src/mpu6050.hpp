@@ -44,11 +44,11 @@ namespace rpicomponents {
 	};
 
 	struct Accelerations {
-		float a_x = 0, a_y = 0, a_z = 0;
+		float a_x = 0, a_y = 0, a_z = 0, d_x = 0, d_y = 0, d_z = 0;
 	};
 
 	struct Gyro {
-		float g_x = 0, g_y = 0, g_z = 0;
+		float g_x = 0, g_y = 0, g_z = 0, d_x = 0, d_y = 0, d_z = 0;
 	};
 
 	class MPU6050 : public Component {

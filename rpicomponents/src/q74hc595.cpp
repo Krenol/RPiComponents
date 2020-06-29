@@ -1,4 +1,5 @@
 #include "q74hc595.hpp"
+#include "utils/utils.hpp"
 
 void rpicomponents::Q74HC595::Initialize()
 {

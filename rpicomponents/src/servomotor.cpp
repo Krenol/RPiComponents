@@ -1,5 +1,6 @@
 #include "servomotor.hpp"
 #include <iostream>
+#include "utils/utils.hpp"
 
 void rpicomponents::Servomotor::Initialize()
 {

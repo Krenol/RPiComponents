@@ -2,6 +2,7 @@
 #include <wiringPiI2C.h>
 #include <wiringPi.h>
 #include <iostream>
+#include "utils/utils.hpp"
 
 namespace rpicomponents
 {
@@ -78,17 +79,22 @@ namespace rpicomponents
 	
 	const Accelerations& MPU6050::CalibrateAcceleration() 
 	{
-		Accelerations acc;
+		std::vector<double> x, y, z;
 		for(int i = 0; i < OFFSET_RUNS; i++){
-			acc.a_x += ReadRawAndConvert(ACCEL_XOUT_H, accel_scale_);
-			acc.a_y += ReadRawAndConvert(ACCEL_YOUT_H, accel_scale_);
-			acc.a_z += ReadRawAndConvert(ACCEL_ZOUT_H, accel_scale_);
+			x.push_back(ReadRawAndConvert(ACCEL_XOUT_H, accel_scale_));
+			y.push_back(ReadRawAndConvert(ACCEL_YOUT_H, accel_scale_));
+			z.push_back(ReadRawAndConvert(ACCEL_ZOUT_H, accel_scale_));
 		}
-		acc.a_x /= OFFSET_RUNS;
-		acc.a_y /= OFFSET_RUNS;
-		acc.a_z /= OFFSET_RUNS;
-		acc.a_z -= 1; //std value should be 1g, so substract 1
-		offset_acc_ = acc;
+		{
+			std::lock_guard<std::mutex> guard(mtx_);
+			offset_acc_.a_x = utils::Maths::mean(x);
+			offset_acc_.a_y = utils::Maths::mean(y);
+			offset_acc_.a_z = utils::Maths::mean(z) - 1;
+			offset_acc_.d_x = utils::Maths::deviation(x);
+			offset_acc_.d_y = utils::Maths::deviation(y);
+			offset_acc_.d_z = utils::Maths::deviation(z);
+		}
+
 		return offset_acc_;
 	}
 	
@@ -108,16 +114,22 @@ namespace rpicomponents
 	
 	const Gyro& MPU6050::CalibrateGyro() 
 	{
-		Gyro g;
+		std::vector<double> x, y, z;
 		for(int i = 0; i < OFFSET_RUNS; i++){
-			g.g_x += ReadRawAndConvert(GYRO_XOUT_H, gyro_scale_);
-			g.g_y += ReadRawAndConvert(GYRO_YOUT_H, gyro_scale_);
-			g.g_z += ReadRawAndConvert(GYRO_ZOUT_H, gyro_scale_);
+			x.push_back(ReadRawAndConvert(GYRO_XOUT_H, gyro_scale_));
+			y.push_back(ReadRawAndConvert(GYRO_YOUT_H, gyro_scale_));
+			z.push_back(ReadRawAndConvert(GYRO_ZOUT_H, gyro_scale_));
 		}
-		g.g_x /= OFFSET_RUNS;
-		g.g_y /= OFFSET_RUNS;
-		g.g_z /= OFFSET_RUNS;	
-		offset_gyro_ = g;
+		{
+			std::lock_guard<std::mutex> guard(mtx_);
+			offset_gyro_.g_x = utils::Maths::mean(x);
+			offset_gyro_.g_y = utils::Maths::mean(y);
+			offset_gyro_.g_z = utils::Maths::mean(z);
+			offset_gyro_.d_x = utils::Maths::deviation(x);
+			offset_gyro_.d_y = utils::Maths::deviation(y);
+			offset_gyro_.d_z = utils::Maths::deviation(z);
+		}
+		
 		return offset_gyro_;
 	}
 	

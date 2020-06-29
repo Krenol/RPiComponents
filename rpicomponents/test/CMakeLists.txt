@@ -17,6 +17,7 @@ include_directories("${PROJECT_INCLUDE_DIR}")
 include_directories(${DOCTEST_INCLUDE_DIR})
 
 add_subdirectory (external/doctest)
+add_subdirectory (external/CppUtils/utils)
 
 # Add source to this project's executable.
 add_executable (${PROJECT_NAME} ${TEST_PROJECT_SRCS})

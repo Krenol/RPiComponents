@@ -6,7 +6,7 @@
 #include <vector>
 #include <memory>
 #include "pin/pins.hpp"
-#include "../utils/include/rpicomponents/utils/rpicomponents_utils.hpp"
+
 
 namespace rpicomponents {
 	constexpr const char* COMPONENT = "component";

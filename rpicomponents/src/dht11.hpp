@@ -1,5 +1,5 @@
 #include "component.hpp"
-
+#include "utils/utils.hpp"
 
 #ifndef RPICOMPONENTS_DHT11_H
 #define RPICOMPONENTS_DHT11_H

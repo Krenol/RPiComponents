@@ -42,7 +42,11 @@ int main() {
     
     rpicomponents::MPU6050 mpu;
     auto offset_a = mpu.CalibrateAcceleration();
+    printf("\n\n\n-------------\n Ax=%.3f g\tAy=%.3f g\tAz=%.3f g\tdx=%.3f g\tdy=%.3f g\tdz=%.3f g\n-------------\n\n\n",
+        offset_a.a_x, offset_a.a_y, offset_a.a_z, offset_a.d_x, offset_a.d_y, offset_a.d_z);
     auto offset_g = mpu.CalibrateGyro();
+    printf("\n\n\n-------------\n Gx=%.3f °/s\tGy=%.3f °/s\tGz=%.3f °/s\tdx=%.3f °/s\tdy=%.3f °/s\tdz=%.3f °/s\n-------------\n\n\n",
+        offset_g.g_x, offset_g.g_y, offset_g.g_z, offset_g.d_x, offset_g.d_y, offset_g.d_z);
     while(1){
         auto g = mpu.GetGyro();
         auto a = mpu.GetAcceleration();

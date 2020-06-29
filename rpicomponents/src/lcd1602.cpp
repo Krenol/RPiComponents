@@ -1,6 +1,7 @@
 #include <lcd.h>
 #include "lcd1602.hpp"
 #include <stdexcept>
+#include "utils/utils.hpp"
 
 
 void rpicomponents::Lcd1602::Initialize()

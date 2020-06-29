@@ -60,9 +60,9 @@ target_include_directories(${PROJECT_NAME}
 )
 
 add_subdirectory (external/RPiPins/pin)
-add_subdirectory (utils)
 
-target_link_libraries(${PROJECT_NAME} rpicomponents_utils)
+
+target_link_libraries(${PROJECT_NAME} utils)
 target_link_libraries(${PROJECT_NAME} RPiPins)
 
 if(${BUILD_TEST})

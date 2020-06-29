@@ -1,5 +1,6 @@
 #include "ultrasonicsensor.hpp"
 #include <cmath>
+#include "utils/utils.hpp"
 
 const std::map<rpicomponents::DISTANCE_UNIT, float> rpicomponents::UltrasonicSensor::convert_values_ = { {UNIT_M, 1.0f},  {UNIT_CM, 1e-2f}, {UNIT_MM, 1e-3f}, {UNIT_M, 1e-6f} };
 
@@ -17,7 +18,7 @@ void rpicomponents::UltrasonicSensor::Initialize()
 float rpicomponents::UltrasonicSensor::GetEchoTime() const
 {
     trigger_pin_->OutputOn();
-	rpicomponents::utils::Waiter::SleepNanos(10);
+	utils::Waiter::SleepNanos(10);
     trigger_pin_->OutputOff();
 	clock_t start = clock();
 	while (clock() - start < max_delay_time_)

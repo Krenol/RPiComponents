@@ -1,4 +1,5 @@
 #include "steppermotor.hpp"
+#include "utils/utils.hpp"
 
 //http://www.lonecpluspluscoder.com/2015/08/13/an-elegant-way-to-extract-keys-from-a-c-map/
 template<typename TK, typename TV>
@@ -55,7 +56,7 @@ void rpicomponents::Steppermotor::Rotate(int steps, bool cw, long stepDelay)
             for(auto it = pins_.begin(); it != pins_.end(); ++it) {
                 it->second->Output(stepVector_[pos] == (1 << std::distance(pins_.begin(), it)));
             }
-            rpicomponents::utils::Waiter::SleepMillis(stepDelay);
+            utils::Waiter::SleepMillis(stepDelay);
 		}
 		steps -= loopCounter;
 		loopCounter = steps < stepVecSize ? steps : stepVecSize;

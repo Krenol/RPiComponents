@@ -1,4 +1,5 @@
 #include "esc.hpp"
+#include "utils/utils.hpp"
 
 void rpicomponents::Esc::Initialize()
 {

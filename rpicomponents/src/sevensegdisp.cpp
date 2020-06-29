@@ -1,5 +1,5 @@
 #include "sevensegdisp.hpp"
-
+#include "utils/utils.hpp"
 
 rpicomponents::SevenSegmentDisplay::SevenSegmentDisplay(std::shared_ptr<Q74HC595> q74hc595, const DisplaySegments& dispSegments) :
 	Component(COMPONENT_SEVENSEGMENTDISPLAY), q74_{ q74hc595 }, segments_{ dispSegments }
