@@ -60,10 +60,11 @@ target_include_directories(${PROJECT_NAME}
 )
 
 add_subdirectory (external/RPiPins/pin)
+add_subdirectory (external/CppUtils/utils)
 
+target_link_libraries(${PROJECT_NAME} PUBLIC RPiPins)
+target_link_libraries(${PROJECT_NAME} PRIVATE utils)
 
-target_link_libraries(${PROJECT_NAME} utils)
-target_link_libraries(${PROJECT_NAME} RPiPins)
 
 if(${BUILD_TEST})
     add_subdirectory(test)
