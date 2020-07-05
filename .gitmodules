@@ -7,6 +7,3 @@
 [submodule "rpicomponents/external/RPiPins"]
 	path = rpicomponents/external/RPiPins
 	url = git@github.com:Krenol/RPiPins.git
-[submodule "rpicomponents/test/external/CppUtils"]
-	path = rpicomponents/test/external/CppUtils
-	url = git@github.com:Krenol/CppUtils.git
