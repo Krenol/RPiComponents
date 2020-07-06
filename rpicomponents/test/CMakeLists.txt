@@ -16,7 +16,10 @@ include_directories("${PROJECT_BINARY_DIR}")
 include_directories("${PROJECT_INCLUDE_DIR}")
 include_directories(${DOCTEST_INCLUDE_DIR})
 
-add_subdirectory (external/doctest)
+if (NOT TARGET doctest)
+    add_subdirectory (external/doctest)
+endif ()
+
 
 # Add source to this project's executable.
 add_executable (${PROJECT_NAME} ${TEST_PROJECT_SRCS})
@@ -28,8 +31,8 @@ find_library(wiringPiDev REQUIRED)
 find_library(pthread REQUIRED)
 
 target_link_libraries(${PROJECT_NAME} utils)
-target_link_libraries(${PROJECT_NAME} RPiComponents)
-target_link_libraries(${PROJECT_NAME} RPiPins)
+target_link_libraries(${PROJECT_NAME} rpicomponents)
+target_link_libraries(${PROJECT_NAME} rpipins)
 target_link_libraries(${PROJECT_NAME} wiringPi)
 target_link_libraries(${PROJECT_NAME} wiringPiDev)
 target_link_libraries(${PROJECT_NAME} pthread)
