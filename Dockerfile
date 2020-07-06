@@ -9,10 +9,11 @@ ENV BUILD_TEST "$BUILD_TEST"
 WORKDIR /data
 
 # copy files
+COPY CMakeLists.txt .
 COPY ./${PROJECT_DIR} ./${PROJECT_DIR}
 
 #prepare build
-RUN mkdir build && cd build && cmake ../${PROJECT_DIR} 
+RUN mkdir build && cd build && cmake ../
 
 #build
 RUN cmake --build ./build
