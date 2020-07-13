@@ -49,10 +49,10 @@ typedef unsigned int uint;
 typedef unsigned long ulong;
 
 // Made changes according to this post http://arduino.cc/forum/index.php?topic=58337.0
-// by Nick Gammon. Thanks for the input Nick. It actually saved 78 bytes for me. :)
+// by Nick Gammon. Thanks for the input Nick. It actually saved 78 byte_keys for me. :)
 typedef struct {
-	byte rows;
-	byte columns;
+	byte_key rows;
+	byte_key columns;
 } KeypadSize;
 
 #define LIST_MAX 10		// Max number of keys on the active list.
@@ -67,7 +67,7 @@ namespace rpicomponents {
     class Keypad : public Key {
 	public:
 
-		Keypad(char* userKeymap, byte* row, byte* col, byte numRows, byte numCols);
+		Keypad(char* userKeymap, byte_key* row, byte_key* col, byte_key numRows, byte_key numCols);
 
 		uint bitMap[MAPSIZE];	// 10 row x 16 column array of bits. Except Due which has 32 columns.
 		Key key[LIST_MAX];
@@ -85,13 +85,13 @@ namespace rpicomponents {
 		int findInList(int keyCode);
 		char waitForKey();
 		bool keyStateChanged();
-		byte numKeys();
+		byte_key numKeys();
 
 	private:
 		unsigned long startTime;
 		char* keymap;
-		byte* rowPins;
-		byte* columnPins;
+		byte_key* rowPins;
+		byte_key* columnPins;
 		KeypadSize sizeKpd;
 		uint debounceTime;
 		uint holdTime;
@@ -99,15 +99,15 @@ namespace rpicomponents {
 
 		void scanKeys();
 		bool updateList();
-		void nextKeyState(byte n, boolean button);
-		void transitionTo(byte n, KeyState nextState);
+		void nextKeyState(byte_key n, bool button);
+		void transitionTo(byte_key n, KeyState nextState);
 		void (*keypadEventListener)(char);
 	};
 
 	//#define __PIN_MODE__PINWRITE__PINREAD__
-	void pin_mode(byte pinNum, byte mode);
-	void pin_write(byte pinNum, boolean level);
-	int  pin_read(byte pinNum);
+	void pin_mode(byte_key pinNum, byte_key mode);
+	void pin_write(byte_key pinNum, bool level);
+	int  pin_read(byte_key pinNum);
 #endif
 }
 /*

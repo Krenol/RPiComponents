@@ -35,10 +35,21 @@ TEST_CASE("Steppermotor checker") {
 #include <iostream>
 #include <stdlib.h>
 #include <stdio.h>
+#include <nlohmann/json.hpp>
 
-
+// for convenience
+using json = nlohmann::json;
 
 int main() {
+    auto j3 = json::parse("{ \"happy\": true, \"pi\": 3.141 }");
+    json j;
+    // add a number that is stored as double (note the implicit conversion of j to an object)
+    j["pi"] = 3.141;
+
+    // add a Boolean that is stored as bool
+    j["happy"] = true;
+
+    std::cout << "json: " << j.dump() << std::endl;
     
     rpicomponents::MPU6050 mpu;
     auto offset_a = mpu.CalibrateAcceleration();

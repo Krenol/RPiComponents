@@ -46,7 +46,7 @@ rpicomponents::Key::Key(char userKeyChar) : Component(COMPONENT_KEY){
 }
 
 
-void rpicomponents::Key::UpdateKey(char userKeyChar, KeyState userState, boolean userStatus) {
+void rpicomponents::Key::UpdateKey(char userKeyChar, KeyState userState, bool userStatus) {
 	kchar = userKeyChar;
 	kstate = userState;
 	stateChanged = userStatus;
