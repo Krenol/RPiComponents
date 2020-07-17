@@ -38,11 +38,6 @@ bool rpicomponents::Joystick::ReadZAxis() const
 	return zBtn_->IsPressed();
 }
 
-rpicomponents::JoystickAxes rpicomponents::Joystick::ReadAxes() const
-{
-	return JoystickAxes(ReadXAxis(), ReadYAxis(), ReadZAxis());
-}
-
 const std::shared_ptr<rpicomponents::Pcf8591>& rpicomponents::Joystick::GetPcf() const
 {
 	return pcf_;
@@ -64,4 +59,36 @@ int rpicomponents::Joystick::GetPcfYPin() const
 	return pcfYPin_;
 }
 
+nlohmann::json rpicomponents::Joystick::ReadAxesJSON() const
+{
+	nlohmann::json j;
+	ReadAxesJSON(j);
+	return j;
+}
 
+rpicomponents::JoystickAxes rpicomponents::Joystick::ReadAxes() const
+{
+	JoystickAxes j;
+	ReadAxes(j);
+	return j;
+}
+
+namespace rpicomponents
+{
+	void Joystick::ReadAxes(JoystickAxes& out) const
+	{
+		out.x = ReadXAxis();
+		out.y = ReadYAxis();
+		out.z = ReadZAxis();
+	}
+	
+	void Joystick::ReadAxesJSON(nlohmann::json& out) const
+	{
+		int v = ReadXAxis();
+		out.at("x").get_to(v);
+		v = ReadYAxis();
+        out.at("y").get_to(v);
+		bool val = ReadZAxis();
+		out.at("z").get_to(val);
+	}
+}

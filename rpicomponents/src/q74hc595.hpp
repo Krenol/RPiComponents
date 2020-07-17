@@ -66,7 +66,7 @@ namespace rpicomponents {
 		Method to set a q_pin on or off
 		Wrong input throws an error
 		
-		@param pin: Q_Pin to be turned on/off according to boolean turn_on
+		@param pin: Q_Pin to be turned on/off according to bool turn_on
 		@param turn_on: Turn on or off the passed pin
 		*/
         void SetQPinOutput(int pin, bool turn_on);

@@ -35,8 +35,7 @@
 #ifndef RPICOMPONENTS_KEY_H
 #define RPICOMPONENTS_KEY_H
 
-#define boolean bool
-#define byte unsigned char 
+#define byte_key unsigned char 
 #define OPEN LOW
 #define CLOSED HIGH
 typedef unsigned int uint;
@@ -53,12 +52,12 @@ namespace rpicomponents {
 		char kchar;
 		int kcode;
 		KeyState kstate;
-		boolean stateChanged;
+		bool stateChanged;
 
 		// methods
 		Key();
 		Key(char userKeyChar);
-		void UpdateKey(char userKeyChar, KeyState userState, boolean userStatus);
+		void UpdateKey(char userKeyChar, KeyState userState, bool userStatus);
 
 	protected:
 		/*

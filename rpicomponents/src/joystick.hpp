@@ -1,6 +1,7 @@
 #include "component.hpp"
 #include "pcf8591.hpp"
 #include "button.hpp"
+#include <nlohmann/json.hpp>
 
 #ifndef RPICOMPONENTS_JOYSTICK_H
 #define RPICOMPONENTS_JOYSTICK_H
@@ -10,14 +11,19 @@ namespace rpicomponents {
 	constexpr const char* COMPONENT_JOYSTICK = "joystick";
 
 	struct JoystickAxes {
-		JoystickAxes(int x, int y, bool z) : x{ x }, y{ y }, z{ z }
-		{
-
-		}
-
-        const int x{ INT32_MAX }, y{ INT32_MAX };
-		const bool z{ false };
+        int x{ INT32_MAX }, y{ INT32_MAX };
+		bool z{ false };
 	};
+
+	void to_json(nlohmann::json& j, const JoystickAxes& d) {
+        j = nlohmann::json{{"x", d.x}, {"y", d.y}, {"z", d.z}};
+    }
+
+    void from_json(const nlohmann::json& j, JoystickAxes& d) {
+        j.at("x").get_to(d.x);
+        j.at("y").get_to(d.y);
+		j.at("z").get_to(d.z);
+    }
 
 	class Joystick : public Component
 	{
@@ -75,6 +81,27 @@ namespace rpicomponents {
 		@returns the read axes in a JoystickAxes struct
 		*/
 		JoystickAxes ReadAxes() const;
+
+		/*
+		Method to read the values of the joystick's axes
+
+		@returns the read axes as JSON
+		*/
+		nlohmann::json ReadAxesJSON() const;
+
+		/*
+		Method to read the values of the joystick's axes
+
+		@param out: Struct containing the read axes in a JoystickAxes struct
+		*/
+		void ReadAxes(JoystickAxes& out) const;
+
+		/*
+		Method to read the values of the joystick's axes
+
+		@param out: JSON containing the read axes as JSON
+		*/
+		void ReadAxesJSON(nlohmann::json& out) const;
 
 		/*
 		Method to get the pcf pin base

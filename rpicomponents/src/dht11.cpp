@@ -1,110 +1,136 @@
 #include "dht11.hpp"
 
-
-void rpicomponents::Dht11::Initialize()
+namespace rpicomponents
 {
-    auto mode = pin_->OutputMode();
-	if (mode != pin::IN_OUT_MODE) throw new std::invalid_argument("pin for dht11 must be in in_out_mode");
-    AddPin(pin_->GetPin());
-}
-
-bool rpicomponents::Dht11::CheckSum(const std::vector<uint8_t> &bits) const
-{
-	auto sum = bits[0] + bits[1] + bits[2] + bits[3];
-	if (sum == bits[4] && sum > 0)
-		return true;
-	return false;
-}
-
-std::vector<uint8_t> rpicomponents::Dht11::ReadSensor() const
-{
-	std::vector<uint8_t> bits (5,0);
-	uint8_t counter = 0, j = 0;
-
-    pin_->Output(LOW);
-	
-	utils::Waiter::SleepMillis(wake_delay_);
-    pin_->Output(HIGH);
-	utils::Waiter::SleepMillis(40 * time_delay_);
-
-	auto laststate = HIGH;
-	for (auto i = 0; i < max_timings_; i++)
+	void Dht11::Initialize()
 	{
-		counter = 0;
-        while (pin_->ReadPinValue() == laststate)
+		auto mode = pin_->OutputMode();
+		if (mode != pin::IN_OUT_MODE)
+			throw new std::invalid_argument("pin for dht11 must be in in_out_mode");
+		AddPin(pin_->GetPin());
+	}
+
+	bool Dht11::CheckSum(const std::vector<uint8_t> &bits) const
+	{
+		auto sum = bits[0] + bits[1] + bits[2] + bits[3];
+		if (sum == bits[4] && sum > 0)
+			return true;
+		return false;
+	}
+
+	std::vector<uint8_t> Dht11::ReadSensor()
+	{
+		std::vector<uint8_t> bits(5, 0);
+		uint8_t counter = 0, j = 0;
+
+		std::lock_guard<std::mutex> guard(mtx_);
+		pin_->Output(LOW);
+
+		utils::Waiter::SleepMillis(wake_delay_);
+		pin_->Output(HIGH);
+		utils::Waiter::SleepMillis(40 * time_delay_);
+
+		auto laststate = HIGH;
+		for (auto i = 0; i < max_timings_; i++)
 		{
-			counter++;
-			utils::Waiter::SleepMillis(time_delay_);
-			if (counter == 255)
+			counter = 0;
+			while (pin_->ReadPinValue() == laststate)
 			{
-				return bits;
+				counter++;
+				utils::Waiter::SleepMillis(time_delay_);
+				if (counter == 255)
+				{
+					return bits;
+				}
+			}
+			laststate = pin_->ReadPinValue();
+
+			if ((i >= 4) && (i % 2 == 0))
+			{
+				bits[j / 8] <<= 1;
+				if (counter > 16)
+					bits[j / 8] |= 1;
+				j++;
 			}
 		}
-        laststate = pin_->ReadPinValue();
+		return bits;
+	}
 
-		if ((i >= 4) && (i % 2 == 0))
-		{
-			bits[j / 8] <<= 1;
-			if (counter > 16)
-				bits[j / 8] |= 1;
-			j++;
+	float Dht11::CalculateTemperature(const std::vector<uint8_t> &bits) const
+	{
+		return bits[2] + bits[3] * 0.1;
+	}
+
+	float Dht11::CalculateHumidty(const std::vector<uint8_t> &bits) const
+	{
+		return bits[0] + bits[1] * 0.1;
+	}
+	
+	std::vector<uint8_t> Dht11::GetValidBits()
+	{
+		auto bits = ReadSensor(); {
+		while (!CheckSum(bits))
+			bits = ReadSensor();
 		}
-	} 
-	return bits;
-}
+	}
 
-float rpicomponents::Dht11::CalculateTemperature(const std::vector<uint8_t> &bits) const
-{
-	return bits[2] + bits[3] * 0.1;
-}
+	Dht11::Dht11(std::shared_ptr<pin::Pin> pin) : Component(COMPONENT_DHT11), pin_{pin}
+	{
+		Initialize();
+	}
 
-float rpicomponents::Dht11::CalculateHumidty(const std::vector<uint8_t> &bits) const
-{
-	return bits[0] + bits[1] * 0.1;
-}
 
-rpicomponents::Dht11::Dht11(std::shared_ptr<pin::Pin> pin) : Component(COMPONENT_DHT11), pin_{ pin }
-{
-	Initialize();
-}
+	Dht11::Dht11(const Dht11 &dht11) : Component(dht11.ToString()), pin_{dht11.GetPin()}
+	{
+		Initialize();
+	}
 
-//rpicomponents::Dht11::Dht11(int&& pin) : Component(COMPONENT_DHT11), pin_{ pin::PinCreator::CreatePin(pin, pin::DIGITAL_MODE) }
-//{
-//	Initialize();
-//}
+	float Dht11::GetTemperature()
+	{
+		auto bits = GetValidBits();
+		auto temperature = CalculateTemperature(bits);
+		return temperature;
+	}
 
-rpicomponents::Dht11::Dht11(const Dht11& dht11) : Component(dht11.ToString()), pin_{ dht11.GetPin() }
-{
-	Initialize();
-}
+	float Dht11::GetHumidity()
+	{
+		auto bits = GetValidBits();
+		auto humidity = CalculateHumidty(bits);
+		return humidity;
+	}
 
-float rpicomponents::Dht11::GetTemperature() const
-{
-	auto bits = ReadSensor();
-	while(!CheckSum(bits)) bits = ReadSensor();
-	auto temperature = CalculateTemperature(bits);
-	return temperature;
-}
+	DHT_VALUES Dht11::GetDhtValues()
+	{
+		DHT_VALUES vals;
+		GetDhtValues(vals);
+		return vals;
+	}
+	
+	void Dht11::GetDhtValues(DHT_VALUES& out) 
+	{
+		auto bits = GetValidBits();
+		out.humidity = CalculateHumidty(bits);
+		out.temperature = CalculateTemperature(bits);
+	}
+	
+	void Dht11::GetValuesJSON(nlohmann::json& out) 
+	{
+		auto bits = GetValidBits();
+		float val = CalculateHumidty(bits);
+		out.at("temperature").get_to(val);
+		val = CalculateTemperature(bits);
+        out.at("humidity").get_to(val);
+	}
 
-float rpicomponents::Dht11::GetHumidity() const
-{
-	auto bits = ReadSensor();
-	while (!CheckSum(bits)) bits = ReadSensor();
-	auto humidity = CalculateHumidty(bits);
-	return humidity;
-}
+	const std::shared_ptr<pin::Pin> &Dht11::GetPin() const
+	{
+		return pin_;
+	}
 
-rpicomponents::DHT_VALUES rpicomponents::Dht11::GetDhtValues() const
-{
-	auto bits = ReadSensor();
-	while (!CheckSum(bits)) bits = ReadSensor();
-	DHT_VALUES vals;
-	vals.humidity = CalculateHumidty(bits);
-	vals.temperature = CalculateTemperature(bits);
-	return vals;
-}
-
-const std::shared_ptr<pin::Pin>& rpicomponents::Dht11::GetPin() const
-{
-    return pin_;
-}
+	nlohmann::json Dht11::GetValuesJSON()
+	{
+		nlohmann::json j;
+		GetValuesJSON(j);
+		return j;
+	}
+} // namespace rpicomponents

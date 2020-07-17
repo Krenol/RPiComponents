@@ -32,7 +32,7 @@
 #include "keypad.hpp"
 
 // <<constructor>> Allows custom keymap, pin configuration, and keypad sizes.
-rpicomponents::Keypad::Keypad(char* userKeymap, byte* row, byte* col, byte numRows, byte numCols) : Key(COMPONENT_KEYPAD) {
+rpicomponents::Keypad::Keypad(char* userKeymap, byte_key* row, byte_key* col, byte_key numRows, byte_key numCols) : Key(COMPONENT_KEYPAD) {
 	rowPins = row;
 	columnPins = col;
 	sizeKpd.rows = numRows;
@@ -85,15 +85,15 @@ bool rpicomponents::Keypad::getKeys() {
 // Private : Hardware scan
 void rpicomponents::Keypad::scanKeys() {
 	// Re-intialize the row pins. Allows sharing these pins with other hardware.
-	for (byte r = 0; r < sizeKpd.rows; r++) {
+	for (byte_key r = 0; r < sizeKpd.rows; r++) {
 		pin_mode(rowPins[r], INPUT_PULLUP);
 	}
 
 	// bitMap stores ALL the keys that are being pressed.
-	for (byte c = 0; c < sizeKpd.columns; c++) {
+	for (byte_key c = 0; c < sizeKpd.columns; c++) {
 		pin_mode(columnPins[c], OUTPUT);
 		pin_write(columnPins[c], LOW);	// Begin column pulse output.
-		for (byte r = 0; r < sizeKpd.rows; r++) {
+		for (byte_key r = 0; r < sizeKpd.rows; r++) {
 			bitWrite(bitMap[r], c, !pin_read(rowPins[r]));  // keypress is active low so invert to high.
 		}
 		// Set pin to high impedance input. Effectively ends column pulse.
@@ -107,7 +107,7 @@ bool rpicomponents::Keypad::updateList() {
 	bool anyActivity = false;
 
 	// Delete any IDLE keys
-	for (byte i = 0; i < LIST_MAX; i++) {
+	for (byte_key i = 0; i < LIST_MAX; i++) {
 		if (key[i].kstate == IDLE) {
 			key[i].kchar = NO_KEY;
 			key[i].kcode = -1;
@@ -116,9 +116,9 @@ bool rpicomponents::Keypad::updateList() {
 	}
 
 	// Add new keys to empty slots in the key list.
-	for (byte r = 0; r < sizeKpd.rows; r++) {
-		for (byte c = 0; c < sizeKpd.columns; c++) {
-			boolean button = bitRead(bitMap[r], c);
+	for (byte_key r = 0; r < sizeKpd.rows; r++) {
+		for (byte_key c = 0; c < sizeKpd.columns; c++) {
+			bool button = bitRead(bitMap[r], c);
 			char keyChar = keymap[r * sizeKpd.columns + c];
 			int keyCode = r * sizeKpd.columns + c;
 			int idx = findInList(keyCode);
@@ -128,7 +128,7 @@ bool rpicomponents::Keypad::updateList() {
 			}
 			// Key is NOT on the list so add it.
 			if ((idx == -1) && button) {
-				for (byte i = 0; i < LIST_MAX; i++) {
+				for (byte_key i = 0; i < LIST_MAX; i++) {
 					if (key[i].kchar == NO_KEY) {		// Find an empty slot or don't add key to list.
 						key[i].kchar = keyChar;
 						key[i].kcode = keyCode;
@@ -142,7 +142,7 @@ bool rpicomponents::Keypad::updateList() {
 	}
 
 	// Report if the user changed the state of any key.
-	for (byte i = 0; i < LIST_MAX; i++) {
+	for (byte_key i = 0; i < LIST_MAX; i++) {
 		if (key[i].stateChanged) anyActivity = true;
 	}
 	return anyActivity;
@@ -150,7 +150,7 @@ bool rpicomponents::Keypad::updateList() {
 
 // Private
 // This function is a state machine but is also used for debouncing the keys.
-void rpicomponents::Keypad::nextKeyState(byte idx, boolean button) {
+void rpicomponents::Keypad::nextKeyState(byte_key idx, bool button) {
 	key[idx].stateChanged = false;
 	switch (key[idx].kstate) {
 	case IDLE:
@@ -179,7 +179,7 @@ void rpicomponents::Keypad::nextKeyState(byte idx, boolean button) {
 
 // New in 2.1
 bool rpicomponents::Keypad::isPressed(char keyChar) {
-	for (byte i = 0; i < LIST_MAX; i++) {
+	for (byte_key i = 0; i < LIST_MAX; i++) {
 		if (key[i].kchar == keyChar) {
 			if ((key[i].kstate == PRESSED) && key[i].stateChanged)
 				return true;
@@ -191,7 +191,7 @@ bool rpicomponents::Keypad::isPressed(char keyChar) {
 // Search by character for a key in the list of active keys.
 // Returns -1 if not found or the index into the list of active keys.
 int rpicomponents::Keypad::findInList(char keyChar) {
-	for (byte i = 0; i < LIST_MAX; i++) {
+	for (byte_key i = 0; i < LIST_MAX; i++) {
 		if (key[i].kchar == keyChar) {
 			return i;
 		}
@@ -202,7 +202,7 @@ int rpicomponents::Keypad::findInList(char keyChar) {
 // Search by code for a key in the list of active keys.
 // Returns -1 if not found or the index into the list of active keys.
 int rpicomponents::Keypad::findInList(int keyCode) {
-	for (byte i = 0; i < LIST_MAX; i++) {
+	for (byte_key i = 0; i < LIST_MAX; i++) {
 		if (key[i].kcode == keyCode) {
 			return i;
 		}
@@ -229,8 +229,8 @@ bool rpicomponents::Keypad::keyStateChanged() {
 }
 
 // The number of keys on the key list, key[LIST_MAX], equals the number
-// of bytes in the key list divided by the number of bytes in a Key object.
-byte rpicomponents::Keypad::numKeys() {
+// of byte_keys in the key list divided by the number of byte_keys in a Key object.
+byte_key rpicomponents::Keypad::numKeys() {
 	return sizeof(key) / sizeof(Key);
 }
 
@@ -247,7 +247,7 @@ void rpicomponents::Keypad::addEventListener(void (*listener)(char)) {
 	keypadEventListener = listener;
 }
 
-void rpicomponents::Keypad::transitionTo(byte idx, KeyState nextState) {
+void rpicomponents::Keypad::transitionTo(byte_key idx, KeyState nextState) {
 	key[idx].kstate = nextState;
 	key[idx].stateChanged = true;
 
@@ -267,7 +267,7 @@ void rpicomponents::Keypad::transitionTo(byte idx, KeyState nextState) {
 	}
 }
 
-void rpicomponents::pin_mode(byte pinNum, byte mode) {
+void rpicomponents::pin_mode(byte_key pinNum, byte_key mode) {
 	if (mode == INPUT_PULLUP) {
 		pinMode(pinNum, INPUT);
 		pullUpDnControl(pinNum, PUD_UP);
@@ -276,9 +276,9 @@ void rpicomponents::pin_mode(byte pinNum, byte mode) {
 		pinMode(pinNum, mode);
 	}
 }
-void rpicomponents::pin_write(byte pinNum, boolean level) {
+void rpicomponents::pin_write(byte_key pinNum, bool level) {
 	digitalWrite(pinNum, level);
 }
-int  rpicomponents::pin_read(byte pinNum) {
+int  rpicomponents::pin_read(byte_key pinNum) {
 	return digitalRead(pinNum);
 }

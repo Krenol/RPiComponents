@@ -47,12 +47,16 @@ endif ()
 if (NOT TARGET utils)
     add_subdirectory (external/CppUtils)
 endif ()
-
+if (NOT TARGET nlohmann_json::nlohmann_json)
+    set(JSON_BuildTests OFF CACHE INTERNAL "")
+    set(JSON_Install OFF CACHE INTERNAL "")
+    add_subdirectory (external/json)
+endif ()
 
 
 target_link_libraries(${PROJECT_NAME} PUBLIC rpipins)
 target_link_libraries(${PROJECT_NAME} PRIVATE utils)
-
+target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
 
 if(${BUILD_TEST})
     add_subdirectory(test)
