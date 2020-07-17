@@ -1,5 +1,6 @@
 #include "component.hpp"
 #include <atomic>
+#include <nlohmann/json.hpp>
 
 #ifndef RPICOMPONENTS_ESC_H
 #define RPICOMPONENTS_ESC_H
@@ -21,8 +22,17 @@ namespace rpicomponents {
 
 		}
 
-        const int esc_min_value, esc_max_value;
+        int esc_min_value, esc_max_value;
 	};
+
+	void to_json(nlohmann::json& j, const EscData& d) {
+        j = nlohmann::json{{"esc_min_value", d.esc_min_value}, {"esc_max_value", d.esc_max_value}};
+    }
+
+    void from_json(const nlohmann::json& j, EscData& d) {
+        j.at("esc_max_value").get_to(d.esc_max_value);
+        j.at("esc_min_value").get_to(d.esc_min_value);
+    }
 
 	class Esc : public Component {
 	private:

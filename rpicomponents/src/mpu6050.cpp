@@ -71,10 +71,32 @@ namespace rpicomponents
 	Accelerations MPU6050::GetAcceleration()
 	{
 		Accelerations acc;
-		acc.a_x = ReadRawAndConvert(ACCEL_XOUT_H, accel_scale_) - offset_acc_.a_x;
-		acc.a_y = ReadRawAndConvert(ACCEL_YOUT_H, accel_scale_) - offset_acc_.a_y;
-		acc.a_z = ReadRawAndConvert(ACCEL_ZOUT_H, accel_scale_) - offset_acc_.a_z;
+		GetAcceleration(acc);
 		return acc;
+	}
+	
+	void MPU6050::GetAcceleration(Accelerations& out) 
+	{
+		out.a_x = ReadRawAndConvert(ACCEL_XOUT_H, accel_scale_) - offset_acc_.a_x;
+		out.a_y = ReadRawAndConvert(ACCEL_YOUT_H, accel_scale_) - offset_acc_.a_y;
+		out.a_z = ReadRawAndConvert(ACCEL_ZOUT_H, accel_scale_) - offset_acc_.a_z;
+	}
+	
+	void MPU6050::GetAccelerationJSON(nlohmann::json& out) 
+	{
+		float val = ReadRawAndConvert(ACCEL_XOUT_H, accel_scale_) - offset_acc_.a_x;
+		out.at("a_x").get_to(val);
+		val = ReadRawAndConvert(ACCEL_YOUT_H, accel_scale_) - offset_acc_.a_y;
+        out.at("a_y").get_to(val);
+		val = ReadRawAndConvert(ACCEL_ZOUT_H, accel_scale_) - offset_acc_.a_z;
+		out.at("a_z").get_to(val);
+	}
+	
+	nlohmann::json MPU6050::GetAccelerationJSON() 
+	{
+		nlohmann::json j;
+		GetAccelerationJSON(j);
+		return j;
 	}
 	
 	const Accelerations& MPU6050::CalibrateAcceleration() 
@@ -106,10 +128,32 @@ namespace rpicomponents
 	Gyro MPU6050::GetGyro()
 	{
 		Gyro g;
-		g.g_x = ReadRawAndConvert(GYRO_XOUT_H, gyro_scale_) - offset_gyro_.g_x;
-		g.g_y = ReadRawAndConvert(GYRO_YOUT_H, gyro_scale_) - offset_gyro_.g_y;
-		g.g_z = ReadRawAndConvert(GYRO_ZOUT_H, gyro_scale_) - offset_gyro_.g_z;
+		GetGyro(g);
 		return g;
+	}
+	
+	void MPU6050::GetGyroJSON(nlohmann::json& out) 
+	{
+		float val = ReadRawAndConvert(GYRO_XOUT_H, gyro_scale_) - offset_gyro_.g_x;
+		out.at("g_x").get_to(val);
+		val = ReadRawAndConvert(GYRO_YOUT_H, gyro_scale_) - offset_gyro_.g_y;
+        out.at("g_y").get_to(val);
+		val = ReadRawAndConvert(GYRO_ZOUT_H, gyro_scale_) - offset_gyro_.g_z;
+		out.at("g_z").get_to(val);
+	}
+	
+	nlohmann::json MPU6050::GetGyroJSON() 
+	{
+		nlohmann::json j;
+		GetGyroJSON(j);
+		return j;
+	}
+	
+	void MPU6050::GetGyro(Gyro& out) 
+	{
+		out.g_x = ReadRawAndConvert(GYRO_XOUT_H, gyro_scale_) - offset_gyro_.g_x;
+		out.g_y = ReadRawAndConvert(GYRO_YOUT_H, gyro_scale_) - offset_gyro_.g_y;
+		out.g_z = ReadRawAndConvert(GYRO_ZOUT_H, gyro_scale_) - offset_gyro_.g_z;
 	}
 	
 	const Gyro& MPU6050::CalibrateGyro() 

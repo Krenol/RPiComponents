@@ -1,5 +1,6 @@
 #include "component.hpp"
 #include <mutex>
+#include <nlohmann/json.hpp>
 
 #ifndef RPICOMPONENTS_MPU6050_H
 #define RPICOMPONENTS_MPU6050_H
@@ -50,6 +51,32 @@ namespace rpicomponents {
 	struct Gyro {
 		float g_x = 0, g_y = 0, g_z = 0, d_x = 0, d_y = 0, d_z = 0;
 	};
+
+	void to_json(nlohmann::json& j, const Accelerations& d) {
+        j = nlohmann::json{{"a_x", d.a_x}, {"a_y", d.a_y}, {"z", d.a_z}, {"d_x", d.d_x}, {"d_y", d.d_y}, {"z", d.d_z}};
+    }
+
+    void from_json(const nlohmann::json& j, Accelerations& d) {
+        j.at("a_x").get_to(d.a_x);
+        j.at("a_y").get_to(d.a_y);
+		j.at("a_z").get_to(d.a_z);
+		j.at("d_x").get_to(d.d_x);
+        j.at("d_y").get_to(d.d_y);
+		j.at("d_z").get_to(d.d_z);
+    }
+
+	void to_json(nlohmann::json& j, const Gyro& d) {
+        j = nlohmann::json{{"g_x", d.g_x}, {"g_y", d.g_y}, {"g_z", d.g_z}, {"d_x", d.d_x}, {"d_y", d.d_y}, {"z", d.d_z}};
+    }
+
+    void from_json(const nlohmann::json& j, Gyro& d) {
+        j.at("g_x").get_to(d.g_x);
+        j.at("g_y").get_to(d.g_y);
+		j.at("g_z").get_to(d.g_z);
+		j.at("d_x").get_to(d.d_x);
+        j.at("d_y").get_to(d.d_y);
+		j.at("d_z").get_to(d.d_z);
+    }
 
 	class MPU6050 : public Component {
 	// see https://www.electronicwings.com/raspberry-pi/mpu6050-accelerometergyroscope-interfacing-with-raspberry-pi
@@ -112,6 +139,27 @@ namespace rpicomponents {
 		Accelerations GetAcceleration();
 
 		/*
+		Method to read acceleration of MPU at all three axis
+
+		@param out: struct containing the acceleration of all three axis
+		*/
+		void GetAcceleration(Accelerations& out);
+
+		/*
+		Method to read acceleration of MPU at all three axis
+
+		@param out: json containing the acceleration of all three axis
+		*/
+		void GetAccelerationJSON(nlohmann::json& out);
+
+		/*
+		Method to read acceleration of MPU at all three axis
+
+		@returns json containing the acceleration of all three axis
+		*/
+		nlohmann::json GetAccelerationJSON();
+
+		/*
 		Method to calibrate accelerations. 
 		The calibrated values are automatically substracted when retrieving the values via GetAcceleration().
 		Note: Keep MPU horizontally and vertically aligned on a flat surface. Process takes <1s
@@ -131,6 +179,27 @@ namespace rpicomponents {
 		@returns struct containing the gyro values of all three axis
 		*/
 		Gyro GetGyro();
+
+		/*
+		Method to read gyro values of MPU at all three axis
+
+		@returns json containing the gyro values of all three axis
+		*/
+		nlohmann::json GetGyroJSON();
+
+		/*
+		Method to read gyro values of MPU at all three axis
+
+		@param out: struct containing the gyro values of all three axis
+		*/
+		void GetGyro(Gyro& out);
+
+		/*
+		Method to read gyro values of MPU at all three axis
+
+		@param out: json containing the gyro values of all three axis
+		*/
+		void GetGyroJSON(nlohmann::json& out);
 
 		/*
 		Method to calibrate gyro. 
