@@ -11,7 +11,7 @@ void rpicomponents::Joystick::Initialize()
 	AddPins(zBtn_->GetUsedPins());
 }
 
-rpicomponents::Joystick::Joystick(std::shared_ptr<rpicomponents::Pcf8591> pcf, int pcf_x_pin, int pcf_y_pin, std::shared_ptr<rpicomponents::Button> zBtn) : 
+rpicomponents::Joystick::Joystick(std::shared_ptr<rpicomponents::Pcf8591> pcf, int pcf_x_pin, int pcf_y_pin, std::unique_ptr<rpicomponents::Button> zBtn) : 
 	Component(COMPONENT_JOYSTICK), pcf_{ pcf }, zBtn_{ zBtn }, pcfXPin_{ pcf_x_pin }, pcfYPin_{ pcf_y_pin }
 {
 	Initialize();
@@ -43,7 +43,7 @@ const std::shared_ptr<rpicomponents::Pcf8591>& rpicomponents::Joystick::GetPcf()
 	return pcf_;
 }
 
-const std::shared_ptr<rpicomponents::Button>& rpicomponents::Joystick::GetZBtn() const
+const std::unique_ptr<rpicomponents::Button>& rpicomponents::Joystick::GetZBtn() const
 {
 	return zBtn_;
 }

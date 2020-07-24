@@ -21,7 +21,7 @@ namespace rpicomponents {
 	class Lcd1602 : public Component
 	{
 	private:
-		std::shared_ptr<Pcf8574> pcf_;
+		std::unique_ptr<Pcf8574> pcf_;
 		const int lcdHandle_{ -1 };
 		const LcdPins lcdPins_;
 		const long sleepMs_{ 300 };
@@ -37,7 +37,7 @@ namespace rpicomponents {
 
 		@param pcf The used pcf of the LCD
 		*/
-		Lcd1602(std::shared_ptr<Pcf8574> pcf);
+		Lcd1602(std::unique_ptr<Pcf8574> pcf);
 
 		/*
 		Copy Constructor for Lcd1602 component
@@ -51,7 +51,7 @@ namespace rpicomponents {
 
 		@returns const ref to pcf 
 		*/
-		const std::shared_ptr<Pcf8574>& GetPcf() const;
+		const std::unique_ptr<Pcf8574>& GetPcf() const;
 
 		/*
 		Method to turn on the lcd's backlight
