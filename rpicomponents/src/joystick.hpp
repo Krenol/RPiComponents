@@ -113,9 +113,9 @@ namespace rpicomponents {
 		/*
 		Method to get the gpio z button of the joystick
 
-		@returns the reference to the shared_ptr of the button
+		@returns the reference to the unique_ptr of the button
 		*/
-		const std::shared_ptr<Button>& GetZBtn() const;
+		const std::unique_ptr<Button>& GetZBtn() const;
 
 		/*
 		Method to get the pcf x pin
