@@ -27,7 +27,7 @@ int rpicomponents::Servomotor::GetTurnTime(int angle) const
 	return val;
 }
 
-rpicomponents::Servomotor::Servomotor(std::shared_ptr<pin::Pin> pin, int maxAngle, int minPulseDuration, int maxPulseDuration, int pulseOffset) : 
+rpicomponents::Servomotor::Servomotor(std::unique_ptr<pin::Pin> pin, int maxAngle, int minPulseDuration, int maxPulseDuration, int pulseOffset) : 
 	Motor(COMPONENT_SERVOMOTOR),
 	servoData_{ ServomotorData (maxAngle, minPulseDuration, maxPulseDuration, pulseOffset)}, 
 	pin_{ pin }
@@ -35,7 +35,7 @@ rpicomponents::Servomotor::Servomotor(std::shared_ptr<pin::Pin> pin, int maxAngl
 	Initialize();
 }
 
-rpicomponents::Servomotor::Servomotor(std::shared_ptr<pin::Pin> pin, const ServomotorData& data) : 
+rpicomponents::Servomotor::Servomotor(std::unique_ptr<pin::Pin> pin, const ServomotorData& data) : 
 	Motor(COMPONENT_SERVOMOTOR), servoData_{ data }, pin_{ pin }
 {
 	Initialize();
@@ -69,6 +69,6 @@ void rpicomponents::Servomotor::Stop()
     Rotate(0);
 }
 
-const std::shared_ptr<pin::Pin>& rpicomponents::Servomotor::GetPin() const {
+const std::unique_ptr<pin::Pin>& rpicomponents::Servomotor::GetPin() const {
 	return pin_;
 }

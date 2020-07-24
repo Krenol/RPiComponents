@@ -13,7 +13,7 @@ void rpicomponents::Lcd1602::Initialize()
 	pcf_->WriteToPcfPin(lcdPins_.led - lcdPins_.pinBase, 1);
 }
 
-rpicomponents::Lcd1602::Lcd1602(std::shared_ptr<rpicomponents::Pcf8574> pcf) : Component(COMPONENT_LCD1602), pcf_{pcf}, 
+rpicomponents::Lcd1602::Lcd1602(std::unique_ptr<rpicomponents::Pcf8574> pcf) : Component(COMPONENT_LCD1602), pcf_{pcf}, 
 	lcdPins_{LcdPins(pcf->GetPinBase())}, 
 	lcdHandle_{ lcdInit(COMPONENT_LCD1602_LINES, COMPONENT_LCD1602_MAX_CHARS, COMPONENT_LCD1602_BITS, lcdPins_.rs, lcdPins_.en, lcdPins_.d4, lcdPins_.d5, lcdPins_.d6, lcdPins_.d7, 0, 0, 0, 0)}
 {
@@ -25,7 +25,7 @@ rpicomponents::Lcd1602::Lcd1602(const Lcd1602& lcd) : Lcd1602(lcd.GetPcf())
 {
 }
 
-const std::shared_ptr<rpicomponents::Pcf8574>& rpicomponents::Lcd1602::GetPcf() const
+const std::unique_ptr<rpicomponents::Pcf8574>& rpicomponents::Lcd1602::GetPcf() const
 {
 	return pcf_;
 }

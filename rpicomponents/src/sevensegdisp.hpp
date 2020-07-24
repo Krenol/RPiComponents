@@ -27,7 +27,7 @@ namespace rpicomponents {
 
 	class SevenSegmentDisplay : public Component {
 	private:
-		std::shared_ptr<Q74HC595> q74_;
+		std::unique_ptr<Q74HC595> q74_;
 		const DisplaySegments segments_;
 
 	public:
@@ -37,7 +37,7 @@ namespace rpicomponents {
 		@param q74hc595: The used Q74HC595 of the 7 seg display
 		@param dispSegments: DisplaySegments struct holding the q74 pin to display pin wiring values
 		*/
-		SevenSegmentDisplay(std::shared_ptr<Q74HC595> q74hc595, const DisplaySegments& dispSegments);
+		SevenSegmentDisplay(std::unique_ptr<Q74HC595> q74hc595, const DisplaySegments& dispSegments);
 
 		/*
 		Constructor for 7-segment display
@@ -52,7 +52,7 @@ namespace rpicomponents {
 		@param g: Q74 pin segment G is wired to
 		@param dp: Q74 pin segment DP is wired to
 		*/
-		SevenSegmentDisplay(std::shared_ptr<Q74HC595> q74hc595, int a = 0, int b = 1,
+		SevenSegmentDisplay(std::unique_ptr<Q74HC595> q74hc595, int a = 0, int b = 1,
 			int c = 2, int d = 3, int e = 4, int f = 5, int g = 6, int dp = 7);
 
 		/* 
@@ -67,7 +67,7 @@ namespace rpicomponents {
 		Method to get the DS pin number
 		@returns the used ds pin
 		*/
-		const std::shared_ptr<Q74HC595>& GetQ74HC595() const;
+		const std::unique_ptr<Q74HC595>& GetQ74HC595() const;
 
 
 		/*
