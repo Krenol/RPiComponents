@@ -9,6 +9,15 @@ void rpicomponents::Esc::Initialize()
     Arm();
 }
 
+void rpicomponents::to_json(nlohmann::json& j, const rpicomponents::EscData& d) {
+    j = nlohmann::json{{"esc_min_value", d.esc_min_value}, {"esc_max_value", d.esc_max_value}};
+}
+
+void rpicomponents::from_json(const nlohmann::json& j, rpicomponents::EscData& d) {
+    j.at("esc_max_value").get_to(d.esc_max_value);
+    j.at("esc_min_value").get_to(d.esc_min_value);
+}
+
 
 void rpicomponents::Esc::Arm() const
 {

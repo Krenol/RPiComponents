@@ -181,4 +181,30 @@ namespace rpicomponents
 	{
 		return offset_gyro_;
 	}
+
+	void to_json(nlohmann::json& j, const Accelerations& d) {
+        j = nlohmann::json{{"a_x", d.a_x}, {"a_y", d.a_y}, {"z", d.a_z}, {"d_x", d.d_x}, {"d_y", d.d_y}, {"z", d.d_z}};
+    }
+
+    void from_json(const nlohmann::json& j, Accelerations& d) {
+        j.at("a_x").get_to(d.a_x);
+        j.at("a_y").get_to(d.a_y);
+		j.at("a_z").get_to(d.a_z);
+		j.at("d_x").get_to(d.d_x);
+        j.at("d_y").get_to(d.d_y);
+		j.at("d_z").get_to(d.d_z);
+    }
+
+	void to_json(nlohmann::json& j, const Gyro& d) {
+        j = nlohmann::json{{"g_x", d.g_x}, {"g_y", d.g_y}, {"g_z", d.g_z}, {"d_x", d.d_x}, {"d_y", d.d_y}, {"z", d.d_z}};
+    }
+
+    void from_json(const nlohmann::json& j, Gyro& d) {
+        j.at("g_x").get_to(d.g_x);
+        j.at("g_y").get_to(d.g_y);
+		j.at("g_z").get_to(d.g_z);
+		j.at("d_x").get_to(d.d_x);
+        j.at("d_y").get_to(d.d_y);
+		j.at("d_z").get_to(d.d_z);
+    }
 }

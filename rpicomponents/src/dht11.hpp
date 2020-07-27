@@ -14,14 +14,9 @@ namespace rpicomponents {
 		float humidity{ 0 };
 	};
 
-	void to_json(nlohmann::json& j, const DHT_VALUES& d) {
-		j = nlohmann::json{{"temperature", d.temperature}, {"humidity", d.humidity}};
-	}
+	void to_json(nlohmann::json& j, const DHT_VALUES& d);
 
-    void from_json(const nlohmann::json& j, DHT_VALUES& d) {
-        j.at("temperature").get_to(d.temperature);
-        j.at("humidity").get_to(d.humidity);
-    }
+    void from_json(const nlohmann::json& j, DHT_VALUES& d);
 
     constexpr const char* COMPONENT_DHT11 = "dht11";
 	class Dht11 : public Component {

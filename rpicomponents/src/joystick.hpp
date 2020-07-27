@@ -15,15 +15,9 @@ namespace rpicomponents {
 		bool z{ false };
 	};
 
-	void to_json(nlohmann::json& j, const JoystickAxes& d) {
-        j = nlohmann::json{{"x", d.x}, {"y", d.y}, {"z", d.z}};
-    }
+	void to_json(nlohmann::json& j, const JoystickAxes& d);
 
-    void from_json(const nlohmann::json& j, JoystickAxes& d) {
-        j.at("x").get_to(d.x);
-        j.at("y").get_to(d.y);
-		j.at("z").get_to(d.z);
-    }
+    void from_json(const nlohmann::json& j, JoystickAxes& d);
 
 	class Joystick : public Component
 	{

@@ -46,3 +46,13 @@ void rpicomponents::Bidirectionalmotor::Stop() {
 const rpicomponents::BidirectionalmotorData& rpicomponents::Bidirectionalmotor::GetUsedL293DPins() const {
 	return usedPins_;
 }
+
+void rpicomponents::to_json(nlohmann::json& j, const rpicomponents::BidirectionalmotorData& d) {
+    j = nlohmann::json{{"enablePin", d.enablePin}, {"inCW", d.inCW}, {"inCCW", d.inCCW}};
+}
+
+void rpicomponents::from_json(const nlohmann::json& j, rpicomponents::BidirectionalmotorData& d) {
+	j.at("enablePin").get_to(d.enablePin);
+	j.at("inCW").get_to(d.inCW);
+	j.at("inCCW").get_to(d.inCCW);
+}

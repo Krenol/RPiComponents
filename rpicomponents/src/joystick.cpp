@@ -97,4 +97,14 @@ namespace rpicomponents
 		bool val = ReadZAxis();
 		out.at("z").get_to(val);
 	}
+
+	void to_json(nlohmann::json& j, const JoystickAxes& d) {
+        j = nlohmann::json{{"x", d.x}, {"y", d.y}, {"z", d.z}};
+    }
+
+    void from_json(const nlohmann::json& j, JoystickAxes& d) {
+        j.at("x").get_to(d.x);
+        j.at("y").get_to(d.y);
+		j.at("z").get_to(d.z);
+    }
 }

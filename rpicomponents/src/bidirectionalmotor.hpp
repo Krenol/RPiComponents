@@ -25,15 +25,9 @@ namespace rpicomponents {
 		int enablePin, inCW, inCCW;
 	};
 
-	void to_json(nlohmann::json& j, const BidirectionalmotorData& d) {
-        j = nlohmann::json{{"enablePin", d.enablePin}, {"inCW", d.inCW}, {"inCCW", d.inCCW}};
-    }
+	void to_json(nlohmann::json& j, const BidirectionalmotorData& d);
 
-    void from_json(const nlohmann::json& j, BidirectionalmotorData& d) {
-        j.at("enablePin").get_to(d.enablePin);
-        j.at("inCW").get_to(d.inCW);
-        j.at("inCCW").get_to(d.inCCW);
-    }
+	void from_json(const nlohmann::json& j, BidirectionalmotorData& d);
 
 	class Bidirectionalmotor : public Motor
 	{
