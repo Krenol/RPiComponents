@@ -8,10 +8,16 @@ void rpicomponents::Joystick::Initialize()
 	if (pcfXPin_ > pcf_->GetMaxPinOffset()) throw new std::invalid_argument("joystick pcf x pin must be < " + std::to_string(pcf_->GetMaxPinOffset()));
 	if (pcfYPin_ > pcf_->GetMaxPinOffset()) throw new std::invalid_argument("joystick pcf y pin must be < " + std::to_string(pcf_->GetMaxPinOffset()));
 	AddPins(pcf_->GetUsedPins());
-	AddPins(zBtn_->GetUsedPins());
+	AddPins(zBtn_.GetUsedPins());
 }
 
-rpicomponents::Joystick::Joystick(std::shared_ptr<rpicomponents::Pcf8591> pcf, int pcf_x_pin, int pcf_y_pin, std::unique_ptr<rpicomponents::Button> zBtn) : 
+rpicomponents::Joystick::Joystick(std::shared_ptr<rpicomponents::Pcf8591> pcf, int pcf_x_pin, int pcf_y_pin, std::shared_ptr<pin::Pin> zBtn_pin) :
+	Component(COMPONENT_JOYSTICK), pcf_{ pcf }, zBtn_{ rpicomponents::Button(zBtn_pin) }, pcfXPin_{ pcf_x_pin }, pcfYPin_{ pcf_y_pin }
+{
+	Initialize();
+}
+
+rpicomponents::Joystick::Joystick(std::shared_ptr<rpicomponents::Pcf8591> pcf, int pcf_x_pin, int pcf_y_pin, const rpicomponents::Button& zBtn) : 
 	Component(COMPONENT_JOYSTICK), pcf_{ pcf }, zBtn_{ zBtn }, pcfXPin_{ pcf_x_pin }, pcfYPin_{ pcf_y_pin }
 {
 	Initialize();
@@ -35,7 +41,7 @@ int rpicomponents::Joystick::ReadYAxis() const
 
 bool rpicomponents::Joystick::ReadZAxis() const
 {
-	return zBtn_->IsPressed();
+	return zBtn_.IsPressed();
 }
 
 const std::shared_ptr<rpicomponents::Pcf8591>& rpicomponents::Joystick::GetPcf() const
@@ -43,7 +49,7 @@ const std::shared_ptr<rpicomponents::Pcf8591>& rpicomponents::Joystick::GetPcf()
 	return pcf_;
 }
 
-const std::unique_ptr<rpicomponents::Button>& rpicomponents::Joystick::GetZBtn() const
+const rpicomponents::Button& rpicomponents::Joystick::GetZBtn() const
 {
 	return zBtn_;
 }

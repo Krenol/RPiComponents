@@ -11,17 +11,22 @@ namespace rpicomponents {
 	constexpr const int COMPONENT_LCD1602_MAX_CHARS = 16, COMPONENT_LCD1602_LINES = 2, COMPONENT_LCD1602_BITS = 4;
 
 	struct LcdPins {
-		LcdPins(int pinBase) : pinBase{ pinBase }, rs{ pinBase }, rw(pinBase + 1), en{ pinBase + 2 }, led(pinBase + 3), d4{ pinBase + 4 }, d5{ pinBase + 5 }, d6{ pinBase + 6 }, d7{ pinBase + 7 }
+		LcdPins(int pinBase) : pinBase{ pinBase }, rs{ pinBase }, rw{pinBase + 1}, en{ pinBase + 2 }, led{pinBase + 3}, d4{ pinBase + 4 }, d5{ pinBase + 5 }, d6{ pinBase + 6 }, d7{ pinBase + 7 }
 		{
 
 		}
-		const int pinBase, rs, rw, en, led, d4, d5, d6, d7;
+
+		LcdPins(const LcdPins& pins): pinBase{ pins.pinBase }, rs{ pins.rs }, rw{pins.rw}, en{ pins.en }, led{pins.led}, d4{ pins.d4 }, d5{ pins.d5 }, d6{ pins.d6 }, d7{ pins.d7 }
+		{
+
+		}
+		int pinBase, rs, rw, en, led, d4, d5, d6, d7;
 	};
 
 	class Lcd1602 : public Component
 	{
 	private:
-		std::unique_ptr<Pcf8574> pcf_;
+		Pcf8574 pcf_;
 		const int lcdHandle_{ -1 };
 		const LcdPins lcdPins_;
 		const long sleepMs_{ 300 };
@@ -37,7 +42,7 @@ namespace rpicomponents {
 
 		@param pcf The used pcf of the LCD
 		*/
-		Lcd1602(std::unique_ptr<Pcf8574> pcf);
+		Lcd1602(const Pcf8574& pcf);
 
 		/*
 		Copy Constructor for Lcd1602 component
@@ -51,7 +56,7 @@ namespace rpicomponents {
 
 		@returns const ref to pcf 
 		*/
-		const std::unique_ptr<Pcf8574>& GetPcf() const;
+		const Pcf8574& GetPcf() const;
 
 		/*
 		Method to turn on the lcd's backlight

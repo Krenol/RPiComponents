@@ -30,7 +30,7 @@ namespace rpicomponents {
 	private:
 		const std::shared_ptr<rpicomponents::Pcf8591> pcf_;
 		const int pcfXPin_{ -1 }, pcfYPin_{ -1 };
-		const std::unique_ptr<rpicomponents::Button> zBtn_;
+		rpicomponents::Button zBtn_;
 
 		/*
 		generic motion sensor initializer to avoid code duplication
@@ -44,9 +44,19 @@ namespace rpicomponents {
 		@param pcf The used pcf of the joystick
 		@param pcf_x_pin The pin at the pcf to which the x axis of the joystick is connected
 		@param pcf_y_pin The pin at the pcf to which the y axis of the joystick is connected
+		@param zBtn_pin z pin 
+		*/
+		Joystick(std::shared_ptr<rpicomponents::Pcf8591> pcf, int pcf_x_pin, int pcf_y_pin, std::shared_ptr<pin::Pin> zBtn_pin);
+
+		/*
+		Constructor for Joystick component
+
+		@param pcf The used pcf of the joystick
+		@param pcf_x_pin The pin at the pcf to which the x axis of the joystick is connected
+		@param pcf_y_pin The pin at the pcf to which the y axis of the joystick is connected
 		@param zBtn z pin represented as a button
 		*/
-		Joystick(std::shared_ptr<rpicomponents::Pcf8591> pcf, int pcf_x_pin, int pcf_y_pin, std::unique_ptr<rpicomponents::Button> zBtn);
+		Joystick(std::shared_ptr<rpicomponents::Pcf8591> pcf, int pcf_x_pin, int pcf_y_pin, const rpicomponents::Button& zBtn);
 
 		/*
 		Copy constructor
@@ -115,7 +125,7 @@ namespace rpicomponents {
 
 		@returns the reference to the unique_ptr of the button
 		*/
-		const std::unique_ptr<Button>& GetZBtn() const;
+		const Button& GetZBtn() const;
 
 		/*
 		Method to get the pcf x pin
