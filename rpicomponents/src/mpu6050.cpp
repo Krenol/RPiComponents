@@ -196,7 +196,7 @@ namespace rpicomponents
 	}
 
 	void to_json(nlohmann::json& j, const Accelerations& d) {
-        j = nlohmann::json{{"a_x", d.a_x}, {"a_y", d.a_y}, {"z", d.a_z}, {"d_x", d.d_x}, {"d_y", d.d_y}, {"z", d.d_z}};
+        j = nlohmann::json{{"a_x", d.a_x}, {"a_y", d.a_y}, {"a_z", d.a_z}, {"d_x", d.d_x}, {"d_y", d.d_y}, {"d_z", d.d_z}};
     }
 
     void from_json(const nlohmann::json& j, Accelerations& d) {
@@ -209,7 +209,7 @@ namespace rpicomponents
     }
 
 	void to_json(nlohmann::json& j, const Gyro& d) {
-        j = nlohmann::json{{"g_x", d.g_x}, {"g_y", d.g_y}, {"g_z", d.g_z}, {"d_x", d.d_x}, {"d_y", d.d_y}, {"z", d.d_z}};
+        j = nlohmann::json{{"g_x", d.g_x}, {"g_y", d.g_y}, {"g_z", d.g_z}, {"d_x", d.d_x}, {"d_y", d.d_y}, {"d_z", d.d_z}};
     }
 
     void from_json(const nlohmann::json& j, Gyro& d) {
