@@ -181,6 +181,19 @@ namespace rpicomponents
 	{
 		return offset_gyro_;
 	}
+	
+	nlohmann::json MPU6050::GetOffsets() 
+	{
+		nlohmann::json j;
+		GetOffsets(j);
+		return j;
+	}
+	
+	void MPU6050::GetOffsets(nlohmann::json& json) 
+	{
+		j["offsets"]["gyro"] = offset_gyro_;
+		j["offsets"]["acceleration"] = offset_acc_;
+	}
 
 	void to_json(nlohmann::json& j, const Accelerations& d) {
         j = nlohmann::json{{"a_x", d.a_x}, {"a_y", d.a_y}, {"z", d.a_z}, {"d_x", d.d_x}, {"d_y", d.d_y}, {"z", d.d_z}};

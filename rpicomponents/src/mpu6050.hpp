@@ -197,6 +197,17 @@ namespace rpicomponents {
 		*/
 		const Gyro& GetGyroOffset() const;
 
+		/*
+		Method to get all offsets in a JSON
+		@returns JSON containing the offsets of this MPU
+		*/
+		nlohmann::json GetOffsets();
+
+		/*
+		Method to get all offsets in a JSON
+		@json JSON where both offsets are to be stored
+		*/
+		void GetOffsets(nlohmann::json& json);
 	};
 }
 
