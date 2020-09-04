@@ -2,6 +2,7 @@
 //#include "../external/doctest/doctest/doctest.h"
 
 #include "rpicomponents/rpicomponents.hpp"
+#include "utils/utils.hpp"
 
 //***TEST CASES***
 
@@ -41,28 +42,21 @@ TEST_CASE("Steppermotor checker") {
 using json = nlohmann::json;
 
 int main() {
-    auto j3 = json::parse("{ \"happy\": true, \"pi\": 3.141 }");
-    json j;
-    // add a number that is stored as double (note the implicit conversion of j to an object)
-    j["pi"] = 3.141;
 
-    // add a Boolean that is stored as bool
-    j["happy"] = true;
-
-    std::cout << "json: " << j.dump() << std::endl;
-    
     rpicomponents::MPU6050 mpu;
     auto offset_a = mpu.CalibrateAcceleration();
     printf("\n\n\n-------------\n Ax=%.3f g\tAy=%.3f g\tAz=%.3f g\tdx=%.3f g\tdy=%.3f g\tdz=%.3f g\n-------------\n\n\n",
-        offset_a.a_x, offset_a.a_y, offset_a.a_z, offset_a.d_x, offset_a.d_y, offset_a.d_z);
+        offset_a.x, offset_a.y, offset_a.z, offset_a.dx, offset_a.dy, offset_a.dz);
     auto offset_g = mpu.CalibrateGyro();
     printf("\n\n\n-------------\n Gx=%.3f °/s\tGy=%.3f °/s\tGz=%.3f °/s\tdx=%.3f °/s\tdy=%.3f °/s\tdz=%.3f °/s\n-------------\n\n\n",
-        offset_g.g_x, offset_g.g_y, offset_g.g_z, offset_g.d_x, offset_g.d_y, offset_g.d_z);
-    while(1){
-        auto g = mpu.GetGyro();
-        auto a = mpu.GetAcceleration();
-        printf("\n Gx=%.3f °/s\tGy=%.3f °/s\tGz=%.3f °/s\tAx=%.3f g\tAy=%.3f g\tAz=%.3f g\n",g.g_x, g.g_y, g.g_z, a.a_x, a.a_y, a.a_z);
-		delay(500);
+        offset_g.x, offset_g.y, offset_g.z, offset_g.dx, offset_g.dy, offset_g.dz);
+    rpicomponents::mpu_angles a;
+    rpicomponents::mpu_data d;
+    while(true) {
+        mpu.GetKalmanAngles(a);
+        mpu.GetAcceleration(d);
+        printf("\n\n\n-------------\n beta=%.3f °\tgamma=%.3f °\tAx=%.3f g\tAy=%.3f g\tAz=%.3f g\n-------------\n\n\n", a.beta, a.gamma, d.x, d.y, d.z);
+        utils::Waiter::SleepMillis(500);
     }
     
 

@@ -1,6 +1,6 @@
 #include "component.hpp"
 #include <ctime>
-#include <thread>
+//#include <thread>
 #include <map>
 
 #ifndef RPICOMPONENTS_ULTRASONIC_SENSOR_H
@@ -83,7 +83,7 @@ namespace rpicomponents {
 		@param unit: the unit of the to be returned distance value
 		@returns the distance to a object in DISTANCE_UNIT, or INFINITY if nothing is measured
 		*/
-		float MeasureDistance(float  temperature, DISTANCE_UNIT unit) const;
+		float MeasureDistance(float temperature, DISTANCE_UNIT unit) const;
 
 		/*
 		Method to measure the distance to an object
