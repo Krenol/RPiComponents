@@ -1,5 +1,6 @@
 #include "component.hpp"
 #include <atomic>
+#include <mutex>
 #include <nlohmann/json.hpp>
 
 #ifndef RPICOMPONENTS_ESC_H
@@ -33,16 +34,13 @@ namespace rpicomponents {
 	private:
         const EscData escData_;
 		const std::shared_ptr<pin::Pin> pin_;
+		std::atomic<bool> is_armed_{false};
+		std::mutex mtx_;
 
 		/*
 		Initializer for Constructors; reduce redundancy
 		*/
 		void Initialize(); 
-
-        /*
-         method to arm the ESC
-        */
-        void Arm() const;
 
 	public:
 		/*
@@ -93,6 +91,17 @@ namespace rpicomponents {
 		@returns reference to used pin as shared_ptr
 		*/
 		const std::shared_ptr<pin::Pin>& GetPin() const;
+
+		/**
+		 * Method to calibrate the ESC; should be done before launching ESC for the first time!
+		 * 
+		 */
+		void Calibrate();
+
+		/*
+         method to arm the ESC
+        */
+        void Arm();
 	};
 }
 

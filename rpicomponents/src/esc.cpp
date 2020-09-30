@@ -1,71 +1,125 @@
 #include "esc.hpp"
 #include "utils/utils.hpp"
+#include <iostream>
 
-void rpicomponents::Esc::Initialize()
+namespace rpicomponents
 {
-	if (escData_.esc_min_value > escData_.esc_max_value) throw std::invalid_argument("ESC min value cannot be greater than ESC max value!");
-	if (escData_.esc_min_value < 0) throw std::invalid_argument("ESC min value cannot be lower than 0!");
-	if (escData_.esc_max_value < 0) throw std::invalid_argument("ESC max value cannot be lower than 0!");
-    Arm();
-}
 
-void rpicomponents::to_json(nlohmann::json& j, const rpicomponents::EscData& d) {
-    j = nlohmann::json{{"esc_min_value", d.esc_min_value}, {"esc_max_value", d.esc_max_value}};
-}
+    void Esc::Initialize()
+    {
+        if (escData_.esc_min_value > escData_.esc_max_value)
+        {
+            throw std::invalid_argument("ESC min value cannot be greater than ESC max value!");
+        }
+        if (escData_.esc_min_value < 0)
+        {
+            throw std::invalid_argument("ESC min value cannot be lower than 0!");
+        }
+        if (escData_.esc_max_value < 0)
+        {
+            throw std::invalid_argument("ESC max value cannot be lower than 0!");
+        }
+        if (pin_->OutputMode() != pin::PULSE_MODE)
+        {
+            throw std::invalid_argument("ESC pin must be of type PULSE_MODE");
+        }
+    }
 
-void rpicomponents::from_json(const nlohmann::json& j, rpicomponents::EscData& d) {
-    j.at("esc_max_value").get_to(d.esc_max_value);
-    j.at("esc_min_value").get_to(d.esc_min_value);
-}
+    void to_json(nlohmann::json &j, const EscData &d)
+    {
+        j = nlohmann::json{{"esc_min_value", d.esc_min_value}, {"esc_max_value", d.esc_max_value}};
+    }
 
+    void from_json(const nlohmann::json &j, EscData &d)
+    {
+        j.at("esc_max_value").get_to(d.esc_max_value);
+        j.at("esc_min_value").get_to(d.esc_min_value);
+    }
 
-void rpicomponents::Esc::Arm() const
-{
-    pin_->OutputOff();
-    utils::Waiter::SleepMillis(ESC_ARM_SLEEP_TIME_MS);
-    pin_->Output(escData_.esc_max_value);
-    utils::Waiter::SleepMillis(ESC_ARM_SLEEP_TIME_MS);
-    pin_->Output(escData_.esc_min_value);
-    utils::Waiter::SleepMillis(ESC_ARM_SLEEP_TIME_MS);
-}
+    void Esc::Arm()
+    {
+        std::lock_guard<std::mutex> guard(mtx_);
+        if (!is_armed_)
+        {
+            pin_->OutputOff();
+            utils::Waiter::SleepMillis(ESC_ARM_SLEEP_TIME_MS);
+            pin_->Output(escData_.esc_max_value);
+            utils::Waiter::SleepMillis(ESC_ARM_SLEEP_TIME_MS);
+            pin_->Output(escData_.esc_min_value);
+            utils::Waiter::SleepMillis(ESC_ARM_SLEEP_TIME_MS);
+            is_armed_ = true;
+        }
+    }
 
-rpicomponents::Esc::Esc(std::shared_ptr<pin::Pin> pin, int esc_min_value, int esc_max_value) : Component(COMPONENT_ESC), pin_{pin},
-	escData_{EscData(esc_min_value, esc_max_value)}
-{
-    Initialize();
-}
+    Esc::Esc(std::shared_ptr<pin::Pin> pin, int esc_min_value, int esc_max_value) : Component(COMPONENT_ESC), pin_{pin},
+                                                                                    escData_{EscData(esc_min_value, esc_max_value)}
+    {
+        Initialize();
+    }
 
-rpicomponents::Esc::Esc(std::shared_ptr<pin::Pin> pin, const EscData& escData) : Component(COMPONENT_ESC), pin_{ pin },
-escData_{ EscData(escData) }
-{
-    Initialize();
-}
+    Esc::Esc(std::shared_ptr<pin::Pin> pin, const EscData &escData) : Component(COMPONENT_ESC), pin_{pin},
+                                                                      escData_{EscData(escData)}
+    {
+        Initialize();
+    }
 
-rpicomponents::Esc::Esc(const Esc& esc) : Esc(esc.GetPin(), esc.GetEscData())
-{
-}
+    Esc::Esc(const Esc &esc) : Esc(esc.GetPin(), esc.GetEscData())
+    {
+    }
 
+    void Esc::SetOutputSpeed(int speed) const
+    {
+        if (!is_armed_)
+        {
+            throw std::logic_error("Arm ESC before setting it's speed");
+        }
+        pin_->Output(speed);
+    }
 
-void rpicomponents::Esc::SetOutputSpeed(int speed) const
-{
-	pin_->Output(speed);
-}
+    int Esc::GetEscSpeed() const
+    {
+        return pin_->ReadPinValue();
+    }
 
-int rpicomponents::Esc::GetEscSpeed() const
-{
-	return pin_->ReadPinValue();
-}
+    void Esc::TurnOff() const
+    {
+        if (!is_armed_)
+        {
+            throw std::logic_error("Arm ESC before setting it's speed");
+        }
+        pin_->OutputOff();
+    }
 
-void rpicomponents::Esc::TurnOff() const
-{
-	pin_->OutputOff();
-}
+    const EscData &Esc::GetEscData() const
+    {
+        return escData_;
+    }
 
-const rpicomponents::EscData& rpicomponents::Esc::GetEscData() const
-{
-	return escData_;
-}
+    const std::shared_ptr<pin::Pin> &Esc::GetPin() const
+    {
+        return pin_;
+    }
 
-const std::shared_ptr<pin::Pin>& rpicomponents::Esc::GetPin() const {
-	return pin_;
-}
+    void Esc::Calibrate()
+    {
+        int calibrate_secs = 12, off_secs = 2;
+        pin_->OutputOff();
+        std::cout << "Disconnect the ESC from the battery and press enter\n";
+        std::cin.get();
+        pin_->Output(escData_.esc_max_value);
+        std::cout << "Connect the ESC to the battery now\n";
+        std::cout << "Wait for two beeps and a falling tone, then press enter\n";
+        std::cin.get();
+        pin_->Output(escData_.esc_min_value);
+        std::cout << "Keeping ESC at it's min value for " << calibrate_secs << " seconds\n";
+        utils::Waiter::SleepSecs(calibrate_secs);
+        std::cout << "Turning it off and on again...\n";
+        pin_->OutputOff();
+        utils::Waiter::SleepSecs(off_secs);
+        pin_->Output(escData_.esc_min_value);
+        utils::Waiter::SleepSecs(off_secs);
+        std::cout << "ESC calibrated successfully!\n";
+        std::cout << "ESC is being armed now!\n";
+        Arm();
+    }
+} // namespace rpicomponents

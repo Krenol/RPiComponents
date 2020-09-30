@@ -37,30 +37,49 @@ TEST_CASE("Steppermotor checker") {
 #include <stdlib.h>
 #include <stdio.h>
 #include <nlohmann/json.hpp>
+#include <fstream> 
+#include <filesystem>
 
 // for convenience
 using json = nlohmann::json;
 
 int main() {
 
-    rpicomponents::MPU6050 mpu;
-    auto offset_a = mpu.CalibrateAcceleration();
-    printf("\n\n\n-------------\n Ax=%.3f g\tAy=%.3f g\tAz=%.3f g\tdx=%.3f g\tdy=%.3f g\tdz=%.3f g\n-------------\n\n\n",
-        offset_a.x, offset_a.y, offset_a.z, offset_a.dx, offset_a.dy, offset_a.dz);
-    auto offset_g = mpu.CalibrateGyro();
-    printf("\n\n\n-------------\n Gx=%.3f °/s\tGy=%.3f °/s\tGz=%.3f °/s\tdx=%.3f °/s\tdy=%.3f °/s\tdz=%.3f °/s\n-------------\n\n\n",
-        offset_g.x, offset_g.y, offset_g.z, offset_g.dx, offset_g.dy, offset_g.dz);
-    rpicomponents::mpu_angles a;
-    rpicomponents::mpu_data d;
-    while(true) {
-        mpu.GetKalmanAngles(a);
-        mpu.GetAcceleration(d);
-        printf("\n\n\n-------------\n beta=%.3f °\tgamma=%.3f °\tAx=%.3f g\tAy=%.3f g\tAz=%.3f g\n-------------\n\n\n", a.beta, a.gamma, d.x, d.y, d.z);
-        utils::Waiter::SleepMillis(500);
+    // rpicomponents::MPU6050 mpu;
+    // auto offset_a = mpu.CalibrateAcceleration();
+    // printf("\n\n\n-------------\n Ax=%.3f g\tAy=%.3f g\tAz=%.3f g\tdx=%.3f g\tdy=%.3f g\tdz=%.3f g\n-------------\n\n\n",
+    //     offset_a.x, offset_a.y, offset_a.z, offset_a.dx, offset_a.dy, offset_a.dz);
+    // auto offset_g = mpu.CalibrateGyro();
+    // printf("\n\n\n-------------\n Gx=%.3f °/s\tGy=%.3f °/s\tGz=%.3f °/s\tdx=%.3f °/s\tdy=%.3f °/s\tdz=%.3f °/s\n-------------\n\n\n",
+    //     offset_g.x, offset_g.y, offset_g.z, offset_g.dx, offset_g.dy, offset_g.dz);
+    // rpicomponents::mpu_angles a;
+    // rpicomponents::mpu_data d;
+    // while(true) {
+    //     mpu.GetKalmanAngles(a);
+    //     mpu.GetAcceleration(d);
+    //     printf("\n\n\n-------------\n beta=%.3f °\tgamma=%.3f °\tAx=%.3f g\tAy=%.3f g\tAz=%.3f g\n-------------\n\n\n", a.beta, a.gamma, d.x, d.y, d.z);
+    //     utils::Waiter::SleepMillis(500);
+    // }
+    std::ifstream ifs("/home/pi/mnt/RPiComponents/rpicomponents/test/data.json");
+    json jf = json::parse(ifs);
+    int pwm_max = jf.at("pwm");
+    int esc_max = jf.at("max");
+    int esc_min = jf.at("min");
+    int out = esc_min;
+    std::cout << "----\tSoftPWM: " << pwm_max << "\tesc_min: " << esc_min << "\tesc_max: " << esc_max << "\t----" << std::endl;
+    std::shared_ptr<pin::Pin> pin = std::move(pin::PinCreator::CreateSoftPwmPin(pin::GPIO4, pwm_max));
+    rpicomponents::Esc esc(pin, esc_min, esc_max);
+    esc.Calibrate();
+    //esc.Arm();
+    while (out <= esc_max){
+        std::cout << "\n----\tlet motor turn with: " << out << "\t----\n" << std::endl;
+        esc.SetOutputSpeed(out);
+        ++out;
+        utils::Waiter::SleepSecs(2);
     }
     
 
-	std::cin.get();
+	//std::cin.get();
 
 }
 
