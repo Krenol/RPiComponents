@@ -66,15 +66,15 @@ int main() {
     int esc_max = jf.at("max");
     int esc_min = jf.at("min");
     int out = esc_min;
-    std::cout << "----\tSoftPWM: " << pwm_max << "\tesc_min: " << esc_min << "\tesc_max: " << esc_max << "\t----" << std::endl;
-    std::shared_ptr<pin::Pin> pin = std::move(pin::PinCreator::CreateSoftPwmPin(pin::GPIO4, pwm_max));
+    std::cout << "----\tPulse: " << pwm_max << "\tesc_min: " << esc_min << "\tesc_max: " << esc_max << "\t----" << std::endl;
+    std::shared_ptr<pin::Pin> pin = std::move(pin::PinCreator::CreatePulsePin(pin::GPIO4, pwm_max));
     rpicomponents::Esc esc(pin, esc_min, esc_max);
     esc.Calibrate();
     //esc.Arm();
     while (out <= esc_max){
         std::cout << "\n----\tlet motor turn with: " << out << "\t----\n" << std::endl;
         esc.SetOutputSpeed(out);
-        ++out;
+        out += 50;
         utils::Waiter::SleepSecs(2);
     }
     
