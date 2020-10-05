@@ -6,6 +6,8 @@ ARG PROJECT_DIR=rpicomponents
 ARG BUILD_TEST
 ENV BUILD_TEST "$BUILD_TEST"
 
+RUN apt-get install -y libeigen3-dev
+
 WORKDIR /data
 
 # copy files
