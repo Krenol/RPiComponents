@@ -33,7 +33,7 @@ float rpicomponents::UltrasonicSensor::GetEchoTime() const
 	return INFINITY;
 }
 
-rpicomponents::UltrasonicSensor::UltrasonicSensor(std::shared_ptr<pin::Pin> trigger_pin, std::shared_ptr<pin::Pin> echo_pin) : 
+rpicomponents::UltrasonicSensor::UltrasonicSensor(int trigger_pin, int echo_pin) : 
 	Component(COMPONENT_ULTRASONIC_SENSOR),
     trigger_pin_{ trigger_pin }, echo_pin_{ echo_pin }
 {
@@ -104,12 +104,12 @@ float rpicomponents::UltrasonicSensor::UnitConverter(float  value, DISTANCE_UNIT
 	return outVal;
 }
 
-const std::shared_ptr<pin::Pin>& rpicomponents::UltrasonicSensor::GetTriggerPin() const
+int rpicomponents::UltrasonicSensor::GetTriggerPin() const
 {
 	return trigger_pin_;
 }
 
-const std::shared_ptr<pin::Pin>& rpicomponents::UltrasonicSensor::GetEchoPin() const
+int rpicomponents::UltrasonicSensor::GetEchoPin() const
 {
 	return echo_pin_;
 }

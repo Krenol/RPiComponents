@@ -2,14 +2,6 @@
 
 namespace rpicomponents
 {
-	void Dht11::Initialize()
-	{
-		auto mode = pin_->OutputMode();
-		if (mode != pin::IN_OUT_MODE)
-			throw new std::invalid_argument("pin for dht11 must be in in_out_mode");
-		AddPin(pin_->GetPin());
-	}
-
 	bool Dht11::CheckSum(const std::vector<uint8_t> &bits) const
 	{
 		auto sum = bits[0] + bits[1] + bits[2] + bits[3];
@@ -74,15 +66,17 @@ namespace rpicomponents
 		}
 	}
 
-	Dht11::Dht11(std::shared_ptr<pin::Pin> pin) : Component(COMPONENT_DHT11), pin_{pin}
+	Dht11::Dht11(int pin) : Component(COMPONENT_DHT11)
 	{
-		Initialize();
+		pin_ = pin::PinCreator::CreateInOutPin(pin, 1);
+		AddPin(pin_->GetPin());
 	}
 
 
-	Dht11::Dht11(const Dht11 &dht11) : Component(dht11.ToString()), pin_{dht11.GetPin()}
+	Dht11::Dht11(const Dht11 &dht11) : Component(dht11.ToString())
 	{
-		Initialize();
+		pin_ = pin::PinCreator::CreateInOutPin(dht11.GetPin(), 1);
+		AddPin(pin_->GetPin());
 	}
 
 	float Dht11::GetTemperature()
@@ -122,9 +116,9 @@ namespace rpicomponents
         out.at("humidity").get_to(val);
 	}
 
-	const std::shared_ptr<pin::Pin> &Dht11::GetPin() const
+	int Dht11::GetPin() const
 	{
-		return pin_;
+		return pin_->GetPin();
 	}
 
 	nlohmann::json Dht11::GetValuesJSON()

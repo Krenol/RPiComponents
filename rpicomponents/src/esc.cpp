@@ -19,10 +19,6 @@ namespace rpicomponents
         {
             throw std::invalid_argument("ESC max value cannot be lower than 0!");
         }
-        if (pin_->OutputMode() != pin::PULSE_MODE)
-        {
-            throw std::invalid_argument("ESC pin must be of type PULSE_MODE");
-        }
     }
 
     void to_json(nlohmann::json &j, const EscData &d)
@@ -51,19 +47,21 @@ namespace rpicomponents
         }
     }
 
-    Esc::Esc(std::shared_ptr<pin::Pin> pin, int esc_min_value, int esc_max_value) : Component(COMPONENT_ESC), pin_{pin},
+    Esc::Esc(int pin, int pulse_freq, int esc_min_value, int esc_max_value) : Component(COMPONENT_ESC),
                                                                                     escData_{EscData(esc_min_value, esc_max_value)}
     {
+        pin_ = pin_ = pin::PinCreator::CreatePulsePin(pin, pulse_freq);
         Initialize();
     }
 
-    Esc::Esc(std::shared_ptr<pin::Pin> pin, const EscData &escData) : Component(COMPONENT_ESC), pin_{pin},
+    Esc::Esc(int pin, int pulse_freq, const EscData &escData) : Component(COMPONENT_ESC),
                                                                       escData_{EscData(escData)}
     {
+        pin_ = pin_ = pin::PinCreator::CreatePulsePin(pin, pulse_freq);
         Initialize();
     }
 
-    Esc::Esc(const Esc &esc) : Esc(esc.GetPin(), esc.GetEscData())
+    Esc::Esc(const Esc &esc) : Esc(esc.GetPin(), esc.GetPulseFreq(), esc.GetEscData())
     {
     }
 
@@ -95,9 +93,13 @@ namespace rpicomponents
         return escData_;
     }
 
-    const std::shared_ptr<pin::Pin> &Esc::GetPin() const
+    int Esc::GetPulseFreq() const {
+        pin_->GetMaxOutValue();
+    }
+
+    int Esc::GetPin() const
     {
-        return pin_;
+        return pin_->GetPin();
     }
 
     void Esc::Calibrate()

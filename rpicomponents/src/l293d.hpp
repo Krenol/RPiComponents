@@ -6,8 +6,8 @@
 namespace rpicomponents {
 	constexpr const char* COMPONENT_L293D = "l293d";
 	constexpr const int L293D_INPIN_COUNT = 4, L293D_ENABLEPIN_COUNT = 2;
-	typedef std::map<int, std::shared_ptr<pin::Pin>> EnablePinMap;
-	typedef std::map<int, std::shared_ptr<pin::Pin>> InPinMap;
+	typedef std::map<int, std::unique_ptr<pin::Pin>> EnablePinMap;
+	typedef std::map<int, std::unique_ptr<pin::Pin>> InPinMap;
 
     class L293D : public Component {
 	private:
@@ -23,15 +23,19 @@ namespace rpicomponents {
 		/*
 		 Constructor for this component
 
-		 @param enable_pin1 The first enable pin of the l293d (Software PWM or Hardware PWM)
-		 @param enable_pin2 The second enable pin of the l293d (Software PWM or Hardware PWM)
+		 @param enable_pin1 The first enable pin of the l293d 
+		 @param enable_pin1_mode: The mode of the first enable pin
+		 @param enable_pin1_max: Max value of the first enable pin
+		 @param enable_pin2 The second enable pin of the l293d
+		 @param enable_pin2_mode: The mode of the second enable pin
+		 @param enable_pin2_max: Max value of the second enable pin
 		 @param in_pin1 The first input pin
 		 @param in_pin2 The second input pin
 		 @param in_pin3 The third input pin
 		 @param in_pin4 The fourth input pin
 		*/
-		L293D(std::shared_ptr<pin::Pin> enable_pin1, std::shared_ptr<pin::Pin> enable_pin2, std::shared_ptr<pin::Pin> in_pin1, 
-			std::shared_ptr<pin::Pin> in_pin2, std::shared_ptr<pin::Pin> in_pin3, std::shared_ptr<pin::Pin> in_pin4);
+		L293D(int enable_pin1, int enable_pin1_mode, int enable_pin1_max, int enable_pin2, int enable_pin2_mode, int enable_pin2_max, int in_pin1, 
+			int in_pin2, int in_pin3, int in_pin4);
 
 		L293D(const EnablePinMap& enablePins, const InPinMap& inPins);
 

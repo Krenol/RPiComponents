@@ -1,20 +1,13 @@
 #include "motionsensor.hpp"
 
 
-void rpicomponents::Motionsensor::Initialize() {
-	
-    if(pin_->OutputMode() != pin::INPUT_MODE) throw new std::invalid_argument("pin must be of type INPUT_MODE");
-    AddPin(pin_->GetPin());
-}
-
-
 rpicomponents::Motionsensor::Motionsensor(const Motionsensor& motionsensor) : Motionsensor(motionsensor.GetPin())
 {
-	
 }
 
-rpicomponents::Motionsensor::Motionsensor(std::shared_ptr<pin::Pin> pin) : Component(COMPONENT_MOTIONSENSOR),
-pin_{ pin }{
+rpicomponents::Motionsensor::Motionsensor(int pin) : Component(COMPONENT_MOTIONSENSOR) {
+    pin_ = pin::PinCreator::CreateInputPin(pin, 1);
+    AddPin(pin);
     Initialize();
 }
 
@@ -25,7 +18,7 @@ bool rpicomponents::Motionsensor::MotionDetected() const {
 	return false;
 }
 
-const std::shared_ptr<pin::Pin>& rpicomponents::Motionsensor::GetPin() const
+int rpicomponents::Motionsensor::GetPin() const
 {
-	return pin_;
+	return pin_->GetPin();
 }

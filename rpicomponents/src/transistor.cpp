@@ -8,7 +8,7 @@ void rpicomponents::Transistor::Initialize() {
 }
 
 
-rpicomponents::Transistor::Transistor(std::shared_ptr<pin::Pin> pin, TRANSISTOR_TYPE type) : Component(COMPONENT_TRANSISTOR),
+rpicomponents::Transistor::Transistor(int pin, TRANSISTOR_TYPE type) : Component(COMPONENT_TRANSISTOR),
 pin_{ pin }, type_{ type }
 {
 	Initialize();
@@ -43,7 +43,7 @@ bool rpicomponents::Transistor::IsOn() const {
     return type_ == NPN ? pin_->IsOn() : !pin_->IsOn();
 }
 
-const std::shared_ptr<pin::Pin>& rpicomponents::Transistor::GetPin() const
+int rpicomponents::Transistor::GetPin() const
 {
-    return pin_;
+    return pin_->GetPin();
 }

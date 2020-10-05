@@ -20,7 +20,7 @@ void rpicomponents::Steppermotor::Initialize() {
     }
 }
 
-rpicomponents::Steppermotor::Steppermotor(std::shared_ptr<pin::Pin> pin1, std::shared_ptr<pin::Pin> pin2, std::shared_ptr<pin::Pin> pin3, std::shared_ptr<pin::Pin> pin4, int steps) : 
+rpicomponents::Steppermotor::Steppermotor(int pin1, int pin2, int pin3, int pin4, int steps) : 
 	Motor(COMPONENT_STEPPERMOTOR), steps_{steps},
 	motorPins_{ {pin1->GetPin(), pin2->GetPin(), pin3->GetPin(), pin4->GetPin()} },
 	pins_{ {{1, pin1}, {2, pin2}, {3, pin3}, {4, pin4}} }
@@ -29,7 +29,7 @@ rpicomponents::Steppermotor::Steppermotor(std::shared_ptr<pin::Pin> pin1, std::s
 }
 
 rpicomponents::Steppermotor::Steppermotor(const StepperPinMap& pins, int steps) : Motor(COMPONENT_STEPPERMOTOR), steps_{ steps },
-	motorPins_{ ExtractKeys<int,std::shared_ptr<pin::Pin>>(pins) }, pins_{ pins }
+	motorPins_{ ExtractKeys<int,int>(pins) }, pins_{ pins }
 {
     Initialize();
 }

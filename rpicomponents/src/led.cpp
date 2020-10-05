@@ -9,12 +9,13 @@ void rpicomponents::Led::Initialize() {
 	AddPin(pin_->GetPin());
 }
 
-rpicomponents::Led::Led(std::shared_ptr<pin::Pin> pin, const bool& onIfPinOn) : Component(COMPONENT_LED), on_mode_{ onIfPinOn }, pin_{ pin }
+rpicomponents::Led::Led(int pin, int pin_mode, int pin_max_val, const bool& onIfPinOn) : Component(COMPONENT_LED), on_mode_{ onIfPinOn }
 {
+	pin_ = pin::PinCreator::CreatePin(pin, pin_mode, pin_max_val);
 	Initialize();
 }
 
-rpicomponents::Led::Led(const Led& led) : Led(led.GetPin(), led.IsOnIfPinHasPower())
+rpicomponents::Led::Led(const Led& led) : Led(led.GetPin(), led.GetPinMode(), led.GetMaxOutValue(), led.IsOnIfPinHasPower())
 {
 
 }
@@ -35,9 +36,9 @@ bool rpicomponents::Led::IsOn() const {
 	return on_mode_ ? pin_->IsOn() : !pin_->IsOn();
 }
 
-const std::shared_ptr<pin::Pin>& rpicomponents::Led::GetPin() const
+int rpicomponents::Led::GetPin() const
 {
-	return pin_;
+	return pin_->GetPin();
 }
 
 bool rpicomponents::Led::IsOnIfPinHasPower() const
@@ -48,4 +49,8 @@ bool rpicomponents::Led::IsOnIfPinHasPower() const
 pin::PIN_MODE rpicomponents::Led::GetPinMode() const
 {
 	return pin_->OutputMode();
+}
+
+int rpicomponents::Led::GetMaxOutValue() const {
+	return pin_->GetMaxOutValue();
 }

@@ -8,12 +8,7 @@ namespace rpicomponents {
 constexpr const char* COMPONENT_MOTIONSENSOR = "motionsensor";
 	class Motionsensor : Component {
 	private:
-        const std::shared_ptr<pin::Pin> pin_;
-
-		/*
-		 * generic motion sensor initializer to avoid code duplication
-		*/
-        void Initialize();
+        const std::unique_ptr<pin::Pin> pin_;
 
 	public:
 
@@ -21,7 +16,7 @@ constexpr const char* COMPONENT_MOTIONSENSOR = "motionsensor";
 		 * Constructor for the motion sensor
 		 * @param pin constant pointer to the input pin of the motion sensor
 		*/
-        Motionsensor(std::shared_ptr<pin::Pin> pin);
+        Motionsensor(int pin);
 
 		/*
 		 * Constructor for the motion sensor
@@ -47,7 +42,7 @@ constexpr const char* COMPONENT_MOTIONSENSOR = "motionsensor";
 		*
 		* @returns the used pin of the component
 		*/
-		const std::shared_ptr<pin::Pin>& GetPin() const;
+		int GetPin() const;
 
 	};
 }

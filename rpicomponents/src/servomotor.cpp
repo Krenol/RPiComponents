@@ -5,7 +5,8 @@
 void rpicomponents::Servomotor::Initialize()
 {
 	Stop();
-	if (pin_->OutputMode() != pin::SOFTPWM_MODE && pin_->OutputMode() != pin::PWM_MODE) {
+	auto mode = pin_->OutputMode();
+	if (mode != pin::SOFTPWM_MODE && mode != pin::PWM_MODE && mode != pin::PULSE_MODE) {
 		throw new std::invalid_argument("servo motor needs a pwm or softpwm pin!");
 	}
 	if (pin_->GetMaxOutValue() != COMPONENT_SERVOMOTOR_DEFAULT_PWM_VALUE) {
@@ -27,17 +28,18 @@ int rpicomponents::Servomotor::GetTurnTime(int angle) const
 	return val;
 }
 
-rpicomponents::Servomotor::Servomotor(std::shared_ptr<pin::Pin> pin, int maxAngle, int minPulseDuration, int maxPulseDuration, int pulseOffset) : 
+rpicomponents::Servomotor::Servomotor(int pin, int pin_mode, int pin_max_value, int maxAngle, int minPulseDuration, int maxPulseDuration, int pulseOffset) : 
 	Motor(COMPONENT_SERVOMOTOR),
-	servoData_{ ServomotorData (maxAngle, minPulseDuration, maxPulseDuration, pulseOffset)}, 
-	pin_{ pin }
+	servoData_{ ServomotorData (maxAngle, minPulseDuration, maxPulseDuration, pulseOffset)}
 {
+	pin_ = pin::PinCreator::CreatePin(pin, pin_mode, pin_max_value);
 	Initialize();
 }
 
-rpicomponents::Servomotor::Servomotor(std::shared_ptr<pin::Pin> pin, const ServomotorData& data) : 
-	Motor(COMPONENT_SERVOMOTOR), servoData_{ data }, pin_{ pin }
+rpicomponents::Servomotor::Servomotor(int pin, int pin_mode, int pin_max_value, const ServomotorData& data) : 
+	Motor(COMPONENT_SERVOMOTOR), servoData_{ data }
 {
+	pin_ = pin::PinCreator::CreatePin(pin, pin_mode, pin_max_value);
 	Initialize();
 }
 
@@ -69,6 +71,15 @@ void rpicomponents::Servomotor::Stop()
     Rotate(0);
 }
 
-const std::shared_ptr<pin::Pin>& rpicomponents::Servomotor::GetPin() const {
-	return pin_;
+int rpicomponents::Servomotor::GetPin() const {
+	return pin_->GetPin();
+}
+
+pin::PIN_MODE rpicomponents::Servomotor::GetPinMode() const
+{
+	return pin_->OutputMode();
+}
+
+int rpicomponents::Servomotor::GetMaxOutValue() const {
+	return pin_->GetMaxOutValue();
 }

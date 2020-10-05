@@ -1,26 +1,20 @@
 #include "button.hpp"
-//#include "../external/doctest/doctest/doctest.h"
 
-rpicomponents::Button::Button(std::shared_ptr<pin::Pin> pin, int pud) : Component(COMPONENT_BUTTON), pin_{ pin }, pud_{pud}
+
+rpicomponents::Button::Button(int pin, int pud) : Component(COMPONENT_BUTTON), pud_{pud}
 {
+	pin_ = pin::PinCreator::CreateInputPin(pin, 1);
 	Initialize();
 }
 
-//rpicomponents::Button::Button(int &&pin, int &&pud) : Component(COMPONENT_BUTTON), pin_(pin::PinCreator::CreatePin(pin, pin::INPUT_MODE)), pud_{ pud }
-//{
-//	Initialize();
-//}
-
-rpicomponents::Button::Button(const Button& button) : Component(button.ToString()), pin_{ button.GetPin() }, 
-pud_{ button.GetPUD() }
+rpicomponents::Button::Button(const Button& button) : Component(button.ToString()), pud_{ button.GetPUD() }
 {
+	pin_ = pin::PinCreator::CreateInputPin(button.GetPin(), 1);
 	Initialize();
 }
 
 void rpicomponents::Button::Initialize() {
 	if (!IsPUD(pud_)) throw new std::invalid_argument("given PUD is invalid!");
-	const auto mode = pin_->OutputMode();
-	if (mode != pin::INPUT_MODE) throw new std::invalid_argument("given pin is on output mode; it must be on input mode for a button!");
 	pullUpDnControl(pin_->GetPin(), pud_);
 	AddPin(pin_->GetPin());
 }
@@ -41,7 +35,7 @@ int rpicomponents::Button::GetPUD() const {
 	return pud_;
 }
 
-const std::shared_ptr<pin::Pin>& rpicomponents::Button::GetPin() const
+int rpicomponents::Button::GetPin() const
 {
-	return pin_;
+	return pin_->GetPin();
 }

@@ -6,7 +6,7 @@
 
 namespace rpicomponents {
 	constexpr const char* COMPONENT_STEPPERMOTOR = "steppermotor";
-	typedef std::map<int, std::shared_ptr<pin::Pin>> StepperPinMap;
+	typedef std::map<int, int> StepperPinMap;
 
 	class Steppermotor : public Motor {
 	private:
@@ -27,7 +27,7 @@ namespace rpicomponents {
 		@param pin4 The fourth pin of the stepper motor
 		@param steps The amount of steps the motor has
 		*/
-		Steppermotor(std::shared_ptr<pin::Pin> pin1, std::shared_ptr<pin::Pin> pin2, std::shared_ptr<pin::Pin> pin3, std::shared_ptr<pin::Pin> pin4, int steps = 2048);
+		Steppermotor(int pin1, int pin2, int pin3, int pin4, int steps = 2048);
 
 		/*
 		Constructor for this component

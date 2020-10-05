@@ -13,7 +13,7 @@ namespace rpicomponents {
     constexpr const char* COMPONENT_TRANSISTOR = "transistor";
 	class Transistor : public Component {
 	private:
-        const std::shared_ptr<pin::Pin> pin_; //the used pin of the transistor
+        const std::unique_ptr<pin::Pin> pin_; //the used pin of the transistor
 		const TRANSISTOR_TYPE type_{ NPN }; //the transistor type
 
 		/**
@@ -29,7 +29,7 @@ namespace rpicomponents {
 		* @param pin: GPIO pin of the transistor
 		* @param pud: the to be checked PUD value
 		*/
-		Transistor(std::shared_ptr<pin::Pin> pin, TRANSISTOR_TYPE type);
+		Transistor(int pin, TRANSISTOR_TYPE type);
 
 
 		/**
@@ -75,7 +75,7 @@ namespace rpicomponents {
 		*
 		* @returns the used pin of the component
 		*/
-		const std::shared_ptr<pin::Pin>& GetPin() const;
+		int GetPin() const;
 	};
 }
 

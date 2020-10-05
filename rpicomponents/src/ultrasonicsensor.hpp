@@ -16,8 +16,8 @@ namespace rpicomponents {
     constexpr const char* COMPONENT_ULTRASONIC_SENSOR= "ultrasonic_sensor";
 	class UltrasonicSensor : public Component {
 	private:
-        const std::shared_ptr<pin::Pin> trigger_pin_; //the used trigger pin of the sensor
-        const std::shared_ptr<pin::Pin>  echo_pin_; //the used echo pin of the sensor
+        const std::unique_ptr<pin::Pin> trigger_pin_; //the used trigger pin of the sensor
+        const std::unique_ptr<pin::Pin>  echo_pin_; //the used echo pin of the sensor
 		const clock_t max_delay_time_ = 10 * 1e-3 * CLOCKS_PER_SEC; //ms
 		const float std_temperature_ = 20.0f;
 		const DISTANCE_UNIT std_unit_ = UNIT_MM;
@@ -42,7 +42,7 @@ namespace rpicomponents {
 		@param trigger_pin: pin of the ultrasonic sensor to trigger a measurement
 		@param echo_pin: pin of the ultrasonic sensor to measure the inbound wave
 		*/
-        UltrasonicSensor(std::shared_ptr<pin::Pin> trigger_pin, std::shared_ptr<pin::Pin> echo_pin);
+        UltrasonicSensor(int trigger_pin, int echo_pin);
 
 
         /*
@@ -133,14 +133,14 @@ namespace rpicomponents {
 		
 		@returns the used pin of the component
 		*/
-		const std::shared_ptr<pin::Pin>& GetTriggerPin() const;
+		int GetTriggerPin() const;
 
 		/*
 		Method to get the used echo pin
 		
 		@returns the used pin of the component
 		*/
-		const std::shared_ptr<pin::Pin>& GetEchoPin() const;
+		int GetEchoPin() const;
 	};
 }
 
