@@ -67,7 +67,7 @@ int main() {
     int esc_min = jf.at("min");
     int out = esc_min;
     std::cout << "----\tPulse: " << pwm_max << "\tesc_min: " << esc_min << "\tesc_max: " << esc_max << "\t----" << std::endl;
-    std::shared_ptr<pin::Pin> pin = std::move(pin::PinCreator::CreatePulsePin(pin::GPIO4, pwm_max));
+    std::shared_ptr<pin::Pin> pin = std::move(pin::PinCreator::CreatePulsePin(pin::GPIO_MAP.at(jf.at("pin")), pwm_max));
     rpicomponents::Esc esc(pin, esc_min, esc_max);
     esc.Calibrate();
     //esc.Arm();
