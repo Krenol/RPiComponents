@@ -16,17 +16,12 @@ namespace rpicomponents {
     constexpr const char* COMPONENT_ULTRASONIC_SENSOR= "ultrasonic_sensor";
 	class UltrasonicSensor : public Component {
 	private:
-        const std::unique_ptr<pin::Pin> trigger_pin_; //the used trigger pin of the sensor
-        const std::unique_ptr<pin::Pin>  echo_pin_; //the used echo pin of the sensor
+        std::unique_ptr<pin::Pin> trigger_pin_; //the used trigger pin of the sensor
+        std::unique_ptr<pin::Pin>  echo_pin_; //the used echo pin of the sensor
 		const clock_t max_delay_time_ = 10 * 1e-3 * CLOCKS_PER_SEC; //ms
 		const float std_temperature_ = 20.0f;
 		const DISTANCE_UNIT std_unit_ = UNIT_MM;
 		static const std::map<DISTANCE_UNIT, float> convert_values_;
-
-		/*
-		Initializer for Constructors; reduce redundancy
-		*/
-        void Initialize();
 
 		/*
 		Method to measure the ping time to an object

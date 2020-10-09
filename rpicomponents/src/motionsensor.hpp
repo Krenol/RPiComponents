@@ -8,7 +8,7 @@ namespace rpicomponents {
 constexpr const char* COMPONENT_MOTIONSENSOR = "motionsensor";
 	class Motionsensor : Component {
 	private:
-        const std::unique_ptr<pin::Pin> pin_;
+        std::unique_ptr<pin::Pin> pin_;
 
 	public:
 

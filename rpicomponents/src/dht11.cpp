@@ -64,18 +64,19 @@ namespace rpicomponents
 		while (!CheckSum(bits))
 			bits = ReadSensor();
 		}
+		return bits;
 	}
 
 	Dht11::Dht11(int pin) : Component(COMPONENT_DHT11)
 	{
-		pin_ = pin::PinCreator::CreateInOutPin(pin, 1);
+		pin_ = pin::PinCreator::CreateInOutPin(pin, pin::DIGITAL_MODE_MAX_VAL);
 		AddPin(pin_->GetPin());
 	}
 
 
 	Dht11::Dht11(const Dht11 &dht11) : Component(dht11.ToString())
 	{
-		pin_ = pin::PinCreator::CreateInOutPin(dht11.GetPin(), 1);
+		pin_ = pin::PinCreator::CreateInOutPin(dht11.GetPin(), pin::DIGITAL_MODE_MAX_VAL);
 		AddPin(pin_->GetPin());
 	}
 

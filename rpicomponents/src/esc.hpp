@@ -33,7 +33,7 @@ namespace rpicomponents {
 	class Esc : public Component {
 	private:
         const EscData escData_;
-		const std::unique_ptr<pin::Pin> pin_;
+		std::unique_ptr<pin::Pin> pin_;
 		std::atomic<bool> is_armed_{false};
 		std::mutex mtx_;
 

@@ -11,26 +11,30 @@ std::vector<TK> ExtractKeys(std::map<TK, TV> const& input_map) {
 	return retval;
 }
 
-void rpicomponents::Steppermotor::Initialize() {
-    AddPins(motorPins_);
-    for(auto it : pins_) {
-        if(it.second->OutputMode() != pin::DIGITAL_MODE) {
-            throw std::invalid_argument("Steppermotor pins can only be of DIGITAL_MODE!");
-        }
-    }
-}
-
 rpicomponents::Steppermotor::Steppermotor(int pin1, int pin2, int pin3, int pin4, int steps) : 
-	Motor(COMPONENT_STEPPERMOTOR), steps_{steps},
-	motorPins_{ {pin1->GetPin(), pin2->GetPin(), pin3->GetPin(), pin4->GetPin()} },
-	pins_{ {{1, pin1}, {2, pin2}, {3, pin3}, {4, pin4}} }
-{
+	Motor(COMPONENT_STEPPERMOTOR), steps_{steps}
+{	
+	pin1_ = pin::PinCreator::CreateDigitalPin(pin1, pin::DIGITAL_MODE_MAX_VAL);
+	pin2_ = pin::PinCreator::CreateDigitalPin(pin2, pin::DIGITAL_MODE_MAX_VAL);
+	pin3_ = pin::PinCreator::CreateDigitalPin(pin3, pin::DIGITAL_MODE_MAX_VAL);
+	pin4_ = pin::PinCreator::CreateDigitalPin(pin4, pin::DIGITAL_MODE_MAX_VAL);
+	pin_map_ = {{1, pin1_->GetPinData()}, {2, pin2_->GetPinData()}, {3, pin3_->GetPinData()}, {4, pin4_->GetPinData()}};
+	pins_ = {{1, pin1_}, {2, pin2_}, {3, pin3_}, {4, pin4_}};
+	AddPins({pin1, pin2, pin3, pin4});
     Initialize();
 }
 
-rpicomponents::Steppermotor::Steppermotor(const StepperPinMap& pins, int steps) : Motor(COMPONENT_STEPPERMOTOR), steps_{ steps },
-	motorPins_{ ExtractKeys<int,int>(pins) }, pins_{ pins }
+rpicomponents::Steppermotor::Steppermotor(const std::map<int, pin::pin_data>& pin_map, int steps) : 
+	Motor(COMPONENT_STEPPERMOTOR), steps_{steps}
 {
+	int pin1 = pin_map.at(1).pin, pin2 = pin_map.at(2).pin, pin3 = pin_map.at(3).pin, pin4 = pin_map.at(4).pin;
+	pin1_ = pin::PinCreator::CreateDigitalPin(pin1, pin::DIGITAL_MODE_MAX_VAL);
+	pin2_ = pin::PinCreator::CreateDigitalPin(pin2, pin::DIGITAL_MODE_MAX_VAL);
+	pin3_ = pin::PinCreator::CreateDigitalPin(pin3, pin::DIGITAL_MODE_MAX_VAL);
+	pin4_ = pin::PinCreator::CreateDigitalPin(pin4, pin::DIGITAL_MODE_MAX_VAL);
+	pin_map_ = {{1, pin1_->GetPinData()}, {2, pin2_->GetPinData()}, {3, pin3_->GetPinData()}, {4, pin4_->GetPinData()}};
+	pins_ = {{1, pin1_}, {2, pin2_}, {3, pin3_}, {4, pin4_}};
+	AddPins({pin1, pin2, pin3, pin4});
     Initialize();
 }
 
@@ -76,6 +80,6 @@ int rpicomponents::Steppermotor::GetMotorSteps() const {
 }
 
 
-const rpicomponents::StepperPinMap& rpicomponents::Steppermotor::GetMotorPins() const {
-	return pins_;
+const std::map<int, pin::pin_data>& rpicomponents::Steppermotor::GetMotorPins() const {
+	return pin_map_;
 }

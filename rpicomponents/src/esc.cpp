@@ -50,14 +50,14 @@ namespace rpicomponents
     Esc::Esc(int pin, int pulse_freq, int esc_min_value, int esc_max_value) : Component(COMPONENT_ESC),
                                                                                     escData_{EscData(esc_min_value, esc_max_value)}
     {
-        pin_ = pin_ = pin::PinCreator::CreatePulsePin(pin, pulse_freq);
+        pin_ = pin::PinCreator::CreatePulsePin(pin, pulse_freq);
         Initialize();
     }
 
     Esc::Esc(int pin, int pulse_freq, const EscData &escData) : Component(COMPONENT_ESC),
                                                                       escData_{EscData(escData)}
     {
-        pin_ = pin_ = pin::PinCreator::CreatePulsePin(pin, pulse_freq);
+        pin_ = pin::PinCreator::CreatePulsePin(pin, pulse_freq);
         Initialize();
     }
 

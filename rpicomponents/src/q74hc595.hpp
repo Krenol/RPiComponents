@@ -13,7 +13,7 @@ namespace rpicomponents {
 	class Q74HC595 : public Component
 	{
 	private:
-		const std::unique_ptr<pin::Pin> ds_, stcp_, shcp_;
+		std::unique_ptr<pin::Pin> ds_, stcp_, shcp_;
         std::map<int, bool> q_pin_map_;
 		static const int out_sleep_{ 1 }; //ms
 

@@ -7,7 +7,7 @@ namespace rpicomponents {
 	constexpr const char* COMPONENT_BUTTON = "button";
 	class Button : public Component {
 	private:
-		const std::unique_ptr<pin::Pin> pin_; //the used pin of the button
+		std::unique_ptr<pin::Pin> pin_; //the used pin of the button
 		const int pud_{ PUD_UP }; //the pud mode of the button
 
 		/*

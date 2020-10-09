@@ -40,8 +40,8 @@ rpicomponents::Q74HC595::Q74HC595(int ds_pin, int stcp_pin, int shcp_pin) :
 		throw new std::invalid_argument("stcp pin cannot be the same as the ds pin!");
 	}
 	ds_ = pin::PinCreator::CreateDigitalPin(ds_pin, pin::DIGITAL_MODE_MAX_VAL);
-	stcp_pin = pin::PinCreator::CreateDigitalPin(ds_pin, pin::DIGITAL_MODE_MAX_VAL);
-	shcp_pin = pin::PinCreator::CreateDigitalPin(ds_pin, pin::DIGITAL_MODE_MAX_VAL);
+	stcp_ = pin::PinCreator::CreateDigitalPin(ds_pin, pin::DIGITAL_MODE_MAX_VAL);
+	shcp_ = pin::PinCreator::CreateDigitalPin(ds_pin, pin::DIGITAL_MODE_MAX_VAL);
 	for (int i = 0; i < COMPONENT_Q74HC595_MAX_Q_PINS; i++) {
 		q_pin_map_.insert(std::make_pair(i, false));
 	}

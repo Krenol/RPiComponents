@@ -8,7 +8,6 @@ rpicomponents::Motionsensor::Motionsensor(const Motionsensor& motionsensor) : Mo
 rpicomponents::Motionsensor::Motionsensor(int pin) : Component(COMPONENT_MOTIONSENSOR) {
     pin_ = pin::PinCreator::CreateInputPin(pin, 1);
     AddPin(pin);
-    Initialize();
 }
 
 bool rpicomponents::Motionsensor::MotionDetected() const {

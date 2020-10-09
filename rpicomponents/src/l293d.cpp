@@ -2,78 +2,86 @@
 
 void rpicomponents::L293D::Initialize()
 {
-	//check both maps
-	if (enablePins_.find(1) == enablePins_.end())
-	{
-		throw std::invalid_argument("enable pin 1 is not part of the EnablePinMap!");
-	}
-	if (enablePins_.find(2) == enablePins_.end())
-	{
-		throw std::invalid_argument("enable pin 2 is not part of the EnablePinMap!");
-	}
-	if (inPins_.find(1) == inPins_.end())
-	{
-		throw std::invalid_argument("in pin 1 is not part of the InPinMap!");
-	}
-	if (inPins_.find(2) == inPins_.end())
-	{
-		throw std::invalid_argument("in pin 2 is not part of the InPinMap!");
-	}
-	if (inPins_.find(3) == inPins_.end())
-	{
-		throw std::invalid_argument("in pin 3 is not part of the InPinMap!");
-	}
-	if (inPins_.find(4) == inPins_.end())
-	{
-		throw std::invalid_argument("in pin 4 is not part of the InPinMap!");
-	}
-
 	//catch wrong inputs
-	if (enablePins_.at(1)->OutputMode() == pin::INPUT_MODE || enablePins_.at(1)->OutputMode() == pin::IN_OUT_MODE)
+	if (enable1_->OutputMode() == pin::INPUT_MODE || enable1_->OutputMode() == pin::IN_OUT_MODE)
 	{
 		throw std::invalid_argument("enable pin 1 cannot be an input or input/output pin!");
 	}
 
-	if (enablePins_.at(2)->OutputMode() == pin::INPUT_MODE || enablePins_.at(2)->OutputMode() == pin::IN_OUT_MODE)
+	if (enable2_->OutputMode() == pin::INPUT_MODE || enable2_->OutputMode() == pin::IN_OUT_MODE)
 	{
 		throw std::invalid_argument("enable pin 2 cannot be an input or input/output pin!");
 	}
 
 	//add pins to vector
-	AddPins({enablePins_.at(1)->GetPin(), enablePins_.at(2)->GetPin(), inPins_.at(1)->GetPin(),
-			 inPins_.at(2)->GetPin(), inPins_.at(3)->GetPin(), inPins_.at(4)->GetPin()});
+	AddPins({enable1_->GetPin(), enable2_->GetPin(), in1_->GetPin(),
+			 in2_->GetPin(), in3_->GetPin(), in4_->GetPin()});
 }
 
-rpicomponents::L293D::L293D(int enable_pin1, int enable_pin1_mode, int enable_pin1_max, int enable_pin2, int enable_pin2_mode, int enable_pin2_max, int in_pin1,
+rpicomponents::L293D::L293D(int enable_pin1, pin::PIN_MODE enable_pin1_mode, int enable_pin1_max, int enable_pin2, pin::PIN_MODE enable_pin2_mode, int enable_pin2_max, int in_pin1,
 							int in_pin2, int in_pin3, int in_pin4) : Component(COMPONENT_L293D)
 {
-	enablePins_ = {{1, pin::PinCreator::CreatePin(enable_pin1, enable_pin1_mode, enable_pin1_max)}, {2, pin::PinCreator::CreatePin(enable_pin2, enable_pin2_mode, enable_pin2_max)}};
-	inPins_ = {{1, pin::PinCreator::CreateInputPin(in_pin1, pin::DIGITAL_MODE_MAX_VAL)}}, {2, pin::PinCreator::CreateInputPin(in_pin2, pin::DIGITAL_MODE_MAX_VAL)},
-	{3, pin::PinCreator::CreateInputPin(in_pin3, pin::DIGITAL_MODE_MAX_VAL)}, { 4, pin::PinCreator::CreateInputPin(in_pin4, pin::DIGITAL_MODE_MAX_VAL) }
-};
-Initialize();
-}
-
-rpicomponents::L293D::L293D(const EnablePinMap &enablePins, const InPinMap &inPins) : Component(COMPONENT_L293D)																					  
-{
-	enablePins_ = std::move(enablePins);
-	inPins_ = std::move(inPins);
+	enable1_ = pin::PinCreator::CreatePin(enable_pin1, enable_pin1_mode, enable_pin1_max);
+	enable2_ = pin::PinCreator::CreatePin(enable_pin2, enable_pin2_mode, enable_pin2_max);
+	enablePins_ = {{1, enable1_}, {2, enable2_}};
+	in1_ = pin::PinCreator::CreateInputPin(in_pin1, pin::DIGITAL_MODE_MAX_VAL);
+	in2_ = pin::PinCreator::CreateInputPin(in_pin2, pin::DIGITAL_MODE_MAX_VAL);
+	in3_ = pin::PinCreator::CreateInputPin(in_pin3, pin::DIGITAL_MODE_MAX_VAL);
+	in4_ = pin::PinCreator::CreateInputPin(in_pin4, pin::DIGITAL_MODE_MAX_VAL);
+	inPins_ = {{1, in1_}, {2, in2_}, {3, in3_}, {4, in4_}};
 	Initialize();
 }
 
-rpicomponents::L293D::L293D(const L293D &l293d) : L293D(l293d.GetEnablePins(), l293d.GetInPins())
+rpicomponents::L293D::L293D(const pin::pin_data& enable_pin1, const pin::pin_data& enable_pin2, int in_pin1, 
+			int in_pin2, int in_pin3, int in_pin4) : Component(COMPONENT_L293D)
 {
-	// Initialize method not called here as other constructor is called
+	enable1_ = pin::PinCreator::CreatePin(enable_pin1);
+	enable2_ = pin::PinCreator::CreatePin(enable_pin2);
+	enablePins_ = {{1, enable1_}, {2, enable2_}};
+	in1_ = pin::PinCreator::CreateInputPin(in_pin1, pin::DIGITAL_MODE_MAX_VAL);
+	in2_ = pin::PinCreator::CreateInputPin(in_pin2, pin::DIGITAL_MODE_MAX_VAL);
+	in3_ = pin::PinCreator::CreateInputPin(in_pin3, pin::DIGITAL_MODE_MAX_VAL);
+	in4_ = pin::PinCreator::CreateInputPin(in_pin4, pin::DIGITAL_MODE_MAX_VAL);
+	inPins_ = {{1, in1_}, {2, in2_}, {3, in3_}, {4, in4_}};
+	Initialize();
 }
 
-const rpicomponents::EnablePinMap &rpicomponents::L293D::GetEnablePins() const
+rpicomponents::L293D::L293D(const L293D& l293d) : Component(COMPONENT_L293D)
 {
-	return enablePins_;
+	auto enable = l293d.GetEnablePins();
+	auto in = l293d.GetInPins();
+	enable1_ = pin::PinCreator::CreatePin(enable.at(1));
+	enable2_ = pin::PinCreator::CreatePin(enable.at(2));
+	enablePins_ = {{1, enable1_}, {2, enable2_}};
+	in1_ = pin::PinCreator::CreatePin(in.at(1));
+	in2_ = pin::PinCreator::CreatePin(in.at(2));
+	in3_ = pin::PinCreator::CreatePin(in.at(3));
+	in4_ = pin::PinCreator::CreatePin(in.at(4));
+	inPins_ = {{1, in1_}, {2, in2_}, {3, in3_}, {4, in4_}};
+	Initialize();
 }
 
-const rpicomponents::InPinMap &rpicomponents::L293D::GetInPins() const
-{
-	return inPins_;
+std::map<int, pin::pin_data> rpicomponents::L293D::GetEnablePins() const {
+	std::map<int, pin::pin_data> data;
+	auto it = enablePins_.begin();
+	while (it != enablePins_.end())
+    {
+		data.insert({it->first, it->second->GetPinData()});
+        it++;
+    }
+	return data;
+}
+
+
+std::map<int, pin::pin_data> rpicomponents::L293D::GetInPins() const {
+	std::map<int, pin::pin_data> data;
+	auto it = inPins_.begin();
+	while (it != inPins_.end())
+    {
+		data.insert({it->first, it->second->GetPinData()});
+        it++;
+    }
+	return data;
 }
 
 void rpicomponents::L293D::TurnOnIn1() const

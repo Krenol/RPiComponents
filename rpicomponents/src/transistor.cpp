@@ -1,20 +1,18 @@
 #include "transistor.hpp"
 
-void rpicomponents::Transistor::Initialize() {
-	
-    auto mode = pin_->OutputMode();
-    if (mode == pin::INPUT_MODE || mode == pin::IN_OUT_MODE) throw new std::invalid_argument("pin for transistor cannot be on input mode");
-    AddPin(pin_->GetPin());
-}
 
 
-rpicomponents::Transistor::Transistor(int pin, TRANSISTOR_TYPE type) : Component(COMPONENT_TRANSISTOR),
-pin_{ pin }, type_{ type }
+
+rpicomponents::Transistor::Transistor(int pin, pin::PIN_MODE pin_mode, int pin_max_val, TRANSISTOR_TYPE type) : Component(COMPONENT_TRANSISTOR), type_{ type }
 {
-	Initialize();
+
+	if (pin_mode == pin::INPUT_MODE || pin_mode == pin::IN_OUT_MODE) throw new std::invalid_argument("pin for transistor cannot be on input mode");
+    pin_ = pin::PinCreator::CreatePin(pin, pin_mode, pin_max_val);
+    AddPin(pin);
 }
 
-rpicomponents::Transistor::Transistor(const Transistor& transistor) : Transistor(transistor.GetPin(), transistor.GetType())
+rpicomponents::Transistor::Transistor(const Transistor& transistor) : 
+    Transistor(transistor.GetPin(), transistor.GetPinMode(), transistor.GetMaxOutValue(), transistor.GetType())
 {
 
 }
@@ -46,4 +44,13 @@ bool rpicomponents::Transistor::IsOn() const {
 int rpicomponents::Transistor::GetPin() const
 {
     return pin_->GetPin();
+}
+
+pin::PIN_MODE rpicomponents::Transistor::GetPinMode() const
+{
+	return pin_->OutputMode();
+}
+
+int rpicomponents::Transistor::GetMaxOutValue() const {
+	return pin_->GetMaxOutValue();
 }

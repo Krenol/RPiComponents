@@ -6,13 +6,11 @@
 namespace rpicomponents {
 	constexpr const char* COMPONENT_L293D = "l293d";
 	constexpr const int L293D_INPIN_COUNT = 4, L293D_ENABLEPIN_COUNT = 2;
-	typedef std::map<int, std::unique_ptr<pin::Pin>> EnablePinMap;
-	typedef std::map<int, std::unique_ptr<pin::Pin>> InPinMap;
 
     class L293D : public Component {
 	private:
-		const EnablePinMap enablePins_;
-		const InPinMap inPins_;
+		std::unique_ptr<pin::Pin> enable1_, enable2_, in1_, in2_, in3_, in4_;
+		std::map <int, std::unique_ptr<pin::Pin>&> inPins_, enablePins_;
 
 		/*
 		Initiliazer for this component
@@ -34,10 +32,8 @@ namespace rpicomponents {
 		 @param in_pin3 The third input pin
 		 @param in_pin4 The fourth input pin
 		*/
-		L293D(int enable_pin1, int enable_pin1_mode, int enable_pin1_max, int enable_pin2, int enable_pin2_mode, int enable_pin2_max, int in_pin1, 
+		L293D(int enable_pin1, pin::PIN_MODE enable_pin1_mode, int enable_pin1_max, int enable_pin2, pin::PIN_MODE enable_pin2_mode, int enable_pin2_max, int in_pin1, 
 			int in_pin2, int in_pin3, int in_pin4);
-
-		L293D(const EnablePinMap& enablePins, const InPinMap& inPins);
 
 		/*
 		 Copy constructor for this component
@@ -47,18 +43,29 @@ namespace rpicomponents {
 		L293D(const L293D& l293d);
 
 		/*
-		Method to get the enable pin parameters
+		 Constructor for this component
 
-		@returns a EnablePinStruct containing the parameters of enable pin 1 and 2
+		 @param enable_pin1 The first enable pin of the l293d 
+		 @param enable_pin2 The second enable pin of the l293d 
+		 @param in_pin1 The first input pin
+		 @param in_pin2 The second input pin
+		 @param in_pin3 The third input pin
+		 @param in_pin4 The fourth input pin
 		*/
-        const EnablePinMap& GetEnablePins() const;
+		L293D(const pin::pin_data& enable_pin1, const pin::pin_data& enable_pin2, int in_pin1, 
+			int in_pin2, int in_pin3, int in_pin4);
 
-		/*
-		Method to get the in pin parameters
+		/**
+		 * Method to get the pin_data of all enable pins
+		 * @returns a map containing the pin_data of each enable pin
+		 */
+		std::map<int, pin::pin_data> GetEnablePins() const;
 
-		@returns a InPinStruct containing the parameters of input pin 1, 2, 3 and 4
-		*/
-        const InPinMap& GetInPins() const;
+		/**
+		 * Method to get the pin_data of all in pins
+		 * @returns a map containing the pin_data of each in pin
+		 */
+		std::map<int, pin::pin_data> GetInPins() const;
 
 		/*
 		Method to turn on in pin 1
