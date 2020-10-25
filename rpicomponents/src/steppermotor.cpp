@@ -21,7 +21,6 @@ rpicomponents::Steppermotor::Steppermotor(int pin1, int pin2, int pin3, int pin4
 	pin_map_ = {{1, pin1_->GetPinData()}, {2, pin2_->GetPinData()}, {3, pin3_->GetPinData()}, {4, pin4_->GetPinData()}};
 	pins_ = {{1, pin1_}, {2, pin2_}, {3, pin3_}, {4, pin4_}};
 	AddPins({pin1, pin2, pin3, pin4});
-    Initialize();
 }
 
 rpicomponents::Steppermotor::Steppermotor(const std::map<int, pin::pin_data>& pin_map, int steps) : 
@@ -35,7 +34,6 @@ rpicomponents::Steppermotor::Steppermotor(const std::map<int, pin::pin_data>& pi
 	pin_map_ = {{1, pin1_->GetPinData()}, {2, pin2_->GetPinData()}, {3, pin3_->GetPinData()}, {4, pin4_->GetPinData()}};
 	pins_ = {{1, pin1_}, {2, pin2_}, {3, pin3_}, {4, pin4_}};
 	AddPins({pin1, pin2, pin3, pin4});
-    Initialize();
 }
 
 rpicomponents::Steppermotor::Steppermotor(const Steppermotor& motor) : Steppermotor(motor.GetMotorPins(), motor.GetMotorSteps())

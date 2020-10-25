@@ -9,7 +9,7 @@ namespace rpicomponents
     {
         if (escData_.esc_min_value > escData_.esc_max_value)
         {
-            throw std::invalid_argument("ESC min value cannot be greater than ESC max value!");
+            throw std::invalid_argument("esc_min_value (" + std::to_string(escData_.esc_min_value) + ") > esc_max_value (" + std::to_string(escData_.esc_max_value) + ")");
         }
         if (escData_.esc_min_value < 0)
         {
@@ -94,7 +94,7 @@ namespace rpicomponents
     }
 
     int Esc::GetPulseFreq() const {
-        pin_->GetMaxOutValue();
+        return pin_->GetMaxOutValue();
     }
 
     int Esc::GetPin() const

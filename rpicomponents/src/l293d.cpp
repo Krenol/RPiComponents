@@ -251,5 +251,5 @@ bool rpicomponents::L293D::ValidEnablePin(int pinNo) const
 bool rpicomponents::L293D::ValidInPin(int pinNo) const
 {
 	auto p = inPins_.find(pinNo);
-	return p != enablePins_.end();
+	return p != inPins_.end();
 }
