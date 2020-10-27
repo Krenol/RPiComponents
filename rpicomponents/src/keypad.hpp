@@ -41,8 +41,8 @@
 #define bitWrite(x,n,b)	(b ? (x |= 1<<n) : (x &= ~(1<<n)))
 #define bitRead(x,n)	((((x>>n)&1) == 1) ? 1 : 0)
 
-#define OPEN LOW
-#define CLOSED HIGH
+#define OPEN 0
+#define CLOSED 1
 
 typedef char KeypadEvent;
 typedef unsigned int uint;
@@ -102,6 +102,8 @@ namespace rpicomponents {
 		void nextKeyState(byte_key n, bool button);
 		void transitionTo(byte_key n, KeyState nextState);
 		void (*keypadEventListener)(char);
+
+		long millis();
 	};
 
 	//#define __PIN_MODE__PINWRITE__PINREAD__

@@ -10,6 +10,7 @@
 
 namespace rpicomponents {
 	constexpr const char* COMPONENT = "component";
+	constexpr const int I2C_BUS_CHANNEL  = 1;
 	class Component {
 	private:
 		//necessary Component values

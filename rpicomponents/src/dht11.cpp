@@ -16,13 +16,13 @@ namespace rpicomponents
 		uint8_t counter = 0, j = 0;
 
 		std::lock_guard<std::mutex> guard(mtx_);
-		pin_->Output(LOW);
+		pin_->Output(0);
 
 		utils::Waiter::SleepMillis(wake_delay_);
-		pin_->Output(HIGH);
+		pin_->Output(1);
 		utils::Waiter::SleepMillis(40 * time_delay_);
 
-		auto laststate = HIGH;
+		auto laststate = 1;
 		for (auto i = 0; i < max_timings_; i++)
 		{
 			counter = 0;

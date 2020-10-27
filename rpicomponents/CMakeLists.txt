@@ -12,7 +12,7 @@ ${PROJECT_SOURCE_DIR}/led.cpp
 ${PROJECT_SOURCE_DIR}/transistor.cpp
 ${PROJECT_SOURCE_DIR}/ultrasonicsensor.cpp
 ${PROJECT_SOURCE_DIR}/dht11.cpp
-${PROJECT_SOURCE_DIR}/pcf8574.cpp
+#${PROJECT_SOURCE_DIR}/pcf8574.cpp
 ${PROJECT_SOURCE_DIR}/pcf8591.cpp
 ${PROJECT_SOURCE_DIR}/pcf.cpp
 ${PROJECT_SOURCE_DIR}/mpu6050.cpp
@@ -23,7 +23,7 @@ ${PROJECT_SOURCE_DIR}/l293d.cpp
 ${PROJECT_SOURCE_DIR}/joystick.cpp
 ${PROJECT_SOURCE_DIR}/key.cpp
 ${PROJECT_SOURCE_DIR}/keypad.cpp
-${PROJECT_SOURCE_DIR}/lcd1602.cpp
+#${PROJECT_SOURCE_DIR}/lcd1602.cpp
 ${PROJECT_SOURCE_DIR}/motor.cpp
 ${PROJECT_SOURCE_DIR}/steppermotor.cpp
 ${PROJECT_SOURCE_DIR}/bidirectionalmotor.cpp

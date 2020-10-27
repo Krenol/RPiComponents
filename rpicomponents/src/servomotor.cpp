@@ -6,8 +6,8 @@ void rpicomponents::Servomotor::Initialize()
 {
 	Stop();
 	auto mode = pin_->OutputMode();
-	if (mode != pin::SOFTPWM_MODE && mode != pin::PWM_MODE && mode != pin::PULSE_MODE) {
-		throw new std::invalid_argument("servo motor needs a pwm or softpwm pin!");
+	if (mode != pin::PWM_MODE && mode != pin::PULSE_MODE) {
+		throw new std::invalid_argument("servo motor needs a pwm or pulse pin!");
 	}
 	if (pin_->GetMaxOutValue() != COMPONENT_SERVOMOTOR_DEFAULT_PWM_VALUE) {
 		std::cout << "-------------------------------------" << std::endl;

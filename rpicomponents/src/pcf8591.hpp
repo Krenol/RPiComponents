@@ -18,6 +18,11 @@ namespace rpicomponents {
 		*/
 		Pcf8591(int address, int pin_base = 64);
 
+		/**
+		 * Destructor
+		 */
+		~Pcf8591();
+
 		/*
 		Constructor
 
@@ -38,7 +43,7 @@ namespace rpicomponents {
 
 		@param value: The value to be written (0-255)
 		*/
-		void WriteToPcfPin(int value) const;
+		void WriteToPcfPin(int pcf_pin_no, int value) const;
 
 		/*
 		Method that reads the input to a pcf pin
@@ -47,15 +52,6 @@ namespace rpicomponents {
 		@returns: the read pin value (0 to 255)
 		*/
 		int ReadFromPcfPin(int pcf_pin_no) const;
-
-     private:
-		/*
-		Method that writes output to a pcf pin
-
-		@param pcf_pin_no: The pcf pin to be written to
-		@param value: The value to be written (0-255)
-		*/
-		void WriteToPcfPin(int pcf_pin_no, int value) const;
 	};
 }
 #endif

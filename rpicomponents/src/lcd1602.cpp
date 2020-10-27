@@ -1,8 +1,7 @@
 #include <lcd.h>
 #include "lcd1602.hpp"
 #include <stdexcept>
-#include "utils/utils.hpp"
-
+#include <unistd.h>
 
 void rpicomponents::Lcd1602::Initialize()
 {
@@ -58,7 +57,7 @@ void rpicomponents::Lcd1602::WriteLine(int line, std::string& text, bool moveTex
 			lcdClear(lcdHandle_);
 			lcdPrintf(lcdHandle_, helper.c_str());
 			text = text.erase(0, 1);
-			utils::Waiter::SleepMillis(sleepMs_);
+			usleep(sleep_);
 		}
 		lcdClear(lcdHandle_);
 	}

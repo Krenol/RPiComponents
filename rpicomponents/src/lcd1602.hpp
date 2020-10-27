@@ -29,7 +29,7 @@ namespace rpicomponents {
 		Pcf8574 pcf_;
 		const int lcdHandle_{ -1 };
 		const LcdPins lcdPins_;
-		const long sleepMs_{ 300 };
+		const long sleep_{ 300000 }; //us
 
 		/*
 		Method to init component

@@ -1,37 +1,23 @@
 #include "pcf.hpp"
-#include <wiringPiI2C.h>
-
-rpicomponents::Pcf::~Pcf() {
-
-}
 
 rpicomponents::Pcf::Pcf(int address, int pin_base, int read_pin_count, int write_pin_count, 
 	int min_pin_offset, int max_pin_offset, const std::string& comp_name) : Component(comp_name), address_{address}, 
 	pin_base_{pin_base}, read_pin_count_{read_pin_count}, write_pin_count_{write_pin_count}, min_pin_offset_{min_pin_offset},
-	max_pin_offset_{max_pin_offset}
+	max_pin_offset_{max_pin_offset}, handle_ {i2cOpen(I2C_BUS_CHANNEL, address_, 0)}
 {
 	Initialize();
 }
 
 void rpicomponents::Pcf::Initialize() {
-	if (pin_base_ < 64) throw std::invalid_argument("pin base must be greater than 63!");
-	wiringPiSetup();
-	if (!pin::AddressChecker::IsI2CAddress(address_)) {
-		throw std::invalid_argument("given address for pcf is not an i2c address!");
+	if (pin_base_ < 0) {
+		throw std::invalid_argument("pin base must be greater/equals 0!");
 	}
-	if (wiringPiI2CSetup(address_) == -1) {
-		throw std::invalid_argument("i2c is not set properly!");
+	else if (pin_base_ > 255) {
+		throw std::invalid_argument("pin base must be less than 256!");
 	}
+	if(handle_ < 0) throw std::runtime_error("couldn't open i2c for PCF");
 	AddPins({ 8,9 }); //pins for i2c
 }
-
-//rpicomponents::Pcf::Pcf(int&& address, int&& pin_base, int&& read_pin_count, int&& write_pin_count, 
-//	int&& min_pin_offset, int&& max_pin_offset, std::string&& comp_name) : Component(comp_name), address_{ address },
-//	pin_base_{ pin_base }, read_pin_count_{ read_pin_count }, write_pin_count_{ write_pin_count }, min_pin_offset_{ min_pin_offset },
-//	max_pin_offset_{ max_pin_offset }
-//{
-//	Initialize();
-//}
 
 rpicomponents::Pcf::Pcf(const Pcf& pcf) : 
 	Pcf(pcf.GetPcfAddress(), pcf.GetPinBase(), pcf.AmountReadPins(), pcf.AmountWritePins(),pcf.GetMinPinOffset(),
@@ -76,4 +62,13 @@ int rpicomponents::Pcf::GetMinPinOffset() const
 int rpicomponents::Pcf::GetMaxPinOffset() const
 {
 	return max_pin_offset_;
+}
+
+rpicomponents::Pcf::~Pcf() 
+{
+	try{
+		i2cClose(handle_);
+	} catch(...) {
+
+	}
 }

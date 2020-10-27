@@ -15,9 +15,9 @@ namespace rpicomponents {
         void Initialize();
 
 	protected:
-		const int pin_base_{ 64 }, address_{ 0x48 }, resolution_{ 0 };
+		const int pin_base_{ 64 }, address_{ 0x48 }, resolution_{ 0 }, handle_;
 		const int min_pin_offset_{ 0 }, max_pin_offset_{ 1 }, read_pin_count_{ 0 }, write_pin_count_{ 0 };
-		virtual ~Pcf() = 0; //virtual protected destructor to make class abstract
+		~Pcf(); //virtual protected destructor to make class abstract
 
 	public:
 		/*

@@ -7,7 +7,7 @@
 //***TEST CASES***
 
 /*TEST_CASE("Creating button and checking it") {
-    rpicomponents::Button btn(pin::PinCreator::CreatePin(1, pin::INPUT_MODE), PUD_UP);
+    rpicomponents::Button btn(pin::PinCreator::CreatePin(1, pin::INPUT_MODE), PI_PUD_UP);
     CHECK(btn.ToString().compare(rpicomponents::COMPONENT_BUTTON) == 0);
     CHECK(btn.ToString().compare(rpicomponents::COMPONENT) == 0);
 }
@@ -55,7 +55,7 @@ void createEscMap(esc_map &map, const json& esc_json) {
     for(auto esc : esc_pins.items()){
         json val = esc.value();
         
-        map.insert(std::pair<std::string,rpicomponents::Esc>(val.at("pos"), rpicomponents::Esc(pin::GPIO_MAP.at(val.at("pin")), pwm_max, esc_min, esc_max)));
+        map.insert(std::pair<std::string,rpicomponents::Esc>(val.at("pos"), rpicomponents::Esc(pin::GPIO_MAP.at(val.at("pin")), esc_min, esc_max)));
     }
 }
 

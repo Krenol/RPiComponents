@@ -15,19 +15,19 @@ rpicomponents::Button::Button(const Button& button) : Component(button.ToString(
 
 void rpicomponents::Button::Initialize() {
 	if (!IsPUD(pud_)) throw new std::invalid_argument("given PUD is invalid!");
-	pullUpDnControl(pin_->GetPin(), pud_);
+	gpioSetPullUpDown(pin_->GetPin(), pud_);
 	AddPin(pin_->GetPin());
 }
 
 bool rpicomponents::Button::IsPUD(int pud) const {
-	if (pud == PUD_UP || pud == PUD_DOWN || pud == PUD_OFF) return true;
+	if (pud == PI_PUD_UP || pud == PI_PUD_DOWN || pud == PI_PUD_OFF) return true;
 	return false;
 }
 
 bool rpicomponents::Button::IsPressed() const {
 	auto val = pin_->ReadPinValue();
-	if (val == LOW && pud_ == PUD_UP) return true;
-	if (val == HIGH && pud_ == PUD_DOWN) return true;
+	if (val == 0 && pud_ == PI_PUD_UP) return true;
+	if (val == 1 && pud_ == PI_PUD_DOWN) return true;
 	return false;
 }
 

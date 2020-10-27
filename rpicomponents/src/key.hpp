@@ -36,8 +36,8 @@
 #define RPICOMPONENTS_KEY_H
 
 #define byte_key unsigned char 
-#define OPEN LOW
-#define CLOSED HIGH
+#define OPEN 0
+#define CLOSED 1
 typedef unsigned int uint;
 
 namespace rpicomponents {

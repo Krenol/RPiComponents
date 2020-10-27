@@ -46,19 +46,17 @@ namespace rpicomponents {
 		/*
 		Constructor for ESC
 		@param pin: The pin of the ESC
-		@param pulse_freq: The frequency of the pulses of the pin
 		@param esc_min_value: The min pulse width value of the ESC at which it works; find right value via Calibrate()
-		@param esc_max_value: The max pulse width value of the ESC at which it works; find right value via Calibrate(); defines the max softpwm ouput of the pin
+		@param esc_max_value: The max pulse width value of the ESC at which it works; find right value via Calibrate(); defines the max pulse ouput of the pin
 		*/
-		Esc(int pin, int pulse_freq, int esc_min_value = ESC_MIN_VALUE, int esc_max_value = ESC_MAX_VALUE);
+		Esc(int pin, int esc_min_value = ESC_MIN_VALUE, int esc_max_value = ESC_MAX_VALUE);
 
 		/*
 		Constructor for ESC
 		@param pin: The pin of the ESC
-		@param pulse_freq: The frequency of the pulses of the pin
         @param escData: The EscData struct
 		*/
-        Esc(int pin, int pulse_freq, const EscData& escData);
+        Esc(int pin, const EscData& escData);
 
 		/*
 		The copy constructor of the ESC

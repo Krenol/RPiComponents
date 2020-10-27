@@ -14,7 +14,7 @@ float rpicomponents::UltrasonicSensor::GetEchoTime() const
 	clock_t start = clock();
 	while (clock() - start < max_delay_time_)
 	{
-        if (echo_pin_->ReadPinValue() == HIGH)
+        if (echo_pin_->ReadPinValue() == 1)
 		{
 			start = clock();
             while (echo_pin_->ReadPinValue() && clock() - start < max_delay_time_) {}

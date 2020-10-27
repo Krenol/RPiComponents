@@ -8,7 +8,7 @@ namespace rpicomponents {
 	class Button : public Component {
 	private:
 		std::unique_ptr<pin::Pin> pin_; //the used pin of the button
-		const int pud_{ PUD_UP }; //the pud mode of the button
+		const int pud_{ PI_PUD_UP }; //the pud mode of the button
 
 		/*
 		Initializer for Constructors; reduce redundancy
@@ -30,15 +30,7 @@ namespace rpicomponents {
 		* @param pin: GPIO pin number of the button
 		* @param pud: the to be checked PUD value
 		*/
-		Button(int pin, int pud = PUD_UP);
-
-		/**
-		* Constructor for creating a button
-		*
-		* @param pin: GPIO pin number of the button
-		* @param pud: the to be checked PUD value
-		*/
-		//Button(int&& pin, int&& pud = PUD_UP);
+		Button(int pin, int pud = PI_PUD_UP);
 
 		/**
 		* Copy Constructor

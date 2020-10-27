@@ -30,6 +30,7 @@
 ||
 */
 #include "keypad.hpp"
+#include <chrono>
 
 // <<constructor>> Allows custom keymap, pin configuration, and keypad sizes.
 rpicomponents::Keypad::Keypad(char* userKeymap, byte_key* row, byte_key* col, byte_key numRows, byte_key numCols) : Key(COMPONENT_KEYPAD) {
@@ -56,6 +57,12 @@ rpicomponents::Keypad::Keypad(char* userKeymap, byte_key* row, byte_key* col, by
 // Let the user define a keymap - assume the same row/column count as defined in constructor
 void rpicomponents::Keypad::begin(char* userKeymap) {
 	keymap = userKeymap;
+}
+
+long rpicomponents::Keypad::millis() {
+	using namespace std::chrono;
+	long duration = duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
+	return duration;
 }
 
 // Returns a single key only. Retained for backwards compatibility.
@@ -91,14 +98,14 @@ void rpicomponents::Keypad::scanKeys() {
 
 	// bitMap stores ALL the keys that are being pressed.
 	for (byte_key c = 0; c < sizeKpd.columns; c++) {
-		pin_mode(columnPins[c], OUTPUT);
-		pin_write(columnPins[c], LOW);	// Begin column pulse output.
+		pin_mode(columnPins[c], PI_OUTPUT);
+		pin_write(columnPins[c], 0);	// Begin column pulse output.
 		for (byte_key r = 0; r < sizeKpd.rows; r++) {
 			bitWrite(bitMap[r], c, !pin_read(rowPins[r]));  // keypress is active low so invert to high.
 		}
 		// Set pin to high impedance input. Effectively ends column pulse.
-		pin_write(columnPins[c], HIGH);
-		pin_mode(columnPins[c], INPUT);
+		pin_write(columnPins[c], 1);
+		pin_mode(columnPins[c], PI_INPUT);
 	}
 }
 
@@ -269,16 +276,16 @@ void rpicomponents::Keypad::transitionTo(byte_key idx, KeyState nextState) {
 
 void rpicomponents::pin_mode(byte_key pinNum, byte_key mode) {
 	if (mode == INPUT_PULLUP) {
-		pinMode(pinNum, INPUT);
-		pullUpDnControl(pinNum, PUD_UP);
+		gpioSetMode(pinNum, PI_INPUT);
+		gpioSetPullUpDown(pinNum, PI_PUD_UP);
 	}
 	else {
-		pinMode(pinNum, mode);
+		gpioSetMode(pinNum, mode);
 	}
 }
 void rpicomponents::pin_write(byte_key pinNum, bool level) {
-	digitalWrite(pinNum, level);
+	gpioWrite(pinNum, level);
 }
 int  rpicomponents::pin_read(byte_key pinNum) {
-	return digitalRead(pinNum);
+	return gpioRead(pinNum);
 }
