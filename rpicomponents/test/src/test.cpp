@@ -39,9 +39,25 @@ TEST_CASE("Steppermotor checker") {
 #include <nlohmann/json.hpp>
 #include <fstream> 
 #include <filesystem>
+#include <map>
 
 // for convenience
 using json = nlohmann::json;
+
+typedef std::map<std::string, rpicomponents::Esc> esc_map;
+
+void createEscMap(esc_map &map, const json& esc_json) {
+    int pwm_max = esc_json.at("pwm");
+    int esc_max = esc_json.at("max");
+    int esc_min = esc_json.at("min");
+    std::cout << "----\tPulse: " << pwm_max << "\tesc_min: " << esc_min << "\tesc_max: " << esc_max << "\t----" << std::endl;
+    auto esc_pins = esc_json.at("pins");
+    for(auto esc : esc_pins.items()){
+        json val = esc.value();
+        
+        map.insert(std::pair<std::string,rpicomponents::Esc>(val.at("pos"), rpicomponents::Esc(pin::GPIO_MAP.at(val.at("pin")), pwm_max, esc_min, esc_max)));
+    }
+}
 
 int main() {
 
@@ -61,24 +77,19 @@ int main() {
     //     utils::Waiter::SleepMillis(500);
     // }
     std::ifstream ifs("/home/pi/mnt/RPiComponents/rpicomponents/test/data.json");
-    json jf = json::parse(ifs);
-    int pwm_max = jf.at("pwm");
-    int esc_max = jf.at("max");
-    int esc_min = jf.at("min");
-    int out = esc_min;
-    std::cout << "----\tPulse: " << pwm_max << "\tesc_min: " << esc_min << "\tesc_max: " << esc_max << "\t----" << std::endl;
-    rpicomponents::Esc esc(pin::GPIO_MAP.at(jf.at("pin")), pwm_max, esc_min, esc_max);
-    esc.Calibrate();
-    //esc.Arm();
-    while (out <= esc_max){
-        std::cout << "\n----\tlet motor turn with: " << out << "\t----\n" << std::endl;
-        esc.SetOutputSpeed(out);
-        out += 50;
+    json j = json::parse(ifs);
+    auto jf = j.at("escs");
+    int speed = jf.at("turn_speed");
+    esc_map map;
+    createEscMap(map, jf);
+    for(auto& it : map){
+        printf("\n\n-------------\n");
+        std::cout << "Calibrating ESC of " << it.first << " motor\n";
+        it.second.Calibrate();
+        printf("let motor turn now with %i...\n", speed);
+        it.second.SetOutputSpeed(speed);
         utils::Waiter::SleepSecs(2);
+        printf("-------------");
     }
-    
-
-	//std::cin.get();
-
+	std::cin.get();
 }
-
