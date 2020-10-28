@@ -11,14 +11,14 @@ namespace rpicomponents {
 
 	class Pcf8574 : public Pcf {
 	private:
-
+		unsigned int data_;
 		/*
 		Method that sets the pin mode of a pcf pin to in- or output
 
 		@param pcf_pin_no: The pcf pin (between min_pin_offset_ and max_pin_offset_) for which the pin mode should be set
 		@param pin_mode: The pin_mode to be set for the pin
 		*/
-		void SetPinMode(int pcf_pin_no, int pin_mode) const;
+		void SetPinMode(int pcf_pin_no, int pin_mode);
 	public:
 		/*
 		Constructor
@@ -49,7 +49,7 @@ namespace rpicomponents {
 		@param value: The value to be written (0-1)
 		@param pcf_pin_no: The pcf pin to be written to
 		*/
-        void WriteToPcfPin(int pcf_pin_no, int value) const;
+        void WriteToPcfPin(int pcf_pin_no, unsigned int value);
 
 		/*
 		Method that reads the input to a pcf pin
@@ -57,7 +57,7 @@ namespace rpicomponents {
 		@param pcf_pin_no: The pcf pin to be read
 		@returns: the read digital pin value (0 to 1)
 		*/
-        int ReadFromPcfPin(int pcf_pin_no) const;
+        int ReadFromPcfPin(int pcf_pin_no);
 	};
 }
 

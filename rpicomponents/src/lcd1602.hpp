@@ -1,5 +1,5 @@
-#include "component.hpp"
-#include "pcf8574.hpp"
+#include "lcd.hpp"
+#include <vector>
 
 
 #ifndef RPICOMPONENTS_LCD1602_H
@@ -10,32 +10,10 @@ namespace rpicomponents {
 	constexpr const char* COMPONENT_LCD1602 = "lcd1602";
 	constexpr const int COMPONENT_LCD1602_MAX_CHARS = 16, COMPONENT_LCD1602_LINES = 2, COMPONENT_LCD1602_BITS = 4;
 
-	struct LcdPins {
-		LcdPins(int pinBase) : pinBase{ pinBase }, rs{ pinBase }, rw{pinBase + 1}, en{ pinBase + 2 }, led{pinBase + 3}, d4{ pinBase + 4 }, d5{ pinBase + 5 }, d6{ pinBase + 6 }, d7{ pinBase + 7 }
-		{
-
-		}
-
-		LcdPins(const LcdPins& pins): pinBase{ pins.pinBase }, rs{ pins.rs }, rw{pins.rw}, en{ pins.en }, led{pins.led}, d4{ pins.d4 }, d5{ pins.d5 }, d6{ pins.d6 }, d7{ pins.d7 }
-		{
-
-		}
-		int pinBase, rs, rw, en, led, d4, d5, d6, d7;
-	};
-
-	class Lcd1602 : public Component
+	class Lcd1602 : public Lcd
 	{
 	private:
-		Pcf8574 pcf_;
-		const int lcdHandle_{ -1 };
-		const LcdPins lcdPins_;
-		const long sleep_{ 300000 }; //us
-
-		/*
-		Method to init component
-		*/
-        void Initialize();
-
+		const useconds_t sleep_ = 30000;
 	public:
 		/*
 		Constructor for Lcd1602 component
@@ -52,21 +30,14 @@ namespace rpicomponents {
 		Lcd1602(const Lcd1602& lcd);
 
 		/*
-		Method to get the pcf 
-
-		@returns const ref to pcf 
-		*/
-		const Pcf8574& GetPcf() const;
-
-		/*
 		Method to turn on the lcd's backlight
 		*/
-		void TurnOnBacklight() const;
+		void TurnOnBacklight();
 
 		/*
 		Method to turn off the lcd's backlight
 		*/
-		void TurnOffBacklight() const;
+		void TurnOffBacklight();
 
 		/*
 		Method to write a line to the lcd
@@ -74,7 +45,7 @@ namespace rpicomponents {
 		@param text The text to be written
 		@param moveText If true the current text is moved to the right else it is overwritten
 		*/
-		void WriteLine(int line, std::string& text, bool moveText = false) const;
+		void WriteLine(int line, std::string& text, bool moveText = false);
 	};
 }
 

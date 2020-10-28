@@ -8,6 +8,14 @@
             {
                 "pos": "lf",
                 "pin":"GPIO26"
+            },
+            {
+                "pos": "rf",
+                "pin":"GPIO6"
+            },
+            {
+                "pos": "lb",
+                "pin":"GPIO13"
             }
         ]
     }

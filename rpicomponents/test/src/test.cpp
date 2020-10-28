@@ -76,6 +76,7 @@ int main() {
     //     printf("\n\n\n-------------\n beta=%.3f °\tgamma=%.3f °\tAx=%.3f g\tAy=%.3f g\tAz=%.3f g\n-------------\n\n\n", a.beta, a.gamma, d.x, d.y, d.z);
     //     utils::Waiter::SleepMillis(500);
     // }
+    pin::initGPIOs();
     std::ifstream ifs("/home/pi/mnt/RPiComponents/rpicomponents/test/data.json");
     json j = json::parse(ifs);
     auto jf = j.at("escs");
@@ -92,4 +93,5 @@ int main() {
         printf("-------------");
     }
 	std::cin.get();
+    pin::terminateGPIOs();
 }

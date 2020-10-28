@@ -1,7 +1,7 @@
 #include "pcf8591.hpp"
 
 
-void rpicomponents::Pcf8591::WriteToPcfPin(int pcf_pin_no, int value) const {
+void rpicomponents::Pcf8591::WriteToPcfPin(int pcf_pin_no, unsigned int value) {
 	if (!CheckIfPcfPin(pcf_pin_no)) return;
 	i2cWriteByteData(handle_, pin_base_ + pcf_pin_no, value);
 }
@@ -17,7 +17,7 @@ rpicomponents::Pcf8591::Pcf8591(const Pcf8591& pcf) : Pcf8591(pcf.GetPcfAddress(
 }
 
 
-int rpicomponents::Pcf8591::ReadFromPcfPin(int pcf_pin_no) const {
+int rpicomponents::Pcf8591::ReadFromPcfPin(int pcf_pin_no) {
 	if (!CheckIfPcfPin(pcf_pin_no)) return -1;
 	auto value = i2cReadByteData(handle_, pin_base_ + pcf_pin_no);
 	return value;

@@ -27,6 +27,7 @@
 #include "../../src/undirectionalmotor.hpp"
 #include "../../src/servomotor.hpp"
 #include "../../src/keypad.hpp"
+#include "../../src/lcd.hpp"
 #include "../../src/lcd1602.hpp"
 
 namespace rpicomponents {
