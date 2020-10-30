@@ -1,6 +1,7 @@
 #include "mpu6050.hpp"
 #include <cmath>
 #include <iostream>
+#include <pigpio.h>
 
 namespace rpicomponents
 {

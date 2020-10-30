@@ -2,12 +2,24 @@
     "escs":{
         "pwm": 2500,
         "min": 700,
-        "max": 2300,
+        "max": 2000,
         "turn_speed": 1000,
         "pins":[
             {
                 "pos": "lf",
                 "pin":"GPIO26"
+            },
+            {
+                "pos": "rf",
+                "pin":"GPIO6"
+            },
+            {
+                "pos": "lb",
+                "pin":"GPIO13"
+            },
+            {
+                "pos": "rb",
+                "pin":"GPIO19"
             }
         ]
     }

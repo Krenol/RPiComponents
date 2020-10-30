@@ -59,8 +59,19 @@ void createEscMap(esc_map &map, const json& esc_json) {
     }
 }
 
+void escStartup(rpicomponents::Esc& esc, int speed, const std::string& m){
+    printf("\n\n-------------\n");
+    std::cout << "Calibrating & arming ESC of " << m << " motor\n";
+    esc.Calibrate(false);
+    printf("let motor turn now with %i...\n", speed);
+    esc.SetOutputSpeed(speed);
+    utils::Waiter::SleepMillis(100);
+    printf("-------------");
+}
+
 int main() {
 
+    pin::initGPIOs();
     // rpicomponents::MPU6050 mpu;
     // auto offset_a = mpu.CalibrateAcceleration();
     // printf("\n\n\n-------------\n Ax=%.3f g\tAy=%.3f g\tAz=%.3f g\tdx=%.3f g\tdy=%.3f g\tdz=%.3f g\n-------------\n\n\n",
@@ -76,21 +87,17 @@ int main() {
     //     printf("\n\n\n-------------\n beta=%.3f °\tgamma=%.3f °\tAx=%.3f g\tAy=%.3f g\tAz=%.3f g\n-------------\n\n\n", a.beta, a.gamma, d.x, d.y, d.z);
     //     utils::Waiter::SleepMillis(500);
     // }
-    pin::initGPIOs();
+    
     std::ifstream ifs("/home/pi/mnt/RPiComponents/rpicomponents/test/data.json");
     json j = json::parse(ifs);
     auto jf = j.at("escs");
     int speed = jf.at("turn_speed");
     esc_map map;
     createEscMap(map, jf);
+    std::cout << "Hit Enter to start arming ESCs... \n";
+    std::cin.get();
     for(auto& it : map){
-        printf("\n\n-------------\n");
-        std::cout << "Calibrating ESC of " << it.first << " motor\n";
-        it.second.Calibrate();
-        printf("let motor turn now with %i...\n", speed);
-        it.second.SetOutputSpeed(speed);
-        utils::Waiter::SleepSecs(2);
-        printf("-------------");
+        std::thread thrd(escStartup, std::ref(it.second), speed, std::ref(it.first)); 
     }
 	std::cin.get();
     pin::terminateGPIOs();

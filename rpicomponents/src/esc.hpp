@@ -101,9 +101,9 @@ namespace rpicomponents {
 
 		/**
 		 * Method to calibrate the ESC; should be done before launching ESC for the first time!
-		 * 
+		 * @param cin_on Flag to enable cin so we have to manually continue to the next step; if true cin is on; else off
 		 */
-		void Calibrate();
+		void Calibrate(bool cin_on = true);
 
 		/*
          method to arm the ESC

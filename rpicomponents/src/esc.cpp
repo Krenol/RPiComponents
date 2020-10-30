@@ -100,16 +100,20 @@ namespace rpicomponents
         return pin_->GetPin();
     }
 
-    void Esc::Calibrate()
+    void Esc::Calibrate(bool cin_on)
     {
         int calibrate_secs = 12, off_secs = 2;
         pin_->OutputOff();
-        std::cout << "Disconnect the ESC from the battery and press enter\n";
-        std::cin.get();
+        if(cin_on) {
+            std::cout << "Disconnect the ESC from the battery and press enter\n";
+            std::cin.get();
+        }
         pin_->Output(escData_.esc_max_value);
-        std::cout << "Connect the ESC to the battery now\n";
-        std::cout << "Wait for two beeps and a falling tone, then press enter\n";
-        std::cin.get();
+        if(cin_on) {
+            std::cout << "Connect the ESC to the battery now\n";
+            std::cout << "Wait for two beeps and a falling tone, then press enter\n";
+            std::cin.get();
+        }
         pin_->Output(escData_.esc_min_value);
         std::cout << "Keeping ESC at it's min value for " << calibrate_secs << " seconds\n";
         utils::Waiter::SleepSecs(calibrate_secs);
