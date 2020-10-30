@@ -97,7 +97,7 @@ int main() {
     std::cout << "Hit Enter to start arming ESCs... \n";
     std::cin.get();
     for(auto& it : map){
-        std::thread thrd(escStartup, std::ref(it.second), speed, std::ref(it.first)); 
+        escStartup(it.second, speed, it.first); 
     }
 	std::cin.get();
     pin::terminateGPIOs();

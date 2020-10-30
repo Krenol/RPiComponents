@@ -118,9 +118,7 @@ namespace rpicomponents
 		GetAngularVelocity(vel);
 		Eigen::VectorXd u(1), z(1);
 		z << out.beta;
-		std::cout << "z = " << z << std::endl;
 		u << vel.x;
-		std::cout << "u = " << u << std::endl;
 		out.beta = kalman_beta_.predict(z, u)[0];
 		z << out.gamma;
 		u << vel.y;

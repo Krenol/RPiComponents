@@ -6,20 +6,8 @@
         "turn_speed": 1000,
         "pins":[
             {
-                "pos": "lf",
-                "pin":"GPIO26"
-            },
-            {
                 "pos": "rf",
-                "pin":"GPIO6"
-            },
-            {
-                "pos": "lb",
-                "pin":"GPIO13"
-            },
-            {
-                "pos": "rb",
-                "pin":"GPIO19"
+                "pin":"GPIO21"
             }
         ]
     }
