@@ -76,6 +76,11 @@ namespace rpicomponents {
 		 * @param cb_func The callback function
 		 */
 		void RegisterCallback(const gpio_cb& cb_func);
+
+		/**
+		 * Method to remove callback from GPIO
+		 */
+		void RemoveCallback();
 	};
 }
 

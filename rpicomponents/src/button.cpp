@@ -47,6 +47,11 @@ namespace rpicomponents
 		cb_ = cb_func;
 		gpioSetAlertFuncEx(GetPin(), AlertFunction, (void *)this);
 	}
+	
+	void Button::RemoveCallback() 
+	{
+		gpioSetAlertFuncEx(GetPin(), NULL);
+	}
 
 	void Button::AlertFunction(int gpio, int level, uint32_t tick, void *btn) 
 	{
