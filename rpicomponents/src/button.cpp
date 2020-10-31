@@ -50,7 +50,7 @@ namespace rpicomponents
 	
 	void Button::RemoveCallback() 
 	{
-		gpioSetAlertFuncEx(GetPin(), NULL);
+		gpioSetAlertFunc(GetPin(), NULL);
 	}
 
 	void Button::AlertFunction(int gpio, int level, uint32_t tick, void *btn) 
