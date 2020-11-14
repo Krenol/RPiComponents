@@ -117,7 +117,7 @@ namespace rpicomponents
         }
         pin_->Output(escData_.esc_min_value);
         std::cout << "Keeping ESC at it's min value for " << calibrate_secs << " seconds\n";
-        usleep(calibrate_secs * 1000);
+        usleep(calibrate_secs * 1000000);
         std::cout << "ESC calibrated successfully!\n";
         std::cout << "ESC is being armed now!\n";
         Arm();
