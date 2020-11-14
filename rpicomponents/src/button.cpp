@@ -1,47 +1,61 @@
 #include "button.hpp"
-//#include "../external/doctest/doctest/doctest.h"
+#include <pigpio.h>
 
-rpicomponents::Button::Button(std::shared_ptr<pin::Pin> pin, int pud) : Component(COMPONENT_BUTTON), pin_{ pin }, pud_{pud}
+namespace rpicomponents
 {
-	Initialize();
-}
+	Button::Button(int pin, int pud) : Component(COMPONENT_BUTTON), pud_{pud}
+	{
+		pin_ = pin::PinCreator::CreateInputPin(pin, 1);
+		Initialize();
+	}
 
-//rpicomponents::Button::Button(int &&pin, int &&pud) : Component(COMPONENT_BUTTON), pin_(pin::PinCreator::CreatePin(pin, pin::INPUT_MODE)), pud_{ pud }
-//{
-//	Initialize();
-//}
+	Button::Button(const Button& button) : Component(button.ToString()), pud_{ button.GetPUD() }
+	{
+		pin_ = pin::PinCreator::CreateInputPin(button.GetPin(), 1);
+		Initialize();
+	}
 
-rpicomponents::Button::Button(const Button& button) : Component(button.ToString()), pin_{ button.GetPin() }, 
-pud_{ button.GetPUD() }
-{
-	Initialize();
-}
+	void Button::Initialize() {
+		if (!IsPUD(pud_)) throw new std::invalid_argument("given PUD is invalid!");
+		gpioSetPullUpDown(pin_->GetPin(), pud_);
+		AddPin(pin_->GetPin());
+	}
 
-void rpicomponents::Button::Initialize() {
-	if (!IsPUD(pud_)) throw new std::invalid_argument("given PUD is invalid!");
-	const auto mode = pin_->OutputMode();
-	if (mode != pin::INPUT_MODE) throw new std::invalid_argument("given pin is on output mode; it must be on input mode for a button!");
-	pullUpDnControl(pin_->GetPin(), pud_);
-	AddPin(pin_->GetPin());
-}
+	bool Button::IsPUD(int pud) const {
+		if (pud == PI_PUD_UP || pud == PI_PUD_DOWN || pud == PI_PUD_OFF) return true;
+		return false;
+	}
 
-bool rpicomponents::Button::IsPUD(int pud) const {
-	if (pud == PUD_UP || pud == PUD_DOWN || pud == PUD_OFF) return true;
-	return false;
-}
+	bool Button::IsPressed() const {
+		auto val = pin_->ReadPinValue();
+		if (val == 0 && pud_ == PI_PUD_UP) return true;
+		if (val == 1 && pud_ == PI_PUD_DOWN) return true;
+		return false;
+	}
 
-bool rpicomponents::Button::IsPressed() const {
-	auto val = pin_->ReadPinValue();
-	if (val == LOW && pud_ == PUD_UP) return true;
-	if (val == HIGH && pud_ == PUD_DOWN) return true;
-	return false;
-}
+	int Button::GetPUD() const {
+		return pud_;
+	}
 
-int rpicomponents::Button::GetPUD() const {
-	return pud_;
-}
+	int Button::GetPin() const
+	{
+		return pin_->GetPin();
+	}
+	
+	void Button::RegisterCallback(const gpio_cb& cb_func) 
+	{
+		cb_ = cb_func;
+		gpioSetAlertFuncEx(GetPin(), AlertFunction, (void *)this);
+	}
+	
+	void Button::RemoveCallback() 
+	{
+		gpioSetAlertFunc(GetPin(), NULL);
+	}
 
-const std::shared_ptr<pin::Pin>& rpicomponents::Button::GetPin() const
-{
-	return pin_;
+	void Button::AlertFunction(int gpio, int level, uint32_t tick, void *btn) 
+	{
+		auto b = (Button*) btn;
+		b->cb_(gpio, level, b->ToString());
+	}
 }

@@ -26,16 +26,15 @@ add_executable (${PROJECT_NAME} ${TEST_PROJECT_SRCS})
 
 
 
-find_library(wiringPi REQUIRED)
-find_library(wiringPiDev REQUIRED)
+find_library(pigpio REQUIRED)
 find_library(pthread REQUIRED)
 find_library(nlohmann_json::nlohmann_json REQUIRED)
-
+find_library(atomic REQUIRED)
 target_link_libraries(${PROJECT_NAME} nlohmann_json::nlohmann_json)
 target_link_libraries(${PROJECT_NAME} utils)
 target_link_libraries(${PROJECT_NAME} rpicomponents)
 target_link_libraries(${PROJECT_NAME} rpipins)
-target_link_libraries(${PROJECT_NAME} wiringPi)
-target_link_libraries(${PROJECT_NAME} wiringPiDev)
+target_link_libraries(${PROJECT_NAME} pigpio)
 target_link_libraries(${PROJECT_NAME} pthread)
 target_link_libraries(${PROJECT_NAME} doctest)
+target_link_libraries(${PROJECT_NAME} atomic)

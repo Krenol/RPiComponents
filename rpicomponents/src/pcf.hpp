@@ -15,9 +15,9 @@ namespace rpicomponents {
         void Initialize();
 
 	protected:
-		const int pin_base_{ 64 }, address_{ 0x48 }, resolution_{ 0 };
+		const int pin_base_{ 64 }, address_{ 0x48 }, resolution_{ 0 }, handle_;
 		const int min_pin_offset_{ 0 }, max_pin_offset_{ 1 }, read_pin_count_{ 0 }, write_pin_count_{ 0 };
-		virtual ~Pcf() = 0; //virtual protected destructor to make class abstract
+		~Pcf(); //virtual protected destructor to make class abstract
 
 	public:
 		/*
@@ -53,7 +53,7 @@ namespace rpicomponents {
 		@param pcf_pin_no: The pcf pin to be written to
 		@param value: The value to be written (0 to resolution_)
 		*/
-        virtual void WriteToPcfPin(int pcf_pin_no, int value) const = 0;
+        virtual void WriteToPcfPin(int pcf_pin_no, unsigned int value) = 0;
 
 		/*
 		Method that reads the input to a pcf pin
@@ -61,7 +61,7 @@ namespace rpicomponents {
 		@param pcf_pin_no: The pcf pin to be read
 		@returns: the read digital pin value (0 to resolution_)
 		*/
-        virtual int ReadFromPcfPin(int pcf_pin_no) const = 0;
+        virtual int ReadFromPcfPin(int pcf_pin_no) = 0;
 
 		/*
 		Method that returns the resolution of the pcf

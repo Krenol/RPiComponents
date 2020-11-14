@@ -6,10 +6,14 @@
 #include <vector>
 #include <memory>
 #include "pin/pins.hpp"
+#include <functional>
 
 
 namespace rpicomponents {
 	constexpr const char* COMPONENT = "component";
+	constexpr const int I2C_BUS_CHANNEL  = 1;
+	typedef std::function<void(int, int, const std::string&)> gpio_cb;
+
 	class Component {
 	private:
 		//necessary Component values

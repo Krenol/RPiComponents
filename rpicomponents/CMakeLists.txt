@@ -23,6 +23,7 @@ ${PROJECT_SOURCE_DIR}/l293d.cpp
 ${PROJECT_SOURCE_DIR}/joystick.cpp
 ${PROJECT_SOURCE_DIR}/key.cpp
 ${PROJECT_SOURCE_DIR}/keypad.cpp
+${PROJECT_SOURCE_DIR}/lcd.cpp
 ${PROJECT_SOURCE_DIR}/lcd1602.cpp
 ${PROJECT_SOURCE_DIR}/motor.cpp
 ${PROJECT_SOURCE_DIR}/steppermotor.cpp
@@ -53,7 +54,7 @@ if (NOT TARGET nlohmann_json::nlohmann_json)
     add_subdirectory (external/json)
 endif ()
 
-
+target_link_libraries(${PROJECT_NAME} PRIVATE atomic)
 target_link_libraries(${PROJECT_NAME} PUBLIC rpipins)
 target_link_libraries(${PROJECT_NAME} PRIVATE utils)
 target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)

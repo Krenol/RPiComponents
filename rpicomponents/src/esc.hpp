@@ -33,7 +33,7 @@ namespace rpicomponents {
 	class Esc : public Component {
 	private:
         const EscData escData_;
-		const std::shared_ptr<pin::Pin> pin_;
+		std::unique_ptr<pin::Pin> pin_;
 		std::atomic<bool> is_armed_{false};
 		std::mutex mtx_;
 
@@ -47,15 +47,16 @@ namespace rpicomponents {
 		Constructor for ESC
 		@param pin: The pin of the ESC
 		@param esc_min_value: The min pulse width value of the ESC at which it works; find right value via Calibrate()
-		@param esc_max_value: The max pulse width value of the ESC at which it works; find right value via Calibrate(); defines the max softpwm ouput of the pin
+		@param esc_max_value: The max pulse width value of the ESC at which it works; find right value via Calibrate(); defines the max pulse ouput of the pin
 		*/
-		Esc(std::shared_ptr<pin::Pin> pin, int esc_min_value = ESC_MIN_VALUE, int esc_max_value = ESC_MAX_VALUE);
+		Esc(int pin, int esc_min_value = ESC_MIN_VALUE, int esc_max_value = ESC_MAX_VALUE);
 
 		/*
 		Constructor for ESC
+		@param pin: The pin of the ESC
         @param escData: The EscData struct
 		*/
-        Esc(std::shared_ptr<pin::Pin> pin, const EscData& escData);
+        Esc(int pin, const EscData& escData);
 
 		/*
 		The copy constructor of the ESC
@@ -90,13 +91,19 @@ namespace rpicomponents {
 
 		@returns reference to used pin as shared_ptr
 		*/
-		const std::shared_ptr<pin::Pin>& GetPin() const;
+		int GetPin() const;
+
+		/*
+		Method to get the pulse frequency of the pin
+		@returns the pule frequency of the pin
+		*/
+		int GetPulseFreq() const;
 
 		/**
 		 * Method to calibrate the ESC; should be done before launching ESC for the first time!
-		 * 
+		 * @param cin_on Flag to enable cin so we have to manually continue to the next step; if true cin is on; else off
 		 */
-		void Calibrate();
+		void Calibrate(bool cin_on = true);
 
 		/*
          method to arm the ESC

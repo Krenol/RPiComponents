@@ -13,14 +13,9 @@ namespace rpicomponents {
 	class Q74HC595 : public Component
 	{
 	private:
-		const std::shared_ptr<pin::Pin> ds_, stcp_, shcp_;
+		std::unique_ptr<pin::Pin> ds_, stcp_, shcp_;
         std::map<int, bool> q_pin_map_;
 		static const int out_sleep_{ 1 }; //ms
-
-		/*
-		Initializer for Constructors; reduce redundancy
-		*/
-        void Initialize();
 
 		/*
 		Method to check whether a pin number matches the required pin range of q74hc595
@@ -44,7 +39,7 @@ namespace rpicomponents {
 		@param stcp_pin: Pin of the stcp
 		@param shcp_pin: Pin of the shcp
 		*/
-		Q74HC595(std::shared_ptr<pin::Pin> ds_pin, std::shared_ptr<pin::Pin> stcp_pin, std::shared_ptr<pin::Pin> shcp_pin);
+		Q74HC595(int ds_pin, int stcp_pin, int shcp_pin);
 
 		/*
 		Constructor for creating a Q74HC595
@@ -102,19 +97,19 @@ namespace rpicomponents {
 		Method to get the DS pin number
 		@returns the used ds pin
 		*/
-		const std::shared_ptr<pin::Pin>& GetDsPin() const;
+		int GetDsPin() const;
 
 		/*
 		Method to get the STCP pin number
 		@returns the used stcp pin
 		*/
-		const std::shared_ptr<pin::Pin>& GetStcpPin() const;
+		int GetStcpPin() const;
 
 		/*
 		Method to get the SHCP pin number
 		@returns the used shcp pin
 		*/
-		const std::shared_ptr<pin::Pin>& GetShcpPin() const;
+		int GetShcpPin() const;
 	};
 }
 #endif

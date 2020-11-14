@@ -28,7 +28,7 @@ namespace rpicomponents {
 	private:
 		const ServomotorData servoData_;
 		std::atomic_int angle_{ 0 };
-		const std::shared_ptr<pin::Pin> pin_;
+		std::unique_ptr<pin::Pin> pin_;
 
 		/*
 		Method to init component
@@ -42,19 +42,30 @@ namespace rpicomponents {
 		Constructor for this component
 
 		@param pin The used pin of the servo
+		@param pin_mode The pin mode
+		@param pin_max_value The max value of the pin
 		@param maxAngle The maximum angle the servo can reach
 		@param minPulseDuration The minimum pulse duration of the servo in ms
 		@param maxPulseDuration The maximum pulse duration of the servo in ms
 		@param pulseOffset The pulse offset before motor is turned in ms
 		*/
-		Servomotor(std::shared_ptr<pin::Pin> pin, int maxAngle = 180, int minPulseDuration = 5, int maxPulseDuration = 25, int pulseOffset = 3);
+		Servomotor(int pin, pin::PIN_MODE pin_mode = pin::PULSE_MODE, int pin_max_value = COMPONENT_SERVOMOTOR_DEFAULT_PWM_VALUE, int maxAngle = 180, int minPulseDuration = 5, int maxPulseDuration = 25, int pulseOffset = 3);
 
 		/*
 		Constructor for this component
 		@param pin The used pin of the servo
+		@param pin_mode The pin mode
+		@param pin_max_value The max value of the pin
 		@param data The ServomotorData struct containing all information for the servo
 		*/
-		Servomotor(std::shared_ptr<pin::Pin> pin, const ServomotorData& data);
+		Servomotor(const ServomotorData& data, int pin, pin::PIN_MODE pin_mode = pin::PULSE_MODE, int pin_max_value = COMPONENT_SERVOMOTOR_DEFAULT_PWM_VALUE);
+
+		/*
+		Constructor for this component
+		@param pindata: The pin_data struct of the used pin
+		@param data The ServomotorData struct containing all information for the servo
+		*/
+		Servomotor(pin::pin_data pindata, const ServomotorData& data);
 
 		/*
 		Copy constructor
@@ -91,7 +102,21 @@ namespace rpicomponents {
 
 		@returns the used pin
 		*/
-		const std::shared_ptr<pin::Pin>& GetPin() const;
+		int GetPin() const;
+
+		/*
+		* Method to get the pin mode
+		*
+		* @returns the pin mode
+		*/
+		pin::PIN_MODE GetPinMode() const;
+
+		/*
+		* Method to get the pin max value
+		*
+		* @returns the pin max value
+		*/
+		int GetMaxOutValue() const;
 	};
 }
 

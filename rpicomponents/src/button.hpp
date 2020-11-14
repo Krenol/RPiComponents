@@ -7,8 +7,9 @@ namespace rpicomponents {
 	constexpr const char* COMPONENT_BUTTON = "button";
 	class Button : public Component {
 	private:
-		const std::shared_ptr<pin::Pin> pin_; //the used pin of the button
-		const int pud_{ PUD_UP }; //the pud mode of the button
+		std::unique_ptr<pin::Pin> pin_; //the used pin of the button
+		const int pud_{ PI_PUD_UP }; //the pud mode of the button
+		gpio_cb cb_;
 
 		/*
 		Initializer for Constructors; reduce redundancy
@@ -23,6 +24,16 @@ namespace rpicomponents {
 		*/
 		bool IsPUD(int pud) const;
 
+		/**
+		 * Alert function for gpioSetAlertFunc; 
+		 * must be static to work
+		 * @param gpio gpio pin nr
+		 * @param level level at pin (0 for LOW, 1 for HIGH, 2 no change)
+		 * @param tick ms since boot
+		 * @param btn pointer to this button
+		 */
+		static void AlertFunction(int gpio, int level, uint32_t tick, void *btn);
+
 	public:
 		/**
 		* Constructor for creating a button
@@ -30,15 +41,7 @@ namespace rpicomponents {
 		* @param pin: GPIO pin number of the button
 		* @param pud: the to be checked PUD value
 		*/
-		Button(std::shared_ptr<pin::Pin> pin, int pud = PUD_UP);
-
-		/**
-		* Constructor for creating a button
-		*
-		* @param pin: GPIO pin number of the button
-		* @param pud: the to be checked PUD value
-		*/
-		//Button(int&& pin, int&& pud = PUD_UP);
+		Button(int pin, int pud = PI_PUD_UP);
 
 		/**
 		* Copy Constructor
@@ -66,7 +69,18 @@ namespace rpicomponents {
 		*
 		* @returns the used pin of the component
 		*/
-		const std::shared_ptr<pin::Pin>& GetPin() const;
+		int GetPin() const;
+
+		/**
+		 * Method to registera callback function to this component
+		 * @param cb_func The callback function
+		 */
+		void RegisterCallback(const gpio_cb& cb_func);
+
+		/**
+		 * Method to remove callback from GPIO
+		 */
+		void RemoveCallback();
 	};
 }
 

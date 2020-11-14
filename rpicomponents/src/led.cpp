@@ -1,20 +1,25 @@
 #include "led.hpp"
 #include <stdexcept>
 
-
-
 void rpicomponents::Led::Initialize() {
 	const auto mode = pin_->OutputMode();
 	if (mode == pin::INPUT_MODE) throw new std::invalid_argument("pin for led cannot be on input mode");
 	AddPin(pin_->GetPin());
 }
 
-rpicomponents::Led::Led(std::shared_ptr<pin::Pin> pin, const bool& onIfPinOn) : Component(COMPONENT_LED), on_mode_{ onIfPinOn }, pin_{ pin }
+rpicomponents::Led::Led(int pin, pin::PIN_MODE pin_mode, int pin_max_val, bool onIfPinOn) : Component(COMPONENT_LED), on_mode_{ onIfPinOn }
 {
+	pin_ = pin::PinCreator::CreatePin(pin, pin_mode, pin_max_val);
 	Initialize();
 }
 
-rpicomponents::Led::Led(const Led& led) : Led(led.GetPin(), led.IsOnIfPinHasPower())
+rpicomponents::Led::Led(const pin::pin_data& pindata, bool onIfPinOn) : Component(COMPONENT_LED), on_mode_{ onIfPinOn }
+{
+	pin_ = pin::PinCreator::CreatePin(pindata);
+	Initialize();
+}
+
+rpicomponents::Led::Led(const Led& led) : Led(led.GetPinData(), led.IsOnIfPinHasPower())
 {
 
 }
@@ -35,9 +40,9 @@ bool rpicomponents::Led::IsOn() const {
 	return on_mode_ ? pin_->IsOn() : !pin_->IsOn();
 }
 
-const std::shared_ptr<pin::Pin>& rpicomponents::Led::GetPin() const
+int rpicomponents::Led::GetPin() const
 {
-	return pin_;
+	return pin_->GetPin();
 }
 
 bool rpicomponents::Led::IsOnIfPinHasPower() const
@@ -48,4 +53,12 @@ bool rpicomponents::Led::IsOnIfPinHasPower() const
 pin::PIN_MODE rpicomponents::Led::GetPinMode() const
 {
 	return pin_->OutputMode();
+}
+
+int rpicomponents::Led::GetMaxOutValue() const {
+	return pin_->GetMaxOutValue();
+}
+
+const pin::pin_data& rpicomponents::Led::GetPinData() const {
+	return pin_->GetPinData();
 }

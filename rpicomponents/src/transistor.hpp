@@ -13,13 +13,8 @@ namespace rpicomponents {
     constexpr const char* COMPONENT_TRANSISTOR = "transistor";
 	class Transistor : public Component {
 	private:
-        const std::shared_ptr<pin::Pin> pin_; //the used pin of the transistor
+        std::unique_ptr<pin::Pin> pin_; //the used pin of the transistor
 		const TRANSISTOR_TYPE type_{ NPN }; //the transistor type
-
-		/**
-		* Initializer for Constructors; reduce redundancy
-		*/
-		void Initialize();
 
 	public:	
 		
@@ -27,9 +22,11 @@ namespace rpicomponents {
 		* Constructor for creating a transistor
 		*
 		* @param pin: GPIO pin of the transistor
+		* @param pin_mode: The mode of the pin, e.g. DIGITAL_MODE
+		* @param pin_max_val: The max outout value of the pin, e.g. 1
 		* @param pud: the to be checked PUD value
 		*/
-		Transistor(std::shared_ptr<pin::Pin> pin, TRANSISTOR_TYPE type);
+		Transistor(int pin, pin::PIN_MODE pin_mode, int pin_max_val, TRANSISTOR_TYPE type);
 
 
 		/**
@@ -75,7 +72,21 @@ namespace rpicomponents {
 		*
 		* @returns the used pin of the component
 		*/
-		const std::shared_ptr<pin::Pin>& GetPin() const;
+		int GetPin() const;
+
+		/*
+		* Method to get the pin mode
+		*
+		* @returns the pin mode
+		*/
+		pin::PIN_MODE GetPinMode() const;
+
+		/*
+		* Method to get the pin max value
+		*
+		* @returns the pin max value
+		*/
+		int GetMaxOutValue() const;
 	};
 }
 

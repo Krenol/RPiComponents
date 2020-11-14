@@ -1,29 +1,20 @@
 #include "ultrasonicsensor.hpp"
 #include <cmath>
-#include "utils/utils.hpp"
+#include <unistd.h>
 
 const std::map<rpicomponents::DISTANCE_UNIT, float> rpicomponents::UltrasonicSensor::convert_values_ = { {UNIT_M, 1.0f},  {UNIT_CM, 1e-2f}, {UNIT_MM, 1e-3f}, {UNIT_M, 1e-6f} };
 
-void rpicomponents::UltrasonicSensor::Initialize()
-{
 
-    auto mode = trigger_pin_->OutputMode();
-	if (mode != pin::DIGITAL_MODE) throw new std::invalid_argument("given trigger pin is not in digital mode; it must be on digital mode for a ultrasonsic sensor!");
-    mode = echo_pin_->OutputMode();
-	if (mode != pin::INPUT_MODE) throw new std::invalid_argument("given echo pin is not in input mode; it must be on input mode for a ultrasonsic sensor!");
-    AddPin(trigger_pin_->GetPin());
-    AddPin(echo_pin_->GetPin());
-}
 
 float rpicomponents::UltrasonicSensor::GetEchoTime() const
 {
     trigger_pin_->OutputOn();
-	utils::Waiter::SleepNanos(10);
+	usleep(1);
     trigger_pin_->OutputOff();
 	clock_t start = clock();
 	while (clock() - start < max_delay_time_)
 	{
-        if (echo_pin_->ReadPinValue() == HIGH)
+        if (echo_pin_->ReadPinValue() == 1)
 		{
 			start = clock();
             while (echo_pin_->ReadPinValue() && clock() - start < max_delay_time_) {}
@@ -33,11 +24,11 @@ float rpicomponents::UltrasonicSensor::GetEchoTime() const
 	return INFINITY;
 }
 
-rpicomponents::UltrasonicSensor::UltrasonicSensor(std::shared_ptr<pin::Pin> trigger_pin, std::shared_ptr<pin::Pin> echo_pin) : 
-	Component(COMPONENT_ULTRASONIC_SENSOR),
-    trigger_pin_{ trigger_pin }, echo_pin_{ echo_pin }
+rpicomponents::UltrasonicSensor::UltrasonicSensor(int trigger_pin, int echo_pin) : 
+	Component(COMPONENT_ULTRASONIC_SENSOR)
 {
-	Initialize();
+	trigger_pin_ = pin::PinCreator::CreateDigitalPin(trigger_pin, pin::DIGITAL_MODE_MAX_VAL);
+	echo_pin_ = pin::PinCreator::CreateInputPin(echo_pin, pin::DIGITAL_MODE_MAX_VAL);
 }
 
 
@@ -104,12 +95,12 @@ float rpicomponents::UltrasonicSensor::UnitConverter(float  value, DISTANCE_UNIT
 	return outVal;
 }
 
-const std::shared_ptr<pin::Pin>& rpicomponents::UltrasonicSensor::GetTriggerPin() const
+int rpicomponents::UltrasonicSensor::GetTriggerPin() const
 {
-	return trigger_pin_;
+	return trigger_pin_->GetPin();
 }
 
-const std::shared_ptr<pin::Pin>& rpicomponents::UltrasonicSensor::GetEchoPin() const
+int rpicomponents::UltrasonicSensor::GetEchoPin() const
 {
-	return echo_pin_;
+	return echo_pin_->GetPin();
 }

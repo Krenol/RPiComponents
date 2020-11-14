@@ -7,7 +7,7 @@
 //***TEST CASES***
 
 /*TEST_CASE("Creating button and checking it") {
-    rpicomponents::Button btn(pin::PinCreator::CreatePin(1, pin::INPUT_MODE), PUD_UP);
+    rpicomponents::Button btn(pin::PinCreator::CreatePin(1, pin::INPUT_MODE), PI_PUD_UP);
     CHECK(btn.ToString().compare(rpicomponents::COMPONENT_BUTTON) == 0);
     CHECK(btn.ToString().compare(rpicomponents::COMPONENT) == 0);
 }
@@ -39,12 +39,40 @@ TEST_CASE("Steppermotor checker") {
 #include <nlohmann/json.hpp>
 #include <fstream> 
 #include <filesystem>
+#include <unistd.h>
+#include <map>
 
 // for convenience
 using json = nlohmann::json;
 
+typedef std::map<std::string, rpicomponents::Esc> esc_map;
+
+void createEscMap(esc_map &map, const json& esc_json) {
+    int pwm_max = esc_json.at("pwm");
+    int esc_max = esc_json.at("max");
+    int esc_min = esc_json.at("min");
+    std::cout << "----\tPulse: " << pwm_max << "\tesc_min: " << esc_min << "\tesc_max: " << esc_max << "\t----" << std::endl;
+    auto esc_pins = esc_json.at("pins");
+    for(auto esc : esc_pins.items()){
+        json val = esc.value();
+        
+        map.insert(std::pair<std::string,rpicomponents::Esc>(val.at("pos"), rpicomponents::Esc(pin::GPIO_MAP.at(val.at("pin")), esc_min, esc_max)));
+    }
+}
+
+void escStartup(rpicomponents::Esc& esc, int speed, const std::string& m){
+    printf("\n\n-------------\n");
+    std::cout << "Calibrating & arming ESC of " << m << " motor\n";
+    esc.Calibrate(false);
+    printf("let motor turn now with %i...\n", speed);
+    esc.SetOutputSpeed(speed);
+    usleep(100);
+    printf("-------------");
+}
+
 int main() {
 
+    pin::initGPIOs();
     // rpicomponents::MPU6050 mpu;
     // auto offset_a = mpu.CalibrateAcceleration();
     // printf("\n\n\n-------------\n Ax=%.3f g\tAy=%.3f g\tAz=%.3f g\tdx=%.3f g\tdy=%.3f g\tdz=%.3f g\n-------------\n\n\n",
@@ -60,26 +88,18 @@ int main() {
     //     printf("\n\n\n-------------\n beta=%.3f °\tgamma=%.3f °\tAx=%.3f g\tAy=%.3f g\tAz=%.3f g\n-------------\n\n\n", a.beta, a.gamma, d.x, d.y, d.z);
     //     utils::Waiter::SleepMillis(500);
     // }
-    std::ifstream ifs("/home/pi/mnt/RPiComponents/rpicomponents/test/data.json");
-    json jf = json::parse(ifs);
-    int pwm_max = jf.at("pwm");
-    int esc_max = jf.at("max");
-    int esc_min = jf.at("min");
-    int out = esc_min;
-    std::cout << "----\tPulse: " << pwm_max << "\tesc_min: " << esc_min << "\tesc_max: " << esc_max << "\t----" << std::endl;
-    std::shared_ptr<pin::Pin> pin = std::move(pin::PinCreator::CreatePulsePin(pin::GPIO_MAP.at(jf.at("pin")), pwm_max));
-    rpicomponents::Esc esc(pin, esc_min, esc_max);
-    esc.Calibrate();
-    //esc.Arm();
-    while (out <= esc_max){
-        std::cout << "\n----\tlet motor turn with: " << out << "\t----\n" << std::endl;
-        esc.SetOutputSpeed(out);
-        out += 50;
-        utils::Waiter::SleepSecs(2);
-    }
     
-
-	//std::cin.get();
-
+    std::ifstream ifs("/home/pi/mnt/RPiComponents/rpicomponents/test/data.json");
+    json j = json::parse(ifs);
+    auto jf = j.at("escs");
+    int speed = jf.at("turn_speed");
+    esc_map map;
+    createEscMap(map, jf);
+    std::cout << "Hit Enter to start arming ESCs... \n";
+    std::cin.get();
+    for(auto& it : map){
+        escStartup(it.second, speed, it.first); 
+    }
+	std::cin.get();
+    pin::terminateGPIOs();
 }
-

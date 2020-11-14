@@ -126,6 +126,11 @@ namespace rpicomponents
         */
 		MPU6050(int address, mpu_data offset_acc, mpu_data offset_gyro, ACCEL_SENSITIVITY accel = G_2, GYRO_SENSITIVITY gyro = DPS_250);
 
+		/**
+		 * Destructor
+		 */
+		~MPU6050();
+
 		/*
 		Method to read acceleration of the MPU at all three axis
 

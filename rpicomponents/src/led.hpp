@@ -7,7 +7,7 @@ namespace rpicomponents {
 	constexpr const char* COMPONENT_LED = "led";
 	class Led : public Component {
 	private:
-		const std::shared_ptr<pin::Pin> pin_; //the used pin of the LED
+		std::unique_ptr<pin::Pin> pin_; //the used pin of the LED
 		const bool on_mode_{ true }; //the on_mode_ of the pin
 
 		/**
@@ -21,9 +21,19 @@ namespace rpicomponents {
 		* Constructor for creating a LED
 		*
 		* @param pin: GPIO pin of the LED's pin
+		* @param pin_mode: The mode of the pin, e.g. DIGITAL_MODE
+		* @param pin_max_val: The max outout value of the pin, e.g. 1
 		* @param onIfPinOn: bool if LED light is on if pin output is on
 		*/
-		Led(std::shared_ptr<pin::Pin> pin, const bool& onIfPinOn = true);
+		Led(int pin, pin::PIN_MODE pin_mode, int pin_max_val, bool onIfPinOn = true);
+
+		/**
+		* Constructor for creating a LED
+		*
+		* @param pin_data: GPIO pin of the LED's pin
+		* @param onIfPinOn: bool if LED light is on if pin output is on
+		*/
+		Led(const pin::pin_data& pindata, bool onIfPinOn = true);
 
 		/**
 		* Copy Constructor
@@ -61,7 +71,7 @@ namespace rpicomponents {
 		*
 		* @returns the pin of the component
 		*/
-		const std::shared_ptr<pin::Pin>& GetPin() const;
+		int GetPin() const;
 
 		/*
 		* Method to check if led is on if gpio pin has power
@@ -76,6 +86,20 @@ namespace rpicomponents {
 		* @returns the pin mode
 		*/
 		pin::PIN_MODE GetPinMode() const;
+
+		/*
+		* Method to get the pin max value
+		*
+		* @returns the pin max value
+		*/
+		int GetMaxOutValue() const;
+
+		/*
+		* Method to get the pin_data
+		*
+		* @returns the pin_data struct
+		*/
+		const pin::pin_data& GetPinData() const;
 	};
 }
 

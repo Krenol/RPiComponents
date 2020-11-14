@@ -40,7 +40,7 @@ namespace rpicomponents {
 		@param pcf_y_pin The pin at the pcf to which the y axis of the joystick is connected
 		@param zBtn_pin z pin 
 		*/
-		Joystick(std::shared_ptr<rpicomponents::Pcf8591> pcf, int pcf_x_pin, int pcf_y_pin, std::shared_ptr<pin::Pin> zBtn_pin);
+		Joystick(std::shared_ptr<rpicomponents::Pcf8591> pcf, int pcf_x_pin, int pcf_y_pin, int zBtn_pin);
 
 		/*
 		Constructor for Joystick component

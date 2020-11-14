@@ -1,29 +1,28 @@
 #include "mpu6050.hpp"
-#include <wiringPiI2C.h>
-#include <wiringPi.h>
 #include <cmath>
 #include <iostream>
+#include <pigpio.h>
 
 namespace rpicomponents
 {
 	void MPU6050::Init(ACCEL_SENSITIVITY accel, GYRO_SENSITIVITY gyro) const
 	{
 		//x axis gyro as clock ref
-		wiringPiI2CWriteReg8 (fd_, PWR_MGMT_1, 0b00000001);	
+		i2cWriteByteData (fd_, PWR_MGMT_1, 0b00000001);	
 		//setup sample rate -> Sample Rate = Gyroscope Output Rate / (1 + SMPLRT_DIV) with SMPLRT_DIV=7
-		wiringPiI2CWriteReg8 (fd_, SMPLRT_DIV, 0b00000111); 
+		i2cWriteByteData (fd_, SMPLRT_DIV, 0b00000111); 
 		//no FSYNC & filtering of accel and gyro signals -> DLPF with 5 Hz bandwidth
-		wiringPiI2CWriteReg8 (fd_, CONFIG, 0b00000110); 
+		i2cWriteByteData (fd_, CONFIG, 0b00000110); 
 		//enable data interrupt -> occurs each time a write operation to all of the sensor registers has been completed.
-		wiringPiI2CWriteReg8 (fd_, INT_ENABLE, 0b00000001);	
+		i2cWriteByteData (fd_, INT_ENABLE, 0b00000001);	
 
 		//set gyro sensitivity
 		auto g = GYRO_SEL_MAP.at(gyro);
-		wiringPiI2CWriteReg8 (fd_, GYRO_CONFIG, g);
+		i2cWriteByteData (fd_, GYRO_CONFIG, g);
 
 		//set accel sensitivity
 		auto a = ACCEL_SEL_MAP.at(accel);
-		wiringPiI2CWriteReg8 (fd_, ACCEL_CONFIG, a);
+		i2cWriteByteData (fd_, ACCEL_CONFIG, a);
 	}
 
 	float MPU6050::ReadRawAndConvert(int reg, float scale)
@@ -31,13 +30,22 @@ namespace rpicomponents
 		short low, high;
 		{
 			std::lock_guard<std::mutex> guard(mtx_);
-			high = wiringPiI2CReadReg8(fd_, reg);
-			low = wiringPiI2CReadReg8(fd_, reg + 1);
+			high = i2cReadByteData(fd_, reg);
+			low = i2cReadByteData(fd_, reg + 1);
 		}
 		high <<= 8;
 		high |= low;
 		float value = high / scale;
 		return value;
+	}
+
+	MPU6050::~MPU6050() 
+	{
+		try{
+			i2cClose(fd_);
+		} catch(...) {
+
+		}
 	}
 	
 	MPU6050::MPU6050(int address, ACCEL_SENSITIVITY accel, GYRO_SENSITIVITY gyro) : 
@@ -45,7 +53,7 @@ namespace rpicomponents
 		address_{address},
 		gyro_scale_{GYRO_SCALE_FACTOR_MAP.at(gyro)},
 		accel_scale_{ACCEL_SCALE_FACTOR_MAP.at(accel)},
-		fd_{wiringPiI2CSetup(address)}
+		fd_{i2cOpen(I2C_BUS_CHANNEL, address_, 0)}
 	{
 		if(fd_ < 0) {
 			throw std::invalid_argument("Error while initializing MPU6050");
@@ -58,7 +66,7 @@ namespace rpicomponents
 		address_{address},
 		gyro_scale_{GYRO_SCALE_FACTOR_MAP.at(gyro)},
 		accel_scale_{ACCEL_SCALE_FACTOR_MAP.at(accel)},
-		fd_{wiringPiI2CSetup(address)}
+		fd_{i2cOpen(I2C_BUS_CHANNEL, address_, 0)}
 	{
 		if(fd_ < 0) {
 			throw std::invalid_argument("Error while initializing MPU6050");
@@ -110,9 +118,7 @@ namespace rpicomponents
 		GetAngularVelocity(vel);
 		Eigen::VectorXd u(1), z(1);
 		z << out.beta;
-		std::cout << "z = " << z << std::endl;
 		u << vel.x;
-		std::cout << "u = " << u << std::endl;
 		out.beta = kalman_beta_.predict(z, u)[0];
 		z << out.gamma;
 		u << vel.y;

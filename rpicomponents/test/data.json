@@ -1,6 +1,15 @@
 {
-    "pwm": 2500,
-    "min": 700,
-    "max": 2300,
-    "pin": "GPIO4"
+    "escs":{
+        "pwm": 2500,
+        "min": 700,
+        "max": 2000,
+        "turn_speed": 1000,
+        "pins":[
+            {
+                "pos": "rf",
+                "pin":"GPIO21"
+            }
+        ]
+    }
+    
 }
