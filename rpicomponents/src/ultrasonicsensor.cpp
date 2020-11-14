@@ -9,7 +9,7 @@ const std::map<rpicomponents::DISTANCE_UNIT, float> rpicomponents::UltrasonicSen
 float rpicomponents::UltrasonicSensor::GetEchoTime() const
 {
     trigger_pin_->OutputOn();
-	usleep(1);
+	usleep(1000);
     trigger_pin_->OutputOff();
 	clock_t start = clock();
 	while (clock() - start < max_delay_time_)
