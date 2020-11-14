@@ -39,11 +39,11 @@ namespace rpicomponents
         if (!is_armed_)
         {
             pin_->OutputOff();
-            usleep(ESC_ARM_SLEEP_TIME_MS);
+            usleep(ESC_ARM_SLEEP_TIME_MS * 1000);
             pin_->Output(escData_.esc_max_value);
-            usleep(ESC_ARM_SLEEP_TIME_MS);
+            usleep(ESC_ARM_SLEEP_TIME_MS * 1000);
             pin_->Output(escData_.esc_min_value);
-            usleep(ESC_ARM_SLEEP_TIME_MS);
+            usleep(ESC_ARM_SLEEP_TIME_MS * 1000);
             is_armed_ = true;
         }
     }
