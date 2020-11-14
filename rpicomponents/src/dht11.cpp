@@ -1,4 +1,5 @@
 #include "dht11.hpp"
+#include <unistd.h>
 
 namespace rpicomponents
 {
@@ -18,9 +19,9 @@ namespace rpicomponents
 		std::lock_guard<std::mutex> guard(mtx_);
 		pin_->Output(0);
 
-		utils::Waiter::SleepMillis(wake_delay_);
+		usleep(wake_delay_);
 		pin_->Output(1);
-		utils::Waiter::SleepMillis(40 * time_delay_);
+		usleep(40 * time_delay_);
 
 		auto laststate = 1;
 		for (auto i = 0; i < max_timings_; i++)
@@ -29,7 +30,7 @@ namespace rpicomponents
 			while (pin_->ReadPinValue() == laststate)
 			{
 				counter++;
-				utils::Waiter::SleepMillis(time_delay_);
+				usleep(time_delay_);
 				if (counter == 255)
 				{
 					return bits;

@@ -54,7 +54,7 @@ if (NOT TARGET nlohmann_json::nlohmann_json)
     add_subdirectory (external/json)
 endif ()
 
-
+target_link_libraries(${PROJECT_NAME} PRIVATE atomic)
 target_link_libraries(${PROJECT_NAME} PUBLIC rpipins)
 target_link_libraries(${PROJECT_NAME} PRIVATE utils)
 target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)

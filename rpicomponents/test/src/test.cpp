@@ -39,6 +39,7 @@ TEST_CASE("Steppermotor checker") {
 #include <nlohmann/json.hpp>
 #include <fstream> 
 #include <filesystem>
+#include <unistd.h>
 #include <map>
 
 // for convenience
@@ -65,7 +66,7 @@ void escStartup(rpicomponents::Esc& esc, int speed, const std::string& m){
     esc.Calibrate(false);
     printf("let motor turn now with %i...\n", speed);
     esc.SetOutputSpeed(speed);
-    utils::Waiter::SleepMillis(100);
+    usleep(100);
     printf("-------------");
 }
 

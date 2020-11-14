@@ -1,6 +1,7 @@
 #include "esc.hpp"
 #include "utils/utils.hpp"
 #include <iostream>
+#include <unistd.h>
 
 namespace rpicomponents
 {
@@ -38,11 +39,11 @@ namespace rpicomponents
         if (!is_armed_)
         {
             pin_->OutputOff();
-            utils::Waiter::SleepMillis(ESC_ARM_SLEEP_TIME_MS);
+            usleep(ESC_ARM_SLEEP_TIME_MS);
             pin_->Output(escData_.esc_max_value);
-            utils::Waiter::SleepMillis(ESC_ARM_SLEEP_TIME_MS);
+            usleep(ESC_ARM_SLEEP_TIME_MS);
             pin_->Output(escData_.esc_min_value);
-            utils::Waiter::SleepMillis(ESC_ARM_SLEEP_TIME_MS);
+            usleep(ESC_ARM_SLEEP_TIME_MS);
             is_armed_ = true;
         }
     }
@@ -102,7 +103,7 @@ namespace rpicomponents
 
     void Esc::Calibrate(bool cin_on)
     {
-        int calibrate_secs = 12, off_secs = 2;
+        int calibrate_secs = 3;
         pin_->OutputOff();
         if(cin_on) {
             std::cout << "Disconnect the ESC from the battery and press enter\n";
@@ -116,12 +117,7 @@ namespace rpicomponents
         }
         pin_->Output(escData_.esc_min_value);
         std::cout << "Keeping ESC at it's min value for " << calibrate_secs << " seconds\n";
-        utils::Waiter::SleepSecs(calibrate_secs);
-        std::cout << "Turning it off and on again...\n";
-        pin_->OutputOff();
-        utils::Waiter::SleepSecs(off_secs);
-        pin_->Output(escData_.esc_min_value);
-        utils::Waiter::SleepSecs(off_secs);
+        usleep(calibrate_secs * 1000);
         std::cout << "ESC calibrated successfully!\n";
         std::cout << "ESC is being armed now!\n";
         Arm();

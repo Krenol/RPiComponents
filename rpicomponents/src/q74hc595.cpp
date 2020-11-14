@@ -1,5 +1,5 @@
 #include "q74hc595.hpp"
-#include "utils/utils.hpp"
+#include <unistd.h>
 
 
 bool rpicomponents::Q74HC595::ValidQPin(int pin_no) const
@@ -19,11 +19,11 @@ void rpicomponents::Q74HC595::WriteToQPins()
     for (int i = COMPONENT_Q74HC595_MAX_Q_PINS - 1; i >= 0; i--) {
 		ds_->Output(q_pin_map_.at(i));
 		shcp_->OutputOn();
-		utils::Waiter::SleepMillis(out_sleep_); //sleep to make sure data is pushed correctly
+		usleep(out_sleep_); //sleep to make sure data is pushed correctly
 		shcp_->OutputOff();
 	}
 	stcp_->OutputOn();
-	utils::Waiter::SleepMillis(out_sleep_); //sleep to make sure data is pushed correctly
+	usleep(out_sleep_); //sleep to make sure data is pushed correctly
 	stcp_->OutputOff();
 }
 

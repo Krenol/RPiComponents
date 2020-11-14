@@ -1,6 +1,6 @@
 #include "servomotor.hpp"
 #include <iostream>
-#include "utils/utils.hpp"
+#include <unistd.h>
 
 void rpicomponents::Servomotor::Initialize()
 {
@@ -70,7 +70,7 @@ void rpicomponents::Servomotor::Rotate(int angle)
 	auto time = GetTurnTime(angle);
 	pin_->Output(time);
 	angle_.store(angle);
-	utils::Waiter::SleepMillis(50);
+	usleep(50);
 }
 
 void rpicomponents::Servomotor::Stop()
