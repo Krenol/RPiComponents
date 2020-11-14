@@ -70,7 +70,7 @@ namespace rpicomponents
         {
             throw std::logic_error("Arm ESC before setting it's speed");
         }
-        pin_->Output(speed);
+        pin_->Output(speed < escData_.esc_min_value ? escData_.esc_min_value : (speed > escData_.esc_max_value ? escData_.esc_max_value : speed));
     }
 
     int Esc::GetEscSpeed() const
@@ -104,8 +104,8 @@ namespace rpicomponents
     void Esc::Calibrate(bool cin_on)
     {
         int calibrate_secs = 3;
-        pin_->OutputOff();
         if(cin_on) {
+            pin_->OutputOff();
             std::cout << "Disconnect the ESC from the battery and press enter\n";
             std::cin.get();
         }
@@ -114,6 +114,8 @@ namespace rpicomponents
             std::cout << "Connect the ESC to the battery now\n";
             std::cout << "Wait for two beeps and a falling tone, then press enter\n";
             std::cin.get();
+        } else {
+            usleep(calibrate_secs * 1000000);
         }
         pin_->Output(escData_.esc_min_value);
         std::cout << "Keeping ESC at it's min value for " << calibrate_secs << " seconds\n";
