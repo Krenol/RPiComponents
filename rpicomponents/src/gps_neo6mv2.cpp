@@ -4,11 +4,10 @@
 #include <string.h>
 
 const std::string rpicomponents::GpsNeo6MV2::PROTOCOL_HEAD = "$GPGGA", rpicomponents::GpsNeo6MV2::DELIM = ",", rpicomponents::GpsNeo6MV2::NEW_LINE = "\r\n";
+const int rpicomponents::GpsNeo6MV2::BUFFER_SIZE = 200;
 
 namespace rpicomponents
 {
-    static int BUFFER_SIZE = 200;
-
     void GpsNeo6MV2::readFromSerial(std::string &l)
     {
         std::vector<char> buf(BUFFER_SIZE);
