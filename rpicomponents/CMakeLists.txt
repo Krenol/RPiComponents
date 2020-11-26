@@ -31,6 +31,7 @@ ${PROJECT_SOURCE_DIR}/bidirectionalmotor.cpp
 ${PROJECT_SOURCE_DIR}/undirectionalmotor.cpp
 ${PROJECT_SOURCE_DIR}/esc.cpp
 ${PROJECT_SOURCE_DIR}/servomotor.cpp
+${PROJECT_SOURCE_DIR}/gps_neo6mv2.cpp
 )
 
 add_library(${PROJECT_NAME} SHARED ${RPICOMPONENT_PROJECT_SRCS})

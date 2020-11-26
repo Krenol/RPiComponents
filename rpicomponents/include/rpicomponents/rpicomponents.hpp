@@ -29,6 +29,7 @@
 #include "../../src/keypad.hpp"
 #include "../../src/lcd.hpp"
 #include "../../src/lcd1602.hpp"
+#include "../../src/gps_neo6mv2.hpp"
 
 namespace rpicomponents {
 	
