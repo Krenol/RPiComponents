@@ -263,7 +263,7 @@ namespace rpicomponents
 	void MPU6050::GetOffsets(nlohmann::json& json) 
 	{
 		json["offsets"]["gyro"] = offset_gyro_;
-		
+		json["offsets"]["acceleration"] = offset_acc_;
 	}
 	
 	void MPU6050::CalibrateFromJson(const nlohmann::json& j) 
