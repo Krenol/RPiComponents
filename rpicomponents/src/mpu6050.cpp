@@ -6,7 +6,7 @@
 
 namespace rpicomponents
 {
-	void MPU6050::Init(ACCEL_SENSITIVITY accel, GYRO_SENSITIVITY gyro) const
+	void MPU6050::Init(ACCEL_SENSITIVITY accel, GYRO_SENSITIVITY gyro)
 	{
 		//x axis gyro as clock ref
 		i2cWriteByteData (fd_, PWR_MGMT_1, 0b00000001);	
@@ -24,6 +24,8 @@ namespace rpicomponents
 		//set accel sensitivity
 		auto a = ACCEL_SEL_MAP.at(accel);
 		i2cWriteByteData (fd_, ACCEL_CONFIG, a);
+		kalman_beta_ = std::make_unique<MPU6050_Kalman>();
+		kalman_gamma_ = std::make_unique<MPU6050_Kalman>();
 	}
 
 	float MPU6050::ReadRawAndConvert(int reg, float scale)
@@ -120,10 +122,10 @@ namespace rpicomponents
 		Eigen::VectorXd u(1), z(1);
 		z << out.beta;
 		u << vel.x;
-		out.beta = kalman_beta_.predict(z, u)[0];
+		out.beta = kalman_beta_->predict(z, u)[0];
 		z << out.gamma;
 		u << vel.y;
-		out.gamma = kalman_gamma_.predict(z, u)[0];
+		out.gamma = kalman_gamma_->predict(z, u)[0];
 		out.unit = MPU_ANGLE;
 	}
 
@@ -271,6 +273,13 @@ namespace rpicomponents
 		offset_gyro_ = j["offsets"]["gyro"];
 		offset_acc_ = j["offsets"]["acceleration"];
 	}
+	
+	void MPU6050::SetKalmanConfig(const mpu_kalman_conf& conf) 
+	{
+		kalman_beta_ = std::make_unique<MPU6050_Kalman>(conf);
+		kalman_gamma_ = std::make_unique<MPU6050_Kalman>(conf);
+	}
+	
 
 	void to_json(nlohmann::json& j, const mpu_data& d) {
         j = nlohmann::json{{"x", d.x}, {"y", d.y}, {"z", d.z}, {"dx", d.dx}, {"dy", d.dy}, {"dz", d.dz}, {"unit", d.unit}};

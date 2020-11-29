@@ -86,7 +86,7 @@ namespace rpicomponents
 		const float gyro_scale_, accel_scale_;
 		std::mutex mtx_;
 		mpu_data offset_acc_, offset_gyro_;
-		MPU6050_Kalman kalman_beta_, kalman_gamma_;
+		std::unique_ptr<MPU6050_Kalman> kalman_beta_, kalman_gamma_;
 
 		/*
 		Method to init component
@@ -94,7 +94,7 @@ namespace rpicomponents
 		@param accel: Acceleration range of the MPU
 		@param gyro: Gyro range of MPU
 		*/
-		void Init(ACCEL_SENSITIVITY accel, GYRO_SENSITIVITY gyro) const;
+		void Init(ACCEL_SENSITIVITY accel, GYRO_SENSITIVITY gyro);
 
 		/*
 		Method to read raw value from i2c and converts it via given scale
@@ -288,6 +288,12 @@ namespace rpicomponents
 		@json JSON where both offsets are to be stored
 		*/
 		void CalibrateFromJson(const nlohmann::json& j);
+
+		/**
+		 * Method to set the config values of the kalman filters
+		 * @param conf the config struct
+		 */
+		void SetKalmanConfig(const mpu_kalman_conf& conf);
 	};
 } // namespace rpicomponents
 
