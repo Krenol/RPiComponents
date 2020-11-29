@@ -282,6 +282,12 @@ namespace rpicomponents
 		@json JSON where both offsets are to be stored
 		*/
 		void GetOffsets(nlohmann::json &json);
+
+		/*
+		Method to get all offsets in a JSON
+		@json JSON where both offsets are to be stored
+		*/
+		void CalibrateFromJson(const nlohmann::json& j);
 	};
 } // namespace rpicomponents
 

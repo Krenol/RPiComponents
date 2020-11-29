@@ -3,6 +3,7 @@
 #include <iostream>
 #include <pigpio.h>
 
+
 namespace rpicomponents
 {
 	void MPU6050::Init(ACCEL_SENSITIVITY accel, GYRO_SENSITIVITY gyro) const
@@ -262,10 +263,14 @@ namespace rpicomponents
 	void MPU6050::GetOffsets(nlohmann::json& json) 
 	{
 		json["offsets"]["gyro"] = offset_gyro_;
-		json["offsets"]["acceleration"] = offset_acc_;
+		
 	}
-
-
+	
+	void MPU6050::CalibrateFromJson(const nlohmann::json& j) 
+	{
+		offset_gyro_ = j["offsets"]["gyro"];
+		offset_acc_ = j["offsets"]["acceleration"];
+	}
 
 	void to_json(nlohmann::json& j, const mpu_data& d) {
         j = nlohmann::json{{"x", d.x}, {"y", d.y}, {"z", d.z}, {"dx", d.dx}, {"dy", d.dy}, {"dz", d.dz}, {"unit", d.unit}};
