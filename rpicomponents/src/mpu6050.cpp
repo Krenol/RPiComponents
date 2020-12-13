@@ -24,8 +24,8 @@ namespace rpicomponents
 		//set accel sensitivity
 		auto a = ACCEL_SEL_MAP.at(accel);
 		i2cWriteByteData (fd_, ACCEL_CONFIG, a);
-		kalman_beta_ = std::make_unique<MPU6050_Kalman>();
-		kalman_gamma_ = std::make_unique<MPU6050_Kalman>();
+		kalman_roll_angle_ = std::make_unique<MPU6050_Kalman>();
+		kalman_pitch_angle_ = std::make_unique<MPU6050_Kalman>();
 	}
 
 	float MPU6050::ReadRawAndConvert(int reg, float scale)
@@ -120,12 +120,12 @@ namespace rpicomponents
 		mpu_data vel;
 		GetAngularVelocity(vel);
 		Eigen::VectorXd u(1), z(1);
-		z << out.beta;
+		z << out.roll_angle;
 		u << vel.x;
-		out.beta = kalman_beta_->predict(z, u)[0];
-		z << out.gamma;
+		out.roll_angle = kalman_roll_angle_->predict(z, u)[0];
+		z << out.pitch_angle;
 		u << vel.y;
-		out.gamma = kalman_gamma_->predict(z, u)[0];
+		out.pitch_angle = kalman_pitch_angle_->predict(z, u)[0];
 		out.unit = MPU_ANGLE;
 	}
 
@@ -154,8 +154,8 @@ namespace rpicomponents
 	void MPU6050::GetAccelerationAngles(mpu_angles& out) 
 	{
 		auto acc = GetAcceleration();
-		out.beta = atan2(-acc.x, sqrt(powf(acc.y, 2.0) + powf(acc.z, 2.0))) * RAD_TO_DEG;
-		out.gamma = atan2(acc.y, acc.z) * RAD_TO_DEG;
+		out.roll_angle = atan2(-acc.x, sqrt(powf(acc.y, 2.0) + powf(acc.z, 2.0))) * RAD_TO_DEG;
+		out.pitch_angle = atan2(acc.y, acc.z) * RAD_TO_DEG;
 		out.unit = MPU_ANGLE;
 	}
 
@@ -276,8 +276,8 @@ namespace rpicomponents
 	
 	void MPU6050::SetKalmanConfig(const mpu_kalman_conf& conf) 
 	{
-		kalman_beta_ = std::make_unique<MPU6050_Kalman>(conf);
-		kalman_gamma_ = std::make_unique<MPU6050_Kalman>(conf);
+		kalman_roll_angle_ = std::make_unique<MPU6050_Kalman>(conf);
+		kalman_pitch_angle_ = std::make_unique<MPU6050_Kalman>(conf);
 	}
 	
 

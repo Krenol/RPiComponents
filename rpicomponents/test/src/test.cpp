@@ -85,7 +85,7 @@ int main() {
     // while(true) {
     //     mpu.GetKalmanAngles(a);
     //     mpu.GetAcceleration(d);
-    //     printf("\n\n\n-------------\n beta=%.3f °\tgamma=%.3f °\tAx=%.3f g\tAy=%.3f g\tAz=%.3f g\n-------------\n\n\n", a.beta, a.gamma, d.x, d.y, d.z);
+    //     printf("\n\n\n-------------\n roll_angle=%.3f °\tpitch_angle=%.3f °\tAx=%.3f g\tAy=%.3f g\tAz=%.3f g\n-------------\n\n\n", a.roll_angle, a.pitch_angle, d.x, d.y, d.z);
     //     utils::Waiter::SleepMillis(500);
     // }
     

@@ -61,7 +61,7 @@ namespace rpicomponents
 
 	struct mpu_angles
 	{
-		float beta, gamma;
+		float roll_angle, pitch_angle;
 		std::string unit;
 	};
 
@@ -86,7 +86,7 @@ namespace rpicomponents
 		const float gyro_scale_, accel_scale_;
 		std::mutex mtx_;
 		mpu_data offset_acc_, offset_gyro_;
-		std::unique_ptr<MPU6050_Kalman> kalman_beta_, kalman_gamma_;
+		std::unique_ptr<MPU6050_Kalman> kalman_roll_angle_, kalman_pitch_angle_;
 
 		/*
 		Method to init component
