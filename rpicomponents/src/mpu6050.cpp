@@ -116,7 +116,7 @@ namespace rpicomponents
 	
 	void MPU6050::GetKalmanAngles(mpu_angles& out) 
 	{
-		out = GetAccelerationAngles();
+		GetAccelerationAngles(out);
 		mpu_data vel;
 		GetAngularVelocity(vel);
 		Eigen::VectorXd u(1), z(1);

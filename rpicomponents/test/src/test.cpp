@@ -73,33 +73,21 @@ void escStartup(rpicomponents::Esc& esc, int speed, const std::string& m){
 int main() {
 
     pin::initGPIOs();
-    // rpicomponents::MPU6050 mpu;
-    // auto offset_a = mpu.CalibrateAcceleration();
-    // printf("\n\n\n-------------\n Ax=%.3f g\tAy=%.3f g\tAz=%.3f g\tdx=%.3f g\tdy=%.3f g\tdz=%.3f g\n-------------\n\n\n",
-    //     offset_a.x, offset_a.y, offset_a.z, offset_a.dx, offset_a.dy, offset_a.dz);
-    // auto offset_g = mpu.CalibrateGyro();
-    // printf("\n\n\n-------------\n Gx=%.3f °/s\tGy=%.3f °/s\tGz=%.3f °/s\tdx=%.3f °/s\tdy=%.3f °/s\tdz=%.3f °/s\n-------------\n\n\n",
-    //     offset_g.x, offset_g.y, offset_g.z, offset_g.dx, offset_g.dy, offset_g.dz);
-    // rpicomponents::mpu_angles a;
-    // rpicomponents::mpu_data d;
-    // while(true) {
-    //     mpu.GetKalmanAngles(a);
-    //     mpu.GetAcceleration(d);
-    //     printf("\n\n\n-------------\n roll_angle=%.3f °\tpitch_angle=%.3f °\tAx=%.3f g\tAy=%.3f g\tAz=%.3f g\n-------------\n\n\n", a.roll_angle, a.pitch_angle, d.x, d.y, d.z);
-    //     utils::Waiter::SleepMillis(500);
-    // }
-    
-    std::ifstream ifs("/home/pi/mnt/RPiComponents/rpicomponents/test/data.json");
-    json j = json::parse(ifs);
-    auto jf = j.at("escs");
-    int speed = jf.at("turn_speed");
-    esc_map map;
-    createEscMap(map, jf);
-    std::cout << "Hit Enter to start arming ESCs... \n";
-    std::cin.get();
-    for(auto& it : map){
-        escStartup(it.second, speed, it.first); 
+    rpicomponents::MPU6050 mpu;
+    auto offset_a = mpu.CalibrateAcceleration();
+    printf("\n\n\n-------------\n Ax=%.3f g\tAy=%.3f g\tAz=%.3f g\tdx=%.3f g\tdy=%.3f g\tdz=%.3f g\n-------------\n\n\n",
+        offset_a.x, offset_a.y, offset_a.z, offset_a.dx, offset_a.dy, offset_a.dz);
+    auto offset_g = mpu.CalibrateGyro();
+    printf("\n\n\n-------------\n Gx=%.3f °/s\tGy=%.3f °/s\tGz=%.3f °/s\tdx=%.3f °/s\tdy=%.3f °/s\tdz=%.3f °/s\n-------------\n\n\n",
+        offset_g.x, offset_g.y, offset_g.z, offset_g.dx, offset_g.dy, offset_g.dz);
+    rpicomponents::mpu_angles a;
+    rpicomponents::mpu_data d;
+    while(true) {
+        mpu.GetKalmanAngles(a);
+        mpu.GetAcceleration(d);
+        printf("\n\n\n-------------\n roll_angle=%.3f °\tpitch_angle=%.3f °\tAx=%.3f g\tAy=%.3f g\tAz=%.3f g\n-------------\n\n\n", a.roll_angle, a.pitch_angle, d.x, d.y, d.z);
+        usleep(500000);
     }
-	std::cin.get();
+    
     pin::terminateGPIOs();
 }
