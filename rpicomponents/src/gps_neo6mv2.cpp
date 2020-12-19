@@ -14,7 +14,7 @@ namespace rpicomponents
         int bytes_read = serRead(handle_, &buf[0], BUFFER_SIZE);
         if (bytes_read < 0)
         {
-            l = "error";
+            l = "";
         }
         else
         {
@@ -33,7 +33,7 @@ namespace rpicomponents
             buf += l;
             pos_h = buf.find(PROTOCOL_HEAD);
             pos_n = buf.find_last_of(NEW_LINE);
-        } while (pos_h != std::string::npos && pos_n != std::string::npos && pos_n < pos_h);
+        } while (pos_h == std::string::npos || pos_n == std::string::npos || pos_n < pos_h);
         // trim string
         buf.erase(0, pos_h);
         pos_n = buf.find(NEW_LINE);
@@ -92,23 +92,31 @@ namespace rpicomponents
     {
         std::string l;
         std::vector<std::string> out;
-        // line should be $GPGGA,hhmmss:ss,Latitude,N,Longitude,E,FS,NoSV,HDOP,Alt,m,Altref,m,DiffAge,DiffStation*cs
-        getCoordLine(l);
-        splitLine(l, out);
-        // with 15 lines read, read serial line is valid
-        if (out.size() == 15)
-        {
-            c.latitude = convertToDegrees(out[2]);
-            c.longitude = convertToDegrees(out[4]);
-            c.altitude = std::stof(out[9]);
-        }
-        else
-        {
+        try{
+            // line should be $GPGGA,hhmmss:ss,Latitude,N,Longitude,E,FS,NoSV,HDOP,Alt,m,Altref,m,DiffAge,DiffStation*cs
+            getCoordLine(l);
+            splitLine(l, out);
+            // with 15 lines read, read serial line is valid
+            if (out.size() == 15)
+            {
+                c.latitude = convertToDegrees(out[2]);
+                c.longitude = convertToDegrees(out[4]);
+                c.altitude = std::stof(out[9]);
+            }
+            else
+            {
+                // set error values
+                c.latitude = INFINITY;
+                c.longitude = INFINITY;
+                c.altitude = INFINITY;
+            }
+        } catch(...) {
             // set error values
             c.latitude = INFINITY;
             c.longitude = INFINITY;
             c.altitude = INFINITY;
         }
+        
     }
 
 } // namespace rpicomponents

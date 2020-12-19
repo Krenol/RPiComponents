@@ -49,7 +49,7 @@ namespace rpicomponents {
          * @param sertty The serial file to open
          * @param baud Baud rate to read from file
          */
-        GpsNeo6MV2(const std::string& sertty = "/dev/ttyS0", int baud = 4800);
+        GpsNeo6MV2(const std::string& sertty = "/dev/serial0", int baud = 9600);
 
         /**
          * Destructor
