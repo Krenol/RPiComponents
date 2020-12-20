@@ -1,4 +1,5 @@
 #include "component.hpp"
+#include <cmath>
 
 #ifndef RPICOMPONENTS_GPS_NEO_6MV2_H
 #define RPICOMPONENTS_GPS_NEO_6MV2_H
@@ -14,7 +15,6 @@ namespace rpicomponents {
     private:
         static const std::string PROTOCOL_HEAD, DELIM, NEW_LINE;
         static const int BUFFER_SIZE;
-        char* sertty_;
         int handle_;
 
         /**
@@ -26,8 +26,9 @@ namespace rpicomponents {
         /**
          * Method that reads the PROTOCOL_HEAD line
          * @param l string to store the PROTOCOL_HEAD line
+         * @param retries The amount of retries to try reading the GPS pos from serial
          */
-        void getCoordLine(std::string& l);
+        void getCoordLine(std::string& l, int retries = INFINITY);
 
         /**
          * Method that splits a string at the DELIM
@@ -61,6 +62,13 @@ namespace rpicomponents {
          * @param c Struct to write cords to
          */
         void getCoordinates(GPSCoordinates& c);
+
+        /**
+         * Get GPS coordinates from serial
+         * @param c Struct to write cords to
+         * @param retries The amount of retries to try reading the GPS pos from serial
+         */
+        void getCoordinates(GPSCoordinates& c, int retries);
 	};
 }
 

@@ -76,7 +76,7 @@ int main() {
     rpicomponents::GpsNeo6MV2 gps;
     rpicomponents::GPSCoordinates c;
     while(1) {
-        gps.getCoordinates(c);
+        gps.getCoordinates(c, 1);
         printf("\n\n\n-------------\n longitude=%.5f °\tlatitude=%.5f °\taltitude=%.5f m\n-------------\n\n\n", c.longitude, c.latitude, c.altitude);
         sleep(1);
     }

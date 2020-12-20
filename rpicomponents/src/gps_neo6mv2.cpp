@@ -1,6 +1,5 @@
 #include "gps_neo6mv2.hpp"
-#include <pigpio.h>
-#include <cmath>
+#include "wiringSerial.h"
 #include <string.h>
 
 const std::string rpicomponents::GpsNeo6MV2::PROTOCOL_HEAD = "$GPGGA", rpicomponents::GpsNeo6MV2::DELIM = ",", rpicomponents::GpsNeo6MV2::NEW_LINE = "\r\n";
@@ -10,22 +9,19 @@ namespace rpicomponents
 {
     void GpsNeo6MV2::readFromSerial(std::string &l)
     {
-        std::vector<char> buf(BUFFER_SIZE);
-        int bytes_read = serRead(handle_, &buf[0], BUFFER_SIZE);
-        if (bytes_read < 0)
-        {
-            l = "";
+        char c;
+        for(auto i = 0; i < BUFFER_SIZE; i++) {
+            c = serialGetchar (handle_);
+            l += c;
         }
-        else
-        {
-            l = std::string(buf.begin(), buf.end());
-        }
+        
     }
 
-    void GpsNeo6MV2::getCoordLine(std::string &l)
+    void GpsNeo6MV2::getCoordLine(std::string &l, int retries)
     {
         std::string buf = "";
         size_t pos_h, pos_n;
+        int tries = 0;
         // read from Serial as long as the PROTOCOL_HEAD is not found and the string doesn't end with a new line
         do
         {
@@ -33,13 +29,20 @@ namespace rpicomponents
             buf += l;
             pos_h = buf.find(PROTOCOL_HEAD);
             pos_n = buf.find_last_of(NEW_LINE);
-        } while (pos_h == std::string::npos || pos_n == std::string::npos || pos_n < pos_h);
-        // trim string
-        buf.erase(0, pos_h);
-        pos_n = buf.find(NEW_LINE);
-        buf.erase(pos_n);
-        // save string to return
-        l = buf;
+            ++tries;
+        } while (pos_h == std::string::npos || pos_n == std::string::npos || pos_n < pos_h && tries < retries);
+        //string could be found on last retry, so we check the conditions
+        if(pos_h != std::string::npos && pos_n != std::string::npos && pos_n > pos_h){
+            // trim string
+            buf.erase(0, pos_h);
+            pos_n = buf.find(NEW_LINE);
+            buf.erase(pos_n);
+            // save string to return
+            l = buf;
+        } else {
+            l = ",,,,,,,,,,,,,";
+        }
+        
     }
 
     void GpsNeo6MV2::splitLine(const std::string &l, std::vector<std::string> &out)
@@ -73,9 +76,7 @@ namespace rpicomponents
 
     GpsNeo6MV2::GpsNeo6MV2(const std::string &sertty, int baud) : Component(COMPONENT_GPS_NEO_6MV2)
     {
-        sertty_ = new char[sertty.length() + 1];
-        strcpy(sertty_, sertty.c_str());
-        handle_ = serOpen(sertty_, baud, 0);
+        handle_ = serialOpen(sertty.c_str(), baud);
         if (handle_ < 0)
         {
             throw std::runtime_error("couldn't open serial to GPS module!");
@@ -84,8 +85,7 @@ namespace rpicomponents
 
     GpsNeo6MV2::~GpsNeo6MV2() 
     {
-        serClose(handle_);
-        delete [] sertty_;
+        serialClose(handle_);
     }
 
     void GpsNeo6MV2::getCoordinates(GPSCoordinates &c)
@@ -116,6 +116,11 @@ namespace rpicomponents
             c.longitude = INFINITY;
             c.altitude = INFINITY;
         }
+        
+    }
+    
+    void GpsNeo6MV2::getCoordinates(GPSCoordinates& c, int retries) 
+    {
         
     }
 
