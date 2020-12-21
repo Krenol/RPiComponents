@@ -33,6 +33,7 @@ ${PROJECT_SOURCE_DIR}/esc.cpp
 ${PROJECT_SOURCE_DIR}/servomotor.cpp
 ${PROJECT_SOURCE_DIR}/wiringSerial.c
 ${PROJECT_SOURCE_DIR}/gps_neo6mv2.cpp
+${PROJECT_SOURCE_DIR}/bmp180.cpp
 )
 
 add_library(${PROJECT_NAME} SHARED ${RPICOMPONENT_PROJECT_SRCS})

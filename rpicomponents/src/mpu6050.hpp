@@ -78,9 +78,9 @@ namespace rpicomponents
 	{
 		// see https://www.electronicwings.com/raspberry-pi/mpu6050-accelerometergyroscope-interfacing-with-raspberry-pi
 	private:
-		const int PWR_MGMT_1{0x6B}, SMPLRT_DIV{0x19}, CONFIG{0x1A}, GYRO_CONFIG{0x1B}, ACCEL_CONFIG{0x1C}, INT_ENABLE{0x38},
-			ACCEL_XOUT_H{0x3B}, ACCEL_YOUT_H{0x3D}, ACCEL_ZOUT_H{0x3F}, GYRO_XOUT_H{0x43}, GYRO_YOUT_H{0x45}, GYRO_ZOUT_H{0x47}, // collection of needed addresses of the MPU according to data sheet
-			OFFSET_RUNS = 100;
+		static const int PWR_MGMT_1, SMPLRT_DIV, CONFIG, GYRO_CONFIG, ACCEL_CONFIG, INT_ENABLE,
+			ACCEL_XOUT_H, ACCEL_YOUT_H, ACCEL_ZOUT_H, GYRO_XOUT_H, GYRO_YOUT_H, GYRO_ZOUT_H, // collection of needed addresses of the MPU according to data sheet
+			OFFSET_RUNS;
 
 		const int address_{0x68}, fd_; //std address
 		const float gyro_scale_, accel_scale_;
