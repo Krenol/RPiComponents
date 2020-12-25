@@ -1,7 +1,6 @@
 #include "gps_neo6mv2.hpp"
 #include "wiringSerial.h"
 #include <string.h>
-#include <iostream>
 
 const std::string rpicomponents::GpsNeo6MV2::PROTOCOL_HEAD = "$GPGGA", rpicomponents::GpsNeo6MV2::DELIM = ",", rpicomponents::GpsNeo6MV2::NEW_LINE = "\r\n";
 const int rpicomponents::GpsNeo6MV2::BUFFER_SIZE = 200;
@@ -99,7 +98,6 @@ namespace rpicomponents
         std::vector<std::string> out;
         try{
             // line should be $GPGGA,hhmmss:ss,Latitude,N,Longitude,E,FS,NoSV,HDOP,Alt,m,Altref,m,DiffAge,DiffStation*cs
-            std::cout << "1\n";
             getCoordLine(l, retries);
             splitLine(l, out);
             // with 15 lines read, read serial line is valid
