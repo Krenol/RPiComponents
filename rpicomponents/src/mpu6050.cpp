@@ -28,8 +28,7 @@ namespace rpicomponents
 		//set accel sensitivity
 		auto a = ACCEL_SEL_MAP.at(accel);
 		i2cWriteByteData (fd_, ACCEL_CONFIG, a);
-		kalman_roll_angle_ = std::make_unique<MPU6050_Kalman>();
-		kalman_pitch_angle_ = std::make_unique<MPU6050_Kalman>();
+		kalman_ = std::make_unique<MPU6050_Kalman>();
 	}
 
 	float MPU6050::ReadRawAndConvert(int reg, float scale)
@@ -123,13 +122,12 @@ namespace rpicomponents
 		GetAccelerationAngles(out);
 		mpu_data vel;
 		GetAngularVelocity(vel);
-		Eigen::VectorXd u(1), z(1);
-		z << out.roll_angle;
-		u << vel.x;
-		out.roll_angle = kalman_roll_angle_->predict(z, u)[0];
-		z << out.pitch_angle;
-		u << vel.y;
-		out.pitch_angle = kalman_pitch_angle_->predict(z, u)[0];
+		Eigen::VectorXd u(2), z(2), x;
+		z << out.roll_angle, out.pitch_angle;
+		u << vel.x, vel.y;
+		x = kalman_->predict(z, u);
+		out.roll_angle = x[0];
+		out.pitch_angle = x[2];
 		out.unit = MPU_ANGLE;
 	}
 
@@ -280,8 +278,7 @@ namespace rpicomponents
 	
 	void MPU6050::SetKalmanConfig(const mpu_kalman_conf& conf) 
 	{
-		kalman_roll_angle_ = std::make_unique<MPU6050_Kalman>(conf);
-		kalman_pitch_angle_ = std::make_unique<MPU6050_Kalman>(conf);
+		kalman_ = std::make_unique<MPU6050_Kalman>(conf);
 	}
 	
 

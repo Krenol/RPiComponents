@@ -86,7 +86,7 @@ namespace rpicomponents
 		const float gyro_scale_, accel_scale_;
 		std::mutex mtx_;
 		mpu_data offset_acc_, offset_gyro_;
-		std::unique_ptr<MPU6050_Kalman> kalman_roll_angle_, kalman_pitch_angle_;
+		std::unique_ptr<MPU6050_Kalman> kalman_;
 
 		/*
 		Method to init component

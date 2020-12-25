@@ -1,6 +1,7 @@
 #include "gps_neo6mv2.hpp"
 #include "wiringSerial.h"
 #include <string.h>
+#include <iostream>
 
 const std::string rpicomponents::GpsNeo6MV2::PROTOCOL_HEAD = "$GPGGA", rpicomponents::GpsNeo6MV2::DELIM = ",", rpicomponents::GpsNeo6MV2::NEW_LINE = "\r\n";
 const int rpicomponents::GpsNeo6MV2::BUFFER_SIZE = 200;
@@ -10,18 +11,17 @@ namespace rpicomponents
     void GpsNeo6MV2::readFromSerial(std::string &l)
     {
         char c;
+        l = "";
         for(auto i = 0; i < BUFFER_SIZE; i++) {
             c = serialGetchar (handle_);
             l += c;
         }
-        
     }
 
     void GpsNeo6MV2::getCoordLine(std::string &l, int retries)
     {
         std::string buf = "";
         size_t pos_h, pos_n;
-        int tries = 0;
         // read from Serial as long as the PROTOCOL_HEAD is not found and the string doesn't end with a new line
         do
         {
@@ -29,8 +29,8 @@ namespace rpicomponents
             buf += l;
             pos_h = buf.find(PROTOCOL_HEAD);
             pos_n = buf.find_last_of(NEW_LINE);
-            ++tries;
-        } while (pos_h == std::string::npos || pos_n == std::string::npos || pos_n < pos_h && tries < retries);
+            --retries;
+        } while ((pos_h == std::string::npos || pos_n == std::string::npos || pos_n < pos_h) && retries > 0);
         //string could be found on last retry, so we check the conditions
         if(pos_h != std::string::npos && pos_n != std::string::npos && pos_n > pos_h){
             // trim string
@@ -90,11 +90,17 @@ namespace rpicomponents
 
     void GpsNeo6MV2::getCoordinates(GPSCoordinates &c)
     {
+        getCoordinates(c, INFINITY);
+    }
+    
+    void GpsNeo6MV2::getCoordinates(GPSCoordinates& c, int retries) 
+    {
         std::string l;
         std::vector<std::string> out;
         try{
             // line should be $GPGGA,hhmmss:ss,Latitude,N,Longitude,E,FS,NoSV,HDOP,Alt,m,Altref,m,DiffAge,DiffStation*cs
-            getCoordLine(l);
+            std::cout << "1\n";
+            getCoordLine(l, retries);
             splitLine(l, out);
             // with 15 lines read, read serial line is valid
             if (out.size() == 15)
@@ -116,11 +122,6 @@ namespace rpicomponents
             c.longitude = INFINITY;
             c.altitude = INFINITY;
         }
-        
-    }
-    
-    void GpsNeo6MV2::getCoordinates(GPSCoordinates& c, int retries) 
-    {
         
     }
 

@@ -1,5 +1,4 @@
 #include "utils/utils.hpp"
-#include <iostream>
 
 #ifndef RPICOMPONENTS_MPU6050_KALMAN_H
 #define RPICOMPONENTS_MPU6050_KALMAN_H
@@ -43,17 +42,26 @@ private:
 protected:
     void updateA() {
         auto dt = getDt();
-        A_ << 1, -dt, 0, 1;
+        A_ << 1, -dt, 0, 0, 
+            0, 1, 0, 0, 
+            0, 0, 1, -dt,
+            0, 0, 0, 1;
     }
 
     void updateB() {
         auto dt = getDt();
-        B_ << dt, 0;
+        B_ << dt, 0,
+            0, 0,
+            0, dt, 
+            0, 0;
     }
 
     void updateQ() {
         auto dt = getDt();
-        Q_ << conf_.q11 * dt, conf_.q12, conf_.q21, conf_.q22 * dt;
+        Q_ << conf_.q11 * dt, conf_.q12, 0, 0, 
+            conf_.q21, conf_.q22 * dt, 0, 0,
+            0, 0, conf_.q11 * dt, conf_.q12,
+            0, 0, conf_.q21, conf_.q22 * dt;
     }
 
 public:
@@ -66,7 +74,7 @@ public:
 
     }
 
-    MPU6050_Kalman(const mpu_kalman_conf& conf) : Kalman((Eigen::MatrixXd(1,2) << conf.c1, conf.c2).finished(), Eigen::MatrixXd::Zero(2,2), (Eigen::MatrixXd(1,1) << conf.r).finished()), conf_{conf}
+    MPU6050_Kalman(const mpu_kalman_conf& conf) : Kalman((Eigen::MatrixXd(2,4) << conf.c1, conf.c2, 0, 0, 0, 0 , conf.c1, conf.c2).finished(), Eigen::MatrixXd::Zero(4,4), (Eigen::MatrixXd(2,2) << conf.r, 0, 0, conf.r).finished()), conf_{conf}
     {
 
     }
