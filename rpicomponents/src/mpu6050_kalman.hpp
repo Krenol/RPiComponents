@@ -78,6 +78,11 @@ public:
     {
 
     }
+
+    MPU6050_Kalman(const mpu_kalman_conf& conf, const Eigen::VectorXd& x_0) : Kalman((Eigen::MatrixXd(2,4) << conf.c1, conf.c2, 0, 0, 0, 0 , conf.c1, conf.c2).finished(), Eigen::MatrixXd::Zero(4,4), (Eigen::MatrixXd(2,2) << conf.r, 0, 0, conf.r).finished(), x_0), conf_{conf}
+    {
+
+    }
 };
 
 #endif
