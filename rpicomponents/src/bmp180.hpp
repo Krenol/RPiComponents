@@ -1,4 +1,5 @@
 #include "component.hpp"
+#include "bmp180_kalman.hpp"
 
 #ifndef RPICOMPONENTS_BMP180_H
 #define RPICOMPONENTS_BMP180_H
@@ -70,6 +71,7 @@ namespace rpicomponents {
         int handle_;
         bmp180_pressure pres_;
         std::map<int, int> eprom_;
+        std::unique_ptr<Bmp180_Kalman> kalman_;
         
         /**
          * Init eprom of BPM180
@@ -118,10 +120,22 @@ namespace rpicomponents {
         long getPressure();
         
         /**
+         * Get the current air pressure in Pa
+         * @returns the current air pressure in Pa estimated by Kalman Filter
+         */
+        long getPressureKalman();
+
+        /**
          * Get the altitude based upon the alitude estimation formula 
          * @returns the estimated alitutude above sea level in m
          */
         float getAltitude();
+
+        /**
+         * Get the altitude based upon the alitude estimation formula  with kalman estimated pressure
+         * @returns the estimated alitutude above sea level in m
+         */
+        float getAltitudeKalman();
 
         /**
          * Get the current air density based upon the current pressure and temperature
@@ -134,6 +148,12 @@ namespace rpicomponents {
          * @param data the struct where to store the values
          */
         void getBarometricData(BarometricData& data);
+
+        /**
+		 * Method to set the config values of the kalman filters
+		 * @param conf the config struct
+		 */
+		void SetKalmanConfig(bmp_kalman_conf& conf);
 	};
 }
 

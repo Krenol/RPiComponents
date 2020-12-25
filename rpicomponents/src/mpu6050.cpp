@@ -28,7 +28,8 @@ namespace rpicomponents
 		//set accel sensitivity
 		auto a = ACCEL_SEL_MAP.at(accel);
 		i2cWriteByteData (fd_, ACCEL_CONFIG, a);
-		kalman_ = std::make_unique<MPU6050_Kalman>();
+		//kalman_ = std::make_unique<MPU6050_Kalman>();
+		SetKalmanConfig(mpu_kalman_conf());
 	}
 
 	float MPU6050::ReadRawAndConvert(int reg, float scale)
@@ -278,6 +279,10 @@ namespace rpicomponents
 	
 	void MPU6050::SetKalmanConfig(const mpu_kalman_conf& conf) 
 	{
+		rpicomponents::mpu_angles a;
+        GetAccelerationAngles(a);
+        Eigen::VectorXd x_0(4);
+        x_0 << a.roll_angle, 0, a.pitch_angle, 0;
 		kalman_ = std::make_unique<MPU6050_Kalman>(conf);
 	}
 	

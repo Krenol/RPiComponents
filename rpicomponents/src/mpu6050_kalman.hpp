@@ -29,6 +29,7 @@ struct mpu_kalman_conf {
     mpu_kalman_conf(const mpu_kalman_conf& conf) {
         c1 = conf.c1;
         c2 = conf.c2;
+        r = conf.r;
         q11 = conf.q11;
         q12 = conf.q12;
         q21 = conf.q21;

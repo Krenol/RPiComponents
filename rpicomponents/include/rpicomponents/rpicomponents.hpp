@@ -32,6 +32,7 @@
 #include "../../src/lcd1602.hpp"
 #include "../../src/gps_neo6mv2.hpp"
 #include "../../src/bmp180.hpp"
+#include "../../src/bmp180_kalman.hpp"
 
 namespace rpicomponents {
 	

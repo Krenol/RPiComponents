@@ -98,7 +98,7 @@ void mpu() {
      }
 }
 
-void bpm() {
+void bmp() {
     rpicomponents::Bmp180 bmp;
     rpicomponents::BarometricData d;
     while(1){
@@ -108,11 +108,24 @@ void bpm() {
     }
 }
 
+void bmp_kal() {
+    rpicomponents::Bmp180 bmp;
+    rpicomponents::BarometricData d;
+    while(1){
+        auto p = bmp.getPressure();
+        auto pk = bmp.getPressureKalman();
+        auto h = bmp.getAltitude();
+        auto hk = bmp.getAltitudeKalman();
+        printf("\n\n\n-------------\naltitude=%.3f m\taltitude_kal=%.3f m\tpressure=%ld Pa\tpressure_kal=%ld Pa\n-------------\n\n\n", h, hk, p, pk);
+        usleep(500000);
+    }
+}
+
 int main() {
 
     pin::initGPIOs();
     //gps();
-    mpu();
-    
+    //mpu();
+    bmp_kal();
     pin::terminateGPIOs();
 }

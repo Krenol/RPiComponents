@@ -33,6 +33,8 @@ namespace rpicomponents
             }
             eprom_.emplace(ad, store);
         }
+        bmp_kalman_conf c;
+        SetKalmanConfig(c);
     }
 
     int Bmp180::readRawTemperature()
@@ -104,11 +106,28 @@ namespace rpicomponents
 
         return p;
     }
+    
+    long Bmp180::getPressureKalman() 
+    {
+        auto p = getPressure();
+        Eigen::VectorXd z(1), u(1);
+        z << p;
+        u << 0;
+        auto p_k = kalman_->predict(z, u)[0];
+        return p_k;
+    }
 
     float Bmp180::getAltitude()
     {
-        float p = getPressure();
-        float alt = 44330 * (1 - pow(((p / 100) / PRESSURE_SEA_LVL), 1 / 5.255));
+        float p = getPressure() / 100.0;
+        float alt = 44330.77 * (1 - pow((p / PRESSURE_SEA_LVL), 1 / 5.255));
+        return alt;
+    }
+    
+    float Bmp180::getAltitudeKalman() 
+    {
+        auto p = getPressureKalman() / 100.0;
+        float alt = 44330.77 * (1 - pow((p / PRESSURE_SEA_LVL), 1 / 5.255));
         return alt;
     }
 
@@ -126,6 +145,15 @@ namespace rpicomponents
         data.density = getDensity();
         data.pressure = getPressure();
         data.temperature = getTemperature();
+    }
+    
+    void Bmp180::SetKalmanConfig(bmp_kalman_conf& conf) 
+    {
+        conf.res = pres_.res;
+        auto p = getPressure();
+        Eigen::VectorXd x_0(2);
+        x_0 << p, 0;
+		kalman_ = std::make_unique<Bmp180_Kalman>(conf, x_0);
     }
 
     Bmp180::Bmp180(int address, const bmp180_pressure_resolution &res) : Component(COMPONENT_BMP180), address_{address}, handle_{i2cOpen(I2C_BUS_CHANNEL, address, 0)}, pres_{BPM_RES_MAP.at(res)}
