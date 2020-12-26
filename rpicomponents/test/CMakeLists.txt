@@ -6,7 +6,6 @@ set(CMAKE_CXX_STANDARD 14)  # enable C++14 standard
 
 project (rpicomponents_test_project)
 set (PROJECT_SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src)
-set(DOCTEST_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/external/doctest CACHE INTERNAL "Path to include folder for doctest")
  
 set(TEST_PROJECT_SRCS 
 ${PROJECT_SOURCE_DIR}/test.cpp
@@ -15,10 +14,6 @@ ${PROJECT_SOURCE_DIR}/test.cpp
 include_directories("${PROJECT_BINARY_DIR}")
 include_directories("${PROJECT_INCLUDE_DIR}")
 include_directories(${DOCTEST_INCLUDE_DIR})
-
-if (NOT TARGET doctest)
-    add_subdirectory (external/doctest)
-endif ()
 
 
 # Add source to this project's executable.
@@ -36,5 +31,4 @@ target_link_libraries(${PROJECT_NAME} rpicomponents)
 target_link_libraries(${PROJECT_NAME} rpipins)
 target_link_libraries(${PROJECT_NAME} pigpio)
 target_link_libraries(${PROJECT_NAME} pthread)
-target_link_libraries(${PROJECT_NAME} doctest)
 target_link_libraries(${PROJECT_NAME} atomic)

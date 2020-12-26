@@ -1,8 +1,8 @@
 #include "component.hpp"
 #include <mutex>
 #include <nlohmann/json.hpp>
-#include "mpu6050_kalman.hpp"
-
+#include "mpu6050_kalman_angles.hpp"
+#include "mpu6050_kalman_vel.hpp"
 
 #ifndef RPICOMPONENTS_MPU6050_H
 #define RPICOMPONENTS_MPU6050_H
@@ -86,7 +86,8 @@ namespace rpicomponents
 		const float gyro_scale_, accel_scale_;
 		std::mutex mtx_;
 		mpu_data offset_acc_, offset_gyro_;
-		std::unique_ptr<MPU6050_Kalman> kalman_;
+		std::unique_ptr<MPU6050_Kalman_Angles> kalman_angles_;
+		std::unique_ptr<MPU6050_Kalman_Vel> kalman_vel_;
 
 		/*
 		Method to init component
@@ -146,20 +147,6 @@ namespace rpicomponents
 		void GetAcceleration(mpu_data &out);
 
 		/*
-		Method to read acceleration of the MPU at all three axis
-
-		@param out: json containing the acceleration of all three axis
-		*/
-		void GetAccelerationJSON(nlohmann::json &out);
-
-		/*
-		Method to read acceleration of the MPU at all three axis
-
-		@returns json containing the acceleration of all three axis
-		*/
-		nlohmann::json GetAccelerationJSON();
-
-		/*
 		Method to get angles of the MPU at all three axis
 
 		@returns struct containing the Kalman angles at all three axis
@@ -167,25 +154,20 @@ namespace rpicomponents
 		mpu_angles GetKalmanAngles();
 
 		/*
+		Method to get the velocity of the MPU at all three axis
+		@param out: struct containing the Kalman velocity at all three axis
+		@returns struct containing the Kalman velocity at all three axis
+		*/
+		void GetKalmanVelocity(mpu_data& out);
+
+		/*
 		Method to get angles of the MPU at all three axis
 
 		@param out: struct containing the Kalman angles at all three axis
+		@param use_kalman_vel: Flag to say if we are to use kalman predicted vel or direct sensor signals
 		*/
-		void GetKalmanAngles(mpu_angles &out);
+		void GetKalmanAngles(mpu_angles &out, bool use_kalman_vel=true);
 
-		/*
-		Method to get angles of the MPU at all three axis
-
-		@param out: json containing the Kalman angles at all three axis
-		*/
-		void GetKalmanAnglesJSON(nlohmann::json &out);
-
-		/*
-		Method to get angles of the MPU at all three axis
-
-		@returns json containing the Kalman angles at all three axis
-		*/
-		nlohmann::json GetKalmanAnglesJSON();
 
 		/*
 		Method to read acceleration of the MPU at all three axis
@@ -200,20 +182,6 @@ namespace rpicomponents
 		@param out: struct containing the angles based on accelerations of all three axis
 		*/
 		void GetAccelerationAngles(mpu_angles &out);
-
-		/*
-		Method to read acceleration of the MPU at all three axis
-
-		@param out: json containing the angles based on accelerations of all three axis
-		*/
-		void GetAccelerationAnglesJSON(nlohmann::json &out);
-
-		/*
-		Method to read acceleration of the MPU at all three axis
-
-		@returns json containing the angles based on accelerations of all three axis
-		*/
-		nlohmann::json GetAccelerationAnglesJSON();
 
 		/*
 		Method to calibrate accelerations. 
@@ -239,23 +207,9 @@ namespace rpicomponents
 		/*
 		Method to read angular velocity of the MPU at all three axis
 
-		@returns json containing the angular velocity of all three axis
-		*/
-		nlohmann::json GetAngularVelocityJSON();
-
-		/*
-		Method to read angular velocity of the MPU at all three axis
-
 		@param out: struct containing the angular velocity of all three axis
 		*/
 		void GetAngularVelocity(mpu_data &out);
-
-		/*
-		Method to read angular velocity of the MPU at all three axis
-
-		@param out: json containing the angular velocity of all three axis
-		*/
-		void GetAngularVelocityJSON(nlohmann::json &out);
 
 		/*
 		Method to calibrate gyro. 
@@ -290,10 +244,16 @@ namespace rpicomponents
 		void CalibrateFromJson(const nlohmann::json& j);
 
 		/**
-		 * Method to set the config values of the kalman filters
+		 * Method to set the config values of the kalman angles filters
 		 * @param conf the config struct
 		 */
-		void SetKalmanConfig(const mpu_kalman_conf& conf);
+		void SetKalmanConfig(const mpu_kalman_angles_conf& conf);
+
+		/**
+		 * Method to set the config values of the kalman velocity filters
+		 * @param conf the config struct
+		 */
+		void SetKalmanConfig(const mpu_kalman_vel_conf& conf);
 	};
 } // namespace rpicomponents
 

@@ -28,8 +28,7 @@ namespace rpicomponents
 		//set accel sensitivity
 		auto a = ACCEL_SEL_MAP.at(accel);
 		i2cWriteByteData (fd_, ACCEL_CONFIG, a);
-		//kalman_ = std::make_unique<MPU6050_Kalman>();
-		SetKalmanConfig(mpu_kalman_conf());
+		SetKalmanConfig(mpu_kalman_angles_conf());
 	}
 
 	float MPU6050::ReadRawAndConvert(int reg, float scale)
@@ -98,18 +97,6 @@ namespace rpicomponents
 		out.unit = MPU_ACC;
 	}
 	
-	void MPU6050::GetAccelerationJSON(nlohmann::json& out) 
-	{
-		auto data = GetAcceleration();
-		out = data;
-	}
-	
-	nlohmann::json MPU6050::GetAccelerationJSON() 
-	{
-		nlohmann::json j;
-		GetAccelerationJSON(j);
-		return j;
-	}
 	
 	mpu_angles MPU6050::GetKalmanAngles() 
 	{
@@ -118,32 +105,33 @@ namespace rpicomponents
 		return a;
 	}
 	
-	void MPU6050::GetKalmanAngles(mpu_angles& out) 
+	void MPU6050::GetKalmanAngles(mpu_angles& out, bool use_kalman_vel) 
 	{
-		GetAccelerationAngles(out);
-		mpu_data vel;
-		GetAngularVelocity(vel);
 		Eigen::VectorXd u(2), z(2), x;
+		mpu_data vel;
+		GetAccelerationAngles(out);
+		if(use_kalman_vel){
+			GetKalmanVelocity(vel);
+		} else {
+			GetAngularVelocity(vel);
+		}
 		z << out.roll_angle, out.pitch_angle;
 		u << vel.x, vel.y;
-		x = kalman_->predict(z, u);
+		kalman_angles_->predict(x, z, u);
 		out.roll_angle = x[0];
-		out.pitch_angle = x[2];
+		out.pitch_angle = x[2];		
 		out.unit = MPU_ANGLE;
 	}
-
-	void MPU6050::GetKalmanAnglesJSON(nlohmann::json& out) 
-	{
-		mpu_angles a;
-		GetKalmanAngles(a);
-		out = a;
-	}
 	
-	nlohmann::json MPU6050::GetKalmanAnglesJSON() 
+	void MPU6050::GetKalmanVelocity(mpu_data& out) 
 	{
-		nlohmann::json j;
-		GetKalmanAnglesJSON(j);
-		return j;
+		Eigen::VectorXd z(3), x;
+		GetAngularVelocity(out);
+		z << out.x, out.y, out.z;
+		kalman_angles_->predict(x, z);
+		out.x = x[0];
+		out.y = x[2];
+		out.z = x[4];
 	}
 	
 
@@ -160,20 +148,6 @@ namespace rpicomponents
 		out.roll_angle = atan2(-acc.x, sqrt(powf(acc.y, 2.0) + powf(acc.z, 2.0))) * RAD_TO_DEG;
 		out.pitch_angle = atan2(acc.y, acc.z) * RAD_TO_DEG;
 		out.unit = MPU_ANGLE;
-	}
-
-	void MPU6050::GetAccelerationAnglesJSON(nlohmann::json& out) 
-	{
-		mpu_angles a;
-		GetAccelerationAngles(a);
-		out = a;
-	}
-
-	nlohmann::json MPU6050::GetAccelerationAnglesJSON() 
-	{
-		nlohmann::json j;
-		GetAccelerationAnglesJSON(j);
-		return j;
 	}
 	
 	const mpu_data& MPU6050::CalibrateAcceleration() 
@@ -210,19 +184,7 @@ namespace rpicomponents
 		return g;
 	}
 	
-	void MPU6050::GetAngularVelocityJSON(nlohmann::json& out) 
-	{
-		auto data = GetAngularVelocity();
-		out = data;
-	}
-	
-	nlohmann::json MPU6050::GetAngularVelocityJSON() 
-	{
-		nlohmann::json j;
-		GetAngularVelocityJSON(j);
-		return j;
-	}
-	
+
 	void MPU6050::GetAngularVelocity(mpu_data& out) 
 	{
 		out.x = ReadRawAndConvert(GYRO_XOUT_H, gyro_scale_) - offset_gyro_.x;
@@ -277,15 +239,23 @@ namespace rpicomponents
 		offset_acc_ = j["offsets"]["acceleration"];
 	}
 	
-	void MPU6050::SetKalmanConfig(const mpu_kalman_conf& conf) 
+	void MPU6050::SetKalmanConfig(const mpu_kalman_angles_conf& conf) 
 	{
-		rpicomponents::mpu_angles a;
+		mpu_angles a;
         GetAccelerationAngles(a);
         Eigen::VectorXd x_0(4);
         x_0 << a.roll_angle, 0, a.pitch_angle, 0;
-		kalman_ = std::make_unique<MPU6050_Kalman>(conf);
+		kalman_angles_ = std::make_unique<MPU6050_Kalman_Angles>(conf, x_0);
 	}
 	
+	void MPU6050::SetKalmanConfig(const mpu_kalman_vel_conf& conf) 
+	{
+		mpu_data d;
+		GetAngularVelocity(d);
+		Eigen::VectorXd x_0(6);
+        x_0 << d.x, 0, d.y, 0, d.z, 0;
+		kalman_vel_ = std::make_unique<MPU6050_Kalman_Vel>(conf, x_0);
+	}
 
 	void to_json(nlohmann::json& j, const mpu_data& d) {
         j = nlohmann::json{{"x", d.x}, {"y", d.y}, {"z", d.z}, {"dx", d.dx}, {"dy", d.dy}, {"dz", d.dz}, {"unit", d.unit}};

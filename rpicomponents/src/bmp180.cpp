@@ -110,11 +110,10 @@ namespace rpicomponents
     long Bmp180::getPressureKalman() 
     {
         auto p = getPressure();
-        Eigen::VectorXd z(1), u(1);
+        Eigen::VectorXd z(1), x;
         z << p;
-        u << 0;
-        auto p_k = kalman_->predict(z, u)[0];
-        return p_k;
+        kalman_->predict(x, z);
+        return x[0];
     }
 
     float Bmp180::getAltitude()
