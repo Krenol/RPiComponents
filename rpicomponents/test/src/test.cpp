@@ -91,9 +91,9 @@ void mpu() {
      rpicomponents::mpu_angles a;
      rpicomponents::mpu_data d;
      while(true) {
-         mpu.GetKalmanAngles(a);
-         mpu.GetAcceleration(d);
-         printf("\n\n\n-------------\n roll_angle=%.3f °\tpitch_angle=%.3f °\tAx=%.3f g\tAy=%.3f g\tAz=%.3f g\n-------------\n\n\n", a.roll_angle, a.pitch_angle, d.x, d.y, d.z);
+         mpu.GetKalmanAngles(a, true);
+         mpu.GetKalmanVelocity(d);
+         printf("\n\n\n-------------\n roll_angle=%.3f °\tpitch_angle=%.3f °\tAx=%.3f °/s\tAy=%.3f °/s\tAz=%.3f °/s\n-------------\n\n\n", a.roll_angle, a.pitch_angle, d.x, d.y, d.z);
          usleep(500000);
      }
 }
@@ -125,7 +125,7 @@ int main() {
 
     pin::initGPIOs();
     //gps();
-    //mpu();
-    bmp_kal();
+    mpu();
+    //bmp_kal();
     pin::terminateGPIOs();
 }

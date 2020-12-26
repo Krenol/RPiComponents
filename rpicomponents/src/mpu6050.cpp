@@ -29,6 +29,7 @@ namespace rpicomponents
 		auto a = ACCEL_SEL_MAP.at(accel);
 		i2cWriteByteData (fd_, ACCEL_CONFIG, a);
 		SetKalmanConfig(mpu_kalman_angles_conf());
+		SetKalmanConfig(mpu_kalman_vel_conf());
 	}
 
 	float MPU6050::ReadRawAndConvert(int reg, float scale)
@@ -128,7 +129,7 @@ namespace rpicomponents
 		Eigen::VectorXd z(3), x;
 		GetAngularVelocity(out);
 		z << out.x, out.y, out.z;
-		kalman_angles_->predict(x, z);
+		kalman_vel_->predict(x, z);
 		out.x = x[0];
 		out.y = x[2];
 		out.z = x[4];

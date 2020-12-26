@@ -5,6 +5,7 @@
 
 namespace rpicomponents
 {
+    
     struct mpu_kalman_vel_conf {
         double r, q11, q22, q33, q44, q55, q66;
 
@@ -42,14 +43,10 @@ namespace rpicomponents
     class MPU6050_Kalman_Vel : public utils::Kalman {
     private:
         mpu_kalman_vel_conf conf_;
+
     protected:
         void updateA() {
-            A_ << 1, 0, 0, 0, 0, 0, 
-                0, 1, 0, 0, 0, 0,
-                0, 0, 1, 0, 0, 0,
-                0, 0, 0, 1, 0, 0,
-                0, 0, 0, 0, 1, 0,
-                0, 0, 0, 0, 0, 1;
+            A_.setIdentity();
         }
 
         void updateQ() {
