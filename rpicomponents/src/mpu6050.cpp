@@ -1,14 +1,14 @@
 #include "mpu6050.hpp"
 #include <cmath>
-#include <iostream>
 #include <pigpio.h>
+#include <unistd.h>
 
 
 namespace rpicomponents
 {
 	const int MPU6050::PWR_MGMT_1 = 0x6B, MPU6050::SMPLRT_DIV = 0x19, MPU6050::CONFIG = 0x1A, MPU6050::GYRO_CONFIG = 0x1B, MPU6050::ACCEL_CONFIG = 0x1C, 
 			MPU6050::INT_ENABLE = 0x38, MPU6050::ACCEL_XOUT_H = 0x3B, MPU6050::ACCEL_YOUT_H = 0x3D, MPU6050::ACCEL_ZOUT_H = 0x3F, MPU6050::GYRO_XOUT_H = 0x43, 
-			MPU6050::GYRO_YOUT_H = 0x45, MPU6050::GYRO_ZOUT_H = 0x47, MPU6050::OFFSET_RUNS = 100;
+			MPU6050::GYRO_YOUT_H = 0x45, MPU6050::GYRO_ZOUT_H = 0x47, MPU6050::CALIBRATION_RUNS = 1000, MPU6050::CALIBRATION_SLEEP = 1000;
 			
 	void MPU6050::Init(ACCEL_SENSITIVITY accel, GYRO_SENSITIVITY gyro)
 	{
@@ -154,10 +154,11 @@ namespace rpicomponents
 	const mpu_data& MPU6050::CalibrateAcceleration() 
 	{
 		std::vector<double> x, y, z;
-		for(int i = 0; i < OFFSET_RUNS; i++){
+		for(int i = 0; i < CALIBRATION_RUNS; i++){
 			x.push_back(ReadRawAndConvert(ACCEL_XOUT_H, accel_scale_));
 			y.push_back(ReadRawAndConvert(ACCEL_YOUT_H, accel_scale_));
 			z.push_back(ReadRawAndConvert(ACCEL_ZOUT_H, accel_scale_));
+			usleep(CALIBRATION_SLEEP);
 		}
 		{
 			std::lock_guard<std::mutex> guard(mtx_);
@@ -197,10 +198,11 @@ namespace rpicomponents
 	const mpu_data& MPU6050::CalibrateGyro() 
 	{
 		std::vector<double> x, y, z;
-		for(int i = 0; i < OFFSET_RUNS; i++){
+		for(int i = 0; i < CALIBRATION_RUNS; i++){
 			x.push_back(ReadRawAndConvert(GYRO_XOUT_H, gyro_scale_));
 			y.push_back(ReadRawAndConvert(GYRO_YOUT_H, gyro_scale_));
 			z.push_back(ReadRawAndConvert(GYRO_ZOUT_H, gyro_scale_));
+			usleep(CALIBRATION_SLEEP);
 		}
 		{
 			std::lock_guard<std::mutex> guard(mtx_);

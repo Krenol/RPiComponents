@@ -80,7 +80,7 @@ namespace rpicomponents
 	private:
 		static const int PWR_MGMT_1, SMPLRT_DIV, CONFIG, GYRO_CONFIG, ACCEL_CONFIG, INT_ENABLE,
 			ACCEL_XOUT_H, ACCEL_YOUT_H, ACCEL_ZOUT_H, GYRO_XOUT_H, GYRO_YOUT_H, GYRO_ZOUT_H, // collection of needed addresses of the MPU according to data sheet
-			OFFSET_RUNS;
+			CALIBRATION_RUNS, CALIBRATION_SLEEP;
 
 		const int address_{0x68}, fd_; //std address
 		const float gyro_scale_, accel_scale_;
