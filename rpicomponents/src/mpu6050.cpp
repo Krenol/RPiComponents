@@ -151,15 +151,16 @@ namespace rpicomponents
 		out.unit = MPU_ANGLE;
 	}
 	
-	const mpu_data& MPU6050::CalibrateAcceleration() 
+	const mpu_data& MPU6050::CalibrateAcceleration(int calib_runs) 
 	{
 		std::vector<double> x, y, z;
-		for(int i = 0; i < CALIBRATION_RUNS; i++){
+		do{
 			x.push_back(ReadRawAndConvert(ACCEL_XOUT_H, accel_scale_));
 			y.push_back(ReadRawAndConvert(ACCEL_YOUT_H, accel_scale_));
 			z.push_back(ReadRawAndConvert(ACCEL_ZOUT_H, accel_scale_));
 			usleep(CALIBRATION_SLEEP);
-		}
+			--calib_runs;
+		} while(calib_runs > 0);
 		{
 			std::lock_guard<std::mutex> guard(mtx_);
 			offset_acc_.x = utils::Maths::mean(x);
@@ -195,15 +196,17 @@ namespace rpicomponents
 		out.unit = MPU_VEL;
 	}
 	
-	const mpu_data& MPU6050::CalibrateGyro() 
+	const mpu_data& MPU6050::CalibrateGyro(int calib_runs) 
 	{
 		std::vector<double> x, y, z;
-		for(int i = 0; i < CALIBRATION_RUNS; i++){
+		do {
 			x.push_back(ReadRawAndConvert(GYRO_XOUT_H, gyro_scale_));
 			y.push_back(ReadRawAndConvert(GYRO_YOUT_H, gyro_scale_));
 			z.push_back(ReadRawAndConvert(GYRO_ZOUT_H, gyro_scale_));
 			usleep(CALIBRATION_SLEEP);
-		}
+			--calib_runs;
+		} while(calib_runs > 0);
+
 		{
 			std::lock_guard<std::mutex> guard(mtx_);
 			offset_gyro_.x = utils::Maths::mean(x);

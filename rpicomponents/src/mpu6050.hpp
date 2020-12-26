@@ -186,10 +186,11 @@ namespace rpicomponents
 		/*
 		Method to calibrate accelerations. 
 		The calibrated values are automatically substracted when retrieving the values via GetAcceleration().
-		Note: Keep MPU horizontally and vertically aligned on a flat surface. Process takes <1s
+		Note: Keep MPU horizontally and vertically aligned on a flat surface. 
+		@param calib_runs: The amount of calibration measurements done for the calibration calculation
 		@returns offset of the accelerations
 		*/
-		const mpu_data &CalibrateAcceleration();
+		const mpu_data &CalibrateAcceleration(int calib_runs = CALIBRATION_RUNS);
 
 		/*
 		Method to get acceleration offset
@@ -214,10 +215,11 @@ namespace rpicomponents
 		/*
 		Method to calibrate gyro. 
 		The calibrated values are automatically substracted when retrieving the values via GetAngularVelocity().
-		Note: Keep MPU horizontally and vertically aligned on a flat surface. Process takes < 1s
+		Note: Keep MPU horizontally and vertically aligned on a flat surface. 
+		@param calib_runs: The amount of calibration measurements done for the calibration calculation
 		@returns offset of the gyro
 		*/
-		const mpu_data &CalibrateGyro();
+		const mpu_data &CalibrateGyro(int calib_runs = CALIBRATION_RUNS);
 
 		/*
 		Method to get gyro offset
