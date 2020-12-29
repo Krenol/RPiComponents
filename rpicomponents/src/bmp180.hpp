@@ -57,7 +57,7 @@ namespace rpicomponents {
         };
     };
 
-    static const std::map<bmp180_pressure_resolution, bmp180_pressure> BPM_RES_MAP = {
+    static const std::map<bmp180_pressure_resolution, bmp180_pressure> BMP_RES_MAP = {
 		{bmp180_pressure_resolution::LOW_POWER, bmp180_pressure(bmp180_pressure_resolution::LOW_POWER, bmp180_pressure_cmd::LOW_POWER, bmp180_pressure_wait_time::LOW_POWER)},
 		{bmp180_pressure_resolution::STANDARD, bmp180_pressure(bmp180_pressure_resolution::STANDARD, bmp180_pressure_cmd::STANDARD, bmp180_pressure_wait_time::STANDARD)},
 		{bmp180_pressure_resolution::HIGH_RES, bmp180_pressure(bmp180_pressure_resolution::HIGH_RES, bmp180_pressure_cmd::HIGH_RES, bmp180_pressure_wait_time::HIGH_RES)},
@@ -74,17 +74,17 @@ namespace rpicomponents {
         std::unique_ptr<Bmp180_Kalman> kalman_;
         
         /**
-         * Init eprom of BPM180
+         * Init eprom of BMP180
          */
         void Initialize();
         
         /**
-         * Read raw temp from BPM 180
+         * Read raw temp from BMP 180
          */
         int readRawTemperature();
 
         /**
-         * Read raw pressure from BPM180
+         * Read raw pressure from BMP180
          */
         int readRawPressure();
 

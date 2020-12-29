@@ -155,11 +155,11 @@ namespace rpicomponents
 		kalman_ = std::make_unique<Bmp180_Kalman>(conf, x_0);
     }
 
-    Bmp180::Bmp180(int address, const bmp180_pressure_resolution &res) : Component(COMPONENT_BMP180), address_{address}, handle_{i2cOpen(I2C_BUS_CHANNEL, address, 0)}, pres_{BPM_RES_MAP.at(res)}
+    Bmp180::Bmp180(int address, const bmp180_pressure_resolution &res) : Component(COMPONENT_BMP180), address_{address}, handle_{i2cOpen(I2C_BUS_CHANNEL, address, 0)}, pres_{BMP_RES_MAP.at(res)}
     {
         if (handle_ < 0)
         {
-            throw std::invalid_argument("Error while initializing BPM180");
+            throw std::invalid_argument("Error while initializing BMP180");
         }
         Initialize();
     }
