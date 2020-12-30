@@ -9,6 +9,22 @@ namespace rpicomponents {
 
     struct GPSCoordinates {
         float longitude = 0, latitude = 0, altitude = 0;
+
+        GpsCoordinates() {
+
+        }
+
+        GpsCoordinates(float altitude, float longitude, float latitude) {
+            this->altitude = altitude;
+            this->longitude = longitude;
+            this->latitude = latitude;
+        }
+
+        GpsCoordinates(const GpsCoordinates& g) {
+            this->altitude = g.altitude;
+            this->longitude = g.longitude;
+            this->latitude = g.latitude;
+        }
     };
 
 	class GpsNeo6MV2 : public Component {
