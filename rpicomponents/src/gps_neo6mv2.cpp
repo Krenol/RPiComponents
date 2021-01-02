@@ -89,7 +89,7 @@ namespace rpicomponents
 
     void GpsNeo6MV2::getCoordinates(GPSCoordinates &c)
     {
-        getCoordinates(c, INFINITY);
+        getCoordinates(c, INT32_MAX);
     }
     
     void GpsNeo6MV2::getCoordinates(GPSCoordinates& c, int retries) 
