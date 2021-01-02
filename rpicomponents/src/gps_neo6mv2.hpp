@@ -44,7 +44,7 @@ namespace rpicomponents {
          * @param l string to store the PROTOCOL_HEAD line
          * @param retries The amount of retries to try reading the GPS pos from serial
          */
-        void getCoordLine(std::string& l, int retries = INFINITY);
+        void getCoordLine(std::string& l, int retries = INT32_MAX);
 
         /**
          * Method that splits a string at the DELIM
