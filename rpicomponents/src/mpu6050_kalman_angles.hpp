@@ -38,29 +38,30 @@ namespace rpicomponents
         }
     };
 
-    class MPU6050_Kalman_Angles : public utils::Kalman {
+    template <typename T = std::chrono::milliseconds>
+    class MPU6050_Kalman_Angles : public utils::Kalman<T> {
     private:
         mpu_kalman_angles_conf conf_;
     protected:
         void updateA() {
-            auto dt = getDt();
-            A_ << 1, -dt, 0, 0, 
+            auto dt = utils::Kalman<T>::getDt();
+            utils::Kalman<T>::A_ << 1, -dt, 0, 0, 
                 0, 1, 0, 0, 
                 0, 0, 1, -dt,
                 0, 0, 0, 1;
         }
 
         void updateB() {
-            auto dt = getDt();
-            B_ << dt, 0,
+            auto dt = utils::Kalman<T>::getDt();
+            utils::Kalman<T>::B_ << dt, 0,
                 0, 0,
                 0, dt, 
                 0, 0;
         }
 
         void updateQ() {
-            auto dt = getDt();
-            Q_ << conf_.q11 * dt, conf_.q12, 0, 0, 
+            auto dt = utils::Kalman<T>::getDt();
+            utils::Kalman<T>::Q_ << conf_.q11 * dt, conf_.q12, 0, 0, 
                 conf_.q21, conf_.q22 * dt, 0, 0,
                 0, 0, conf_.q11 * dt, conf_.q12,
                 0, 0, conf_.q21, conf_.q22 * dt;
@@ -76,12 +77,12 @@ namespace rpicomponents
 
         }
 
-        MPU6050_Kalman_Angles(const mpu_kalman_angles_conf& conf) : Kalman((Eigen::MatrixXd(2,4) << conf.c1, conf.c2, 0, 0, 0, 0 , conf.c1, conf.c2).finished(), Eigen::MatrixXd::Zero(4,4), (Eigen::MatrixXd(2,2) << conf.r, 0, 0, conf.r).finished()), conf_{conf}
+        MPU6050_Kalman_Angles(const mpu_kalman_angles_conf& conf) : utils::Kalman<T>((Eigen::MatrixXd(2,4) << conf.c1, conf.c2, 0, 0, 0, 0 , conf.c1, conf.c2).finished(), Eigen::MatrixXd::Zero(4,4), (Eigen::MatrixXd(2,2) << conf.r, 0, 0, conf.r).finished()), conf_{conf}
         {
 
         }
 
-        MPU6050_Kalman_Angles(const mpu_kalman_angles_conf& conf, const Eigen::VectorXd& x_0) : Kalman((Eigen::MatrixXd(2,4) << conf.c1, conf.c2, 0, 0, 0, 0 , conf.c1, conf.c2).finished(), Eigen::MatrixXd::Zero(4,4), (Eigen::MatrixXd(2,2) << conf.r, 0, 0, conf.r).finished(), x_0), conf_{conf}
+        MPU6050_Kalman_Angles(const mpu_kalman_angles_conf& conf, const Eigen::VectorXd& x_0) : utils::Kalman<T>((Eigen::MatrixXd(2,4) << conf.c1, conf.c2, 0, 0, 0, 0 , conf.c1, conf.c2).finished(), Eigen::MatrixXd::Zero(4,4), (Eigen::MatrixXd(2,2) << conf.r, 0, 0, conf.r).finished(), x_0), conf_{conf}
         {
 
         }

@@ -63,20 +63,21 @@ namespace rpicomponents
         }
     };
 
-    class Bmp180_Kalman : public utils::Kalman {
+    template <typename T = std::chrono::milliseconds>
+    class Bmp180_Kalman : public utils::Kalman<T> {
     private:
         bmp_kalman_conf conf_;
     protected:
         void updateA() {
-            A_ << 1, 0, 0, 1;
+            utils::Kalman<T>::A_ << 1, 0, 0, 1;
         }
 
         void updateQ() {
-            Q_ << conf_.q11, conf_.q12, conf_.q21, conf_.q22;
+            utils::Kalman<T>::Q_ << conf_.q11, conf_.q12, conf_.q21, conf_.q22;
         }
 
         void updateR() {
-            R_ << conf_.r;
+            utils::Kalman<T>::R_ << conf_.r;
         }
 
 
@@ -90,12 +91,12 @@ namespace rpicomponents
 
         }
 
-        Bmp180_Kalman(const bmp_kalman_conf& conf) : Kalman((Eigen::MatrixXd(1,2) << conf.c1, conf.c2).finished(), Eigen::MatrixXd::Zero(2,2), (Eigen::MatrixXd(1,1) << conf.r).finished()), conf_{conf}
+        Bmp180_Kalman(const bmp_kalman_conf& conf) : utils::Kalman<T>((Eigen::MatrixXd(1,2) << conf.c1, conf.c2).finished(), Eigen::MatrixXd::Zero(2,2), (Eigen::MatrixXd(1,1) << conf.r).finished()), conf_{conf}
         {
 
         }
 
-        Bmp180_Kalman(const bmp_kalman_conf& conf, const Eigen::VectorXd& x_0) : Kalman((Eigen::MatrixXd(1,2) << conf.c1, conf.c2).finished(), Eigen::MatrixXd::Zero(2,2), (Eigen::MatrixXd(1,1) << conf.r).finished(), x_0), conf_{conf}
+        Bmp180_Kalman(const bmp_kalman_conf& conf, const Eigen::VectorXd& x_0) : utils::Kalman<T>((Eigen::MatrixXd(1,2) << conf.c1, conf.c2).finished(), Eigen::MatrixXd::Zero(2,2), (Eigen::MatrixXd(1,1) << conf.r).finished(), x_0), conf_{conf}
         {
 
         }

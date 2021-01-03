@@ -63,6 +63,7 @@ namespace rpicomponents {
 		{bmp180_pressure_resolution::HIGH_RES, bmp180_pressure(bmp180_pressure_resolution::HIGH_RES, bmp180_pressure_cmd::HIGH_RES, bmp180_pressure_wait_time::HIGH_RES)},
 		{bmp180_pressure_resolution::ULTRA_HIGH_RES, bmp180_pressure(bmp180_pressure_resolution::ULTRA_HIGH_RES, bmp180_pressure_cmd::ULTRA_HIGH_RES, bmp180_pressure_wait_time::ULTRA_HIGH_RES)}};
 
+    template <typename T = std::chrono::milliseconds>
 	class Bmp180 : public Component {
     private:
         static const int AC1, AC2, AC3, AC4, AC5, AC6, B1, B2, MB, MC, MD, CTRL, TMP, PRE, TMP_RD_CMD, TMP_WAIT_TIME, LSB, XLSB;
@@ -71,7 +72,7 @@ namespace rpicomponents {
         int handle_;
         bmp180_pressure pres_;
         std::map<int, int> eprom_;
-        std::unique_ptr<Bmp180_Kalman> kalman_;
+        std::unique_ptr<Bmp180_Kalman<T>> kalman_;
         
         /**
          * Init eprom of BMP180

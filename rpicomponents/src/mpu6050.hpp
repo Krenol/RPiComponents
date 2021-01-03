@@ -73,7 +73,7 @@ namespace rpicomponents
 
 	void from_json(const nlohmann::json &j, mpu_angles &d);
 
-
+	template <typename T = std::chrono::milliseconds>
 	class MPU6050 : public Component
 	{
 		// see https://www.electronicwings.com/raspberry-pi/mpu6050-accelerometergyroscope-interfacing-with-raspberry-pi
@@ -86,8 +86,8 @@ namespace rpicomponents
 		const float gyro_scale_, accel_scale_;
 		std::mutex mtx_;
 		mpu_data offset_acc_, offset_gyro_;
-		std::unique_ptr<MPU6050_Kalman_Angles> kalman_angles_;
-		std::unique_ptr<MPU6050_Kalman_Vel> kalman_vel_;
+		std::unique_ptr<MPU6050_Kalman_Angles<T>> kalman_angles_;
+		std::unique_ptr<MPU6050_Kalman_Vel<T>> kalman_vel_;
 
 		/*
 		Method to init component

@@ -81,7 +81,7 @@ void gps() {
 }
 
 void mpu() {
-     rpicomponents::MPU6050 mpu;
+     rpicomponents::MPU6050<std::chrono::milliseconds> mpu;
      auto offset_a = mpu.CalibrateAcceleration();
      printf("\n\n\n-------------\n Ax=%.3f g\tAy=%.3f g\tAz=%.3f g\tdx=%.3f g\tdy=%.3f g\tdz=%.3f g\n-------------\n\n\n",
          offset_a.x, offset_a.y, offset_a.z, offset_a.dx, offset_a.dy, offset_a.dz);
@@ -99,7 +99,7 @@ void mpu() {
 }
 
 void bmp() {
-    rpicomponents::Bmp180 bmp;
+    rpicomponents::Bmp180<std::chrono::milliseconds> bmp;
     rpicomponents::BarometricData d;
     while(1){
         bmp.getBarometricData(d);
@@ -109,7 +109,7 @@ void bmp() {
 }
 
 void bmp_kal() {
-    rpicomponents::Bmp180 bmp;
+    rpicomponents::Bmp180<std::chrono::milliseconds> bmp;
     rpicomponents::BarometricData d;
     while(1){
         auto p = bmp.getPressure();

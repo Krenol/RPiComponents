@@ -6,7 +6,8 @@
 namespace rpicomponents
 {
 
-    void Bmp180::Initialize()
+    template <typename T>
+    void Bmp180<T>::Initialize()
     {
         std::vector<int> addr = {AC1, AC2, AC3, AC4, AC5, AC6, B1, B2, MB, MC, MD};
         std::map<int, int> reg_table = {
@@ -37,7 +38,8 @@ namespace rpicomponents
         SetKalmanConfig(c);
     }
 
-    int Bmp180::readRawTemperature()
+    template <typename T>
+    int Bmp180<T>::readRawTemperature()
     {
         // https://cdn.shopify.com/s/files/1/1509/1638/files/GY-68_BMP180_Barometrischer_Sensor_Luftdruck_Modul_fur_Arduino_und_Raspberry_Pi_Datenblatt.pdf?15836792964504220844
         // tell device we want to read the temp
@@ -51,7 +53,8 @@ namespace rpicomponents
         return data;
     }
 
-    int Bmp180::readRawPressure()
+    template <typename T>
+    int Bmp180<T>::readRawPressure()
     {
         //https://cdn.shopify.com/s/files/1/1509/1638/files/GY-68_BMP180_Barometrischer_Sensor_Luftdruck_Modul_fur_Arduino_und_Raspberry_Pi_Datenblatt.pdf?15836792964504220844
         i2cWriteByteData(handle_, CTRL, pres_.cmd);
@@ -63,7 +66,8 @@ namespace rpicomponents
         return data;
     }
 
-    void Bmp180::getTempByteData(bmp180_temp_data &data)
+    template <typename T>
+    void Bmp180<T>::getTempByteData(bmp180_temp_data &data)
     {
         data.UT = readRawTemperature();
         data.X1 = ((data.UT - eprom_.at(AC6)) * eprom_.at(AC5)) >> 15;
@@ -71,16 +75,18 @@ namespace rpicomponents
         data.B5 = data.X1 + data.X2;
     }
 
-    float Bmp180::getTemperature()
+    template <typename T>
+    float Bmp180<T>::getTemperature()
     {
         bmp180_temp_data data;
         getTempByteData(data);
-        auto T = ((data.B5 + 8) >> 4) / 10.0;
+        auto t = ((data.B5 + 8) >> 4) / 10.0;
 
-        return T - T_ABS_ZERO; // convert to K
+        return t - T_ABS_ZERO; // convert to K
     }
 
-    long Bmp180::getPressure()
+    template <typename T>
+    long Bmp180<T>::getPressure()
     {
         bmp180_temp_data data;
         getTempByteData(data);
@@ -106,8 +112,9 @@ namespace rpicomponents
 
         return p;
     }
-    
-    long Bmp180::getPressureKalman() 
+
+    template <typename T>
+    long Bmp180<T>::getPressureKalman()
     {
         auto p = getPressure();
         Eigen::VectorXd z(1), x;
@@ -116,21 +123,24 @@ namespace rpicomponents
         return x[0];
     }
 
-    float Bmp180::getAltitude()
+    template <typename T>
+    float Bmp180<T>::getAltitude()
     {
         float p = getPressure() / 100.0;
         float alt = 44330.77 * (1 - pow((p / PRESSURE_SEA_LVL), 1 / 5.255));
         return alt;
     }
-    
-    float Bmp180::getAltitudeKalman() 
+
+    template <typename T>
+    float Bmp180<T>::getAltitudeKalman()
     {
         auto p = getPressureKalman() / 100.0;
         float alt = 44330.77 * (1 - pow((p / PRESSURE_SEA_LVL), 1 / 5.255));
         return alt;
     }
 
-    float Bmp180::getDensity()
+    template <typename T>
+    float Bmp180<T>::getDensity()
     {
         float p = getPressure();
         float t = getTemperature();
@@ -138,24 +148,27 @@ namespace rpicomponents
         return rho;
     }
 
-    void Bmp180::getBarometricData(BarometricData &data)
+    template <typename T>
+    void Bmp180<T>::getBarometricData(BarometricData &data)
     {
         data.altitude = getAltitude();
         data.density = getDensity();
         data.pressure = getPressure();
         data.temperature = getTemperature();
     }
-    
-    void Bmp180::SetKalmanConfig(bmp_kalman_conf& conf) 
+
+    template <typename T>
+    void Bmp180<T>::SetKalmanConfig(bmp_kalman_conf &conf)
     {
         conf.res = pres_.res;
         auto p = getPressure();
         Eigen::VectorXd x_0(2);
         x_0 << p, 0;
-		kalman_ = std::make_unique<Bmp180_Kalman>(conf, x_0);
+        kalman_ = std::make_unique<Bmp180_Kalman<T>>(conf, x_0);
     }
 
-    Bmp180::Bmp180(int address, const bmp180_pressure_resolution &res) : Component(COMPONENT_BMP180), address_{address}, handle_{i2cOpen(I2C_BUS_CHANNEL, address, 0)}, pres_{BMP_RES_MAP.at(res)}
+    template <typename T>
+    Bmp180<T>::Bmp180(int address, const bmp180_pressure_resolution &res) : Component(COMPONENT_BMP180), address_{address}, handle_{i2cOpen(I2C_BUS_CHANNEL, address, 0)}, pres_{BMP_RES_MAP.at(res)}
     {
         if (handle_ < 0)
         {
@@ -164,7 +177,8 @@ namespace rpicomponents
         Initialize();
     }
 
-    Bmp180::~Bmp180()
+    template <typename T>
+    Bmp180<T>::~Bmp180()
     {
         try
         {
@@ -175,9 +189,54 @@ namespace rpicomponents
         }
     }
 
-    const float Bmp180::R = 287.05, Bmp180::PRESSURE_SEA_LVL = 1013.25, Bmp180::T_ABS_ZERO = -273.15;
-    const int Bmp180::AC1 = 0xAA, Bmp180::AC2 = 0xAC, Bmp180::AC3 = 0xAE, Bmp180::AC4 = 0xB0, Bmp180::AC5 = 0xB2,
-              Bmp180::AC6 = 0xB4, Bmp180::B1 = 0xB6, Bmp180::B2 = 0xB8, Bmp180::MB = 0xBA, Bmp180::MC = 0xBC, Bmp180::MD = 0xBE,
-              Bmp180::CTRL = 0xF4, Bmp180::TMP = 0xF6, Bmp180::PRE = 0xF6, Bmp180::LSB = 0xF7, Bmp180::XLSB = 0xF8, Bmp180::TMP_RD_CMD = 0x2E, Bmp180::TMP_WAIT_TIME = 5000;
+    template <typename T>
+    const float Bmp180<T>::R = 287.05;
+    template <typename T>
+    const float Bmp180<T>::PRESSURE_SEA_LVL = 1013.25;
+    template <typename T>
+    const float Bmp180<T>::T_ABS_ZERO = -273.15;
 
+    template <typename T>
+    const int Bmp180<T>::AC1 = 0xAA;
+    template <typename T>
+    const int Bmp180<T>::AC2 = 0xAC;
+    template <typename T>
+    const int Bmp180<T>::AC3 = 0xAE;
+    template <typename T>
+    const int Bmp180<T>::AC4 = 0xB0;
+    template <typename T>
+    const int Bmp180<T>::AC5 = 0xB2;
+    template <typename T>
+    const int Bmp180<T>::AC6 = 0xB4;
+    template <typename T>
+    const int Bmp180<T>::B1 = 0xB6;
+    template <typename T>
+    const int Bmp180<T>::B2 = 0xB8;
+    template <typename T>
+    const int Bmp180<T>::MB = 0xBA;
+    template <typename T>
+    const int Bmp180<T>::MC = 0xBC;
+    template <typename T>
+    const int Bmp180<T>::MD = 0xBE;
+    template <typename T>
+    const int Bmp180<T>::CTRL = 0xF4;
+    template <typename T>
+    const int Bmp180<T>::TMP = 0xF6;
+    template <typename T>
+    const int Bmp180<T>::PRE = 0xF6;
+    template <typename T>
+    const int Bmp180<T>::LSB = 0xF7;
+    template <typename T>
+    const int Bmp180<T>::XLSB = 0xF8;
+    template <typename T>
+    const int Bmp180<T>::TMP_RD_CMD = 0x2E;
+    template <typename T>
+    const int Bmp180<T>::TMP_WAIT_TIME = 5000;
+
+    template class Bmp180<std::chrono::hours>;
+    template class Bmp180<std::chrono::minutes>;
+    template class Bmp180<std::chrono::seconds>;
+    template class Bmp180<std::chrono::milliseconds>;
+    template class Bmp180<std::chrono::microseconds>;
+    template class Bmp180<std::chrono::nanoseconds>;
 } // namespace rpicomponents
