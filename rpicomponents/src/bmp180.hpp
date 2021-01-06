@@ -97,7 +97,7 @@ namespace rpicomponents {
 
 	public:
         /**
-         * Constructor for GPS NEO 6MV2 module
+         * Constructor for AHRS module
          * @param address BMP180 address
          * @param res Baud rate to read from file
          */
@@ -158,4 +158,4 @@ namespace rpicomponents {
 	};
 }
 
-#endif // RPICOMPONENTS_MOTOR_H
+#endif // RPICOMPONENTS_BMP180_H

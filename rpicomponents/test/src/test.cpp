@@ -111,6 +111,8 @@ void bmp() {
 void bmp_kal() {
     rpicomponents::Bmp180<std::chrono::milliseconds> bmp;
     rpicomponents::BarometricData d;
+    
+
     while(1){
         auto p = bmp.getPressure();
         auto pk = bmp.getPressureKalman();
@@ -121,11 +123,61 @@ void bmp_kal() {
     }
 }
 
+template<typename T>
+T ROUND(T number, int decimals)
+{
+    int fac = pow(10, decimals);
+    return round(number * fac) / fac;
+}
+
+void ahrs() {
+    rpicomponents::MPU6050<std::chrono::milliseconds> mpu;
+    rpicomponents::Ahrs ahrs(1);
+    rpicomponents::EulerAngles angles;
+    rpicomponents::Quaternions q;
+    rpicomponents::mpu_data a, g, a1, g1;
+    mpu.CalibrateAcceleration(2000);
+    mpu.CalibrateGyro(2000);
+    int i = 2000000000, mean = 5, j;
+    while(i > 0) {
+        a.x = 0;
+        a.y = 0;
+        a.z = 0;
+        g.x = 0;
+        g.y = 0;
+        g.z = 0;
+        for(j = 0; j < mean; j++) {
+            mpu.GetAngularVelocity(g1);
+            mpu.GetAcceleration(a1);
+            a.x += a1.x;
+            a.y += a1.y;
+            a.z += a1.z;
+            g.x += g1.x;
+            g.y += g1.y;
+            g.z += g1.z;
+        }
+        a.x = ROUND<float>(a.x / mean, 1);
+        a.y = ROUND<float>(a.y / mean, 1);
+        a.z = ROUND<float>(a.z / mean, 1);
+        g.x = ROUND<float>(g.x / mean, 1);
+        g.y = ROUND<float>(g.y / mean, 1);
+        g.z = ROUND<float>(g.z / mean, 1);
+        printf("\n\n\n-------------\n ax=%.3f g\tay=%.3f g\taz=%.3f g\tgx=%.3f °/s\tgy=%.3f °/s\tgz=%.3f °/s\n-------------\n", a.x, a.y, a.z, g.x, g.y, g.z);
+        ahrs.update(g.x, g.y, g.z, a.x, a.y, a.z);
+        ahrs.getQuaternions(q);
+        printf("\n-------------\n qw=%.3f \tqx=%.3f \tqy=%.3f \tqz=%.3f\n-------------\n", q.qw, q.qx, q.qy, q.qz);
+        ahrs.getEulerAngles(angles);
+        printf("\n-------------\n roll_angle=%.3f °\tpitch_angle=%.3f °\tyaw_angle=%.3f °\n-------------\n\n\n", angles.roll, angles.pitch, angles.yaw);
+        usleep(50000);
+        --i;
+     }
+}
+
 int main() {
 
     pin::initGPIOs();
     //gps();
-    mpu();
+    ahrs();
     //bmp_kal();
     pin::terminateGPIOs();
 }

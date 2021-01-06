@@ -34,6 +34,7 @@
 #include "../../src/gps_neo6mv2.hpp"
 #include "../../src/bmp180.hpp"
 #include "../../src/bmp180_kalman.hpp"
+#include "../../src/ahrs.hpp"
 
 namespace rpicomponents {
 	
