@@ -64,21 +64,9 @@ namespace rpicomponents
     };
 
     template <typename T = std::chrono::milliseconds>
-    class Bmp180_Kalman : public utils::Kalman<T> {
-    private:
-        bmp_kalman_conf conf_;
+    class Bmp180_Kalman : public utils::Kalman<T> {  
     protected:
-        void updateA() {
-            utils::Kalman<T>::A_ << 1, 0, 0, 1;
-        }
-
-        void updateQ() {
-            utils::Kalman<T>::Q_ << conf_.q11, conf_.q12, conf_.q21, conf_.q22;
-        }
-
-        void updateR() {
-            utils::Kalman<T>::R_ << conf_.r;
-        }
+        bmp_kalman_conf conf_;
 
 
     public:
@@ -87,16 +75,17 @@ namespace rpicomponents
 
         }
 
-        Bmp180_Kalman(const Bmp180_Kalman&) : Bmp180_Kalman() {
+        Bmp180_Kalman(const Bmp180_Kalman& b) : Bmp180_Kalman(b.conf_) {
 
         }
 
-        Bmp180_Kalman(const bmp_kalman_conf& conf) : utils::Kalman<T>((Eigen::MatrixXd(1,2) << conf.c1, conf.c2).finished(), Eigen::MatrixXd::Zero(2,2), (Eigen::MatrixXd(1,1) << conf.r).finished()), conf_{conf}
+
+        Bmp180_Kalman(const bmp_kalman_conf& conf) : utils::Kalman<T>((Eigen::MatrixXd(2,2) << 1, 0, 0, 1).finished(), Eigen::MatrixXd::Zero(2,1),(Eigen::MatrixXd(1,2) << conf.c1, conf.c2).finished(), Eigen::MatrixXd::Zero(2,2), (Eigen::MatrixXd(2,2) << conf_.q11, conf_.q12, conf_.q21, conf_.q22).finished(),(Eigen::MatrixXd(1,1) << conf.r).finished()), conf_{conf}
         {
 
         }
 
-        Bmp180_Kalman(const bmp_kalman_conf& conf, const Eigen::VectorXd& x_0) : utils::Kalman<T>((Eigen::MatrixXd(1,2) << conf.c1, conf.c2).finished(), Eigen::MatrixXd::Zero(2,2), (Eigen::MatrixXd(1,1) << conf.r).finished(), x_0), conf_{conf}
+        Bmp180_Kalman(const bmp_kalman_conf& conf, const Eigen::VectorXd& x_0) : utils::Kalman<T>((Eigen::MatrixXd(2,2) << 1, 0, 0, 1).finished(), Eigen::MatrixXd::Zero(2,1),(Eigen::MatrixXd(1,2) << conf.c1, conf.c2).finished(), Eigen::MatrixXd::Zero(2,2), (Eigen::MatrixXd(2,2) << conf_.q11, conf_.q12, conf_.q21, conf_.q22).finished(),(Eigen::MatrixXd(1,1) << conf.r).finished(), x_0), conf_{conf}
         {
 
         }

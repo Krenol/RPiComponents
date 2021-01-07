@@ -43,23 +43,37 @@ namespace rpicomponents
     template <typename T = std::chrono::milliseconds>
     class MPU6050_Kalman_Vel : public utils::Kalman<T> {
     private:
-        mpu_kalman_vel_conf conf_;
+        Eigen::MatrixXd getA() {
+            Eigen::MatrixXd A(6, 6);
+            A.setIdentity();
+            return A;
+        }
+
+        Eigen::MatrixXd getQ(const mpu_kalman_vel_conf& conf) {
+            Eigen::MatrixXd q(6,6);
+            q << conf.q11, 0, 0, 0, 0, 0, 
+                0, conf.q22, 0, 0, 0, 0,
+                0, 0, conf.q33, 0, 0, 0,
+                0, 0, 0, conf.q44, 0, 0,
+                0, 0, 0, 0, conf.q55, 0,
+                0, 0, 0, 0, 0, conf.q66;
+            return q;   
+        }
+
+        Eigen::MatrixXd getC() {
+            Eigen::MatrixXd c(3,6);
+            c << 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0;
+            return c;   
+        }
+
+        Eigen::MatrixXd getR(const mpu_kalman_vel_conf& conf) {
+            Eigen::MatrixXd r(3,3);
+            r << conf.r, 0, 0, 0, conf.r, 0, 0, 0, conf.r;
+            return r;   
+        }
 
     protected:
-
-        void updateA() {
-            utils::Kalman<T>::A_.setIdentity();
-        }
-
-        void updateQ() {
-            utils::Kalman<T>::Q_ << conf_.q11, 0, 0, 0, 0, 0, 
-                0, conf_.q22, 0, 0, 0, 0,
-                0, 0, conf_.q33, 0, 0, 0,
-                0, 0, 0, conf_.q44, 0, 0,
-                0, 0, 0, 0, conf_.q55, 0,
-                0, 0, 0, 0, 0, conf_.q66;
-                
-        }
+        mpu_kalman_vel_conf conf_;
 
     public:
         MPU6050_Kalman_Vel() : MPU6050_Kalman_Vel(mpu_kalman_vel_conf())
@@ -67,16 +81,16 @@ namespace rpicomponents
 
         }
 
-        MPU6050_Kalman_Vel(const MPU6050_Kalman_Vel&) : MPU6050_Kalman_Vel() {
+        MPU6050_Kalman_Vel(const MPU6050_Kalman_Vel& v) : MPU6050_Kalman_Vel(v.conf_) {
 
         }
 
-        MPU6050_Kalman_Vel(const mpu_kalman_vel_conf& conf) : utils::Kalman<T>((Eigen::MatrixXd(3, 6) << 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0).finished(), Eigen::MatrixXd::Zero(6,6), (Eigen::MatrixXd(3,3) << conf.r, 0, 0, 0, conf.r, 0, 0, 0, conf.r).finished()), conf_{conf}
+        MPU6050_Kalman_Vel(const mpu_kalman_vel_conf& conf) : utils::Kalman<T>(getA(), Eigen::MatrixXd::Zero(3,6), getC(), Eigen::MatrixXd::Zero(6,6), getQ(conf), getR(conf)), conf_{conf}
         {
 
         }
 
-        MPU6050_Kalman_Vel(const mpu_kalman_vel_conf& conf, const Eigen::VectorXd& x_0) : utils::Kalman<T>((Eigen::MatrixXd(3, 6) << 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0).finished(), Eigen::MatrixXd::Zero(6,6), (Eigen::MatrixXd(3,3) << conf.r, 0, 0, 0, conf.r, 0, 0, 0, conf.r).finished(), x_0), conf_{conf}
+        MPU6050_Kalman_Vel(const mpu_kalman_vel_conf& conf, const Eigen::VectorXd& x_0) : utils::Kalman<T>(getA(), Eigen::MatrixXd::Zero(3,6), getC(), Eigen::MatrixXd::Zero(6,6), getQ(conf), getR(conf), x_0), conf_{conf}
         {
 
         }
