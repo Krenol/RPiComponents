@@ -26,7 +26,7 @@ namespace rpicomponents
 		close();
 	}
 
-	int MPU6::open(uint8_t rate, uint8_t accel, uint8_t gyro)
+	int MPU6::open(uint8_t rate, uint8_t accel, int32_t gyro)
 	{
 		float lastval[3];
 		int r;

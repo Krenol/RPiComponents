@@ -41,7 +41,7 @@ namespace rpicomponents
         uint8_t DIM = 3;
 
         
-        int open(uint8_t rate, uint8_t accel, uint8_t gyro);
+        int open(uint8_t rate, uint8_t accel, int32_t gyro);
         int close();
         uint8_t GetGravity(VectorFloat *v, Quaternion *q);
         uint8_t GetYawPitchRoll(float *data, Quaternion *q, VectorFloat *gravity);
