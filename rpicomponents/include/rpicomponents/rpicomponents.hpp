@@ -14,7 +14,7 @@
 #include "../../src/pcf8574.hpp"
 #include "../../src/pcf8591.hpp"
 #include "../../src/pcf.hpp"
-#include "../../src/mpu6050.hpp"
+#include "../../src/sensor.hpp"
 #include "../../src/mpu6050_kalman_angles.hpp"
 #include "../../src/mpu6050_kalman_vel.hpp"
 #include "../../src/q74hc595.hpp"
@@ -35,7 +35,7 @@
 #include "../../src/bmp180.hpp"
 #include "../../src/bmp180_kalman.hpp"
 #include "../../src/ahrs.hpp"
-
+#include "../../src/helper_3dmath.h"
 namespace rpicomponents {
 	
 	// TODO: Reference additional headers your program requires here.

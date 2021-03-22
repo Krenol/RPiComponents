@@ -80,7 +80,7 @@ void gps() {
     }
 }
 
-void mpu() {
+/*void mpu() {
      rpicomponents::MPU6050<std::chrono::milliseconds> mpu;
      auto offset_a = mpu.CalibrateAcceleration();
      printf("\n\n\n-------------\n Ax=%.3f g\tAy=%.3f g\tAz=%.3f g\tdx=%.3f g\tdy=%.3f g\tdz=%.3f g\n-------------\n\n\n",
@@ -96,7 +96,7 @@ void mpu() {
          printf("\n\n\n-------------\n roll_angle=%.3f °\tpitch_angle=%.3f °\tAx=%.3f °/s\tAy=%.3f °/s\tAz=%.3f °/s\n-------------\n\n\n", a.roll_angle, a.pitch_angle, d.x, d.y, d.z);
          usleep(500000);
      }
-}
+}*/
 
 void bmp() {
     rpicomponents::Bmp180<std::chrono::milliseconds> bmp;
@@ -130,7 +130,7 @@ T ROUND(T number, int decimals)
     return round(number * fac) / fac;
 }
 
-void ahrs() {
+/*void ahrs() {
     rpicomponents::MPU6050<std::chrono::milliseconds> mpu;
     rpicomponents::Ahrs ahrs(1);
     rpicomponents::EulerAngles angles;
@@ -171,13 +171,25 @@ void ahrs() {
         usleep(50000);
         --i;
      }
+}*/
+
+void new_mpu() {
+    rpicomponents::MPU6 mpu;
+    rpicomponents::mpu_values v; 
+    while(1) {
+        mpu.getValues(v);
+        printf("\n\n\n-------------\n ax=%.3f g\tay=%.3f g\taz=%.3f g\tgx=%.3f °/s\tgy=%.3f °/s\tgz=%.3f °/s\n-------------\n", v.ax, v.ay, v.az, v.gx, v.gy, v.gz);
+        printf("\n-------------\n roll_angle=%.3f °\tpitch_angle=%.3f °\tyaw_angle=%.3f °\n-------------\n\n\n", v.roll, v.pitch, v.yaw);
+        usleep(5000);
+    }
 }
 
 int main() {
 
     pin::initGPIOs();
     //gps();
-    ahrs();
+    //ahrs();
     //bmp_kal();
+    new_mpu();
     pin::terminateGPIOs();
 }

@@ -6,6 +6,9 @@ set(PROJECT_SOURCE_DIR ${PROJECT_SOURCE_DIR}/src)
 
 
 set(RPICOMPONENT_PROJECT_SRCS 
+${PROJECT_SOURCE_DIR}/I2Cdev/I2Cdev.cpp
+${PROJECT_SOURCE_DIR}/inv_mpu_lib/inv_mpu_dmp_motion_driver.c
+${PROJECT_SOURCE_DIR}/inv_mpu_lib/inv_mpu.c
 ${PROJECT_SOURCE_DIR}/button.cpp
 ${PROJECT_SOURCE_DIR}/component.cpp
 ${PROJECT_SOURCE_DIR}/led.cpp
@@ -15,7 +18,7 @@ ${PROJECT_SOURCE_DIR}/dht11.cpp
 ${PROJECT_SOURCE_DIR}/pcf8574.cpp
 ${PROJECT_SOURCE_DIR}/pcf8591.cpp
 ${PROJECT_SOURCE_DIR}/pcf.cpp
-${PROJECT_SOURCE_DIR}/mpu6050.cpp
+${PROJECT_SOURCE_DIR}/sensor.cpp
 ${PROJECT_SOURCE_DIR}/q74hc595.cpp
 ${PROJECT_SOURCE_DIR}/motionsensor.cpp
 ${PROJECT_SOURCE_DIR}/photoresistor.cpp
@@ -62,7 +65,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE atomic)
 target_link_libraries(${PROJECT_NAME} PUBLIC rpipins)
 target_link_libraries(${PROJECT_NAME} PRIVATE utils)
 target_link_libraries(${PROJECT_NAME} PRIVATE nlohmann_json::nlohmann_json)
-
+target_compile_definitions(${PROJECT_NAME} PRIVATE MPU6050)
 if(${BUILD_TEST})
     add_subdirectory(test)
 endif()
